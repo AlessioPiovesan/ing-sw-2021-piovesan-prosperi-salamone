@@ -1,12 +1,10 @@
 package it.polimi.ingsw.Model;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 public class M {
 
-    static class game {
+    class Game {
         static final int XMARKET = 4;
         static final int YMARKET = 3;
         static final int MAXTRACK = 20;
@@ -17,156 +15,357 @@ public class M {
         static final int MAXMARBLESP = 2;
         static final int MAXMARBLESR = 1;
 
-        final HashMap<Integer, card> CARDS = new HashMap<Integer, card>();
+        /*final HashMap<Integer, Card> CARDS = new HashMap<Integer, Card>();*/
 
-        board b[];
-        resources r[];
-        market m;
+        Board[] b;
+        LinkedList<Resources> r;
+        Market m;
 
-        game ( int gamers ) {
+        Game ( int gamers ) {
 
             if (gamers > 1) {
-                for (int i = 0; i < gamers; i++) {
-                    this.b[i] = new board(i);
-                }
+                /* Board creation for each player */
+                for (int i = 0; i < gamers; i++) this.b[i] = new Board(i);
             } else {
+                /* SINGLE PLAYER */
             }
-            this.m = new market(XMARKET, YMARKET);
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    CARDS.put(i * j, new card());
-                }
-            }
+            /* Market creation for each Game */
+            this.m = new Market(XMARKET, YMARKET);
+            /* Resources creation for each Game */
+            for (int i = (int) this.r.size(); i < MAXMARBLESB * 8 + this.r.size(); i++)
+                this.r.add(new Resources(Colours.BLUE.toString()));
+            for (int i = (int) this.r.size(); i < MAXMARBLESG * 8 + this.r.size(); i++)
+                this.r.add(new Resources(Colours.GREY.toString()));
+            for (int i = (int) this.r.size(); i < MAXMARBLESP * 8 + this.r.size(); i++)
+                this.r.add(new Resources(Colours.PURPLE.toString()));
+            for (int i = (int) this.r.size(); i < MAXMARBLESY * 8 + this.r.size(); i++)
+                this.r.add(new Resources(Colours.YELLOW.toString()));
+            /* Card creation for each Game */
+            /*...*/
+        }
+    }
+
+    class Board {
+        int idD;
+        Warehouse w;
+        StrongBox v;
+        int positionTF;
+        Library[] l;
+        /*track[] t;*/
+
+        Board ( int id ) {
+            this.idD = id;
+            /* Warehouse creation for a single Board */
+            this.w = new Warehouse(id);
+            /* Strongbox creation for a single Board */
+            this.v = new StrongBox(id);
         }
 
-        class board {
-            int idD;
-            warehouse w;
-            trunk v;
-            int position;
-            library l[];
-            track t[];
+            /*private class track {
 
-            board ( int id ) {
-                this.idD = id;
-                this.w = new warehouse(id);
-                this.v = new trunk(id);
-            }
-
-            private class track {
                 int id;
+                int position;
 
                 track ( int id ) {
                     this.id = id;
                 }
-            }
+            }*/
 
-            private class library {
-                int id;
+        protected class Library {
+            int id;
+            HashMap<Integer, Card> l;
 
-                library ( int id ) {
-                    this.id = id;
-                    HashMap<Integer, card> b = new HashMap<>();
-                }
-            }
-
-            private class trunk {
-                int id;
-
-                trunk ( int id ) {
-                    this.id = id;
-                    HashMap<Integer, HashMap<resources, Integer>> trunkContent = new HashMap<>();
-                }
-            }
-
-            private class warehouse {
-                int id;
-
-                warehouse ( int id ) {
-                    this.id = id;
-                    HashMap<resources, Integer> wareContent = new HashMap<>();
-                }
+            Library ( int id ) {
+                this.id = id;
+                /*creazione scompartimenti per una libreria di una plancia*/
+                this.l = new HashMap<>();
+                l.put(1, null);
+                l.put(2, null);
+                l.put(3, null);
             }
         }
 
-        enum resources {
-            BLUE("Sheild"), GREY("Stone"), PURPLE("Servant"), RED("Faith"), WHITE(null), YELLOW("Coin");
+        private class StrongBox {
+            int id;
+            HashMap<Colours, Integer> comp;
 
-
-            String type;
-
-            resources ( String type ) {
-                this.type=type;
+            StrongBox ( int id ) {
+                this.id = id;
+                comp = new HashMap<>();
+                comp.put(Colours.BLUE, 0);
+                comp.put(Colours.GREY, 0);
+                comp.put(Colours.PURPLE, 0);
+                comp.put(Colours.YELLOW, 0);
             }
 
+            private void addResources ( StrongBox s, Colours res, int add ) {
+                s.comp.replace(res, s.comp.get(res) + add);
+            }
+        }
+
+        private class Warehouse {
+            private int id;
+            private ArrayList<String> wareContent;
+
+            Warehouse ( int id ) {
+                this.id = id;
+                this.wareContent = new ArrayList<String>(3);
             }
 
-        public class market {
-            int[][] matrix;
-            LinkedList<marble> marbles;
-            Random random = new Random();
-
-            market ( int maxX, int maxY ) {
-
-                this.matrix = new int[maxX][maxY];
-                for (int i = this.marbles.size(); i < MAXMARBLESB+this.marbles.size(); i++) this.marbles.add( new marble("blue"));
-                for (int i = this.marbles.size(); i < MAXMARBLESG+this.marbles.size(); i++) this.marbles.add( new marble("grey"));
-                for (int i = this.marbles.size(); i < MAXMARBLESP+this.marbles.size(); i++) this.marbles.add( new marble("purple"));
-                for (int i = this.marbles.size(); i < MAXMARBLESR+this.marbles.size(); i++) this.marbles.add( new marble("red"));
-                for (int i = this.marbles.size(); i < MAXMARBLESW+this.marbles.size(); i++) this.marbles.add( new marble("white"));
-                for (int i = this.marbles.size(); i < MAXMARBLESY+this.marbles.size(); i++) this.marbles.add( new marble("yellow"));
-                fillMarket(maxX, maxY, marbles);
+            private void setResources ( int lvl, Resources color, int qnt ) {
+                /*ho già controllato che posso farlo
+                 * metto una quantità qnt di risorsa color nella posizione lvl della lista*/
+                if (wareContent.isEmpty()) wareContent.add(color.toString()); /*qui aggiungi risorse e tipo*/
             }
 
-            private void fillMarket ( int X, int Y, LinkedList<marble> marbles ) {
-                for (int j = 0; j < Y; j++) {
-                    for (int i = 0; i < X; i++) {
-                        matrix[i][j] = random.nextInt(j * i);
+            public boolean checkAdd ( int lvl, Resources color, int qnt ) {
+                /*il controllo che si vogliono aggiungere meno di 3 risorse è già stato fatto*/
+                /*dati scaffale, risorsa e quantità*/
+                if (wareContent.isEmpty()) return true;
+                if (qnt < 3) {
+                    /*controllo se su questo scaffale posso aggiungere questa quantità di risorse*/
+                    /*se sullo scaffale c'è già questo tipo di risorsa controllo se posso aggiungere e poi aggiungo*/
+                    return true;
+                } else return false;
+            }
+
+            public void checkLvlStatus ( int lvl ) {
+                System.out.println("Sullo scaffale " + lvl + " ci sono "/* N risorse*/);
+            }
+
+            private void lvlExchange ( int lvlStart, int lvlEnd ) {
+                /*scambia le risorse che stanno su un livello del magazzino con quelle di un altro livello*/
+            }
+        }
+    }
+
+    enum Colours {
+        BLUE("SHEILD"), GREEN(null), GREY("STONE"), PURPLE("SERVANT"), RED("FAITH"), WHITE(""), YELLOW("COIN");
+        String type;
+
+        Colours ( String type ) {
+            this.type = type;
+        }
+
+        public String getType () {
+            return type;
+        }
+    }
+
+    public class Resources {
+
+        String colour;
+
+        Resources ( String color ) {
+            this.colour = color;
+        }
+
+        public String getType ( String color ) {
+            switch (color.toUpperCase(Locale.ROOT)) {
+                case "blue":
+                    return "Shield";
+                case "grey":
+                    return "Stone";
+                case "purple":
+                    return "Servant";
+                case "red":
+                    return "Faith";
+                case "white":
+                    return "";
+                case "yellow":
+                    return "Coin";
+                default:
+                    return "ERROR!";
+            }
+        }
+    }
+
+    public class Supply {
+        HashMap<String, Integer> cont;
+
+        Supply () {
+            cont = new HashMap<>();
+            cont.put("blue", 0);
+            cont.put("grey", 0);
+            cont.put("purple", 0);
+            cont.put("yellow", 0);
+        }
+
+        public void addResources ( String color, int qnt ) {
+            cont.replace(color, cont.get(color) + qnt);
+        }
+    }
+
+    public class Market {
+        Resources[][] matrix;
+        Resources external;
+        LinkedList<Resources> marbles;
+        LinkedList<Integer> list;
+        Random random = new Random();
+
+        Market ( int maxX, int maxY ) {
+            /*creo le biglie*/
+            for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESB + this.marbles.size(); i++)
+                this.marbles.add(new Resources("blue"));
+            for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESG + this.marbles.size(); i++)
+                this.marbles.add(new Resources("grey"));
+            for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESP + this.marbles.size(); i++)
+                this.marbles.add(new Resources("purple"));
+            for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESR + this.marbles.size(); i++)
+                this.marbles.add(new Resources("red"));
+            for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESW + this.marbles.size(); i++)
+                this.marbles.add(new Resources("white"));
+            for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESY + this.marbles.size(); i++)
+                this.marbles.add(new Resources("yellow"));
+            /*metto le biglie nel mercato*/
+            this.matrix = fillMarket(maxX, maxY, marbles);
+            /*segno qual è la 13sima biglia*/
+            this.external = setExternal(list, marbles);
+            /*il mercato verrà gestito con la cella [0][0] in alto a destra*/
+        }
+
+        private Resources[][] fillMarket ( int X, int Y, LinkedList<Resources> marbles ) {
+            this.list = new LinkedList<>();
+            for (int j = 0; j < Y; j++) {
+                for (int i = 0; i < X; i++) {
+                    /*le biglie in tutto sono X * Y*/
+                    int r = random.nextInt(X * Y);
+                    while (!list.contains(r)) {
+                        list.add(r);
+                        matrix[i][j] = marbles.get(r);
+                        r = random.nextInt(X * Y);
                     }
                 }
             }
-
-            public class marble {
-                resources res;
-
-                marble ( String colour ) {
-
-                }
-            }
+            return matrix;
         }
 
-        class card {
-            int id;
-            int pntWin;
-
-            class cDev extends card {
-                int lvl;
-                resources cost;
-
-                cDev ( int id ) {
-                    this.id = id;
-
-                }
-            }
-
-            class cLead extends card {
-                cDev req1;
-                resources req2;
-                String special;
-
-                cLead ( int id ) {
-                    this.id = id;
-                }
-            }
-
-            class popeFav extends card {
-                int pos;
-
-                popeFav ( int position ) {
-                    this.pos = position;
-                }
-            }
+        protected Resources setExternal ( LinkedList<Integer> list, LinkedList<Resources> marbles ) {
+            /*cerca nella lista delle biglie la tredicesima biglia, ecludendo le dodici che stanno nella lista di biglie che sono nel mercato*/
+            return external;
         }
 
+        private Resources[] moveMarbles ( Market market, int X, int Y, int choice ) {
+            Resources[] res;
+            Resources r1, r2;
+            r1 = market.external;
+            switch (choice) {
+                case 0: {
+                    market.external = matrix[X - 3][0];
+                    for (int i = Y; i > 0; i--) {
+                        r2 = matrix[0][i - 1];
+                        matrix[0][i - 1] = r1;
+                        r1 = r2;
+                    }
+                }
+                case 1: {
+                    market.external = matrix[X - 2][0];
+                    for (int i = Y; i > 0; i--) {
+                        r2 = matrix[1][i - 1];
+                        matrix[1][i - 1] = r1;
+                        r1 = r2;
+                    }
+                }
+                case 2: {
+                    market.external = matrix[X - 1][0];
+                    for (int i = Y; i > 0; i--) {
+                        r2 = matrix[2][i - 1];
+                        matrix[2][i - 1] = r1;
+                        r1 = r2;
+                    }
+                }
+                case 3: {
+                    market.external = matrix[0][Y - 1];
+                    for (int i = X; i > 0; i--) {
+                        r2 = matrix[i - 1][3];
+                        matrix[i - 1][3] = r1;
+                        r1 = r2;
+                    }
+                }
+                case 4: {
+                    market.external = matrix[0][Y - 2];
+                    for (int i = X; i > 0; i--) {
+                        r2 = matrix[i - 1][2];
+                        matrix[i - 1][2] = r1;
+                        r1 = r2;
+                    }
+                }
+                case 5: {
+                    market.external = matrix[0][Y - 3];
+                    for (int i = X; i > 0; i--) {
+                        r2 = matrix[i - 1][1];
+                        matrix[i - 1][1] = r1;
+                        r1 = r2;
+                    }
+                }
+                case 6: {
+                    market.external = matrix[0][Y - 4];
+                    for (int i = X; i > 0; i--) {
+                        r2 = matrix[i - 1][0];
+                        matrix[i - 1][0] = r1;
+                        r1 = r2;
+                    }
+                }
+                default:
+                    throw new IllegalStateException("Unexpected value: " + choice);
+            }
+
+
+        }
+
+    }
+
+    abstract class Card {
+        int id = 0;
+        int pntWin = 0;
+
+        public int getPntWin ( Card card ) {
+            return card.pntWin;
+        }
+
+    }
+
+    class CardDev extends Card {
+        private int lvl;
+        private Resources cost;
+
+        CardDev ( int id ) {
+            this.id = id;
+
+        }
+        /*get per i requisiti*/
+        public int getLvl(int id){
+            CardDev c = null;
+            /*cerca la carta giusta*/
+            return c.lvl;
+        }
+        /*get per gli effetti*/
+        /*get per i punti vittoria a fine partita ereditato dal fatto che è carta*/
+    }
+
+    class CardLead extends Card {
+        CardDev req1;
+        Resources req2;
+        String special;
+
+        CardLead ( int id ) {
+            this.id = id;
+        }
+
+        /*get per i requisiti*/
+        /*metodi per il potere speciale*/
+        /*get per i punti vittoria a fine partita ereditato dal fatto che è carta*/
+    }
+
+    class PopeFav extends Card {
+        int id;
+        int pos;
+
+        public void setPopeFav ( int id, int position ) {
+            PopeFav c = null;
+            /*cerca la carta giusta*/
+            c.pos = position; /*set la posizione*/
+        }
+        /*get per i punti vittoria a fine partita ereditato dal fatto che è carta*/
     }
 }
