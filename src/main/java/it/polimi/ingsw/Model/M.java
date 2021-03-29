@@ -51,7 +51,7 @@ public class M {
         StrongBox v;
         int positionTF;
         Library[] l;
-        /*track[] t;*/
+        FaithTrack t;
 
         Board ( int id ) {
             this.idD = id;
@@ -59,17 +59,19 @@ public class M {
             this.w = new Warehouse(id);
             /* Strongbox creation for a single Board */
             this.v = new StrongBox(id);
+            /* Faith Track creation for a single board */
+            this.t = new FaithTrack(id);
         }
 
-            /*private class track {
+            private class FaithTrack {
 
-                int id;
+                int id;                     /* Da capire bene come funzionano gli ID*/
                 int position;
 
-                track ( int id ) {
+                FaithTrack ( int id ) {
                     this.id = id;
                 }
-            }*/
+            }
 
         protected class Library {
             int id;
@@ -314,6 +316,8 @@ public class M {
         }
 
     }
+
+    /* Da Rivedere */
 
     abstract class Card {
         int id = 0;
