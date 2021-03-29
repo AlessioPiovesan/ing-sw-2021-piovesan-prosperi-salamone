@@ -351,6 +351,16 @@ public class M {
         CardLead ( int id ) {
             this.id = id;
         }
+        public CardDev getReq1 (int id){
+            CardLead c = null;
+            /*cerca la carta giusta*/
+            return c.req1;
+        }
+        public Resources getReq2(int id){
+            CardLead c = null;
+            /*cerca la carta giusta*/
+            return c.req2;
+        }
 
         /*get per i requisiti*/
         /*metodi per il potere speciale*/
