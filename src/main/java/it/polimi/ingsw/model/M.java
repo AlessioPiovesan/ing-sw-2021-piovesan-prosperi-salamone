@@ -18,7 +18,7 @@ public class M {
         /*final HashMap<Integer, Card> CARDS = new HashMap<Integer, Card>();*/
 
         Board[] b;
-        LinkedList<Resources> r;
+        LinkedList<Resource> r;
         Market m;
 
         Game ( int gamers ) {
@@ -31,15 +31,15 @@ public class M {
             }
             /* Market creation for each Game */
             this.m = new Market(XMARKET, YMARKET);
-            /* Resources creation for each Game */
+            /* Resource creation for each Game */
             for (int i = (int) this.r.size(); i < MAXMARBLESB * 8 + this.r.size(); i++)
-                this.r.add(new Resources(Colours.BLUE.toString()));
+                this.r.add(new Resource(Colours.BLUE.toString()));
             for (int i = (int) this.r.size(); i < MAXMARBLESG * 8 + this.r.size(); i++)
-                this.r.add(new Resources(Colours.GREY.toString()));
+                this.r.add(new Resource(Colours.GREY.toString()));
             for (int i = (int) this.r.size(); i < MAXMARBLESP * 8 + this.r.size(); i++)
-                this.r.add(new Resources(Colours.PURPLE.toString()));
+                this.r.add(new Resource(Colours.PURPLE.toString()));
             for (int i = (int) this.r.size(); i < MAXMARBLESY * 8 + this.r.size(); i++)
-                this.r.add(new Resources(Colours.YELLOW.toString()));
+                this.r.add(new Resource(Colours.YELLOW.toString()));
             /* Card creation for each Game */
             /*...*/
         }
@@ -75,7 +75,7 @@ public class M {
 
         protected class Library {
             int id;
-            HashMap<Integer, Card> l;
+            HashMap<Integer, CardDev> l;
 
             Library ( int id ) {
                 this.id = id;
@@ -114,13 +114,13 @@ public class M {
                 this.wareContent = new ArrayList<String>(3);
             }
 
-            private void setResources ( int lvl, Resources color, int qnt ) {
+            private void setResources ( int lvl, Resource color, int qnt ) {
                 /*ho già controllato che posso farlo
                  * metto una quantità qnt di risorsa color nella posizione lvl della lista*/
                 if (wareContent.isEmpty()) wareContent.add(color.toString()); /*qui aggiungi risorse e tipo*/
             }
 
-            public boolean checkAdd ( int lvl, Resources color, int qnt ) {
+            public boolean checkAdd ( int lvl, Resource color, int qnt ) {
                 /*il controllo che si vogliono aggiungere meno di 3 risorse è già stato fatto*/
                 /*dati scaffale, risorsa e quantità*/
                 if (wareContent.isEmpty()) return true;
@@ -153,12 +153,22 @@ public class M {
             return c.type;
         }
     }
+    enum Resources {
+        SHEILD, STONE, SERVANT, COIN, FAITH;
 
-    public class Resources {
+        Resources () { }
+
+        public String getType (Colours c) {
+            return c.type;
+        }
+    }
+
+
+    public class Resource {
 
         String colour;
 
-        Resources ( String color ) {
+        Resource ( String color ) {
             this.colour = color;
         }
 
@@ -172,10 +182,10 @@ public class M {
 
         Supply () {
             cont = new HashMap<>();
-            cont.put("blue", 0);
-            cont.put("grey", 0);
-            cont.put("purple", 0);
-            cont.put("yellow", 0);
+            cont.put("BLUE", 0);
+            cont.put("GREY", 0);
+            cont.put("PURPLE", 0);
+            cont.put("YELLOW", 0);
         }
 
         public void addResources ( String color, int qnt ) {
@@ -184,26 +194,26 @@ public class M {
     }
 
     public class Market {
-        Resources[][] matrix;
-        Resources external;
-        LinkedList<Resources> marbles;
+        Resource[][] matrix;
+        Resource external;
+        LinkedList<Resource> marbles;
         LinkedList<Integer> list;
         Random random = new Random();
 
         Market ( int maxX, int maxY ) {
             /*creo le biglie*/
             for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESB + this.marbles.size(); i++)
-                this.marbles.add(new Resources("blue"));
+                this.marbles.add(new Resource("blue"));
             for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESG + this.marbles.size(); i++)
-                this.marbles.add(new Resources("grey"));
+                this.marbles.add(new Resource("grey"));
             for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESP + this.marbles.size(); i++)
-                this.marbles.add(new Resources("purple"));
+                this.marbles.add(new Resource("purple"));
             for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESR + this.marbles.size(); i++)
-                this.marbles.add(new Resources("red"));
+                this.marbles.add(new Resource("red"));
             for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESW + this.marbles.size(); i++)
-                this.marbles.add(new Resources("white"));
+                this.marbles.add(new Resource("white"));
             for (int i = (int) this.marbles.size(); i < Game.MAXMARBLESY + this.marbles.size(); i++)
-                this.marbles.add(new Resources("yellow"));
+                this.marbles.add(new Resource("yellow"));
             /*metto le biglie nel mercato*/
             this.matrix = fillMarket(maxX, maxY, marbles);
             /*segno qual è la 13sima biglia*/
@@ -211,7 +221,7 @@ public class M {
             /*il mercato verrà gestito con la cella [0][0] in alto a destra*/
         }
 
-        private Resources[][] fillMarket ( int X, int Y, LinkedList<Resources> marbles ) {
+        private Resource[][] fillMarket ( int X, int Y, LinkedList<Resource> marbles ) {
             this.list = new LinkedList<>();
             for (int j = 0; j < Y; j++) {
                 for (int i = 0; i < X; i++) {
@@ -227,14 +237,14 @@ public class M {
             return matrix;
         }
 
-        protected Resources setExternal ( LinkedList<Integer> list, LinkedList<Resources> marbles ) {
+        protected Resource setExternal ( LinkedList<Integer> list, LinkedList<Resource> marbles ) {
             /*cerca nella lista delle biglie la tredicesima biglia, ecludendo le dodici che stanno nella lista di biglie che sono nel mercato*/
             return external;
         }
 
-        private Resources[] moveMarbles ( Market market, int X, int Y, int choice ) {
-            Resources[] res;
-            Resources r1, r2;
+        private Resource[] moveMarbles ( Market market, int X, int Y, int choice ) {
+            Resource[] res;
+            Resource r1, r2;
             r1 = market.external;
             switch (choice) {
                 case 0: {
@@ -302,25 +312,33 @@ public class M {
 
     }
 
-    /* Da Rivedere */
+    /*class Pick{
+        Resource r;
+        int qnt;
 
-    abstract class Card {
-        public int  id = 0;
-        private final int pntWin = 0;
-        public boolean flipped = true;
-
-        public int getPntWin ( Card card ) {
-            return card.pntWin;
+        Pick(Resource r, int qnt){
+            this.r=r;
+            this.qnt=qnt;
         }
+    }*/
 
-    }
+    enum CardDev {
+        CARD_DEV1G1(1, Colours.GREEN, new Resources[]{Resources.SHEILD, Resources.SHEILD}, new Resources[]{Resources.COIN}, new Resources[]{Resources.FAITH}, 1);
 
-    class CardDev extends Card {
         private int lvl;
-        private Resources cost;
+        private Colours c;
+        private Resources[] cost;
+        private Resources[] resFrom;
+        private Resources[] resTo;
+        private int pntWin;
 
-        public CardDev ( int id ) {
-            this.id = id;
+        CardDev ( int lvl,  Colours c, Resources[] cost, Resources[] resFrom, Resources[] resTo, int pntWin) {
+            this.lvl = lvl;
+            this.c=c;
+            this.cost=cost;
+            this.resFrom=resFrom;
+            this.resTo=resTo;
+            this.pntWin=pntWin;
 
         }
         /*get per i requisiti*/
@@ -333,23 +351,43 @@ public class M {
         /*get per i punti vittoria a fine partita ereditato dal fatto che è carta*/
     }
 
-    class CardLead extends Card {
-        CardDev req1;
-        Resources req2;
+    abstract class Requirement{
+        public void getRequirements () {        }
+    }
+
+    class RequirementResorces extends Requirement{
+        public Resource[] getType () {
+            return type;
+        }
+
+        private Resource[] type;
+    }
+
+    class RequirementCard extends Requirement{
+        private Colours type;
+
+        public int getCardLvl () {
+            return cardLvl;
+        }
+
+        public Colours getType () {
+            return type;
+        }
+
+        private int cardLvl;
+    }
+
+    class CardLead {
+        private int id;
+        Requirement req;
         String special;
 
         CardLead ( int id ) {
             this.id = id;
         }
-        public CardDev getReq1 (int id){
-            CardLead c = null;
-            /*cerca la carta giusta*/
-            return c.req1;
-        }
-        public Resources getReq2(int id){
-            CardLead c = null;
-            /*cerca la carta giusta*/
-            return c.req2;
+        public Requirement getReq (CardLead c){
+            /*la carta "c" è già la carta giusta*/
+            return c.req;
         }
 
         /*get per i requisiti*/
@@ -357,8 +395,8 @@ public class M {
         /*get per i punti vittoria a fine partita ereditato dal fatto che è carta*/
     }
 
-    class PopeFav extends Card {
-        int id;
+    class PopeFav {
+        private int id;
         int pos;
 
         public void setPopeFav ( int id, int position ) {
