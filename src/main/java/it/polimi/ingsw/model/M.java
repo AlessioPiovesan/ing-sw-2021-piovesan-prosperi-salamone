@@ -1,10 +1,10 @@
-package it.polimi.ingsw.Model;
+package it.polimi.ingsw.model;
 
 import java.util.*;
 
 public class M {
 
-    class Game {
+    public class Game {
         static final int XMARKET = 4;
         static final int YMARKET = 3;
         static final int MAXTRACK = 20;
@@ -143,14 +143,14 @@ public class M {
 
     enum Colours {
         BLUE("SHEILD"), GREEN(null), GREY("STONE"), PURPLE("SERVANT"), RED("FAITH"), WHITE(""), YELLOW("COIN");
-        String type;
+        final String type;
 
         Colours ( String type ) {
             this.type = type;
         }
 
-        public String getType () {
-            return type;
+        public String getType (Colours c) {
+            return c.type;
         }
     }
 
@@ -162,23 +162,8 @@ public class M {
             this.colour = color;
         }
 
-        public String getType ( String color ) {
-            switch (color.toUpperCase(Locale.ROOT)) {
-                case "blue":
-                    return "Shield";
-                case "grey":
-                    return "Stone";
-                case "purple":
-                    return "Servant";
-                case "red":
-                    return "Faith";
-                case "white":
-                    return "";
-                case "yellow":
-                    return "Coin";
-                default:
-                    return "ERROR!";
-            }
+        public Colours getType ( String color ) {
+            return Colours.valueOf(color.toUpperCase(Locale.ROOT));
         }
     }
 
@@ -320,8 +305,9 @@ public class M {
     /* Da Rivedere */
 
     abstract class Card {
-        int id = 0;
-        int pntWin = 0;
+        public int  id = 0;
+        private final int pntWin = 0;
+        public boolean flipped = true;
 
         public int getPntWin ( Card card ) {
             return card.pntWin;
@@ -333,7 +319,7 @@ public class M {
         private int lvl;
         private Resources cost;
 
-        CardDev ( int id ) {
+        public CardDev ( int id ) {
             this.id = id;
 
         }
