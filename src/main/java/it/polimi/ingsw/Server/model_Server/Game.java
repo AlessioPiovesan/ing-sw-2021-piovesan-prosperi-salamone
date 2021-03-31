@@ -78,11 +78,11 @@ public class Game{
         Board player = new Board (first);
         Colours choice=Colours.WHITE;
 
-        b[first+1].Warehouse.comp.replace (choice.selectPref (), 1);
-        b[first+2].Warehouse.comp.replace (choice.selectPref (), 1);
-        b[first+2].FaithTrack.position += 1;
-        b[first+3].Warehouse.comp.replace (choice.selectPref (), 1);
-        b[first+3].Warehouse.comp.replace (choice.selectPref (), 1);
-        b[first+3].FaithTrack.position += 1;
+        b[first+1].warehouse.setResources (choice.selectPref (), 1);
+        b[first+2].warehouse.setResources (choice.selectPref (), 1);
+        b[first+2].faithTrack.setPosition (1);
+        b[first+3].warehouse.setResources (choice.selectPref (), 1);
+        b[first+3].warehouse.setResources (choice.selectPref (), 1);
+        b[first+2].faithTrack.setPosition (1);
     }
 }

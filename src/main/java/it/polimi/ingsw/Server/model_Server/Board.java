@@ -5,38 +5,36 @@ import java.util.HashMap;
 
 class Board{
     int idD;
-    Warehouse w;
-    StrongBox v;
+    Warehouse warehouse;
+    StrongBox strongBox;
     int positionTF;
     Library[] l;
-    FaithTrack t;
+    FaithTrack faithTrack;
 
     Board (int id){
         this.idD = id;
         /* Warehouse creation for a single Board */
-        this.w = new Warehouse (id);
+        this.warehouse = new Warehouse ();
         /* Strongbox creation for a single Board */
-        this.v = new StrongBox (id);
+        this.strongBox = new StrongBox ();
         /* Faith Track creation for a single board */
-        this.t = new FaithTrack (id);
+        this.faithTrack = new FaithTrack ();
+        /* Set Faith Marker starting point */
+        positionTF=0;
     }
 
     protected class FaithTrack{
-
-        private int id;                     /* Da capire bene come funzionano gli ID*/
         private int position;
 
-        FaithTrack (int id){
-            this.id = id;
-        }
-
-        public int getId ( ){
-            return id;
+        FaithTrack (){
+            this.position = 0;
         }
 
         public int getPosition ( ){
             return position;
         }
+
+        public void setPosition (int step){ position += step; }
 
         public int getWinPnt ( ){/*prende la posizione e raccoglie i winPnt della casella precedente più vicina*/ return 1;}
         public boolean checkPopeSpace ( ){/**/
@@ -66,11 +64,9 @@ class Board{
 
 
     protected class Library{
-        int id;
         HashMap<Integer, CardDev> l;
 
-        Library (int id){
-            this.id = id;
+        Library (){
             /*creazione scompartimenti per una libreria di una plancia*/
             this.l = new HashMap<> ();
             l.put (1, null);
@@ -80,11 +76,9 @@ class Board{
     }
 
     protected class StrongBox{
-        int id;
         HashMap<Colours, Integer> comp;
 
-        StrongBox (int id){
-            this.id = id;
+        StrongBox (){
             comp = new HashMap<> ();
             comp.put (Colours.BLUE, 0);
             comp.put (Colours.GREY, 0);
@@ -98,18 +92,21 @@ class Board{
     }
 
     protected class Warehouse{
-        private int id;
-        private ArrayList<String> wareContent;
+        private ArrayList<Pick> wareContent;
 
-        Warehouse (int id){
-            this.id = id;
-            this.wareContent = new ArrayList<String> (3);
+        Warehouse (){
+            wareContent = new ArrayList<Pick> ();
+            wareContent.add (new Pick (Colours.WHITE, 0));
+            wareContent.add (new Pick (Colours.WHITE, 0));
+            wareContent.add (new Pick (Colours.WHITE, 0));
         }
 
-        private void setResources (int lvl, Resource color, int qnt){
+        public void setResources (Colours color, int qnt){
+            int lvl = pickLvl (color, qnt);
             /*ho già controllato che posso farlo
              * metto una quantità qnt di risorsa color nella posizione lvl della lista*/
-            if (wareContent.isEmpty ()) wareContent.add (color.toString ()); /*qui aggiungi risorse e tipo*/
+            wareContent.get (lvl).r=color;
+            wareContent.get (lvl).qnt=qnt;
         }
 
         public boolean checkAdd (int lvl, Resource color, int qnt){
@@ -125,11 +122,15 @@ class Board{
         }
 
         public void checkLvlStatus (int lvl){
-            System.out.println ("Sullo scaffale " + lvl + " ci sono "/* N risorse*/);
+            System.out.println ("Sullo scaffale " + lvl + " ci sono " + wareContent.get (lvl).qnt +" risorse di tipo" + wareContent.get (lvl).r.type);
         }
 
         private void lvlExchange (int lvlStart, int lvlEnd){
             /*scambia le risorse che stanno su un livello del magazzino con quelle di un altro livello*/
         }
+
+        private int pickLvl(Colours colour, int qnt){
+            int choice=0;
+            return  choice;}
     }
 }
