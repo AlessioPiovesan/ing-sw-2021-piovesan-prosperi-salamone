@@ -1,6 +1,9 @@
-package it.polimi.ingsw.Server.model_Server;
+package it.polimi.ingsw.Server.model_Server.Carte;
 
-enum CardLead implements LeaderCard, Card{
+import it.polimi.ingsw.Server.model_Server.Accessori.Colours;
+import it.polimi.ingsw.Server.model_Server.Accessori.Requirements;
+
+public enum CardLeader implements ICardLeader, Card{
 
     card_Lead1 (new Requirements.RequirementsCard (1, Colours.GREEN), "-1 Servant", 1){
         @Override
@@ -12,7 +15,7 @@ enum CardLead implements LeaderCard, Card{
     private int winPnt;
     private boolean flipped;
 
-    CardLead (Requirements req, String special, int winPnt){
+    CardLeader( Requirements req, String special, int winPnt){
         this.req = req;
         this.special=special;
         this.winPnt=winPnt;

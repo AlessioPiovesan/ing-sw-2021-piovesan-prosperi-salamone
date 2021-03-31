@@ -1,6 +1,6 @@
-package it.polimi.ingsw.Server.model_Server;
+package it.polimi.ingsw.Server.model_Server.Carte;
 
-enum PopeFav implements Card{
+public enum CardPopeFav implements Card{
     card_P21 (2),
     card_P22 (2),
     card_P23 (2),
@@ -15,7 +15,7 @@ enum PopeFav implements Card{
     private int winPnt;
     public boolean flipped;
 
-    PopeFav(int winPnt) {
+    CardPopeFav(int winPnt) {
         this.winPnt=winPnt;
         this.flipped=true;
     }

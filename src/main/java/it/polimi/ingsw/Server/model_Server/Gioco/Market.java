@@ -1,4 +1,7 @@
-package it.polimi.ingsw.Server.model_Server;
+package it.polimi.ingsw.Server.model_Server.Gioco;
+
+import it.polimi.ingsw.Server.model_Server.Accessori.Colours;
+import it.polimi.ingsw.Server.model_Server.Accessori.Constants;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -8,21 +11,25 @@ public class Market{
     Colours external;
     LinkedList<Colours> marbles;
     LinkedList<Integer> list;
-    Random random = new Random ();
+    Random random;
 
-    Market ( int maxX, int maxY){
+    {
+        random = new Random ();
+    }
+
+    Market (int maxX, int maxY){
         /*creo le biglie*/
-        for (int i = (int)this.marbles.size ();i < Game.MAXMARBLESB + this.marbles.size ();i++)
+        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESB.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.BLUE);
-        for (int i = (int)this.marbles.size ();i < Game.MAXMARBLESG + this.marbles.size ();i++)
+        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESG.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.GREY);
-        for (int i = (int)this.marbles.size ();i < Game.MAXMARBLESP + this.marbles.size ();i++)
+        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESP.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.PURPLE);
-        for (int i = (int)this.marbles.size ();i < Game.MAXMARBLESR + this.marbles.size ();i++)
+        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESR.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.RED);
-        for (int i = (int)this.marbles.size ();i < Game.MAXMARBLESW + this.marbles.size ();i++)
+        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESW.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.WHITE);
-        for (int i = (int)this.marbles.size ();i < Game.MAXMARBLESY + this.marbles.size ();i++)
+        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESY.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.YELLOW);
         /*metto le biglie nel mercato*/
         this.matrix = fillMarket (maxX, maxY, marbles);

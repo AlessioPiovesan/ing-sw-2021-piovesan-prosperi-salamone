@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Server.viewer_Server;
 
-import it.polimi.ingsw.Server.model_Server.Game;
+import it.polimi.ingsw.Server.model_Server.Gioco.Game;
 import it.polimi.ingsw.Server.model_Server.Mod;
 
 

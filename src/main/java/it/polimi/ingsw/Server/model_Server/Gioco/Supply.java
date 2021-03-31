@@ -1,4 +1,6 @@
-package it.polimi.ingsw.Server.model_Server;
+package it.polimi.ingsw.Server.model_Server.Gioco;
+
+import it.polimi.ingsw.Server.model_Server.Accessori.Colours;
 
 import java.util.HashMap;
 

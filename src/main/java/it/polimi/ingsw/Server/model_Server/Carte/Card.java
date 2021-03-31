@@ -1,6 +1,6 @@
-package it.polimi.ingsw.Server.model_Server;
+package it.polimi.ingsw.Server.model_Server.Carte;
 
-public interface Card{
+interface Card{
     int getWinPnt();
     boolean getFlipped();
     void flipCard();
