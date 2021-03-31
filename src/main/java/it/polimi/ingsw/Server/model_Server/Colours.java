@@ -11,4 +11,12 @@ enum Colours{
     public String getType (Colours c){
         return c.type;
     }
+
+    public Colours selectPref(){
+
+        Colours choice=Colours.BLUE;
+        System.out.println ("Scegli la risorsa");
+
+        return choice;
+    }
 }

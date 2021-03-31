@@ -23,13 +23,47 @@ class Board{
 
     protected class FaithTrack{
 
-        int id;                     /* Da capire bene come funzionano gli ID*/
-        int position;
+        private int id;                     /* Da capire bene come funzionano gli ID*/
+        private int position;
 
         FaithTrack (int id){
             this.id = id;
         }
+
+        public int getId ( ){
+            return id;
+        }
+
+        public int getPosition ( ){
+            return position;
+        }
+
+        public int getWinPnt ( ){/*prende la posizione e raccoglie i winPnt della casella precedente più vicina*/ return 1;}
+        public boolean checkPopeSpace ( ){/**/
+        /*switch (position):
+            case 5: return true;
+            case 10: return true;
+            case 24: return true;*/
+            return true;
+        }
+
+
+        class VaticanReport{
+            int[] vaticanReport1;
+            int[] vaticanReport2;
+            int[] vaticanReport3;
+        }
+
+        class PopeTile{
+            int winPnt;
+
+            public int getWinPnt ( ){
+                return winPnt;
+            }
+        }
     }
+
+
 
     protected class Library{
         int id;

@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.model_Server;
 
 
 enum CardDev implements Card{
+
     CARD_DEV1G1 (1, Colours.GREEN, new Resources[]{Resources.SHEILD, Resources.SHEILD}, new Resources[]{Resources.COIN}, new Resources[]{Resources.FAITH}, 1);
 
     private int lvl;

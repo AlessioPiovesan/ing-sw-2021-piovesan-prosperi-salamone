@@ -1,7 +1,9 @@
 package it.polimi.ingsw.Server.model_Server;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Game{
     static final int XMARKET = 4;
@@ -15,12 +17,12 @@ public class Game{
     static final int MAXMARBLESR = 1;
 
     final Mod mod;
-    Board[] b;
+    Board[] b; /* manca l'associazione con i socket dei vari pleyer*/
     Market market;
     Supply supply;
-    ArrayList<CardDev> cardDevArrayList;
-    ArrayList<LeaderCard> cardLeadArrayList;
-    ArrayList<PopeFav> cardPopeArrayList;
+    ArrayList<CardDev> cardDevArrayList=new ArrayList<> ();
+    ArrayList<LeaderCard> cardLeadArrayList=new ArrayList<> ();
+    ArrayList<PopeFav> cardPopeArrayList=new ArrayList<> ();
 
     Game (Mod mod, int gamers){
         this.mod = mod;
@@ -46,5 +48,41 @@ public class Game{
         for (CardLead cL : CardLead.values ()) cardLeadArrayList.add (cL);
         for (PopeFav cP : PopeFav.values ()) cardPopeArrayList.add (cP);
         /*...*/
+
+    }
+    public ArrayList<CardLead> giveCardLead(){
+        ArrayList<CardLead> cardPlayer=new ArrayList<> ();
+        CardLead card=CardLead.card_Lead1;
+        /*carte random*/
+        if (cardPlayer.containsAll(Collections.singleton (card)))
+            cardPlayer.add (card);
+        pickCardLead ();
+        return cardPlayer;
+    }
+
+    public CardLead[] pickCardLead(){
+        CardLead[] choice = new CardLead[2];
+        System.out.println ("Prima scelta");
+        choice[0]=CardLead.card_Lead1;
+        System.out.println ("Seconda scelta");
+        choice[1]=CardLead.card_Lead1;
+        return choice;
+    }
+
+    public int nextPlayerId(Board[] b){
+        Random random = new Random();
+        return random.nextInt (b.length);
+        }
+
+    public void pippo(Board[] b, int first){
+        Board player = new Board (first);
+        Colours choice=Colours.WHITE;
+
+        b[first+1].Warehouse.comp.replace (choice.selectPref (), 1);
+        b[first+2].Warehouse.comp.replace (choice.selectPref (), 1);
+        b[first+2].FaithTrack.position += 1;
+        b[first+3].Warehouse.comp.replace (choice.selectPref (), 1);
+        b[first+3].Warehouse.comp.replace (choice.selectPref (), 1);
+        b[first+3].FaithTrack.position += 1;
     }
 }
