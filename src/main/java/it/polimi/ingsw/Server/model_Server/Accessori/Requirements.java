@@ -24,7 +24,7 @@ public abstract class Requirements{
         }
     }
 
-    static class RequirementsResources extends Requirements{
+    public static class RequirementsResources extends Requirements{
 
         private Colours[] type;
 

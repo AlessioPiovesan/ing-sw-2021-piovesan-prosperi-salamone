@@ -18,7 +18,6 @@ public class Controller implements Observer<Game> {
 
     private void nextTurn(){    }
 
-
     @Override
     public void update ( Game test ) {
         /*Riceve le scelte del giocatore e manfa avanti la partita*/

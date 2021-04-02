@@ -59,21 +59,22 @@ public class Market{
         return external;
     }
 
-    private Colours[] moveMarbles (Market market, int X, int Y, int choice){
-        Colours[] res;
+    private LinkedList<Colours> moveMarbles (int X, int Y, int choice){
+        LinkedList<Colours> res = new LinkedList<>();
         Colours r1, r2;
-        r1 = market.external;
+        r1 = external;
         switch (choice){
             case 0:{
-                market.external = matrix[X - 3][0];
+                external = matrix[X - 3][0];
                 for (int i = Y;i > 0;i--){
                     r2 = matrix[0][i - 1];
+                    res.add(matrix[0][i - 1]); /* DA AGGIUNGERE A OGNI CASE */
                     matrix[0][i - 1] = r1;
                     r1 = r2;
                 }
             }
             case 1:{
-                market.external = matrix[X - 2][0];
+                external = matrix[X - 2][0];
                 for (int i = Y;i > 0;i--){
                     r2 = matrix[1][i - 1];
                     matrix[1][i - 1] = r1;
@@ -81,7 +82,7 @@ public class Market{
                 }
             }
             case 2:{
-                market.external = matrix[X - 1][0];
+                external = matrix[X - 1][0];
                 for (int i = Y;i > 0;i--){
                     r2 = matrix[2][i - 1];
                     matrix[2][i - 1] = r1;
@@ -89,7 +90,7 @@ public class Market{
                 }
             }
             case 3:{
-                market.external = matrix[0][Y - 1];
+                external = matrix[0][Y - 1];
                 for (int i = X;i > 0;i--){
                     r2 = matrix[i - 1][3];
                     matrix[i - 1][3] = r1;
@@ -97,7 +98,7 @@ public class Market{
                 }
             }
             case 4:{
-                market.external = matrix[0][Y - 2];
+                external = matrix[0][Y - 2];
                 for (int i = X;i > 0;i--){
                     r2 = matrix[i - 1][2];
                     matrix[i - 1][2] = r1;
@@ -105,7 +106,7 @@ public class Market{
                 }
             }
             case 5:{
-                market.external = matrix[0][Y - 3];
+                external = matrix[0][Y - 3];
                 for (int i = X;i > 0;i--){
                     r2 = matrix[i - 1][1];
                     matrix[i - 1][1] = r1;
@@ -113,7 +114,7 @@ public class Market{
                 }
             }
             case 6:{
-                market.external = matrix[0][Y - 4];
+                external = matrix[0][Y - 4];
                 for (int i = X;i > 0;i--){
                     r2 = matrix[i - 1][0];
                     matrix[i - 1][0] = r1;

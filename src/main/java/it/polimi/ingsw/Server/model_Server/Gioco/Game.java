@@ -74,7 +74,7 @@ public class Game{
         return random.nextInt(b.length);
     }
 
-    public void pippo( Board[] b, int first ){ /*DA CAMBIARE NOME*/
+    public void pickResources( Board[] b, int first ){
         Board player = new Board(first);
         Colours choice = Colours.WHITE;
 
@@ -83,6 +83,6 @@ public class Game{
         b[first + 2].faithTrack.setPosition(1);
         b[first + 3].warehouse.setResources(choice.selectPref(), 1);
         b[first + 3].warehouse.setResources(choice.selectPref(), 1);
-        b[first + 2].faithTrack.setPosition(1);
+        b[first + 3].faithTrack.setPosition(1);
     }
 }
