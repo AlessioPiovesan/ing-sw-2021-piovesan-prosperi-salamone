@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Board{
-    int idD;
-    public Warehouse warehouse;
-    protected StrongBox strongBox;
-    protected Library[] l;
-    public FaithTrack faithTrack;
     private static ArrayList<CardLeader> myLeaderCards = new ArrayList<>();
     private static ArrayList<CardDev> myDevCards = new ArrayList<>();
+    public Warehouse warehouse;
+    public FaithTrack faithTrack;
+    protected StrongBox strongBox;
+    protected Library[] l;
+    int idD;
 
     public Board (int id){
         this.idD = id;

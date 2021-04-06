@@ -11,12 +11,12 @@ public class Client{
     private final String ip;
     private final int port;
 
-    public Client(String ip, int port){
+    public Client (String ip, int port){
         this.ip = ip;
         this.port = port;
     }
 
-    public void run() throws IOException{
+    public void run ( ) throws IOException{
         Socket socket = new Socket(ip, port);
         System.out.println("Connection established");
         Scanner socketIn = new Scanner(socket.getInputStream());

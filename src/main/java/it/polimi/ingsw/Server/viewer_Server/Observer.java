@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Server.viewer_Server;
 
-public interface Observer<T> {
+public interface Observer<T>{
 
-    void update ( T message );
+    void update (T message);
 
 }

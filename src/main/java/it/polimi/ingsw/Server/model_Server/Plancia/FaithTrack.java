@@ -5,13 +5,13 @@ import it.polimi.ingsw.Server.model_Server.Carte.CardPopeFav;
 
 public class FaithTrack{
 
-    protected int position;
     private final int[] popeFavorPos = {8, 16, 24};
+    protected int position;
     protected CardPopeFav[] playerPFC;
 
     protected FaithTrack ( ){
         position = 0;
-        setCard ();
+        setCard();
     }
 
     public void setPosition (int step){
@@ -20,7 +20,7 @@ public class FaithTrack{
 
     public void setCard ( ){
         for (int i = 0;i < 3;i++){
-            System.out.println ("Trova la carta e assegnala a myPFC[i]"); /*DA IMPLEMENTARE*/
+            System.out.println("Trova la carta e assegnala a myPFC[i]"); /*DA IMPLEMENTARE*/
         }
     }
 
@@ -61,7 +61,7 @@ public class FaithTrack{
             case 24:
                 return 20;
             default:
-                throw new IllegalStateException ("Unexpected value: " + position);
+                throw new IllegalStateException("Unexpected value: " + position);
         }
     }
 

@@ -16,8 +16,8 @@ class Library{
     }
 
     public void setL (int n, CardDev card){
-        if(slot[n].isEmpty ())
-            slot[n].add (card);
-        else System.out.println ("Slot occupato"); /* DA IMPLEMENTARE */
+        if (slot[n].isEmpty())
+            slot[n].add(card);
+        else System.out.println("Slot occupato"); /* DA IMPLEMENTARE */
     }
 }

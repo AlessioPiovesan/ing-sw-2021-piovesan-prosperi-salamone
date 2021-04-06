@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Connection extends Observable<String> implements Runnable {
+public class Connection extends Observable<String> implements Runnable{
 
     private Socket socket;
     private Scanner in;
@@ -19,35 +19,35 @@ public class Connection extends Observable<String> implements Runnable {
         this.server = server;
     }
 
-    private synchronized boolean isActive(){
+    private synchronized boolean isActive ( ){
         return active;
     }
 
-    public void send(String message){
+    public void send (String message){
         out.println(message);
         out.flush();
     }
 
-    public void asyncSend(final String message){
-        new Thread(new Runnable() {
+    public void asyncSend (final String message){
+        new Thread(new Runnable(){
             @Override
-            public void run() {
+            public void run ( ){
                 send(message);
             }
         }).start();
     }
 
-    public synchronized void closeConnection(){
+    public synchronized void closeConnection ( ){
         send("Connection closed from the server side");
-        try{
+        try {
             socket.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             System.err.println(e.getMessage());
         }
         active = false;
     }
 
-    private void close(){
+    private void close ( ){
         closeConnection();
         System.out.println("Deregistering client...");
         server.deregisterConnection(this);
@@ -55,18 +55,18 @@ public class Connection extends Observable<String> implements Runnable {
     }
 
     @Override
-    public void run() {
-        try{
+    public void run ( ){
+        try {
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
             send("Welcome! What's your name?");
             name = in.nextLine();
             server.lobby(this, name);
-            while(isActive()){
+            while (isActive()){
                 String read = in.nextLine();
                 notify(read);
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             System.err.println(e.getMessage());
         } finally {
             close();

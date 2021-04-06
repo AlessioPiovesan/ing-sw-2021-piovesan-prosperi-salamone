@@ -9,15 +9,15 @@ class StrongBox{
     HashMap<Colours, Integer> comp;
 
     StrongBox ( ){
-        comp = new HashMap<> ();
-        comp.put (Colours.BLUE, 0);
-        comp.put (Colours.GREY, 0);
-        comp.put (Colours.PURPLE, 0);
-        comp.put (Colours.YELLOW, 0);
+        comp = new HashMap<>();
+        comp.put(Colours.BLUE, 0);
+        comp.put(Colours.GREY, 0);
+        comp.put(Colours.PURPLE, 0);
+        comp.put(Colours.YELLOW, 0);
     }
 
     protected void addResources (Colours res, int add){
-        comp.replace (res, comp.get (res) + add);
+        comp.replace(res, comp.get(res) + add);
     }
 
     public void checkStatus ( ){

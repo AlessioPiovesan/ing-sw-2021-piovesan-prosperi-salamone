@@ -14,40 +14,40 @@ public class Market{
     Random random;
 
     {
-        random = new Random ();
+        random = new Random();
     }
 
     public Market ( ){
         /*creo le biglie*/
-        for (int i = this.marbles.size ();i < Constants.MAXMARBLESB.getVal () + this.marbles.size ();i++)
-            this.marbles.add (Colours.BLUE);
-        for (int i = this.marbles.size ();i < Constants.MAXMARBLESG.getVal () + this.marbles.size ();i++)
-            this.marbles.add (Colours.GREY);
-        for (int i = this.marbles.size ();i < Constants.MAXMARBLESP.getVal () + this.marbles.size ();i++)
-            this.marbles.add (Colours.PURPLE);
-        for (int i = this.marbles.size ();i < Constants.MAXMARBLESR.getVal () + this.marbles.size ();i++)
-            this.marbles.add (Colours.RED);
-        for (int i = this.marbles.size ();i < Constants.MAXMARBLESW.getVal () + this.marbles.size ();i++)
-            this.marbles.add (Colours.WHITE);
-        for (int i = this.marbles.size ();i < Constants.MAXMARBLESY.getVal () + this.marbles.size ();i++)
-            this.marbles.add (Colours.YELLOW);
+        for (int i = this.marbles.size();i < Constants.MAXMARBLESB.getVal() + this.marbles.size();i++)
+            this.marbles.add(Colours.BLUE);
+        for (int i = this.marbles.size();i < Constants.MAXMARBLESG.getVal() + this.marbles.size();i++)
+            this.marbles.add(Colours.GREY);
+        for (int i = this.marbles.size();i < Constants.MAXMARBLESP.getVal() + this.marbles.size();i++)
+            this.marbles.add(Colours.PURPLE);
+        for (int i = this.marbles.size();i < Constants.MAXMARBLESR.getVal() + this.marbles.size();i++)
+            this.marbles.add(Colours.RED);
+        for (int i = this.marbles.size();i < Constants.MAXMARBLESW.getVal() + this.marbles.size();i++)
+            this.marbles.add(Colours.WHITE);
+        for (int i = this.marbles.size();i < Constants.MAXMARBLESY.getVal() + this.marbles.size();i++)
+            this.marbles.add(Colours.YELLOW);
         /*metto le biglie nel mercato*/
-        this.matrix = fillMarket (Constants.XMARKET.getVal(),Constants.YMARKET.getVal(),marbles);
+        this.matrix = fillMarket(Constants.XMARKET.getVal(), Constants.YMARKET.getVal(), marbles);
         /*segno qual è la 13sima biglia*/
-        this.external = setExternal (list, marbles);
+        this.external = setExternal(list, marbles);
         /*il mercato verrà gestito con la cella [0][0] in alto a destra*/
     }
 
     private Colours[][] fillMarket (int X, int Y, LinkedList<Colours> marbles){
-        this.list = new LinkedList<> ();
+        this.list = new LinkedList<>();
         for (int j = 0;j < Y;j++){
             for (int i = 0;i < X;i++){
                 /*le biglie in tutto sono X * Y*/
-                int r = random.nextInt (X * Y);
-                while (!list.contains (r)){
-                    list.add (r);
-                    matrix[i][j] = marbles.get (r);
-                    r = random.nextInt (X * Y);
+                int r = random.nextInt(X * Y);
+                while (!list.contains(r)){
+                    list.add(r);
+                    matrix[i][j] = marbles.get(r);
+                    r = random.nextInt(X * Y);
                 }
             }
         }
@@ -122,7 +122,7 @@ public class Market{
                 }
             }
             default:
-                throw new IllegalStateException ("Unexpected value: " + choice);
+                throw new IllegalStateException("Unexpected value: " + choice);
         }
 
 

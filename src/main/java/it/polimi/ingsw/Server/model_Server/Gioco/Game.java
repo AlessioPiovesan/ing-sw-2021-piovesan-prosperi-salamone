@@ -2,7 +2,10 @@ package it.polimi.ingsw.Server.model_Server.Gioco;
 
 import it.polimi.ingsw.Server.model_Server.Accessori.Colours;
 import it.polimi.ingsw.Server.model_Server.Accessori.Constants;
-import it.polimi.ingsw.Server.model_Server.Carte.*;
+import it.polimi.ingsw.Server.model_Server.Carte.CardDev;
+import it.polimi.ingsw.Server.model_Server.Carte.CardLeader;
+import it.polimi.ingsw.Server.model_Server.Carte.CardPopeFav;
+import it.polimi.ingsw.Server.model_Server.Carte.ICardLeader;
 import it.polimi.ingsw.Server.model_Server.Plancia.Board;
 
 import java.util.ArrayList;
@@ -17,7 +20,7 @@ public class Game{
     ArrayList<ICardLeader> cardLeadArrayList = new ArrayList<>();
     ArrayList<CardPopeFav> cardPopeArrayList = new ArrayList<>();
 
-    Game( int gamers ){
+    Game (int gamers){
         if (gamers > 1){
             /* Board creation for each player */
             assert this.b != null;
@@ -45,13 +48,13 @@ public class Game{
         }
     }
 
-    public ArrayList<CardLeader> giveCardLead(){
+    public ArrayList<CardLeader> giveCardLead ( ){
         ArrayList<CardLeader> cardPlayer = new ArrayList<>();
         CardLeader card = CardLeader.card_Lead1;
         Random random = new Random();
-        int i=0;
+        int i = 0;
         /*carte random*/
-        while (i<4){
+        while (i < 4){
             card = (CardLeader)cardLeadArrayList.toArray()[random.nextInt()];
             if (cardPlayer.contains(card)){
                 cardPlayer.add(card);
@@ -61,7 +64,7 @@ public class Game{
         return cardPlayer;
     }
 
-    public ArrayList<CardLeader> pickCardLead( ){
+    public ArrayList<CardLeader> pickCardLead ( ){
         ArrayList<CardLeader> choice = new ArrayList<CardLeader>();
         System.out.println("Prima scelta");     /*Mostri le quattro carte e ne scegli una*/
         choice.add(CardLeader.card_Lead1);      /*Iserisci la carta scelta nella lista */
@@ -70,12 +73,12 @@ public class Game{
         return choice;
     }
 
-    public int nextPlayerId( Board[] b ){
+    public int nextPlayerId (Board[] b){
         Random random = new Random();
         return random.nextInt(b.length);
     }
 
-    public void pickResources( Board[] b, int first ){
+    public void pickResources (Board[] b, int first){
         Board player = new Board(first);
         Colours choice = Colours.WHITE;
 
