@@ -17,19 +17,19 @@ public class Market{
         random = new Random ();
     }
 
-    Market (){
+    public Market ( ){
         /*creo le biglie*/
-        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESB.getVal () + this.marbles.size ();i++)
+        for (int i = this.marbles.size ();i < Constants.MAXMARBLESB.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.BLUE);
-        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESG.getVal () + this.marbles.size ();i++)
+        for (int i = this.marbles.size ();i < Constants.MAXMARBLESG.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.GREY);
-        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESP.getVal () + this.marbles.size ();i++)
+        for (int i = this.marbles.size ();i < Constants.MAXMARBLESP.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.PURPLE);
-        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESR.getVal () + this.marbles.size ();i++)
+        for (int i = this.marbles.size ();i < Constants.MAXMARBLESR.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.RED);
-        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESW.getVal () + this.marbles.size ();i++)
+        for (int i = this.marbles.size ();i < Constants.MAXMARBLESW.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.WHITE);
-        for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESY.getVal () + this.marbles.size ();i++)
+        for (int i = this.marbles.size ();i < Constants.MAXMARBLESY.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.YELLOW);
         /*metto le biglie nel mercato*/
         this.matrix = fillMarket (Constants.XMARKET.getVal(),Constants.YMARKET.getVal(),marbles);
@@ -54,7 +54,7 @@ public class Market{
         return matrix;
     }
 
-    protected Colours setExternal (LinkedList<Integer> list, LinkedList<Colours> marbles){
+    protected Colours setExternal (LinkedList<Integer> list, LinkedList<Colours> marbles){ /* DA IMPLEMENTARE*/
         /*cerca nella lista delle biglie la tredicesima biglia, escludendo le dodici che stanno nella lista di biglie che sono nel mercato*/
         return external;
     }
