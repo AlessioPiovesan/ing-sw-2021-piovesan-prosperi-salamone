@@ -47,4 +47,8 @@ public class Warehouse{
         int choice = 1;
         return choice;
     }
+
+    public void checkStatus ( ){
+        System.out.println(wareContent);
+    }
 }

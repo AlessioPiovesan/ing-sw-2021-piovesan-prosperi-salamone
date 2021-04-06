@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Server.model_Server.Carte;
 
 import it.polimi.ingsw.Server.model_Server.Accessori.Colours;
+import it.polimi.ingsw.Server.model_Server.Accessori.Pick;
 import it.polimi.ingsw.Server.model_Server.Accessori.Requirements;
 
 public enum CardLeader implements ICardLeader, Card{
@@ -21,19 +22,19 @@ public enum CardLeader implements ICardLeader, Card{
         @Override
         public String getSpecial(){return "Special";}
     },
-    card_Lead5 (new Requirements[]{new Requirements.RequirementsResources(new Colours[]{Colours.YELLOW})}, "+2 space for Stones to the warehouse", 3){
+    card_Lead5 (new Requirements[]{new Requirements.RequirementsResources(new Pick[]{new Pick(Colours.YELLOW, 5)})}, "+2 space for Stones to the warehouse", 3){
         @Override
         public String getSpecial(){return "Special";}
     },
-    card_Lead6 (new Requirements[]{new Requirements.RequirementsResources(new Colours[]{Colours.GREY})}, "+2 space for Servants to the warehouse", 3){
+    card_Lead6 (new Requirements[]{new Requirements.RequirementsResources(new Pick[]{new Pick(Colours.GREY, 5)})}, "+2 space for Servants to the warehouse", 3){
         @Override
         public String getSpecial(){return "Special";}
     },
-    card_Lead7 (new Requirements[]{new Requirements.RequirementsResources(new Colours[]{Colours.PURPLE})}, "+2 space for Shields to the warehouse", 3){
+    card_Lead7 (new Requirements[]{new Requirements.RequirementsResources(new Pick[]{new Pick(Colours.PURPLE, 5)})}, "+2 space for Shields to the warehouse", 3){
         @Override
         public String getSpecial(){return "Special";}
     },
-    card_Lead8 (new Requirements[]{new Requirements.RequirementsResources(new Colours[]{Colours.BLUE})}, "+2 space for Coins to the warehouse", 3){
+    card_Lead8 (new Requirements[]{new Requirements.RequirementsResources(new Pick[]{new Pick(Colours.BLUE, 5)})}, "+2 space for Coins to the warehouse", 3){
         @Override
         public String getSpecial(){return "Special";}
     },
@@ -70,18 +71,16 @@ card_Lead10 (new Requirements[]{new Requirements.RequirementsCard(1, Colours.GRE
         public String getSpecial(){return "Special";}
     };
 
-
-
-    private Requirements[] req;
-    private String special;
-    private int winPnt;
+    private final Requirements[] req;
+    private final String special;
+    private final int winPnt;
     private boolean flipped;
 
     CardLeader( Requirements[] req, String special, int winPnt){
         this.req = req;
         this.special=special;
         this.winPnt=winPnt;
-        this.flipped=true;
+        this.flipped=false;
     }
 
     @Override

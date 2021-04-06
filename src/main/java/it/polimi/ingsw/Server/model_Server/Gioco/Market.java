@@ -17,7 +17,7 @@ public class Market{
         random = new Random ();
     }
 
-    Market (int maxX, int maxY){
+    Market (){
         /*creo le biglie*/
         for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESB.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.BLUE);
@@ -32,7 +32,7 @@ public class Market{
         for (int i = (int)this.marbles.size ();i < Constants.MAXMARBLESY.getVal () + this.marbles.size ();i++)
             this.marbles.add (Colours.YELLOW);
         /*metto le biglie nel mercato*/
-        this.matrix = fillMarket (maxX, maxY, marbles);
+        this.matrix = fillMarket (Constants.XMARKET.getVal(),Constants.YMARKET.getVal(),marbles);
         /*segno qual è la 13sima biglia*/
         this.external = setExternal (list, marbles);
         /*il mercato verrà gestito con la cella [0][0] in alto a destra*/
@@ -55,7 +55,7 @@ public class Market{
     }
 
     protected Colours setExternal (LinkedList<Integer> list, LinkedList<Colours> marbles){
-        /*cerca nella lista delle biglie la tredicesima biglia, ecludendo le dodici che stanno nella lista di biglie che sono nel mercato*/
+        /*cerca nella lista delle biglie la tredicesima biglia, escludendo le dodici che stanno nella lista di biglie che sono nel mercato*/
         return external;
     }
 

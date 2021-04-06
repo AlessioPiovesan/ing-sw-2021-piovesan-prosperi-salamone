@@ -2,13 +2,12 @@ package it.polimi.ingsw.Server.model_Server.Accessori;
 
 public abstract class Requirements{
 
-    public void getRequirements( ){
-    }
+    public void getRequirements( ){    }
 
     public static class RequirementsCard extends Requirements{
 
-        private Colours type;
-        private int cardLvl;
+        private final Colours type;
+        private final int cardLvl;
 
         public RequirementsCard( int cardLvl, Colours c ){
             this.cardLvl = cardLvl;
@@ -26,14 +25,14 @@ public abstract class Requirements{
 
     public static class RequirementsResources extends Requirements{
 
-        private Colours[] type;
+        private final Pick[] picks;
 
-        public RequirementsResources( Colours[] type ){
-            this.type = type;
+        public RequirementsResources( Pick[] picks ){
+            this.picks = picks;
         }
 
-        public Colours[] getType( ){
-            return type;
+        public Pick[] getType( ){
+            return picks;
         }
     }
 }

@@ -10,7 +10,7 @@ import java.util.Random;
 
 public class Game{
 
-    Board[] b; /* manca l'associazione con i socket dei vari pleyer*/
+    Board[] b; /* manca l'associazione con i socket dei vari player*/
     Market market;
     Supply supply;
     ArrayList<CardDev> cardDevArrayList = new ArrayList<>();
@@ -20,13 +20,14 @@ public class Game{
     Game( int gamers ){
         if (gamers > 1){
             /* Board creation for each player */
+            assert this.b != null;
             for (int i = 0;i < gamers;i++) this.b[i] = new Board(i);
         }
         else{
             /* SINGLE PLAYER */
         }
         /* Market creation for each Game */
-        this.market = new Market(Constants.XMARKET.getVal(), Constants.YMARKET.getVal());
+        this.market = new Market();
         /* Supply creation for each Game */
         this.supply = new Supply();
         /* Resources creation for each Game */

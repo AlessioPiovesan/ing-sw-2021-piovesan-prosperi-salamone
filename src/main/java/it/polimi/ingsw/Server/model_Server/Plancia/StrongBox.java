@@ -19,4 +19,8 @@ class StrongBox{
     protected void addResources (Colours res, int add){
         comp.replace (res, comp.get (res) + add);
     }
+
+    public void checkStatus ( ){
+        System.out.println(comp);
+    }
 }
