@@ -67,26 +67,30 @@ public class Game{
     public ArrayList<CardLeader> pickCardLead ( ){
         ArrayList<CardLeader> choice = new ArrayList<CardLeader>();
         System.out.println("Prima scelta");     /*Mostri le quattro carte e ne scegli una*/
-        choice.add(CardLeader.card_Lead1);      /*Iserisci la carta scelta nella lista */
+        choice.add(CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
         System.out.println("Seconda scelta");   /*Mostri le tre carte e ne scegli una*/
-        choice.add(CardLeader.card_Lead1);      /*Iserisci la carta scelta nella lista */
+        choice.add(CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
         return choice;
     }
 
-    public int nextPlayerId (Board[] b){
+    public int nextPlayerId (){
         Random random = new Random();
         return random.nextInt(b.length);
     }
 
-    public void pickResources (Board[] b, int first){
-        Board player = new Board(first);
+    public void pickResources (int first){
         Colours choice = Colours.WHITE;
-
-        b[first + 1].warehouse.setResources(choice.selectPref(), 1);
-        b[first + 2].warehouse.setResources(choice.selectPref(), 1);
-        b[first + 2].faithTrack.setPosition(1);
-        b[first + 3].warehouse.setResources(choice.selectPref(), 1);
-        b[first + 3].warehouse.setResources(choice.selectPref(), 1);
-        b[first + 3].faithTrack.setPosition(1);
+        if(first+1>b.length) first=0;
+        else first+=1;
+        b[first].warehouse.setResources(choice.selectPref(), 1);
+        if(first+1>b.length) first=0;
+        else first+=1;
+        b[first].warehouse.setResources(choice.selectPref(), 1);
+        b[first].faithTrack.setPosition(1);
+        if(first+1>b.length) first=0;
+        else first+=1;
+        b[first].warehouse.setResources(choice.selectPref(), 1);
+        b[first].warehouse.setResources(choice.selectPref(), 1);
+        b[first].faithTrack.setPosition(1);
     }
 }
