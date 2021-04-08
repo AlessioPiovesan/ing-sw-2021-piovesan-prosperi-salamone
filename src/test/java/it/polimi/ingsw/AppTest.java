@@ -1,31 +1,23 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.Server.model_Server.Gioco.Market;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
-
-import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 class AppTest{
 
-    private static Stream<Integer>
-    supplyOdds ( ){
-        return Stream.of(1, 3, 5, 7, 9, 11);
-    }
-
     @ParameterizedTest
-    @ValueSource(ints = {2, 4, 6, 8, 120})
-    void evens (int value){
-        assertEquals(0, value % 2);
-    }
-
-    @ParameterizedTest
-    @MethodSource("supplyOdds")
-    void odds (int value){
-        assertEquals(1, value % 2);
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 9})
+    void move (int value){
+        Market market = new Market();
+        MarketTest marketTest = new MarketTest();
+        market.matrix = marketTest.matrixStart;
+        market.moveMarbles(value);
+        assertEquals(marketTest.getResourcesTest(value), market.moveMarbles(value));
+        assertEquals(marketTest.getExternal(value), market.external);
     }
 
 }
