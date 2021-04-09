@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Observable<T>{
 
-    private List<it.polimi.ingsw.Server.viewer_Server.Observer<T>> observers = new ArrayList<>();
+    private final List<it.polimi.ingsw.Server.viewer_Server.Observer<T>> observers = new ArrayList<>();
 
     public void addObserver (it.polimi.ingsw.Server.viewer_Server.Observer<T> observer){
         synchronized (observers) {

@@ -10,7 +10,7 @@ import java.util.LinkedList;
 
 public class Board{
     private static ArrayList<CardLeader> myLeaderCards = new ArrayList<>();
-    private static ArrayList<CardDev> myDevCards = new ArrayList<>();
+    private static final ArrayList<CardDev> myDevCards = new ArrayList<>();
     public Warehouse warehouse;
     public FaithTrack faithTrack;
     protected StrongBox strongBox;
@@ -28,7 +28,7 @@ public class Board{
     }
 
     public void setMyLeaderCards (ArrayList<CardLeader> cards){
-        this.myLeaderCards = cards;
+        myLeaderCards = cards;
     }
 
     private LinkedList<Pick> chooseResources ( ){

@@ -13,15 +13,15 @@ public class Pick{
         return r;
     }
 
-    public void setR (Colours r){
+    /*public void setR (Colours r){
         this.r = r;
-    }
+    }*/
 
     public int getQnt ( ){
         return qnt;
     }
 
-    public void setQnt (int qnt){
+    /*public void setQnt (int qnt){
         this.qnt = qnt;
-    }
+    }*/
 }

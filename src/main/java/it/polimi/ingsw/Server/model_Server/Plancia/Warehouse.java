@@ -6,7 +6,7 @@ import it.polimi.ingsw.Server.model_Server.Accessori.Pick;
 import java.util.ArrayList;
 
 public class Warehouse{
-    private ArrayList<Pick> wareContent;
+    private final ArrayList<Pick> wareContent;
 
     Warehouse ( ){
         wareContent = new ArrayList<Pick>();
@@ -16,23 +16,18 @@ public class Warehouse{
     }
 
     public void setResources (Colours color, int qnt){
-        int lvl = pickLvl(color, qnt);
         /*ho già controllato che posso farlo
          * metto una quantità qnt di risorsa color nella posizione lvl della lista*/
-        wareContent.get(lvl).setR(color);
-        wareContent.get(lvl).setQnt(qnt);
+        wareContent.add(pickLvl(color, qnt), new Pick(color, qnt));
     }
 
     public boolean checkAdd (int lvl, Colours res, int qnt){
         /*il controllo che si vogliono aggiungere meno di 3 risorse è già stato fatto*/
         /*dati scaffale, risorsa e quantità*/
         if (wareContent.isEmpty()) return true;
-        if (qnt < 3){
-            /*controllo se su questo scaffale posso aggiungere questa quantità di risorse*/
-            /*se sullo scaffale c'è già questo tipo di risorsa controllo se posso aggiungere e poi aggiungo*/
-            return true;
-        }
-        else return false;
+        /*controllo se su questo scaffale posso aggiungere questa quantità di risorse*/
+        /*se sullo scaffale c'è già questo tipo di risorsa controllo se posso aggiungere e poi aggiungo*/
+        return qnt < 3;
     }
 
     public void checkLvlStatus (int lvl){

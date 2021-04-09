@@ -12,13 +12,13 @@ import java.util.concurrent.Executors;
 
 public class Server{
     private static final int PORT = 12345;
-    private ServerSocket serverSocket;
+    private final ServerSocket serverSocket;
 
-    private ExecutorService executor = Executors.newFixedThreadPool(128);
+    private final ExecutorService executor = Executors.newFixedThreadPool(128);
 
-    private List<Connection> connections = new ArrayList<Connection>();
-    private Map<String, Connection> waitingConnection = new HashMap<>();
-    private Map<Connection, Connection> playingConnection = new HashMap<>();
+    private final List<Connection> connections = new ArrayList<Connection>();
+    private final Map<String, Connection> waitingConnection = new HashMap<>();
+    private final Map<Connection, Connection> playingConnection = new HashMap<>();
 
     public Server ( ) throws IOException{
         this.serverSocket = new ServerSocket(PORT);

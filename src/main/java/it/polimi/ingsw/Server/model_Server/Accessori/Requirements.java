@@ -19,21 +19,29 @@ public abstract class Requirements{
             return cardLvl;
         }
 
-        public Colours getType ( ){
+        public Colours getColour ( ){
             return type;
         }
     }
 
     public static class RequirementsResources extends Requirements{
 
-        private final Pick[] picks;
+        private Colours type;
+        private int qnt;
 
         public RequirementsResources (Pick[] picks){
-            this.picks = picks;
+            for (Pick pick: picks){
+                this.type = pick.r;
+                this.qnt = pick.qnt;
+            }
         }
 
-        public Pick[] getType ( ){
-            return picks;
+        public int getQnt ( ){
+            return qnt;
+        }
+
+        public Colours getColour ( ){
+            return type;
         }
     }
 }

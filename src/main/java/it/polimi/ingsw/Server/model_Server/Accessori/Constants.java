@@ -11,7 +11,7 @@ public enum Constants{
     MAXMARBLESP(2),
     MAXMARBLESR(1);
 
-    private int val;
+    private final int val;
 
     Constants (int num){
         val = num;

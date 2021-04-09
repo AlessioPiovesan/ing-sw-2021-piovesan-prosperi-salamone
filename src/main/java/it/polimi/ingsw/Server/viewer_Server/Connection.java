@@ -7,10 +7,10 @@ import java.util.Scanner;
 
 public class Connection extends Observable<String> implements Runnable{
 
-    private Socket socket;
+    private final Socket socket;
     private Scanner in;
     private PrintWriter out;
-    private Server server;
+    private final Server server;
     private String name;
     private boolean active = true;
 

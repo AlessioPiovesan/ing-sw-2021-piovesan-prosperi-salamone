@@ -9,11 +9,12 @@ import it.polimi.ingsw.Server.model_Server.Carte.ICardLeader;
 import it.polimi.ingsw.Server.model_Server.Plancia.Board;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 public class Game{
 
-    Board[] b; /* manca l'associazione con i socket dei vari player*/
+    Board[] b; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
     Market market;
     Supply supply;
     ArrayList<CardDev> cardDevArrayList = new ArrayList<>();
@@ -28,6 +29,7 @@ public class Game{
         }
         else{
             /* SINGLE PLAYER */
+            /* sta tutto sul Client */
         }
         /* Market creation for each Game */
         this.market = new Market();
@@ -39,9 +41,9 @@ public class Game{
         this.supply.cont.replace(Colours.PURPLE, Constants.MAXMARBLESP.getVal() * 8);
         this.supply.cont.replace(Colours.YELLOW, Constants.MAXMARBLESY.getVal() * 8);
         /* Card cataloging for each Game */
-        for (CardDev cD: CardDev.values()) cardDevArrayList.add(cD);
-        for (CardLeader cL: CardLeader.values()) cardLeadArrayList.add(cL);
-        for (CardPopeFav cP: CardPopeFav.values()) cardPopeArrayList.add(cP);
+        cardDevArrayList.addAll(Arrays.asList(CardDev.values()));
+        cardLeadArrayList.addAll(Arrays.asList(CardLeader.values()));
+        cardPopeArrayList.addAll(Arrays.asList(CardPopeFav.values()));
         /*...*/
         for (int i = 0;i < gamers;i++){
             b[i].setMyLeaderCards(giveCardLead()); /*Queste sono 4 ma ne deve scegliere 2*/
@@ -55,13 +57,19 @@ public class Game{
         int i = 0;
         /*carte random*/
         while (i < 4){
-            card = (CardLeader)cardLeadArrayList.toArray()[random.nextInt()];
-            if (cardPlayer.contains(card)){
-                cardPlayer.add(card);
-                i++;
-            }
+            i = getFirst4LeaderCard(cardPlayer, random, i);
         }
         return cardPlayer;
+    }
+
+    private int getFirst4LeaderCard (ArrayList<CardLeader> cardPlayer, Random random, int i){
+        CardLeader card;
+        card = (CardLeader)cardLeadArrayList.toArray()[random.nextInt()];
+        if (cardPlayer.contains(card)){
+            cardPlayer.add(card);
+            i++;
+        }
+        return i;
     }
 
     public ArrayList<CardLeader> pickCardLead ( ){
@@ -78,7 +86,7 @@ public class Game{
         return random.nextInt(b.length);
     }
 
-    public void pickResources (int first){
+    public void pickStartingResources (int first){
         Colours choice = Colours.WHITE;
         if(first+1>b.length) first=0;
         else first+=1;

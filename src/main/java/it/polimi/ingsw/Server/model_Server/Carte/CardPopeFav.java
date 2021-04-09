@@ -13,7 +13,7 @@ public enum CardPopeFav implements Card{
 
     public boolean flipped;
     private int pos;
-    private int winPnt;
+    private final int winPnt;
 
     CardPopeFav (int winPnt){
         this.winPnt = winPnt;
