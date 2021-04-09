@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AppTest{
     @ParameterizedTest
-    @ValueSource(ints = {1, 0, 2, 3, 4, 5, 6, 9})
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 9})
     void move (int value){
         Market market = new Market();
         MarketTest marketTest = new MarketTest();
