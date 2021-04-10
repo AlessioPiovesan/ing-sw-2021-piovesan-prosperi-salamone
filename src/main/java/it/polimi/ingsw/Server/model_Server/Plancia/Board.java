@@ -31,7 +31,7 @@ public class Board{
         myLeaderCards = cards;
     }
 
-    private LinkedList<Pick> chooseResources ( ){
+    private LinkedList<Pick> chooseResources ( ){ /* DA IMPLEMENTARE */
 
         LinkedList<Pick> choice = new LinkedList<>();
         boolean stop = true;
@@ -44,6 +44,6 @@ public class Board{
             if (choice.contains(Colours.WHITE)) stop = false;
         }
         return choice;
-
     }
+
 }

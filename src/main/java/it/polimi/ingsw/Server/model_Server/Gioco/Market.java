@@ -2,14 +2,16 @@ package it.polimi.ingsw.Server.model_Server.Gioco;
 
 import it.polimi.ingsw.Server.model_Server.Accessori.Colours;
 import it.polimi.ingsw.Server.model_Server.Accessori.Constants;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
 
 public class Market{
-    public Colours[][] matrix;
+    public Colours[][] tray;
     public Colours external;
     private final LinkedList<Colours> marbles = new LinkedList<>();
     private final Random random = new Random();
@@ -23,128 +25,128 @@ public class Market{
         IntStream.range(this.marbles.size(), Constants.MAXMARBLESW.getVal() + this.marbles.size()).forEach(i -> this.marbles.add(Colours.WHITE));
         IntStream.range(this.marbles.size(), Constants.MAXMARBLESY.getVal() + this.marbles.size()).forEach(i -> this.marbles.add(Colours.YELLOW));
         /*metto le biglie nel mercato*/
-        this.matrix = fillMarket(marbles);
-        /*il mercato verrà gestito con la cella [0][0] in alto a destra*/
+        tray = fillMarket(marbles);
     }
 
     private Colours[][] fillMarket (LinkedList<Colours> marbles){
         LinkedList<Integer> list= new LinkedList<>();
-        int X=Constants.XMARKET.getVal();
-        int Y=Constants.YMARKET.getVal();
-        Colours[][] m= new Colours[X][Y];
-        for (int j = 0;j < Y;j++){
-            fillColumns(marbles, list, X, Y, m, j);
+        Colours[][] m= new Colours[Constants.XMARKET.getVal()][Constants.YMARKET.getVal()];
+        for (int j = 0;j < Constants.YMARKET.getVal();j++){
+            fillColumns(marbles, list, Constants.XMARKET.getVal(), Constants.YMARKET.getVal(), m, j);
         }
-        findFirstExternal(marbles, list, X, Y);
+        findFirstExternal(marbles, list);
         return m;
     }
 
-    private void findFirstExternal (LinkedList<Colours> marbles, LinkedList<Integer> list, int X, int Y){
-        for (int i = 0;i < (X * Y) + 1;i++)
+    private void findFirstExternal (LinkedList<Colours> marbles, LinkedList<Integer> list){
+        for (int i = 0;i < (Constants.XMARKET.getVal() * Constants.YMARKET.getVal()) + 1;i++)
             if (!list.contains(i))
                 external = marbles.get(i);
     }
 
-    private void fillColumns (LinkedList<Colours> marbles, LinkedList<Integer> list, int X, int Y, Colours[][] m, int j){
-        for (int i = 0;i < X;i++){
-            int r = findNextMarble(list, X, Y);
+    private void fillColumns (LinkedList<Colours> marbles, LinkedList<Integer> list, int x, int y, Colours[][] m, int j){
+        for (int i = 0;i < x;i++){
+            int r = findNextMarble(list, x, y);
             list.add(r);
             m[i][j] = marbles.get(r);
         }
     }
 
-    private int findNextMarble (LinkedList<Integer> list, int X, int Y){
-        int r = random.nextInt((X * Y) + 1);
+    private int findNextMarble (LinkedList<Integer> list, int x, int y){
+        int r = random.nextInt((x * y) + 1);
         if (list.contains(r))
             while (list.contains(r))
-                r = random.nextInt((X * Y) + 1);
+                r = random.nextInt((x * y) + 1);
         return r;
     }
 
     protected void setExternal (Colours news){ external=news; }
 
-    public LinkedList<Colours> moveMarbles (int choice){
+    public List<Colours> moveMarbles (int choice){
         LinkedList<Colours> res;
-        Colours r1, r2;
-        r1 = external;
+        res = getRes(choice);
+        move(choice, external);
+        return res;
+    }
+    private void move (int choice, Colours r1){
         switch (choice){
-            case 0:{
-                external = matrix[0][Constants.YMARKET.getVal() - 3];
-                res=getRes(5,Constants.YMARKET.getVal()-3);
-                moveY(r1, 3);
+            case 0:
+                operationMoveY(r1, 3);
                 break;
-            }
-            case 1:{
-                external = matrix[0][Constants.YMARKET.getVal() - 2];
-                res=getRes(5, Constants.YMARKET.getVal()-2);
-                moveY(r1, 2);
+            case 1:
+                operationMoveY(r1, 2);
                 break;
-            }
-            case 2:{
-                external = matrix[0][Constants.YMARKET.getVal() - 1];
-                res=getRes(5, Constants.YMARKET.getVal()-1);
-                moveY(r1, 1);
+            case 2:
+                operationMoveY(r1, 1);
                 break;
-            }
-            case 3:{
-                external = matrix[Constants.XMARKET.getVal() - 1][0];
-                res=getRes(Constants.XMARKET.getVal()-1,5);
-                moveX(r1, 1);
+            case 3:
+                operationMoveX(r1, 1);
                 break;
-            }
-            case 4:{
-                external = matrix[Constants.XMARKET.getVal() - 2][0];
-                res=getRes(Constants.XMARKET.getVal()-2,5);
-                moveX(r1, 2);
+            case 4:
+                operationMoveX(r1, 2);
                 break;
-            }
-            case 5:{
-                external = matrix[Constants.XMARKET.getVal() - 3][0];
-                res=getRes(Constants.XMARKET.getVal()-3,5);
-                moveX(r1, 3);
+            case 5:
+                operationMoveX(r1, 3);
                 break;
-            }
-            case 6:{
-                external = matrix[Constants.XMARKET.getVal() - 4][0];
-                res=getRes(Constants.XMARKET.getVal()-4,5);
-                moveX(r1, 4);
+            case 6:
+                operationMoveX(r1, 4);
                 break;
-            }
             default:
                 throw new IllegalStateException("Unexpected value: " + choice);
         }
-        return res;
     }
-
-    private void moveX (Colours r1, int j){
+    private void operationMoveX (Colours r1, int x){
+        external = tray[Constants.XMARKET.getVal() - x][0];
+        moveY(r1, 1);
+    }
+    private void operationMoveY (Colours r1, int y){
+        external = tray[0][Constants.YMARKET.getVal() - y];
+        moveX(r1, y);
+    }
+    private void moveX (Colours r1, int x){
         Colours r2;
         for (int i = Constants.YMARKET.getVal();i > 0;i--){
-            r2 = matrix[Constants.XMARKET.getVal() - j][i - 1];
-            matrix[Constants.XMARKET.getVal() - j][i - 1] = r1;
+            r2 = tray[Constants.XMARKET.getVal() - x][i - 1];
+            tray[Constants.XMARKET.getVal() - x][i - 1] = r1;
             r1 = r2;
         }
     }
-
-    private void moveY (Colours r1, int j){
+    private void moveY (Colours r1, int y){
         Colours r2;
         for (int i = Constants.XMARKET.getVal();i > 0;i--){
-            r2 = matrix[i - 1][Constants.YMARKET.getVal() - j];
-            matrix[i - 1][Constants.YMARKET.getVal() - j] = r1;
+            r2 = tray[i - 1][Constants.YMARKET.getVal() - y];
+            tray[i - 1][Constants.YMARKET.getVal() - y] = r1;
             r1 = r2;
         }
     }
 
-    private LinkedList<Colours> getRes(int X, int Y){
+    @NotNull
+    private LinkedList<Colours> getRes (int choice){
+        switch (choice){
+            case 0:
+                return getResX(0);
+            case 1:
+                return getResX(1);
+            case 2:
+                return getResX(2);
+            case 6:
+                return getResY(0);
+            case 5:
+                return getResY(1);
+            case 4:
+                return getResY(2);
+            case 3:
+                return getResY(3);
+            default:
+                throw new IllegalStateException("Unexpected value: " + choice);
+        }
+    }
+    private LinkedList<Colours> getResY (int x){
+        return new LinkedList<>(Arrays.asList(tray[x]).subList(0, Constants.YMARKET.getVal()));
+    }
+    private LinkedList<Colours> getResX (int y){
         LinkedList<Colours> res = new LinkedList<>();
-        if (X>Constants.XMARKET.getVal()){
-            for (int i = 0;i < Constants.XMARKET.getVal();i++){
-                res.add(matrix[i][Y]);
-            }
-        }
-        if(Y>Constants.YMARKET.getVal()){
-            res.addAll(Arrays.asList(matrix[X]).subList(0, Constants.YMARKET.getVal()));
-        }
+        for (int i = 0; i < Constants.XMARKET.getVal(); i++) res.add(tray[i][y]);
         return res;
     }
-
 }

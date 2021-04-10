@@ -2,6 +2,7 @@ package it.polimi.ingsw.Server.model_Server.Plancia;
 
 import it.polimi.ingsw.Server.model_Server.Accessori.Colours;
 import it.polimi.ingsw.Server.model_Server.Accessori.Pick;
+import it.polimi.ingsw.Server.model_Server.Carte.CardLeader;
 
 import java.util.ArrayList;
 
@@ -34,16 +35,27 @@ public class Warehouse{
         System.out.println("Sullo scaffale " + lvl + " ci sono " + wareContent.get(lvl).getQnt() + " risorse di tipo" + wareContent.get(lvl).getR().getType());
     }
 
-    protected void lvlExchange (int lvlStart, int lvlEnd){
+    protected void lvlExchange (int lvlStart, int lvlEnd){ /* DA IMPLERMENTARE */
         /*scambia le risorse che stanno su un livello del magazzino con quelle di un altro livello*/
     }
 
-    private int pickLvl (Colours colour, int qnt){
+    private int pickLvl (Colours colour, int qnt){ /* DA IMPLERMENTARE */
         int choice = 1;
         return choice;
     }
 
-    public void checkStatus ( ){
+    public void checkStatus ( ){ /* DA IMPLERMENTARE */
+
         System.out.println(wareContent);
+    }
+
+    public void addLeaderSpace (CardLeader card){
+        switch (card){
+        case card_Lead5: wareContent.add(new Pick(Colours.GREY, 0));
+        case card_Lead6: wareContent.add(new Pick(Colours.PURPLE, 0));
+        case card_Lead7: wareContent.add(new Pick(Colours.BLUE, 0));
+        case card_Lead8: wareContent.add(new Pick(Colours.YELLOW, 0));
+        default: System.out.println("ERROR");
+    }
     }
 }
