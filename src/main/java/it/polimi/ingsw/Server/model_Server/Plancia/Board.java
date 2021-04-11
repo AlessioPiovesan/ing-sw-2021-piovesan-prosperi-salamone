@@ -7,9 +7,10 @@ import it.polimi.ingsw.Server.model_Server.Carte.CardLeader;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Board{
-    private static ArrayList<CardLeader> myLeaderCards = new ArrayList<>();
+    private static List<CardLeader> myLeaderCards = new ArrayList<>();
     private static final ArrayList<CardDev> myDevCards = new ArrayList<>();
     public Warehouse warehouse;
     public FaithTrack faithTrack;
@@ -27,15 +28,11 @@ public class Board{
         this.faithTrack = new FaithTrack();
     }
 
-    public void setMyLeaderCards (ArrayList<CardLeader> cards){
-        myLeaderCards = cards;
-    }
+    public void setMyLeaderCards (List<CardLeader> cards){ myLeaderCards = cards; }
 
     private LinkedList<Pick> chooseResources ( ){ /* DA IMPLEMENTARE */
-
         LinkedList<Pick> choice = new LinkedList<>();
         boolean stop = true;
-
         warehouse.checkStatus();
         strongBox.checkStatus();
         /*Raccoglia la scelta che fa il giocatore*/  /* DA IMPLEMENTARE */

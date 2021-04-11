@@ -6,7 +6,7 @@ import it.polimi.ingsw.Server.model_Server.Accessori.Requirements;
 
 public enum CardLeader implements ICardLeader, Card{
 
-    card_Lead1(new Requirements[]{new Requirements.RequirementsCard(1, Colours.GREEN), new Requirements.RequirementsCard(1, Colours.YELLOW)},
+    card_Lead1(new Requirements[]{new Requirements.RequirementsCard(1, Colours.GREEN),new Requirements.RequirementsCard(1, Colours.YELLOW)},
                "-1 Servant",
                2){
         @Override
@@ -153,9 +153,7 @@ public enum CardLeader implements ICardLeader, Card{
     }
 
     @Override
-    public int getWinPnt ( ){
-        return winPnt;
-    }
+    public int getWinPnt ( ){ return winPnt; }
 
     @Override
     public boolean getFlipped ( ){

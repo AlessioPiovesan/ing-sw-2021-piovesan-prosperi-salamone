@@ -8,29 +8,27 @@ import it.polimi.ingsw.Server.model_Server.Carte.CardPopeFav;
 import it.polimi.ingsw.Server.model_Server.Carte.ICardLeader;
 import it.polimi.ingsw.Server.model_Server.Plancia.Board;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Game{
 
-    Board[] b; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
+    Board[] b=new Board[4]; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
     Market market;
     Supply supply;
+    private final Random random = SecureRandom.getInstanceStrong();
     ArrayList<CardDev> cardDevArrayList = new ArrayList<>();
     ArrayList<ICardLeader> cardLeadArrayList = new ArrayList<>();
     ArrayList<CardPopeFav> cardPopeArrayList = new ArrayList<>();
 
-    Game (int gamers){
-        if (gamers > 1){
-            /* Board creation for each player */
-            assert this.b != null;
-            for (int i = 0;i < gamers;i++) this.b[i] = new Board(i);
-        }
-        else{
-            /* SINGLE PLAYER */
-            /* sta tutto sul Client */
-        }
+    Game (int gamers) throws NoSuchAlgorithmException{
+        if (gamers == 1){ int a=1; /*fa partire il gioco sul client*/}
+        /* Board creation for each player */
+        for (int i = 0;i < gamers;i++){ this.b[i] = new Board(i); }
         /* Market creation for each Game */
         this.market = new Market();
         /* Supply creation for each Game */
@@ -50,21 +48,20 @@ public class Game{
         }
     }
 
-    public ArrayList<CardLeader> giveCardLead ( ){
+    public List<CardLeader> giveCardLead ( ){
         ArrayList<CardLeader> cardPlayer = new ArrayList<>();
-        CardLeader card = CardLeader.card_Lead1;
-        Random random = new Random();
         int i = 0;
         /*carte random*/
         while (i < 4){
-            i = getFirst4LeaderCard(cardPlayer, random, i);
+            i = getFirst4LeaderCard(cardPlayer, i);
         }
         return cardPlayer;
     }
 
-    private int getFirst4LeaderCard (ArrayList<CardLeader> cardPlayer, Random random, int i){
+    private int getFirst4LeaderCard (ArrayList<CardLeader> cardPlayer, int i){
         CardLeader card;
-        card = (CardLeader)cardLeadArrayList.toArray()[random.nextInt()];
+        int rValue =this.random.nextInt(cardPlayer.size());
+        card = (CardLeader)cardLeadArrayList.toArray()[rValue];
         if (cardPlayer.contains(card)){
             cardPlayer.add(card);
             i++;
@@ -72,8 +69,8 @@ public class Game{
         return i;
     }
 
-    public ArrayList<CardLeader> pickCardLead ( ){
-        ArrayList<CardLeader> choice = new ArrayList<CardLeader>();
+    public List<CardLeader> pickCardLead ( ){
+        ArrayList<CardLeader> choice = new ArrayList<>();
         System.out.println("Prima scelta");     /*Mostri le quattro carte e ne scegli una*/
         choice.add(CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
         System.out.println("Seconda scelta");   /*Mostri le tre carte e ne scegli una*/
@@ -82,8 +79,7 @@ public class Game{
     }
 
     public int nextPlayerId (){
-        Random random = new Random();
-        return random.nextInt(b.length);
+        return this.random.nextInt(b.length);
     }
 
     public void pickStartingResources (int first){
