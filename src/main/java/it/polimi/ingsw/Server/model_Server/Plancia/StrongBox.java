@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Server.model_Server.Plancia;
 
 import it.polimi.ingsw.Server.model_Server.Accessori.Colours;
+import it.polimi.ingsw.Server.model_Server.Accessori.Pick;
 
 import java.util.HashMap;
 
@@ -16,8 +17,9 @@ class StrongBox{
         comp.put(Colours.YELLOW, 0);
     }
 
-    protected void addResources (Colours res, int add){
-        comp.replace(res, comp.get(res) + add);
+    protected void addResources (Pick res){
+
+        comp.replace(res.getR(), comp.get(res) + res.getQnt());
     }
 
     public void checkStatus ( ){

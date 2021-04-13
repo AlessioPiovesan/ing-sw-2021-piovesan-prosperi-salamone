@@ -6,7 +6,9 @@ import java.util.LinkedList;
 
 class Library{
 
-    LinkedList<CardDev>[] slot;
+    private LinkedList<CardDev>[] slot;
+
+
 
     Library ( ){
         /* Creation CardDev slot for each board */
@@ -15,9 +17,13 @@ class Library{
         slot[3] = null;
     }
 
-    public void setL (int n, CardDev card){
+    public void addCard (int n, CardDev card){
         if (slot[n].isEmpty())
             slot[n].add(card);
         else System.out.println("Slot occupato"); /* DA IMPLEMENTARE */
+    }
+
+    public LinkedList<CardDev> getCard (int n){
+        return slot[n];
     }
 }

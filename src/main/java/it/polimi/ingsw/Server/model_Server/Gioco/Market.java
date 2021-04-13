@@ -149,4 +149,5 @@ public class Market{
         for (int i = 0; i < Constants.XMARKET.getVal(); i++) res.add(tray[i][y]);
         return res;
     }
+
 }

@@ -78,6 +78,10 @@ public class Game{
         return choice;
     }
 
+    public Board getB ( int i){
+        return b[i];
+    }
+
     public int nextPlayerId (){
         return this.random.nextInt(b.length);
     }
