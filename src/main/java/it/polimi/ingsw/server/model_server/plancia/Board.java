@@ -72,6 +72,14 @@ public class Board{
         return resAll;
     }
 
+    public Warehouse getWarehouse (){
+        return warehouse;
+    }
+
+    public FaithTrack getFaithTrack (){
+        return faithTrack;
+    }
+
     private LinkedList<Pick> chooseResources ( ){ /* DA IMPLEMENTARE */
         LinkedList<Pick> choice = new LinkedList<>();
         boolean stop = true;

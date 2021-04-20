@@ -23,8 +23,10 @@ class GameTest{
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3})
-    void testPickStartingResources (int value){
-        Game game = new Game(value, null, null);
+    @ValueSource(ints = {2, 3})
+    void testPickStartingResources(int value) {
+        int[][] results = {{0, 1, 1, 2}, {2, 0, 1, 1}, {1, 2, 0, 1}, {1, 1, 2, 0}};
+        Game game = new Game(4, null, null);
+        game.pickStartingResources(4, value);
     }
 }

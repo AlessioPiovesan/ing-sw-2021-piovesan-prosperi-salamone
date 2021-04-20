@@ -86,19 +86,37 @@ public class Game{
         return this.random.nextInt(b.length);
     }
 
-    public void pickStartingResources (int first){
+    public void pickStartingResources(int gamers, int first) {
         Colours choice = Colours.WHITE;
-        if (first + 1 > b.length) first = 0;
-        else first += 1;
-        b[first].warehouse.setResources(choice.selectPref(), 1);
-        if (first + 1 > b.length) first = 0;
-        else first += 1;
-        b[first].warehouse.setResources(choice.selectPref(), 1);
-        b[first].faithTrack.setPosition(1);
-        if (first + 1 > b.length) first = 0;
-        else first += 1;
-        b[first].warehouse.setResources(choice.selectPref(), 1);
-        b[first].warehouse.setResources(choice.selectPref(), 1);
-        b[first].faithTrack.setPosition(1);
+        switch (gamers) {
+            case 2: {
+                if (first + 1 > gamers) first = 0;
+                else first += 1;
+                b[first].warehouse.setResources(choice.selectPref(), 1);
+            }
+            case 3: {
+                if (first + 1 > gamers) first = 0;
+                else first += 1;
+                b[first].warehouse.setResources(choice.selectPref(), 1);
+                if (first + 1 > gamers) first = 0;
+                else first += 1;
+                b[first].warehouse.setResources(choice.selectPref(), 1);
+                b[first].faithTrack.setPosition(1);
+            }
+            case 4: {
+                if (first + 1 >= gamers) first = 0;
+                else first += 1;
+                b[first].warehouse.setResources(choice.selectPref(), 1);
+                if (first + 1 >= gamers) first = 0;
+                else first += 1;
+                b[first].warehouse.setResources(choice.selectPref(), 1);
+                b[first].faithTrack.setPosition(1);
+                if (first + 1 >= gamers) first = 0;
+                else first += 1;
+                b[first].warehouse.setResources(choice.selectPref(), 1);
+                b[first].warehouse.setResources(choice.selectPref(), 1);
+                b[first].faithTrack.setPosition(1);
+            }
+        }
     }
 }
