@@ -3,17 +3,16 @@ package it.polimi.ingsw.server.model_server.plancia;
 import it.polimi.ingsw.server.model_server.carte.CardDev;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Library{
 
-    private final ArrayList<CardDev>[] slot;
+    /* Creation CardDev slot for each board */
+    private final ArrayList[] slot;
 
 
     public Library ( ){
-        /* Creation CardDev slot for each board */
-        slot = new ArrayList[3];
 
+        slot = new ArrayList[3];
     }
 
     public boolean checkAddableCard (int n, CardDev card){
@@ -25,10 +24,10 @@ public class Library{
     }
 
     public CardDev getCardOnTop (int n){
-        return slot[n].get(slot[n].size());
+        return (CardDev)slot[n].get(slot.length);
     }
 
-    public List<CardDev> getCardOfASlot (int n){
+    public ArrayList getCardOfASlot (int n){
         return slot[n];
     }
 }

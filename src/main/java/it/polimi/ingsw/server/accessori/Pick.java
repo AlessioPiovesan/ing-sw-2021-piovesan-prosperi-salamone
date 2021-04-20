@@ -1,8 +1,8 @@
 package it.polimi.ingsw.server.accessori;
 
 public class Pick{
-    private int qnt;
-    private Colours resource;
+    private final int qnt;
+    private final Colours resource;
 
     public Pick (Colours resource, int qnt){
         this.resource = resource;

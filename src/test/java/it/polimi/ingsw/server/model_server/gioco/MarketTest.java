@@ -98,7 +98,7 @@ class MarketTest extends Market{
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6})
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 9})
     void move (int value){
         Market market = new Market();
         MarketTest marketTest = new MarketTest();

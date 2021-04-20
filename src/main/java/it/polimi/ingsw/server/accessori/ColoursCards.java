@@ -4,5 +4,5 @@ public enum ColoursCards{
     GREEN,
     BLUE,
     VIOLET,
-    YELLOW;
+    YELLOW
 }

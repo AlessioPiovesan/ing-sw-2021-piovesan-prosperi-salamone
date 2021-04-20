@@ -1,35 +1,39 @@
 package it.polimi.ingsw.client;
 
-import org.apache.commons.validator.routines.InetAddressValidator;
+import it.polimi.ingsw.client.accessori.InetAddressValidator;
 
 import java.io.PrintStream;
 import java.util.Scanner;
 
 public class CLI implements Runnable{
 
+    private static String ip = "";
+    private static int port = 0;
     private final Scanner input;
     private final PrintStream output;
     private final boolean activatedGame;
     private ConnectionSocket connectionSocket;
-    private static String ip;
-    private static int port;
+
+    public CLI ( ){
+        input = new Scanner(System.in);
+        output = new PrintStream(System.out);
+        activatedGame = true;
+    }
 
     public static void main (String[] args){
-        //String ip = "";
-        //int port = 0;
+
         System.out.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
-        System.out.println("by\n" + "\033[34m" + "Alessio Piovesan" + "\033[0m" + ",\n" + "\033[32m" + "Pier Giorgio Prosperi" + "\033[0m" + ",\n" + "\033[33m" + "Matteo Salamone" + "\033[0m" + ",\n");
-        System.out.println("View full rules here: " + "src/main/java/it/polimi/ingsw/Client/resources/Masters of Renaissance__Rules_ITA.pdf" + "\n");
+        System.out.println("by\n\u001B[34mAlessio Piovesan\u001B[0m,\n\u001B[32mPier Giorgio Prosperi\u001B[0m,\n\u001B[33mMatteo Salamone\u001B[0m,\n");
+        System.out.println("View full rules here: " + "URL delle regole" + "\n");
         Scanner scanner = new Scanner(System.in);
-        System.out.println(">Insert the server IP address");
-        System.out.print(">");
+        System.out.print(">\tInsert the server IP address\n>\t");
         while (!(InetAddressValidator.getInstance().isValid(ip))){
             ip = scanner.nextLine();
             if (!(InetAddressValidator.getInstance().isValid(ip)))
                 System.out.println("Server IP address is not valid");
+
         }
-        System.out.println(">Insert the server port");
-        System.out.print(">");
+        System.out.print(">\tInsert the server port\n>\t");
         while (port < 1023 || port > 65535){
             port = scanner.nextInt();
             if (port < 1023 || port > 65535)
@@ -37,12 +41,6 @@ public class CLI implements Runnable{
         }
         CLI cli = new CLI();
         cli.run();
-    }
-
-    public CLI ( ){
-        input = new Scanner(System.in);
-        output = new PrintStream(System.out);
-        activatedGame = true;
     }
 
     @Override

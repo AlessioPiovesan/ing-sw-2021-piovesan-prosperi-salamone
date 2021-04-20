@@ -9,13 +9,13 @@ import java.util.*;
 
 public class Board{
     private static final LinkedList<CardDev> myDevCards = new LinkedList<>();
-    private CardLeader[] myLeaderCards = new CardLeader[2];
+    private final CardLeader[] myLeaderCards = new CardLeader[2];
     public final Warehouse warehouse;
     public final FaithTrack faithTrack;
     protected StrongBox strongBox;
     protected Library library;
     int idD;
-    private EnumMap<Colours, Integer> resAll;
+    private final EnumMap<Colours, Integer> resAll;
 
     public Board (int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library){
         this.idD = id;
