@@ -1,5 +1,7 @@
 # Default ignored files
+/libraries/
 /shelf/
+/sonarlint/
 /workspace.xml
 /ing-sw-2021-piovesan-prosperi-salamone.iml
 /usage.statistics.xml

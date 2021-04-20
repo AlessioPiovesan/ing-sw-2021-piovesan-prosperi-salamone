@@ -21,10 +21,15 @@ public class Game{
     private final ArrayList<CardLeader> cardLeadArrayList = new ArrayList<>();
     private final ArrayList<Integer> playableLeaderCards = new ArrayList<>();
     private final ArrayList<CardPopeFav> cardPopeArrayList = new ArrayList<>();
+    private static int nGamers = 4;
 
-    Game (int gamers, Market market, Supply supply){
+    public static void setnGamers (int gamers){
+        nGamers = gamers;
+    }
+
+    Game (Market market, Supply supply){
         /* Board creation for each player */
-        for (int i = 0;i < gamers;i++){
+        for (int i = 0;i < nGamers;i++){
             Warehouse warehouse = new Warehouse();
             StrongBox strongBox = new StrongBox();
             FaithTrack faithTrack = new FaithTrack();
@@ -40,7 +45,7 @@ public class Game{
         cardLeadArrayList.addAll(Arrays.asList(CardLeader.values()));
         cardPopeArrayList.addAll(Arrays.asList(CardPopeFav.values()));
         /*...*/
-        for (int i = 0;i < gamers;i++) b[i].setMyLeaderCards(giveCardLead());
+        for (int i = 0;i < nGamers;i++) b[i].setMyLeaderCards(giveCardLead());
     }
 
     public Board getB (int i){
@@ -83,40 +88,30 @@ public class Game{
     }
 
     public int nextPlayerId ( ){
-        return this.random.nextInt(b.length);
+        return this.random.nextInt(nGamers);
     }
 
-    public void pickStartingResources(int gamers, int first) {
+    public void pickStartingResources (int first){
         Colours choice = Colours.WHITE;
-        switch (gamers) {
-            case 2: {
-                if (first + 1 > gamers) first = 0;
-                else first += 1;
-                b[first].warehouse.setResources(choice.selectPref(), 1);
-            }
-            case 3: {
-                if (first + 1 > gamers) first = 0;
-                else first += 1;
-                b[first].warehouse.setResources(choice.selectPref(), 1);
-                if (first + 1 > gamers) first = 0;
-                else first += 1;
-                b[first].warehouse.setResources(choice.selectPref(), 1);
-                b[first].faithTrack.setPosition(1);
-            }
-            case 4: {
-                if (first + 1 >= gamers) first = 0;
-                else first += 1;
-                b[first].warehouse.setResources(choice.selectPref(), 1);
-                if (first + 1 >= gamers) first = 0;
-                else first += 1;
-                b[first].warehouse.setResources(choice.selectPref(), 1);
-                b[first].faithTrack.setPosition(1);
-                if (first + 1 >= gamers) first = 0;
-                else first += 1;
-                b[first].warehouse.setResources(choice.selectPref(), 1);
-                b[first].warehouse.setResources(choice.selectPref(), 1);
-                b[first].faithTrack.setPosition(1);
+        int next = checkNext(first);
+        if (nGamers > 1){
+            b[next].warehouse.setResources(choice.selectPref(), 1);
+            if (nGamers > 2){
+                next = checkNext(first);
+                b[next].warehouse.setResources(choice.selectPref(), 1);
+                b[next].faithTrack.setPosition(1);
+                if (nGamers > 3){
+                    next = checkNext(first);
+                    b[next].warehouse.setResources(choice.selectPref(), 1);
+                    b[next].warehouse.setResources(choice.selectPref(), 1);
+                    b[next].faithTrack.setPosition(1);
+                }
             }
         }
+    }
+
+    public int checkNext (int now){
+        if (now++ >= nGamers - 1) return 0;
+        return now;
     }
 }
