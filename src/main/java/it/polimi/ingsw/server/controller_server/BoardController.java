@@ -30,7 +30,7 @@ class BoardController implements Observer<Board>{
         int a = player[i].checkDiscardedResources(res);
         for (int j = 0;j < controller.getGamers();j++){
             if (j != i){
-                player[j].faithTrack.setPosition(a);
+                player[j].getFaithTrack().setPosition(a);
             }
         }
 

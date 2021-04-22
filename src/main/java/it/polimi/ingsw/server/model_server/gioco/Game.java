@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model_server.gioco;
 
 import it.polimi.ingsw.server.accessori.Colours;
+import it.polimi.ingsw.server.accessori.Pick;
 import it.polimi.ingsw.server.model_server.carte.CardDev;
 import it.polimi.ingsw.server.model_server.carte.CardLeader;
 import it.polimi.ingsw.server.model_server.carte.CardPopeFav;
@@ -45,46 +46,45 @@ public class Game{
         cardLeadArrayList.addAll(Arrays.asList(CardLeader.values()));
         cardPopeArrayList.addAll(Arrays.asList(CardPopeFav.values()));
         /*...*/
-        for (int i = 0;i < nGamers;i++) b[i].setMyLeaderCards(giveCardLead());
+        /*for (int i = 0;i < nGamers;i++) b[i].setMyLeaderCards(giveCardLead());*/
     }
 
-    public Board getB (int i){
+    public Board getSingleB (int i){
         return b[i];
     }
 
-    public ArrayList<CardLeader> giveCardLead ( ){
+    public Board[] getAllB (){
+        return b;
+    }
+
+    public List<CardLeader> giveCardLead ( ){
         ArrayList<CardLeader> cardPlayer = new ArrayList<>();
-        int i = random.nextInt(cardLeadArrayList.size());
-        cardPlayer.add(cardLeadArrayList.get(i));
-        playableLeaderCards.add(i);
         while (cardPlayer.size() < 4){
-            i = random.nextInt(cardLeadArrayList.size());
-            if (!(playableLeaderCards.contains(i))){
-                cardPlayer.add(cardLeadArrayList.get(i));
-                playableLeaderCards.add(i);
-            }
+            cardPlayer.add(selectNextPlayableLeaderCards());
         }
         return cardPlayer;
     }
 
-    private int getFirst4LeaderCard (ArrayList<CardLeader> cardPlayer, int i){
-        CardLeader card;
-        int rValue = random.nextInt(cardPlayer.size());
-        card = (CardLeader)cardLeadArrayList.toArray()[rValue];
-        if (cardPlayer.contains(card)){
-            cardPlayer.add(card);
-            i++;
+    private CardLeader selectNextPlayableLeaderCards ( ){
+        while (true){
+            int i = random.nextInt(cardLeadArrayList.size());
+            if (!(playableLeaderCards.contains(i))){
+                playableLeaderCards.add(i);
+                return cardLeadArrayList.get(i);
+            }
         }
-        return i;
     }
 
-    public List<CardLeader> pickCardLead ( ){
-        ArrayList<CardLeader> choice = new ArrayList<>();
-        System.out.println("Prima scelta");     /*Mostri le quattro carte e ne scegli una*/
-        choice.add(CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
-        System.out.println("Seconda scelta");   /*Mostri le tre carte e ne scegli una*/
-        choice.add(CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
-        return choice;
+    public List<CardDev> getCardDevArrayList ( ){
+        return cardDevArrayList;
+    }
+
+    public List<CardLeader> getCardLeadArrayList ( ){
+        return cardLeadArrayList;
+    }
+
+    public List<CardPopeFav> getCardPopeArrayList ( ){
+        return cardPopeArrayList;
     }
 
     public int nextPlayerId ( ){
@@ -95,16 +95,22 @@ public class Game{
         Colours choice = Colours.WHITE;
         int next = checkNext(first);
         if (nGamers > 1){
-            b[next].warehouse.setResources(choice.selectPref(), 1);
+            b[next].getWarehouse().setResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
+            b[next].updateResAll();
             if (nGamers > 2){
                 next = checkNext(first);
-                b[next].warehouse.setResources(choice.selectPref(), 1);
-                b[next].faithTrack.setPosition(1);
+                b[next].getWarehouse().setResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
+                b[next].getFaithTrack().setPosition(1);
+                b[next].updateResAll();
                 if (nGamers > 3){
                     next = checkNext(first);
-                    b[next].warehouse.setResources(choice.selectPref(), 1);
-                    b[next].warehouse.setResources(choice.selectPref(), 1);
-                    b[next].faithTrack.setPosition(1);
+                    b[next].getWarehouse().setResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
+                    Colours c = choice.selectPref();
+                    int lvl = b[next].getWarehouse().isThereThatRes(c);
+                    if (lvl < 0) lvl = 1;
+                    b[next].getWarehouse().setResources(lvl, new Pick(c, 1));
+                    b[next].getFaithTrack().setPosition(1);
+                    b[next].updateResAll();
                 }
             }
         }

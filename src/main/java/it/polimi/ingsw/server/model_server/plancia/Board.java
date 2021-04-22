@@ -10,8 +10,8 @@ import java.util.*;
 public class Board{
     private static final LinkedList<CardDev> myDevCards = new LinkedList<>();
     private final CardLeader[] myLeaderCards = new CardLeader[2];
-    public final Warehouse warehouse;
-    public final FaithTrack faithTrack;
+    private final Warehouse warehouse;
+    private final FaithTrack faithTrack;
     protected StrongBox strongBox;
     protected Library library;
     int idD;
@@ -32,6 +32,15 @@ public class Board{
         resAll.put(Colours.YELLOW, 0);
         resAll.put(Colours.GREY, 0);
         resAll.put(Colours.PURPLE, 0);
+    }
+
+    public List<CardLeader> pickCardLead ( ){
+        ArrayList<CardLeader> choice = new ArrayList<>();
+        System.out.println("Prima scelta");     /*Mostri le quattro carte e ne scegli una*/
+        choice.add(CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
+        System.out.println("Seconda scelta");   /*Mostri le tre carte e ne scegli una*/
+        choice.add(CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
+        return choice;
     }
 
     public void setMyLeaderCards (List<CardLeader> cards){ /*DA IMPLEMENTARE*/
@@ -60,23 +69,15 @@ public class Board{
         }
     }
 
-    private void addResAll (Pick[] add){
-        for (int i = 0;i < add.length;i++){
-            Colours colours = add[i].getResource();
-            int qnt = add[i].getQnt();
-            resAll.replace(colours, resAll.get(colours) + qnt);
-        }
-    }
-
     public Map<Colours, Integer> getResAll ( ){
         return resAll;
     }
 
-    public Warehouse getWarehouse (){
+    public Warehouse getWarehouse ( ){
         return warehouse;
     }
 
-    public FaithTrack getFaithTrack (){
+    public FaithTrack getFaithTrack ( ){
         return faithTrack;
     }
 
@@ -93,6 +94,14 @@ public class Board{
             if (/*condizione che dice che la scelta è stata fatta ed è conclusa*/ true) stop = false;
         }
         return choice;
+    }
+
+    public void updateResAll ( ){
+        List<Pick> w = warehouse.checkStatus();
+        for (Pick pick: w)
+            resAll.replace(pick.getResource(), pick.getQnt() + resAll.get(pick.getResource()));
+        for (Colours c: Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
+            resAll.replace(c, resAll.get(c) + strongBox.getComp().get(c));
     }
 
 }

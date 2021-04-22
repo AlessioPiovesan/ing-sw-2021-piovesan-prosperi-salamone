@@ -5,66 +5,83 @@ import it.polimi.ingsw.server.accessori.Pick;
 import it.polimi.ingsw.server.model_server.carte.CardLeader;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Warehouse{
     private final ArrayList<Pick> wareContent;
 
     public Warehouse ( ){
-        wareContent = new ArrayList<Pick>();
+        wareContent = new ArrayList<>();
         wareContent.add(new Pick(Colours.WHITE, 0));
         wareContent.add(new Pick(Colours.WHITE, 0));
         wareContent.add(new Pick(Colours.WHITE, 0));
     }
 
-    public void setResources (Colours color, int qnt){
-        /*ho già controllato che posso farlo
-         * metto una quantità qnt di risorsa color nella posizione lvl della lista*/
-        wareContent.add(pickLvl(color, qnt), new Pick(color, qnt));
+    public ArrayList<Pick> getWareContent ( ){
+        return wareContent;
     }
 
-    public boolean checkAdd (int lvl, Colours res, int qnt){
-        /*il controllo che si vogliono aggiungere meno di 3 risorse è già stato fatto*/
-        /*dati scaffale, risorsa e quantità*/
-        if (wareContent.isEmpty()) return true;
-        /*controllo se su questo scaffale posso aggiungere questa quantità di risorse*/
-        /*se sullo scaffale c'è già questo tipo di risorsa controllo se posso aggiungere e poi aggiungo*/
-        return qnt < 3;
+    public void setResources (int lvl, Pick add){
+        /*prima di arrivare qui ho già controllato che posso farlo
+         * metto una quantità qnt di risorsa di tipo color nella posizione lvl della lista*/
+        int qntNow = wareContent.get(lvl).getQnt();
+        wareContent.set(lvl, new Pick(add.getResource(), add.getQnt() + qntNow));
+    }
+
+    public boolean checkAdd (Pick add){
+        if (add.getQnt() < 4){
+            int lvl = isThereThatRes(add.getResource());
+            if (lvl > 0)
+                return ((checkLvlStatus(lvl).getQnt() + add.getQnt()) <= lvl+1);
+            return isThereThatRes(Colours.WHITE) >= 0;
+        }
+        return false;
+    }
+
+    public boolean checkAdd (int lvl, Pick add){
+        if (add.getQnt() < 4){
+            if (lvl == isThereThatRes(add.getResource())) return ((checkLvlStatus(lvl).getQnt() + add.getQnt()) <= lvl+1);
+            return wareContent.get(lvl).getResource() == Colours.WHITE;
+        }
+        return false;
+    }
+
+    public int isThereThatRes (Colours color){
+        for (int i = 0;i < wareContent.size();i++){
+            if (wareContent.get(i).getResource() == color) return i;
+        }
+        return -1;
     }
 
     public Pick checkLvlStatus (int lvl){
-        System.out.println("Sullo scaffale " + lvl + " ci sono " + wareContent.get(lvl).getQnt() + " risorse di tipo" + wareContent.get(lvl).getResource().getType());
-    return new Pick(wareContent.get(lvl).getResource(), wareContent.get(lvl).getQnt());
+        //System.out.println("Sullo scaffale " + (lvl + 1) + " ci sono " + wareContent.get(lvl).getQnt() + " risorse di tipo " + wareContent.get(lvl).getResource().getType());
+        return new Pick(wareContent.get(lvl).getResource(), wareContent.get(lvl).getQnt());
     }
 
-    protected void lvlExchange (int lvlStart, int lvlEnd){ /* DA IMPLERMENTARE */
-        /*scambia le risorse che stanno su un livello del magazzino con quelle di un altro livello*/
+    protected void lvlExchange (int lvlStart, int lvlEnd){
+        Pick buffer = wareContent.set(lvlStart, wareContent.get(lvlEnd));
+        wareContent.set(lvlEnd, buffer);
     }
 
-    private int pickLvl (Colours colour, int qnt){ /* DA IMPLERMENTARE */
-        int choice = 1;
-        return choice;
-    }
-
-    public ArrayList<Pick> checkStatus ( ){ /* DA IMPLERMENTARE */
+    public List<Pick> checkStatus ( ){ /* DA IMPLERMENTARE */
         ArrayList<Pick> status = new ArrayList<>();
-        for (int i = 0;i < 3;i++){
-            status.set(i, checkLvlStatus(i));
+        for (int i = 0;i < wareContent.size();i++){
+            status.add(i, checkLvlStatus(i));
         }
         return status;
     }
 
     public void addLeaderSpace (CardLeader card){
         switch (card){
-            case card_Lead5:
-                wareContent.add(new Pick(Colours.GREY, 0));
-            case card_Lead6:
-                wareContent.add(new Pick(Colours.PURPLE, 0));
-            case card_Lead7:
-                wareContent.add(new Pick(Colours.BLUE, 0));
-            case card_Lead8:
-                wareContent.add(new Pick(Colours.YELLOW, 0));
-            default:
-                System.out.println("ERROR");
+            case card_Lead5 -> wareContent.add(new Pick(Colours.GREY, 0));
+            case card_Lead6 -> wareContent.add(new Pick(Colours.PURPLE, 0));
+            case card_Lead7 -> wareContent.add(new Pick(Colours.BLUE, 0));
+            case card_Lead8 -> wareContent.add(new Pick(Colours.YELLOW, 0));
+            default -> System.out.println("ERROR");
         }
+    }
+
+    private boolean isLvlOk (int lvl){
+        return wareContent.get(lvl).getQnt() <= lvl;
     }
 }

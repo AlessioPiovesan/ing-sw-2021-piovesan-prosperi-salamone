@@ -25,6 +25,7 @@ public enum Colours{
         System.out.println("Scegli la risorsa"); /* DA IMPLEMENTARE */
         /*la view parla al controller*/
         /*riceve scelta dal controller*/
+        choice = Colours.BLUE;
         return choice;
     }
 }
