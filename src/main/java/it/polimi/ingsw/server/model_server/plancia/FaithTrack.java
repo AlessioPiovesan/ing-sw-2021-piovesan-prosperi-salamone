@@ -12,15 +12,12 @@ public class FaithTrack{
     protected int position;
     protected CardPopeFav[] playerPFC = new CardPopeFav[3];
 
+
     public FaithTrack ( ){
         position = 0;
         popeFavorPos.add(8);
         popeFavorPos.add(16);
         popeFavorPos.add(24);
-    }
-
-    public void setPosition (int step){
-        position += step;
     }
 
     public void setCard (List<CardPopeFav> cards){
@@ -33,73 +30,46 @@ public class FaithTrack{
         return position;
     }
 
-    public int getWinPnt ( ){
-        switch (position){
-            case 0:
-            case 1:
-            case 2:
-                return 0;
-            case 3:
-            case 4:
-            case 5:
-                return 1;
-            case 6:
-            case 7:
-            case 8:
-                return 2;
-            case 9:
-            case 10:
-            case 11:
-                return 4;
-            case 12:
-            case 13:
-            case 14:
-                return 6;
-            case 15:
-            case 16:
-            case 17:
-                return 9;
-            case 18:
-            case 19:
-            case 20:
-                return 12;
-            case 21:
-            case 22:
-            case 23:
-                return 16;
-            case 24:
-                return 20;
-            default:
-                throw new IllegalStateException("Unexpected value: " + position);
-        }
+    public void setPosition (int step){
+        position += step;
     }
 
-    public boolean checkPopeSpace ( ){
-        switch (position){
-            case 5:
-            case 6:
-            case 7:
-            case 8:
+    public int getWinPntPosition ( ){
+        return switch (position){
+            case 0, 1, 2 -> 0;
+            case 3, 4, 5 -> 1;
+            case 6, 7, 8 -> 2;
+            case 9, 10, 11 -> 4;
+            case 12, 13, 14 -> 6;
+            case 15, 16, 17 -> 9;
+            case 18, 19, 20 -> 12;
+            case 21, 22, 23 -> 16;
+            case 24 -> 20;
+            default -> throw new IllegalStateException("Unexpected value: " + position);
+        };
+    }
 
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-
-            case 19:
-            case 20:
-            case 21:
-            case 22:
-            case 23:
-            case 24:
-                return true;
-            default:
-                return false;
+    public int getWinPntCard ( ){
+        int win = 0;
+        for (CardPopeFav cardPopeFav: playerPFC){
+            if (cardPopeFav.getFlipped())
+                win += cardPopeFav.getWinPnt();
         }
+        return win;
+    }
+
+
+    public int checkPopeSpace ( ){
+        return switch (position){
+            case 5, 6, 7, 8 -> 0;
+            case 12, 13, 14, 15, 16 -> 1;
+            case 19, 20, 21, 22, 23, 24 -> 2;
+            default -> -1;
+        };
     }
 
     public CardPopeFav getCard (int position){
         return playerPFC[popeFavorPos.indexOf(position)];
     }
+
 }

@@ -40,10 +40,11 @@ class BoardController implements Observer<Board>{
         System.out.println(player[i].getResAll());
     }
 
-    private int getFirstPlayer(){
+    private int getFirstPlayer ( ){
         return game.nextPlayerId();
     }
 
     @Override
-    public void update (Board message){ }
+    public void update (Board message){
+    }
 }

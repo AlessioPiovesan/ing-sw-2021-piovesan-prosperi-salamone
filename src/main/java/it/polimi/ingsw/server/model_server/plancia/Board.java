@@ -12,10 +12,10 @@ public class Board{
     private final CardLeader[] myLeaderCards = new CardLeader[2];
     private final Warehouse warehouse;
     private final FaithTrack faithTrack;
+    private final EnumMap<Colours, Integer> resAll;
     protected StrongBox strongBox;
     protected Library library;
     int idD;
-    private final EnumMap<Colours, Integer> resAll;
 
     public Board (int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library){
         this.idD = id;
@@ -104,4 +104,20 @@ public class Board{
             resAll.replace(c, resAll.get(c) + strongBox.getComp().get(c));
     }
 
+    private int getWinPntCardLeader ( ){
+        int win = 0;
+        for (CardLeader myLeaderCard: myLeaderCards){
+            if (myLeaderCard.getFlipped()) win += myLeaderCard.getWinPnt();
+        }
+        return win;
+    }
+
+    public int countWinPnt ( ){
+        int win = 0;
+        win += faithTrack.getWinPntPosition();
+        win += faithTrack.getWinPntCard();
+        win += library.getWinPntCardDev();
+        win += getWinPntCardLeader();
+        return win;
+    }
 }

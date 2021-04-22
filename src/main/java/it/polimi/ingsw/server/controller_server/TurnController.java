@@ -1,11 +1,8 @@
 package it.polimi.ingsw.server.controller_server;
 
 public class TurnController{
+
     Controller controller;
-
-    void endGame ( ){
-
-    }
 
     void startTurn ( ){
 
@@ -19,4 +16,6 @@ public class TurnController{
 
     }
 
+    void endGame ( ){
+    }
 }

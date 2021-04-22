@@ -8,8 +8,7 @@ import java.util.EnumMap;
 public class StrongBox{
 
 
-
-    private EnumMap<Colours, Integer> comp;
+    private final EnumMap<Colours, Integer> comp;
 
     public StrongBox ( ){
         comp = new EnumMap<>(Colours.class);
@@ -19,9 +18,13 @@ public class StrongBox{
         comp.put(Colours.YELLOW, 0);
     }
 
-    protected void addResources (Pick res){ comp.replace(res.getResource(), comp.get(res.getResource()) + res.getQnt()); }
+    protected void addResources (Pick res){
+        comp.replace(res.getResource(), comp.get(res.getResource()) + res.getQnt());
+    }
 
-    protected void takeResources (Pick res){ comp.replace(res.getResource(), comp.get(res.getResource()) - res.getQnt()); }
+    protected void takeResources (Pick res){
+        comp.replace(res.getResource(), comp.get(res.getResource()) - res.getQnt());
+    }
 
     public EnumMap<Colours, Integer> getComp ( ){
         return comp;
