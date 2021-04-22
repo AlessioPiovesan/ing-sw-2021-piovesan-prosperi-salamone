@@ -14,19 +14,15 @@ import java.util.Random;
 
 public class Game{
 
-    private final Random random = new Random();
     private static final Board[] b = new Board[4]; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
     private static Market market;
     private static Supply supply;
+    private static int nGamers = 4;
+    private final Random random = new Random();
     private final ArrayList<CardDev> cardDevArrayList = new ArrayList<>();
     private final ArrayList<CardLeader> cardLeadArrayList = new ArrayList<>();
     private final ArrayList<Integer> playableLeaderCards = new ArrayList<>();
     private final ArrayList<CardPopeFav> cardPopeArrayList = new ArrayList<>();
-    private static int nGamers = 4;
-
-    public static void setnGamers (int gamers){
-        nGamers = gamers;
-    }
 
     Game (Market market, Supply supply){
         /* Board creation for each player */
@@ -53,7 +49,7 @@ public class Game{
         return b[i];
     }
 
-    public Board[] getAllB (){
+    public Board[] getAllB ( ){
         return b;
     }
 
@@ -116,8 +112,24 @@ public class Game{
         }
     }
 
+    public int getnGamers ( ){
+        return nGamers;
+    }
+
+    public static void setnGamers (int gamers){
+        nGamers = gamers;
+    }
+
     public int checkNext (int now){
         if (now++ >= nGamers - 1) return 0;
         return now;
+    }
+
+    public int[] countWinPntPerBoard ( ){
+        int[] pntWin = new int[nGamers];
+        for (int i = 0;i < nGamers;i++){
+            pntWin[i] = b[i].countWinPnt();
+        }
+        return pntWin;
     }
 }

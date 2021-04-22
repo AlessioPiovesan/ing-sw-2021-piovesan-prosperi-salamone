@@ -36,7 +36,7 @@ class WarehouseTest{
         Warehouse w = new Warehouse();
         w.setResources(0, new Pick(Colours.BLUE, 1));
         w.setResources(2, new Pick(Colours.YELLOW, 1));
-        w.lvlExchange(0,2);
+        w.lvlExchange(0, 2);
         assertEquals(Colours.YELLOW, w.getWareContent().get(0).getResource());
         assertEquals(Colours.BLUE, w.getWareContent().get(2).getResource());
     }
@@ -44,7 +44,7 @@ class WarehouseTest{
     @Test
     void checkStatusTest ( ){
         Warehouse w = new Warehouse();
-        List<Pick> list= w.checkStatus();
+        List<Pick> list = w.checkStatus();
         assertEquals(3, list.size());
         IntStream.range(0, 3).mapToObj(list::get).forEachOrdered(pick -> {
             assertEquals(Colours.WHITE, pick.getResource());
@@ -64,7 +64,7 @@ class WarehouseTest{
     @Test
     void addLeaderSpaceTest ( ){
         Warehouse w = new Warehouse();
-        int i =3;
+        int i = 3;
         for (CardLeader c: Arrays.asList(CardLeader.card_Lead5, CardLeader.card_Lead6, CardLeader.card_Lead7, CardLeader.card_Lead8)){
             w.addLeaderSpace(c);
             assertEquals(++i, w.getWareContent().size());

@@ -1,14 +1,11 @@
 package it.polimi.ingsw.server.model_server.gioco;
 
-import it.polimi.ingsw.server.accessori.Colours;
 import it.polimi.ingsw.server.model_server.carte.CardLeader;
-import it.polimi.ingsw.server.model_server.plancia.Board;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -19,7 +16,9 @@ class GameTest{
     void giveCardLeadTest ( ){
         Game game = new Game(null, null);
         ArrayList<CardLeader> cardPlayer = (ArrayList<CardLeader>)game.giveCardLead();
-        for (CardLeader cardLeader: cardPlayer){assertTrue(cardPlayer.contains(cardLeader));}
+        for (CardLeader cardLeader: cardPlayer){
+            assertTrue(cardPlayer.contains(cardLeader));
+        }
         assertEquals(4, cardPlayer.size());
     }
 

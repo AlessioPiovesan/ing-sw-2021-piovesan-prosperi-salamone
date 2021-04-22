@@ -32,7 +32,7 @@ public class Warehouse{
         if (add.getQnt() < 4){
             int lvl = isThereThatRes(add.getResource());
             if (lvl > 0)
-                return ((checkLvlStatus(lvl).getQnt() + add.getQnt()) <= lvl+1);
+                return ((checkLvlStatus(lvl).getQnt() + add.getQnt()) <= lvl + 1);
             return isThereThatRes(Colours.WHITE) >= 0;
         }
         return false;
@@ -40,7 +40,8 @@ public class Warehouse{
 
     public boolean checkAdd (int lvl, Pick add){
         if (add.getQnt() < 4){
-            if (lvl == isThereThatRes(add.getResource())) return ((checkLvlStatus(lvl).getQnt() + add.getQnt()) <= lvl+1);
+            if (lvl == isThereThatRes(add.getResource()))
+                return ((checkLvlStatus(lvl).getQnt() + add.getQnt()) <= lvl + 1);
             return wareContent.get(lvl).getResource() == Colours.WHITE;
         }
         return false;
