@@ -10,13 +10,17 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class GameTest{
+class GameTest extends Game{
+
+    GameTest(Market market, Supply supply) {
+        super(market, supply);
+    }
 
     @Test
-    void giveCardLeadTest ( ){
+    void giveCardLeadTest() {
         Game game = new Game(null, null);
-        ArrayList<CardLeader> cardPlayer = (ArrayList<CardLeader>)game.giveCardLead();
-        for (CardLeader cardLeader: cardPlayer){
+        ArrayList<CardLeader> cardPlayer = (ArrayList<CardLeader>) game.giveCardLead();
+        for (CardLeader cardLeader : cardPlayer) {
             assertTrue(cardPlayer.contains(cardLeader));
         }
         assertEquals(4, cardPlayer.size());
@@ -38,10 +42,10 @@ class GameTest{
 
     @ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3})
-    void checkNextTest (int value){
+    void checkNextTest(int value) {
         Game game = new Game(null, null);
         int next = game.checkNext(value);
-        switch (value){
+        switch (value) {
             case 0 -> assertEquals(1, next);
             case 1 -> assertEquals(2, next);
             case 2 -> assertEquals(3, next);

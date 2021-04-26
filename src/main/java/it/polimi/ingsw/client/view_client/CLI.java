@@ -1,5 +1,6 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.view_client;
 
+import it.polimi.ingsw.client.ConnectionSocket;
 import it.polimi.ingsw.client.accessori.InetAddressValidator;
 
 import java.io.PrintStream;

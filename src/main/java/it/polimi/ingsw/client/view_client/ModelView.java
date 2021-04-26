@@ -1,4 +1,6 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.view_client;
+
+import it.polimi.ingsw.client.view_client.CLI;
 
 public class ModelView{
     private final CLI cli;

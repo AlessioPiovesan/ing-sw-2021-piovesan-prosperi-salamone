@@ -11,10 +11,10 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WarehouseTest{
+class WarehouseTest extends Warehouse {
 
     @Test
-    void checkAddTest ( ){
+    void checkAddTest() {
         Warehouse w = new Warehouse();
         assertTrue(w.checkAdd(new Pick(Colours.BLUE, 1)));
         w.setResources(1, new Pick(Colours.BLUE, 1));
@@ -25,14 +25,14 @@ class WarehouseTest{
     }
 
     @Test
-    void isThereThatResTest ( ){
+    void isThereThatResTest() {
         Warehouse w = new Warehouse();
         assertEquals(0, w.isThereThatRes(Colours.WHITE));
         assertEquals(-1, w.isThereThatRes(Colours.BLUE));
     }
 
     @Test
-    void lvlExchangeTest ( ){
+    void lvlExchangeTest() {
         Warehouse w = new Warehouse();
         w.setResources(0, new Pick(Colours.BLUE, 1));
         w.setResources(2, new Pick(Colours.YELLOW, 1));
@@ -42,7 +42,7 @@ class WarehouseTest{
     }
 
     @Test
-    void checkStatusTest ( ){
+    void checkStatusTest() {
         Warehouse w = new Warehouse();
         List<Pick> list = w.checkStatus();
         assertEquals(3, list.size());
@@ -53,7 +53,7 @@ class WarehouseTest{
     }
 
     @Test
-    void checkLvlStatusTest ( ){
+    void checkLvlStatusTest() {
         Warehouse w = new Warehouse();
         IntStream.range(0, 3).mapToObj(w::checkLvlStatus).forEachOrdered(pick -> {
             assertEquals(Colours.WHITE, pick.getResource());
@@ -62,10 +62,10 @@ class WarehouseTest{
     }
 
     @Test
-    void addLeaderSpaceTest ( ){
+    void addLeaderSpaceTest() {
         Warehouse w = new Warehouse();
         int i = 3;
-        for (CardLeader c: Arrays.asList(CardLeader.card_Lead5, CardLeader.card_Lead6, CardLeader.card_Lead7, CardLeader.card_Lead8)){
+        for (CardLeader c : Arrays.asList(CardLeader.card_Lead5, CardLeader.card_Lead6, CardLeader.card_Lead7, CardLeader.card_Lead8)) {
             w.addLeaderSpace(c);
             assertEquals(++i, w.getWareContent().size());
         }

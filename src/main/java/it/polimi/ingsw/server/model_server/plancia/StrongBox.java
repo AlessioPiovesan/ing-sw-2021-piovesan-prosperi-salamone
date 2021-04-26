@@ -4,13 +4,14 @@ import it.polimi.ingsw.server.accessori.Colours;
 import it.polimi.ingsw.server.accessori.Pick;
 
 import java.util.EnumMap;
+import java.util.Map;
 
-public class StrongBox{
+public class StrongBox {
 
 
     private final EnumMap<Colours, Integer> comp;
 
-    public StrongBox ( ){
+    public StrongBox() {
         comp = new EnumMap<>(Colours.class);
         comp.put(Colours.BLUE, 0);
         comp.put(Colours.GREY, 0);
@@ -18,15 +19,11 @@ public class StrongBox{
         comp.put(Colours.YELLOW, 0);
     }
 
-    protected void addResources (Pick res){
+    protected void moveResources(Pick res) {
         comp.replace(res.getResource(), comp.get(res.getResource()) + res.getQnt());
     }
 
-    protected void takeResources (Pick res){
-        comp.replace(res.getResource(), comp.get(res.getResource()) - res.getQnt());
-    }
-
-    public EnumMap<Colours, Integer> getComp ( ){
+    public Map<Colours, Integer> getComp() {
         return comp;
     }
 }

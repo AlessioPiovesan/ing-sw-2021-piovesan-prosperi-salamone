@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view_client.ModelView;
+
 import java.io.ObjectInputStream;
 import java.net.Socket;
 

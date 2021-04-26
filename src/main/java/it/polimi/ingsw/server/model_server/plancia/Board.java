@@ -43,20 +43,12 @@ public class Board{
         return choice;
     }
 
-    public void setMyLeaderCards (List<CardLeader> cards){ /*DA IMPLEMENTARE*/
-        /*Mostra le carte*/
-        /*Registra la scelta*/
-        myLeaderCards[0] = cards.get(3);
-        /*Registra la scelta*/
-        myLeaderCards[1] = cards.get(2);
-    }
-
     public int checkDiscardedResources (List<Colours> discarded){
         return discarded.size();
     }
 
     public void productionAll (Pick[] start){
-        for (int i = 0;i < 3;i++){
+        for (var i = 0;i < 3;i++){
             CardDev card = library.getCardOnTop(i);
             Pick[] res = card.getResFrom();
             production(res);
@@ -64,8 +56,8 @@ public class Board{
     }
 
     public void production (Pick[] start){
-        for (int i = 0;i < start.length;i++){
-            strongBox.addResources(start[i]);
+        for (var i = 0;i < start.length;i++){
+            strongBox.moveResources(start[i]);
         }
     }
 
@@ -83,7 +75,7 @@ public class Board{
 
     private LinkedList<Pick> chooseResources ( ){ /* DA IMPLEMENTARE */
         LinkedList<Pick> choice = new LinkedList<>();
-        boolean stop = true;
+        var stop = true;
         /*Mostra tutte le risorse del giocatore*/
         for (Colours colours: Colours.values())
             System.out.println(getResAll().get(colours));
@@ -105,7 +97,7 @@ public class Board{
     }
 
     private int getWinPntCardLeader ( ){
-        int win = 0;
+        var win = 0;
         for (CardLeader myLeaderCard: myLeaderCards){
             if (myLeaderCard.getFlipped()) win += myLeaderCard.getWinPnt();
         }
@@ -113,11 +105,16 @@ public class Board{
     }
 
     public int countWinPnt ( ){
-        int win = 0;
+        var win = 0;
         win += faithTrack.getWinPntPosition();
         win += faithTrack.getWinPntCard();
         win += library.getWinPntCardDev();
         win += getWinPntCardLeader();
         return win;
+    }
+
+    public void buyCardDev (CardDev card){
+        /*seleziona le risorse sia da warehouse che da strong box*/
+        /*aggiungi alle carte che ha il giocatore*/
     }
 }

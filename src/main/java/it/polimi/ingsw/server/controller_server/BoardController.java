@@ -26,8 +26,8 @@ class BoardController implements Observer<Board>{
         return player;
     }
 
-    private void addFaithPnt (int i, List<Colours> res){
-        int a = player[i].checkDiscardedResources(res);
+    private void addFaithPnt (int i, List<Colours> resExcess){
+        int a = player[i].checkDiscardedResources(resExcess);
         for (int j = 0;j < controller.getGamers();j++){
             if (j != i){
                 player[j].getFaithTrack().setPosition(a);

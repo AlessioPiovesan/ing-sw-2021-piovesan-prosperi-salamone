@@ -1,43 +1,43 @@
 package it.polimi.ingsw.server;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import it.polimi.ingsw.resources.SimpleTestCaseJsonPOJO;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class JsonTest{
+class JsonTest {
 
     private final String SimpleTestCaseJsonSource = "{ \"title\": \"Code\", \"author\": \"nome\" }";
 
     @Test
-    void parse ( ) throws IOException{
+    void parse() throws IOException {
         JsonNode node = Json.parse(SimpleTestCaseJsonSource);
-        assertEquals(node.get("title").asText(), "Code");
+        assertEquals("Code", node.get("title").asText());
     }
 
     @Test
-    void fromJson ( ) throws IOException{
+    void fromJson() throws IOException {
         JsonNode node = Json.parse(SimpleTestCaseJsonSource);
         SimpleTestCaseJsonPOJO pojo = Json.fromJson(node, SimpleTestCaseJsonPOJO.class);
-        assertEquals(pojo.getTitle(), "Code");
+        assertEquals("Code", pojo.getTitle());
     }
 
     @Test
-    void toJson ( ){
+    void toJson() {
         SimpleTestCaseJsonPOJO pojo = new SimpleTestCaseJsonPOJO();
         pojo.setTitle("Testing 123");
         JsonNode node = Json.toJson(pojo);
-        assertEquals(node.get("title").asText(), "Testing 123");
+        assertEquals("Testing 123", node.get("title").asText());
     }
 
     @Test
-    void stringify ( ) throws JsonProcessingException{
+    void stringify() {
         SimpleTestCaseJsonPOJO pojo = new SimpleTestCaseJsonPOJO();
         pojo.setTitle("Testing 123");
         JsonNode node = Json.toJson(pojo);
-        assertEquals(node.get("title").asText(), "Testing 123");
+        assertEquals("Testing 123", node.get("title").asText());
     }
 }

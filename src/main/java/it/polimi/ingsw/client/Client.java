@@ -11,17 +11,22 @@ public class Client{
     private final String ip;
     private final int port;
 
+
+    /*
+    * @param ip of type String - ip reference, should be 127.0.0.1
+    * @param port of type int - port reference, should be 12345
+     */
     public Client (String ip, int port){
         this.ip = ip;
         this.port = port;
     }
 
     public void run ( ) throws IOException{
-        Socket socket = new Socket(ip, port);
+        var socket = new Socket(ip, port);
         System.out.println("Connection established");
-        Scanner socketIn = new Scanner(socket.getInputStream());
-        PrintWriter socketOut = new PrintWriter(socket.getOutputStream());
-        Scanner stdIn = new Scanner(System.in);
+        var socketIn = new Scanner(socket.getInputStream());
+        var socketOut = new PrintWriter(socket.getOutputStream());
+        var stdIn = new Scanner(System.in);
         String socketLine;
         try {
             socketLine = socketIn.nextLine();

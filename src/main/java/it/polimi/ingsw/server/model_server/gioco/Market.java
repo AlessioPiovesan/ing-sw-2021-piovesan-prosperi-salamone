@@ -14,7 +14,7 @@ public class Market{
     private final LinkedList<Colours> marbles = new LinkedList<>();
     private final Random random = new Random();
     public Colours[][] tray;
-    public Colours external;
+    private Colours external;
 
     public Market ( ){
         /*creo le biglie*/
@@ -28,10 +28,18 @@ public class Market{
         tray = fillMarket(marbles);
     }
 
+    public void setExternal(Colours res){
+        external = res;
+    }
+
+    public Colours getExternal(){
+        return external;
+    }
+
     private Colours[][] fillMarket (LinkedList<Colours> marbles){
         LinkedList<Integer> list = new LinkedList<>();
         Colours[][] m = new Colours[Constants.XMARKET.getVal()][Constants.YMARKET.getVal()];
-        for (int j = 0;j < Constants.YMARKET.getVal();j++){
+        for (var j = 0;j < Constants.YMARKET.getVal();j++){
             fillColumns(marbles, list, Constants.XMARKET.getVal(), Constants.YMARKET.getVal(), m, j);
         }
         findFirstExternal(marbles, list);
@@ -39,13 +47,13 @@ public class Market{
     }
 
     private void findFirstExternal (LinkedList<Colours> marbles, LinkedList<Integer> list){
-        for (int i = 0;i < (Constants.XMARKET.getVal() * Constants.YMARKET.getVal()) + 1;i++)
+        for (var i = 0;i < (Constants.XMARKET.getVal() * Constants.YMARKET.getVal()) + 1;i++)
             if (!list.contains(i))
                 external = marbles.get(i);
     }
 
     private void fillColumns (LinkedList<Colours> marbles, LinkedList<Integer> list, int x, int y, Colours[][] m, int j){
-        for (int i = 0;i < x;i++){
+        for (var i = 0;i < x;i++){
             int r = findNextMarble(list, x, y);
             list.add(r);
             m[i][j] = marbles.get(r);
@@ -53,15 +61,11 @@ public class Market{
     }
 
     private int findNextMarble (LinkedList<Integer> list, int x, int y){
-        int r = random.nextInt((x * y) + 1);
+        var r = random.nextInt((x * y) + 1);
         if (list.contains(r))
             while (list.contains(r))
                 r = random.nextInt((x * y) + 1);
         return r;
-    }
-
-    protected void setExternal (Colours news){
-        external = news;
     }
 
     public List<Colours> moveMarbles (int choice){
@@ -73,35 +77,20 @@ public class Market{
 
     private void move (int choice, Colours r1){
         switch (choice){
-            case 0:
-                operationMoveY(r1, 3);
-                break;
-            case 1:
-                operationMoveY(r1, 2);
-                break;
-            case 2:
-                operationMoveY(r1, 1);
-                break;
-            case 3:
-                operationMoveX(r1, 1);
-                break;
-            case 4:
-                operationMoveX(r1, 2);
-                break;
-            case 5:
-                operationMoveX(r1, 3);
-                break;
-            case 6:
-                operationMoveX(r1, 4);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + choice);
+            case 0 -> operationMoveY(r1, 3);
+            case 1 -> operationMoveY(r1, 2);
+            case 2 -> operationMoveY(r1, 1);
+            case 3 -> operationMoveX(r1, 1);
+            case 4 -> operationMoveX(r1, 2);
+            case 5 -> operationMoveX(r1, 3);
+            case 6 -> operationMoveX(r1, 4);
+            default -> throw new IllegalStateException("Unexpected value: " + choice);
         }
     }
 
     private void operationMoveX (Colours r1, int x){
         external = tray[Constants.XMARKET.getVal() - x][0];
-        moveY(r1, 1);
+        moveX(r1, x);
     }
 
     private void operationMoveY (Colours r1, int y){
@@ -109,44 +98,36 @@ public class Market{
         moveX(r1, y);
     }
 
-    private void moveX (Colours r1, int x){
+    private void moveX (Colours r1, int y){
         Colours r2;
         for (int i = Constants.YMARKET.getVal();i > 0;i--){
-            r2 = tray[Constants.XMARKET.getVal() - x][i - 1];
-            tray[Constants.XMARKET.getVal() - x][i - 1] = r1;
+            r2 = tray[Constants.XMARKET.getVal() - y][i - 1];
+            tray[Constants.XMARKET.getVal() - y][i - 1] = r1;
             r1 = r2;
         }
     }
 
-    private void moveY (Colours r1, int y){
+    private void moveY (Colours r1, int x){
         Colours r2;
         for (int i = Constants.XMARKET.getVal();i > 0;i--){
-            r2 = tray[i - 1][Constants.YMARKET.getVal() - y];
-            tray[i - 1][Constants.YMARKET.getVal() - y] = r1;
+            r2 = tray[i - 1][Constants.YMARKET.getVal() - x];
+            tray[i - 1][Constants.YMARKET.getVal() - x] = r1;
             r1 = r2;
         }
     }
 
     @NotNull
     private LinkedList<Colours> getRes (int choice){
-        switch (choice){
-            case 0:
-                return getResX(0);
-            case 1:
-                return getResX(1);
-            case 2:
-                return getResX(2);
-            case 6:
-                return getResY(0);
-            case 5:
-                return getResY(1);
-            case 4:
-                return getResY(2);
-            case 3:
-                return getResY(3);
-            default:
-                throw new IllegalStateException("Unexpected value: " + choice);
-        }
+        return switch (choice){
+            case 0 -> getResX(0);
+            case 1 -> getResX(1);
+            case 2 -> getResX(2);
+            case 6 -> getResY(0);
+            case 5 -> getResY(1);
+            case 4 -> getResY(2);
+            case 3 -> getResY(3);
+            default -> throw new IllegalStateException("Unexpected value: " + choice);
+        };
     }
 
     private LinkedList<Colours> getResY (int x){
@@ -155,7 +136,7 @@ public class Market{
 
     private LinkedList<Colours> getResX (int y){
         LinkedList<Colours> res = new LinkedList<>();
-        for (int i = 0;i < Constants.XMARKET.getVal();i++) res.add(tray[i][y]);
+        for (var i = 0;i < Constants.XMARKET.getVal();i++) res.add(tray[i][y]);
         return res;
     }
 

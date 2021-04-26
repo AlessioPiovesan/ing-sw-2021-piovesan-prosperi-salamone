@@ -9,9 +9,9 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class MarketTest extends Market{
+class MarketTest extends Market {
 
-    MarketTest ( ){
+    MarketTest() {
         tray = new Colours[4][3];
         tray[0][0] = Colours.BLUE;
         tray[0][1] = Colours.RED;
@@ -25,88 +25,81 @@ class MarketTest extends Market{
         tray[3][0] = Colours.WHITE;
         tray[3][1] = Colours.PURPLE;
         tray[3][2] = Colours.WHITE;
-        external = Colours.WHITE;
+        this.setExternal(Colours.WHITE);
     }
 
-    public Colours getExternal (int val){
-        switch (val){
-            case 0:
-                return Colours.BLUE;
-            case 1:
-                return Colours.RED;
-            case 2:
-                return Colours.WHITE;
-            case 3:
-                return Colours.WHITE;
-            case 4:
-                return Colours.PURPLE;
-            case 5:
-                return Colours.GREY;
-            case 6:
-                return Colours.BLUE;
-            default:
-                return null;
-        }
+    public Colours getExternal(int val) {
+        return switch (val) {
+            case 0, 6 -> Colours.BLUE;
+            case 1 -> Colours.RED;
+            case 2, 3 -> Colours.WHITE;
+            case 4 -> Colours.PURPLE;
+            case 5 -> Colours.GREY;
+            default -> getExternal();
+        };
     }
 
-    public LinkedList<Colours> getResourcesTest (int val){
+    public LinkedList<Colours> getResourcesTest(int val) {
         LinkedList<Colours> list = new LinkedList<>();
-        switch (val){
-            case 0:
+        switch (val) {
+            case 0 -> {
                 list.add(Colours.BLUE);
                 list.add(Colours.GREY);
                 list.add(Colours.PURPLE);
                 list.add(Colours.WHITE);
-                break;
-            case 1:
+            }
+            case 1 -> {
                 list.add(Colours.RED);
                 list.add(Colours.BLUE);
                 list.add(Colours.GREY);
                 list.add(Colours.PURPLE);
-                break;
-            case 2:
+            }
+            case 2 -> {
                 list.add(Colours.WHITE);
                 list.add(Colours.YELLOW);
                 list.add(Colours.YELLOW);
                 list.add(Colours.WHITE);
-                break;
-            case 3:
+            }
+            case 3 -> {
                 list.add(Colours.WHITE);
                 list.add(Colours.PURPLE);
                 list.add(Colours.WHITE);
-                break;
-            case 4:
+            }
+            case 4 -> {
                 list.add(Colours.PURPLE);
                 list.add(Colours.GREY);
                 list.add(Colours.YELLOW);
-                break;
-            case 5:
+            }
+            case 5 -> {
                 list.add(Colours.GREY);
                 list.add(Colours.BLUE);
                 list.add(Colours.YELLOW);
-                break;
-            case 6:
+            }
+            case 6 -> {
                 list.add(Colours.BLUE);
                 list.add(Colours.RED);
                 list.add(Colours.WHITE);
-                break;
-            default:
-                list.add(null);
-                break;
+            }
+            default -> list.add(null);
         }
         return list;
     }
 
     @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6})
-    void move (int value){
+    @ValueSource(ints = {0, 1, 2, 3, 4, 5, 6, 9})
+    void move(int value) {
         Market market = new Market();
         MarketTest marketTest = new MarketTest();
         market.tray = marketTest.tray;
-        market.external = marketTest.external;
-        List<Colours> resourcesExpected = marketTest.getResourcesTest(value);
-        List<Colours> resourcesActual = market.moveMarbles(value);
-        assertEquals(resourcesExpected, resourcesActual);
-        assertEquals(marketTest.getExternal(value), market.external);
+        market.setExternal(marketTest.getExternal());
+        try {
+            List<Colours> resourcesExpected = marketTest.getResourcesTest(value);
+            List<Colours> resourcesActual = market.moveMarbles(value);
+            assertEquals(resourcesExpected, resourcesActual);
+            assertEquals(marketTest.getExternal(value), market.getExternal());
+        } catch (Exception e) {
+            assertEquals("java.lang.IllegalStateException: Unexpected value: " + value, e.toString());
+            assertEquals(marketTest.getExternal(value), market.getExternal());
+        }
     }
 }
