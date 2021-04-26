@@ -1,10 +1,12 @@
 package it.polimi.ingsw.server.controller_server;
 
 import it.polimi.ingsw.server.model_server.Mod;
+import it.polimi.ingsw.server.model_server.gioco.Game;
 
 public class Controller{
 
     private final Mod mod;
+    private Game game;
     private int gamers;
 
     public Controller (Mod mod){
@@ -16,6 +18,6 @@ public class Controller{
     }
 
     public void setGamers (int gamers){
-        this.gamers = gamers;
+        game.setNGamers(gamers);
     }
 }

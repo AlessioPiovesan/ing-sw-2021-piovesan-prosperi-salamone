@@ -16,6 +16,9 @@ public class ServerApp{
 
         System.out.println("Si accende!");
 
+        /*crea controller e model*/
+        /*riceve l'info dal client e dice al controller il numero di giocatori*/
+
     }
 }
 

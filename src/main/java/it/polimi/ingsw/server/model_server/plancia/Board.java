@@ -7,9 +7,9 @@ import it.polimi.ingsw.server.model_server.carte.CardLeader;
 
 import java.util.*;
 
-public class Board{
+public class Board {
     private static final LinkedList<CardDev> myDevCards = new LinkedList<>();
-    private final CardLeader[] myLeaderCards = new CardLeader[2];
+    private CardLeader[] myLeaderCards = new CardLeader[2];
     private final Warehouse warehouse;
     private final FaithTrack faithTrack;
     private final EnumMap<Colours, Integer> resAll;
@@ -17,7 +17,7 @@ public class Board{
     protected Library library;
     int idD;
 
-    public Board (int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library){
+    public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library) {
         this.idD = id;
         /* Warehouse creation for a single Board */
         this.warehouse = warehouse;
@@ -34,53 +34,52 @@ public class Board{
         resAll.put(Colours.PURPLE, 0);
     }
 
-    public List<CardLeader> pickCardLead ( ){
-        ArrayList<CardLeader> choice = new ArrayList<>();
-        System.out.println("Prima scelta");     /*Mostri le quattro carte e ne scegli una*/
-        choice.add(CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
-        System.out.println("Seconda scelta");   /*Mostri le tre carte e ne scegli una*/
-        choice.add(CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
-        return choice;
+    public void setMyLeaderCards(CardLeader[] choice) {
+        myLeaderCards = choice;
     }
 
-    public int checkDiscardedResources (List<Colours> discarded){
+    public CardLeader[] getMyLeaderCards() {
+        return myLeaderCards;
+    }
+
+    public int checkDiscardedResources(List<Colours> discarded) {
         return discarded.size();
     }
 
-    public void productionAll (Pick[] start){
-        for (var i = 0;i < 3;i++){
+    public void productionAll(Pick[] start) {
+        for (var i = 0; i < 3; i++) {
             CardDev card = library.getCardOnTop(i);
             Pick[] res = card.getResFrom();
             production(res);
         }
     }
 
-    public void production (Pick[] start){
-        for (var i = 0;i < start.length;i++){
+    public void production(Pick[] start) {
+        for (var i = 0; i < start.length; i++) {
             strongBox.moveResources(start[i]);
         }
     }
 
-    public Map<Colours, Integer> getResAll ( ){
+    public Map<Colours, Integer> getResAll() {
         return resAll;
     }
 
-    public Warehouse getWarehouse ( ){
+    public Warehouse getWarehouse() {
         return warehouse;
     }
 
-    public FaithTrack getFaithTrack ( ){
+    public FaithTrack getFaithTrack() {
         return faithTrack;
     }
 
-    private LinkedList<Pick> chooseResources ( ){ /* DA IMPLEMENTARE */
+    private LinkedList<Pick> chooseResources() { /* DA IMPLEMENTARE */
         LinkedList<Pick> choice = new LinkedList<>();
         var stop = true;
         /*Mostra tutte le risorse del giocatore*/
-        for (Colours colours: Colours.values())
+        for (Colours colours : Colours.values())
             System.out.println(getResAll().get(colours));
         /* DA IMPLEMENTARE */
-        while (stop){
+        while (stop) {
             /*Il giocatore sceglie tutte le risorse*/
             choice.add(new Pick(Colours.BLUE, 1));
             if (/*condizione che dice che la scelta è stata fatta ed è conclusa*/ true) stop = false;
@@ -88,23 +87,23 @@ public class Board{
         return choice;
     }
 
-    public void updateResAll ( ){
+    public void updateResAll() {
         List<Pick> w = warehouse.checkStatus();
-        for (Pick pick: w)
+        for (Pick pick : w)
             resAll.replace(pick.getResource(), pick.getQnt() + resAll.get(pick.getResource()));
-        for (Colours c: Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
+        for (Colours c : Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
             resAll.replace(c, resAll.get(c) + strongBox.getComp().get(c));
     }
 
-    private int getWinPntCardLeader ( ){
+    private int getWinPntCardLeader() {
         var win = 0;
-        for (CardLeader myLeaderCard: myLeaderCards){
+        for (CardLeader myLeaderCard : myLeaderCards) {
             if (myLeaderCard.getFlipped()) win += myLeaderCard.getWinPnt();
         }
         return win;
     }
 
-    public int countWinPnt ( ){
+    public int countWinPnt() {
         var win = 0;
         win += faithTrack.getWinPntPosition();
         win += faithTrack.getWinPntCard();
@@ -113,7 +112,7 @@ public class Board{
         return win;
     }
 
-    public void buyCardDev (CardDev card){
+    public void buyCardDev(CardDev card) {
         /*seleziona le risorse sia da warehouse che da strong box*/
         /*aggiungi alle carte che ha il giocatore*/
     }

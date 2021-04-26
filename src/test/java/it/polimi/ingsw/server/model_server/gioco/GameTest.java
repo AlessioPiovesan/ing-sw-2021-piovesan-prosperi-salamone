@@ -1,20 +1,18 @@
 package it.polimi.ingsw.server.model_server.gioco;
 
+import it.polimi.ingsw.server.accessori.Colours;
 import it.polimi.ingsw.server.model_server.carte.CardLeader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class GameTest extends Game{
-
-    GameTest(Market market, Supply supply) {
-        super(market, supply);
-    }
+class GameTest {
 
     @Test
     void giveCardLeadTest() {
@@ -26,30 +24,18 @@ class GameTest extends Game{
         assertEquals(4, cardPlayer.size());
     }
 
-   /* @ParameterizedTest
+    /*@ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3})
-    void PickStartingResourcesTest (int value){
+    void PickStartingResourcesTest(int value) {
         int[][] results = {{0, 1, 1, 2}, {2, 0, 1, 1}, {1, 2, 0, 1}, {1, 1, 2, 0}};
         Game game = new Game(null, null);
         game.pickStartingResources(value);
         int res = 0;
-        for (int i = 0;i < game.getAllB().length;i++){
-            for (Colours c: Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
+        for (int i = 0; i < game.getAllB().length; i++) {
+            for (Colours c : Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
                 res += game.getSingleB(i).getResAll().get(c);
-            assertEquals ( results[value][i], res);
+            assertEquals(results[value][i], res);
         }
     }*/
 
-    @ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3})
-    void checkNextTest(int value) {
-        Game game = new Game(null, null);
-        int next = game.checkNext(value);
-        switch (value) {
-            case 0 -> assertEquals(1, next);
-            case 1 -> assertEquals(2, next);
-            case 2 -> assertEquals(3, next);
-            case 3 -> assertEquals(0, next);
-        }
-    }
 }

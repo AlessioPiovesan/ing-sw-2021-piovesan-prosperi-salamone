@@ -11,7 +11,6 @@ public class Client{
     private final String ip;
     private final int port;
 
-
     /*
     * @param ip of type String - ip reference, should be 127.0.0.1
     * @param port of type int - port reference, should be 12345

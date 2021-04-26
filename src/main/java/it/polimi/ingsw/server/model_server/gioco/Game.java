@@ -83,10 +83,6 @@ public class Game{
         return cardPopeArrayList;
     }
 
-    public int nextPlayerId ( ){
-        return this.random.nextInt(nGamers);
-    }
-
     public void pickStartingResources (int first){
         Colours choice = Colours.WHITE;
         int next = checkNext(first);
@@ -116,7 +112,7 @@ public class Game{
         return nGamers;
     }
 
-    public static void setnGamers (int gamers){
+    public static void setNGamers (int gamers){
         nGamers = gamers;
     }
 
