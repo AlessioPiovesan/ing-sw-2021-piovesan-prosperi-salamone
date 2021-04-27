@@ -22,7 +22,7 @@ public enum Colours{
 
     public Colours selectPref ( ){
         Colours choice = Colours.WHITE;
-        System.out.println("Scegli la risorsa"); /* DA IMPLEMENTARE */
+        /* DA IMPLEMENTARE */
         /*Mostra le risorse tra cui scegliere e salva la scelta*/
         return choice;
     }

@@ -24,7 +24,7 @@ public enum CardPopeFav implements Card{
         return pos;
     }
 
-    public void setPos (int p){
+    protected void setPos (int p){
         pos = p;
     }
 

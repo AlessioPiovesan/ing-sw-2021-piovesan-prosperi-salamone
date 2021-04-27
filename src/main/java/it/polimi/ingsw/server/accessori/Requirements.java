@@ -1,47 +1,57 @@
 package it.polimi.ingsw.server.accessori;
 
-public abstract class Requirements{
+public interface Requirements {
 
-    public void getRequirements ( ){
-    }
+    public void getRequirements();
 
-    public static class RequirementsCard extends Requirements{
+
+    public static class RequirementsCard implements Requirements {
 
         private final ColoursCards type;
         private final int cardLvl;
 
-        public RequirementsCard (int cardLvl, ColoursCards c){
+        public RequirementsCard(int cardLvl, ColoursCards c) {
             this.cardLvl = cardLvl;
             this.type = c;
         }
 
-        public int getCardLvl ( ){
+        public int getCardLvl() {
             return cardLvl;
         }
 
-        public ColoursCards getColour ( ){
+        public ColoursCards getColour() {
             return type;
+        }
+
+        @Override
+        public void getRequirements() {
+
         }
     }
 
-    public static class RequirementsResources extends Requirements{
+    public static class RequirementsResources implements Requirements {
 
         private Colours type;
         private int qnt;
 
-        public RequirementsResources (Pick[] picks){
-            for (Pick pick: picks){
+        public RequirementsResources(Pick[] picks) {
+            for (Pick pick : picks) {
                 this.type = pick.getResource();
                 this.qnt = pick.getQnt();
             }
         }
 
-        public int getQnt ( ){
+        public int getQnt() {
             return qnt;
         }
 
-        public Colours getColour ( ){
+        public Colours getColour() {
             return type;
+        }
+
+        @Override
+        public void getRequirements() {
+
         }
     }
 }

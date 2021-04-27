@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.accessori.Colours;
 import it.polimi.ingsw.server.accessori.Pick;
 import it.polimi.ingsw.server.model_server.carte.CardDev;
 import it.polimi.ingsw.server.model_server.carte.CardLeader;
+import it.polimi.ingsw.server.model_server.carte.CardPopeFav;
 
 import java.util.*;
 
@@ -16,6 +17,10 @@ public class Board {
     protected StrongBox strongBox;
     protected Library library;
     int idD;
+    String nickname;
+    Colours discount = Colours.WHITE;
+    Colours marketAlt = Colours.WHITE;
+    Colours productAlt = Colours.WHITE;
 
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library) {
         this.idD = id;
@@ -34,8 +39,9 @@ public class Board {
         resAll.put(Colours.PURPLE, 0);
     }
 
-    public void setMyLeaderCards(CardLeader[] choice) {
-        myLeaderCards = choice;
+    public void setMyLeaderCards(CardLeader[] choice) { /* DA IMPLEMENTARE */
+        myLeaderCards[0] = choice[1];
+        myLeaderCards[1] = choice[3];
     }
 
     public CardLeader[] getMyLeaderCards() {
@@ -46,15 +52,36 @@ public class Board {
         return discarded.size();
     }
 
-    public void productionAll(Pick[] start) {
+    public void setDiscount(Colours color){
+        discount = color;
+    }
+
+    public void setProductAlt(Colours color){
+        productAlt = color;
+    }
+
+    public void productionAll() {
         for (var i = 0; i < 3; i++) {
             CardDev card = library.getCardOnTop(i);
             Pick[] res = card.getResFrom();
-            production(res);
+            store(res);
+        }
+        if (productAlt != Colours.WHITE){
+            /*prima chiede da dove prendere productAlt*/
+            /*poi chiede la risorsa a scelta*/
+            faithTrack.setPosition(1);
         }
     }
 
-    public void production(Pick[] start) {
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void store(Pick[] start) {
         for (var i = 0; i < start.length; i++) {
             strongBox.moveResources(start[i]);
         }
@@ -105,8 +132,7 @@ public class Board {
 
     public int countWinPnt() {
         var win = 0;
-        win += faithTrack.getWinPntPosition();
-        win += faithTrack.getWinPntCard();
+        win += faithTrack.getWinPnt();
         win += library.getWinPntCardDev();
         win += getWinPntCardLeader();
         return win;
@@ -115,5 +141,25 @@ public class Board {
     public void buyCardDev(CardDev card) {
         /*seleziona le risorse sia da warehouse che da strong box*/
         /*aggiungi alle carte che ha il giocatore*/
+        /*controlla se c'è lo sconto*/
     }
+
+    public void setMyPFCards(CardPopeFav[] cards) { /* DA IMPLEMENTARE */
+        faithTrack.setCard(cards);
+    }
+
+    public void setMarketAlt(Colours colour){
+        marketAlt = colour;
+    }
+
+    public void marketResHandler(LinkedList<Colours> res){
+        for (Colours colours:res)
+            if(colours == Colours.WHITE) colours = marketAlt;
+        /*attiva un pezzo di view che chiede quali tenere*/
+    }
+
+    public void resHandler(Colours res){
+        /*attiva un pezzo di view che chiede a che lvl di warehouse infilare quelle risorsa*/
+    }
+
 }

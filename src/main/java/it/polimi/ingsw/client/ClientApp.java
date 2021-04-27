@@ -1,6 +1,8 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.Client;
+import it.polimi.ingsw.client.view_client.CLI;
+import it.polimi.ingsw.client.view_client.GUI;
 
 import java.io.IOException;
 
@@ -16,6 +18,15 @@ public class ClientApp{
 
         System.out.println("Si accende!");
 
+    }
+
+    public static void startCLI() {
+        CLI.main(new String[0]);
+    }
+
+    public static void startGUI() {
+        System.out.println("You selected the GUI interface, have fun!\nStarting...");
+        GUI.main(new String[0]);
     }
 }
 

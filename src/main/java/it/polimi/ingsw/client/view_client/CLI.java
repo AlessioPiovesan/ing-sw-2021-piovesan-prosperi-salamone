@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view_client;
 
-import it.polimi.ingsw.client.ConnectionSocket;
+import it.polimi.ingsw.client.accessori.ConnectionSocket;
 import it.polimi.ingsw.client.accessori.InetAddressValidator;
 
 import java.io.PrintStream;
@@ -26,7 +26,7 @@ public class CLI implements Runnable{
         System.out.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
         System.out.println("by\n\u001B[34mAlessio Piovesan\u001B[0m,\n\u001B[32mPier Giorgio Prosperi\u001B[0m,\n\u001B[33mMatteo Salamone\u001B[0m,\n");
         //System.out.println("View full rules here: " + "URL delle regole" + "\n");
-        Scanner scanner = new Scanner(System.in);
+        var scanner = new Scanner(System.in);
         System.out.print(">\tInsert the server IP address\n>\t");
         while (!(InetAddressValidator.getInstance().isValid(ip))){
             ip = scanner.nextLine();
@@ -40,7 +40,7 @@ public class CLI implements Runnable{
             if (port < 1023 || port > 65535)
                 System.out.println("Server port is not valid");
         }
-        CLI cli = new CLI();
+        var cli = new CLI();
         cli.run();
     }
 

@@ -2,56 +2,68 @@ package it.polimi.ingsw.server.controller_server;
 
 
 import it.polimi.ingsw.server.accessori.Colours;
+import it.polimi.ingsw.server.accessori.Pick;
 import it.polimi.ingsw.server.model_server.carte.CardLeader;
 import it.polimi.ingsw.server.model_server.gioco.Game;
 import it.polimi.ingsw.server.model_server.plancia.Board;
 import it.polimi.ingsw.server.viewer_server.Observer;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
-public class BoardController implements Observer<Board>{
+public class BoardController implements Observer<Board> {
     Game game;
     Controller controller;
     Board[] player;
 
-    public BoardController (Game game, Board[] player){
+    public BoardController(Game game, Board[] player) {
         this.game = game;
         this.player = player;
     }
 
-    public Game getMod ( ){
+    public Game getMod() {
         return game;
     }
 
-    public Board[] getPlayer ( ){
+    public Board[] getPlayer() {
         return player;
     }
 
-    private void addFaithPnt (int i, List<Colours> resExcess){
+    private void addFaithPnt(int i, List<Colours> resExcess) {
         int a = player[i].checkDiscardedResources(resExcess);
-        for (var j = 0;j < controller.getGamers();j++){
-            if (j != i){
+        for (var j = 0; j < game.getnGamers(); j++) {
+            if (j != i) {
                 player[j].getFaithTrack().setPosition(a);
             }
         }
 
     }
 
-    public void checkResAllPlayer (int i){
+    public void checkResAllPlayer(int i) {
         System.out.println(player[i].getResAll());
     }
 
-    public void pickCardLead (int id ){
+    public void pickCardLead(int id) {
         CardLeader[] choice = new CardLeader[2];
         System.out.println("Prima scelta");     /*Mostri le quattro carte e ne scegli una*/
-        choice[0] =(CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
+        choice[0] = (CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
         System.out.println("Seconda scelta");   /*Mostri le tre carte e ne scegli una*/
         choice[1] = CardLeader.card_Lead2;      /*Inserisci la carta scelta nella lista */
         player[id].setMyLeaderCards(choice);
     }
 
+    public void marketResHandler(LinkedList<Colours> keep, LinkedList<Colours> loose){
+        /*manda le keep in warehouse*/
+        for (Colours colour : keep)
+            game.getSingleB(game.getPlayingPlayer()).resHandler(colour);
+        /*manda le loose in descarded*/
+    }
+
+    public void warehouseResHandler(Colours colour, int lvl){
+        game.getSingleB(game.getPlayingPlayer()).getWarehouse().setResources(lvl, new Pick(colour, 1));
+    }
+
     @Override
-    public void update (Board message){
+    public void update(Board message) {
     }
 }

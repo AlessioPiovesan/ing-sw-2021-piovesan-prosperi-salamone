@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.accessori;
 
-public enum Colours{
+public enum Colours {
 
     BLUE("SHEILD"),
     GREY("STONE"),
@@ -11,21 +11,32 @@ public enum Colours{
 
     final String type;
 
-    Colours (String type){
+    Colours(String type) {
         this.type = type;
     }
 
-    public String getType ( ){
+    public String getType() {
         return type;
     }
 
-    public Colours selectPref ( ){
-        Colours choice = Colours.WHITE;
+    public Colours selectPref() {
+        Colours choice = Colours.BLUE;
         /*facciamo la richiesta alla view che mostra le risorse tra cui scegliere*/
         System.out.println("Scegli la risorsa"); /* DA IMPLEMENTARE */
         /*la view parla al controller*/
         /*riceve scelta dal controller*/
-        choice = Colours.BLUE;
         return choice;
+    }
+
+    public Colours fromString(String color) {
+        return switch (color.toUpperCase()) {
+            case "SHEILD", "BLUE" -> BLUE;
+            case "STONE", "GREY" -> GREY;
+            case "SERVANT", "PURPLE" -> PURPLE;
+            case "FAITH", "RED" -> RED;
+            case "", "WHITE" -> WHITE;
+            case "COIN", "YELLOW" -> YELLOW;
+            default -> throw new IllegalStateException("Unexpected value: " + color.toUpperCase());
+        };
     }
 }

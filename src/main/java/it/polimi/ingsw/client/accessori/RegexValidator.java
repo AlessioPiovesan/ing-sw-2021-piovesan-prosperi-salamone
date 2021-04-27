@@ -16,8 +16,8 @@
      */
     package it.polimi.ingsw.client.accessori;
 
+    import java.io.Serial;
     import java.io.Serializable;
-    import java.util.regex.Matcher;
     import java.util.regex.Pattern;
 
     /**
@@ -69,6 +69,7 @@
      */
     public class RegexValidator implements Serializable{
 
+        @Serial
         private static final long serialVersionUID = -8832409930574867162L;
 
         private final Pattern[] patterns;
@@ -98,17 +99,6 @@
         }
 
         /**
-         * Construct a <i>case sensitive</i> validator that matches any one
-         * of the set of regular expressions.
-         *
-         * @param regexs The set of regular expressions this validator will
-         *               validate against
-         */
-        public RegexValidator (String[] regexs){
-            this(regexs, true);
-        }
-
-        /**
          * Construct a validator that matches any one of the set of regular
          * expressions with the specified case sensitivity.
          *
@@ -123,31 +113,12 @@
             }
             patterns = new Pattern[regexs.length];
             int flags = (caseSensitive ? 0 : Pattern.CASE_INSENSITIVE);
-            for (int i = 0;i < regexs.length;i++){
+            for (var i = 0;i < regexs.length;i++){
                 if (regexs[i] == null || regexs[i].length() == 0){
                     throw new IllegalArgumentException("Regular expression[" + i + "] is missing");
                 }
                 patterns[i] = Pattern.compile(regexs[i], flags);
             }
-        }
-
-        /**
-         * Validate a value against the set of regular expressions.
-         *
-         * @param value The value to validate.
-         * @return <code>true</code> if the value is valid
-         * otherwise <code>false</code>.
-         */
-        public boolean isValid (String value){
-            if (value == null){
-                return false;
-            }
-            for (int i = 0;i < patterns.length;i++){
-                if (patterns[i].matcher(value).matches()){
-                    return true;
-                }
-            }
-            return false;
         }
 
         /**
@@ -160,53 +131,20 @@
          */
         public String[] match (String value){
             if (value == null){
-                return null;
+                return new String[0];
             }
-            for (int i = 0;i < patterns.length;i++){
-                Matcher matcher = patterns[i].matcher(value);
-                if (matcher.matches()){
+            for (Pattern pattern : patterns) {
+                var matcher = pattern.matcher(value);
+                if (matcher.matches()) {
                     int count = matcher.groupCount();
-                    String[] groups = new String[count];
-                    for (int j = 0;j < count;j++){
+                    var groups = new String[count];
+                    for (var j = 0; j < count; j++) {
                         groups[j] = matcher.group(j + 1);
                     }
                     return groups;
                 }
             }
-            return null;
-        }
-
-
-        /**
-         * Validate a value against the set of regular expressions
-         * returning a String value of the aggregated groups.
-         *
-         * @param value The value to validate.
-         * @return Aggregated String value comprised of the
-         * <i>groups</i> matched if valid or <code>null</code> if invalid
-         */
-        public String validate (String value){
-            if (value == null){
-                return null;
-            }
-            for (int i = 0;i < patterns.length;i++){
-                Matcher matcher = patterns[i].matcher(value);
-                if (matcher.matches()){
-                    int count = matcher.groupCount();
-                    if (count == 1){
-                        return matcher.group(1);
-                    }
-                    StringBuilder buffer = new StringBuilder();
-                    for (int j = 0;j < count;j++){
-                        String component = matcher.group(j + 1);
-                        if (component != null){
-                            buffer.append(component);
-                        }
-                    }
-                    return buffer.toString();
-                }
-            }
-            return null;
+            return new String[0];
         }
 
         /**
@@ -216,9 +154,9 @@
          */
         @Override
         public String toString ( ){
-            StringBuilder buffer = new StringBuilder();
+            var buffer = new StringBuilder();
             buffer.append("RegexValidator{");
-            for (int i = 0;i < patterns.length;i++){
+            for (var i = 0;i < patterns.length;i++){
                 if (i > 0){
                     buffer.append(",");
                 }

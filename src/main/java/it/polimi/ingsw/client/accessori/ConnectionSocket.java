@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client;
+package it.polimi.ingsw.client.accessori;
 
 import java.io.ObjectOutputStream;
 

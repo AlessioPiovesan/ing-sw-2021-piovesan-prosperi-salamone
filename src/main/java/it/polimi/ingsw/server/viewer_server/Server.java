@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 public class Server{
     private static final int PORT = 12345;
     private final ServerSocket serverSocket;
-
+  //  private final Map<Integer, VirtualClient> idMapClient;
     private final ExecutorService executor = Executors.newFixedThreadPool(128);
 
     private final List<Connection> connections = new ArrayList<Connection>();
@@ -80,5 +80,29 @@ public class Server{
             }
         }
     }
+
+    /**
+     * Method unregisterClient deletes a client from the hashmaps and active lists, unregistering his
+     * connection with the server.
+     *
+     * @param clientID of type int - the ID of the virtual client to be removed.
+     */
+   /* public synchronized void unregisterClient (int clientID){
+        getGameByID(clientID).unregisterPlayer(clientID);
+        VirtualClient client = idMapClient.get(clientID);
+        System.out.println(
+                Constants.getInfo() + "Unregistering client " + client.getNickname() + "...");
+        idMapClient.remove(clientID);
+        nameMapId.remove(client.getNickname());
+        waiting.remove(clientToConnection.get(client));
+        idMapName.remove(client.getClientID());
+        clientToConnection.remove(client);
+        System.out.println(Constants.getInfo() + "Client has been successfully unregistered.");
+    }*/
+
+    /**
+     * List of clients waiting in the lobby.
+     */
+    //private final List<SocketClientConnection> waiting = new ArrayList<>();
 
 }

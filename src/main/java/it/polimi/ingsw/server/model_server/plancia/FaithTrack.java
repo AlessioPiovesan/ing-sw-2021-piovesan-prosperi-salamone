@@ -20,10 +20,10 @@ public class FaithTrack{
         popeFavorPos.add(24);
     }
 
-    public void setCard (List<CardPopeFav> cards){
-        playerPFC[0] = cards.get(0);
-        playerPFC[1] = cards.get(0);
-        playerPFC[2] = cards.get(0);
+    public void setCard (CardPopeFav[] cards){
+        playerPFC[0] = cards[0];
+        playerPFC[1] = cards[1];
+        playerPFC[2] = cards[2];
     }
 
     public int getPosition ( ){
@@ -32,6 +32,13 @@ public class FaithTrack{
 
     public void setPosition (int step){
         position += step;
+    }
+
+    public int getWinPnt(){
+        int win =0;
+       win += getWinPntCard();
+       win += getWinPntPosition();
+       return win;
     }
 
     public int getWinPntPosition ( ){

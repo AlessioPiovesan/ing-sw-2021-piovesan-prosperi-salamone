@@ -8,7 +8,7 @@ import java.util.EnumMap;
 public class Supply {
     EnumMap<Colours, Integer> cont;
 
-    Supply() {
+    public Supply() {
         cont = new EnumMap<>(Colours.class);
         cont.put(Colours.BLUE, Constants.MAXMARBLESB.getVal() * 8);
         cont.put(Colours.GREY, Constants.MAXMARBLESG.getVal() * 8);

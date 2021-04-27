@@ -17,7 +17,7 @@ public class Warehouse{
         wareContent.add(new Pick(Colours.WHITE, 0));
     }
 
-    public ArrayList<Pick> getWareContent ( ){
+    public List<Pick> getWareContent ( ){
         return wareContent;
     }
 
@@ -48,15 +48,10 @@ public class Warehouse{
     }
 
     public int isThereThatRes (Colours color){
-        for (int i = 0;i < wareContent.size();i++){
+        for (var i = 0;i < wareContent.size();i++){
             if (wareContent.get(i).getResource() == color) return i;
         }
         return -1;
-    }
-
-    public Pick checkLvlStatus (int lvl){
-        //System.out.println("Sullo scaffale " + (lvl + 1) + " ci sono " + wareContent.get(lvl).getQnt() + " risorse di tipo " + wareContent.get(lvl).getResource().getType());
-        return new Pick(wareContent.get(lvl).getResource(), wareContent.get(lvl).getQnt());
     }
 
     protected void lvlExchange (int lvlStart, int lvlEnd){
@@ -66,10 +61,15 @@ public class Warehouse{
 
     public List<Pick> checkStatus ( ){ /* DA IMPLERMENTARE */
         ArrayList<Pick> status = new ArrayList<>();
-        for (int i = 0;i < wareContent.size();i++){
+        for (var i = 0;i < wareContent.size();i++){
             status.add(i, checkLvlStatus(i));
         }
         return status;
+    }
+
+    public Pick checkLvlStatus (int lvl){
+        //System.out.println("Sullo scaffale " + (lvl + 1) + " ci sono " + wareContent.get(lvl).getQnt() + " risorse di tipo " + wareContent.get(lvl).getResource().getType());
+        return new Pick(wareContent.get(lvl).getResource(), wareContent.get(lvl).getQnt());
     }
 
     public void addLeaderSpace (CardLeader card){

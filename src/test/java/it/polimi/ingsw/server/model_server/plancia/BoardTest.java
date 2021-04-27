@@ -9,15 +9,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardTest {
 
     @Test
-    void testSetCardLead() {
+    void testSetMyLeaderCards() {
         Board[] b = new Board[4];
         b[0]= new Board(0, null,null,null, null);
         BoardController boardController = new BoardController(null, b);
         boardController.pickCardLead(0);
-        assertArrayEquals(b[0].getMyLeaderCards(), new CardLeader[]{CardLeader.card_Lead1, CardLeader.card_Lead2});
+        assertArrayEquals(new CardLeader[]{CardLeader.card_Lead1, CardLeader.card_Lead2}, b[0].getMyLeaderCards());
     }
 
-    /*@Test
+    @Test
     void testCheckDiscardedResources() {
     }
 
@@ -47,5 +47,5 @@ class BoardTest {
 
     @Test
     void testCountWinPnt() {
-    }*/
+    }
 }

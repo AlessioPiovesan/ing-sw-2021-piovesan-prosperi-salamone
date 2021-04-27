@@ -2,6 +2,7 @@ package it.polimi.ingsw.server;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.resources.SimpleTestCaseJsonPOJO;
+import it.polimi.ingsw.server.accessori.Json;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
