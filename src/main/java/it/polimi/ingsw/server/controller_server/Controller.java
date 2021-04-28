@@ -1,19 +1,18 @@
 package it.polimi.ingsw.server.controller_server;
 
 import it.polimi.ingsw.server.model_server.Mod;
-import it.polimi.ingsw.server.model_server.gioco.Game;
 
-public class Controller{
+public class Controller {
 
     private final Mod mod;
     private GameController gameController;
 
 
-    public Controller (Mod mod){
+    public Controller(Mod mod) {
         this.mod = mod;
     }
 
-    public void setGamers (int gamers){
+    public void setGamers(int gamers) {
         gameController.setGamers(gamers);
     }
 }

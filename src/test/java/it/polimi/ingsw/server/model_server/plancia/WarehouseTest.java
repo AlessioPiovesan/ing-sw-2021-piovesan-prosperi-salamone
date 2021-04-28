@@ -17,7 +17,7 @@ class WarehouseTest extends Warehouse {
     void checkAddTest() {
         Warehouse w = new Warehouse();
         assertTrue(w.checkAdd(new Pick(Colours.BLUE, 1)));
-        w.setResources(1, new Pick(Colours.BLUE, 1));
+        w.moveResources(1, new Pick(Colours.BLUE, 1));
         assertTrue(w.checkAdd(new Pick(Colours.YELLOW, 3)));
         assertFalse(w.checkAdd(new Pick(Colours.BLUE, 4)));
         assertFalse(w.checkAdd(new Pick(Colours.BLUE, 2)));
@@ -34,8 +34,8 @@ class WarehouseTest extends Warehouse {
     @Test
     void lvlExchangeTest() {
         Warehouse w = new Warehouse();
-        w.setResources(0, new Pick(Colours.BLUE, 1));
-        w.setResources(2, new Pick(Colours.YELLOW, 1));
+        w.moveResources(0, new Pick(Colours.BLUE, 1));
+        w.moveResources(2, new Pick(Colours.YELLOW, 1));
         w.lvlExchange(0, 2);
         assertEquals(Colours.YELLOW, w.getWareContent().get(0).getResource());
         assertEquals(Colours.BLUE, w.getWareContent().get(2).getResource());

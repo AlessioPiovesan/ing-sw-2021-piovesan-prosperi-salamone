@@ -60,7 +60,7 @@ public class BoardController implements Observer<Board> {
     }
 
     public void warehouseResHandler(Colours colour, int lvl){
-        game.getSingleB(game.getPlayingPlayer()).getWarehouse().setResources(lvl, new Pick(colour, 1));
+        game.getSingleB(game.getPlayingPlayer()).getWarehouse().moveResources(lvl, new Pick(colour, 1));
     }
 
     @Override

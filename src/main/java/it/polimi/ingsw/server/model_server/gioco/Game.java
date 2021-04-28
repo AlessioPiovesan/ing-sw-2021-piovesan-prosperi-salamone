@@ -106,20 +106,20 @@ public class Game {
         Colours choice = Colours.WHITE;
         int next = checkNext();
         if (nGamers > 1) {
-            b[next].getWarehouse().setResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
+            b[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
             b[next].updateResAll();
             if (nGamers > 2) {
                 next = checkNext();
-                b[next].getWarehouse().setResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
+                b[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
                 b[next].getFaithTrack().setPosition(1);
                 b[next].updateResAll();
                 if (nGamers > 3) {
                     next = checkNext();
-                    b[next].getWarehouse().setResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
+                    b[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
                     Colours c = choice.selectPref();
                     int lvl = b[next].getWarehouse().isThereThatRes(c);
                     if (lvl < 0) lvl = 1;
-                    b[next].getWarehouse().setResources(lvl, new Pick(c, 1));
+                    b[next].getWarehouse().moveResources(lvl, new Pick(c, 1));
                     b[next].getFaithTrack().setPosition(1);
                     b[next].updateResAll();
                 }

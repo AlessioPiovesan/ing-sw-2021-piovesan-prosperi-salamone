@@ -21,7 +21,7 @@ public class Warehouse{
         return wareContent;
     }
 
-    public void setResources (int lvl, Pick add){
+    public void moveResources(int lvl, Pick add){
         /*prima di arrivare qui ho già controllato che posso farlo
          * metto una quantità qnt di risorsa di tipo color nella posizione lvl della lista*/
         int qntNow = wareContent.get(lvl).getQnt();

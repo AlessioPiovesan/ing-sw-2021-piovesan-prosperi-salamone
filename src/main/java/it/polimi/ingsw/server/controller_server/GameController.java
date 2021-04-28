@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model_server.gioco.Game;
 import it.polimi.ingsw.server.model_server.gioco.Market;
 import it.polimi.ingsw.server.model_server.gioco.Supply;
 import it.polimi.ingsw.server.model_server.plancia.Board;
+import it.polimi.ingsw.server.model_server.plancia.Warehouse;
 import it.polimi.ingsw.server.viewer_server.Observer;
 
 import java.util.LinkedList;
@@ -57,18 +58,24 @@ public class GameController implements Observer<Game> {
     }
 
     public void action() {
+        Board b = game.getSingleB(game.getPlayingPlayer());
         /*parte la produzione di tutto quello che c'è sulla plancia*/
-        game.getSingleB(game.getPlayingPlayer()).productionAll();
+        b.productionAll();
     }
 
     public void action(int moveMarket) {
-        /*sposta il mercato*/
-        LinkedList<Colours> res = (LinkedList<Colours>) game.getMarket().moveMarbles(moveMarket);
+        Board b = game.getSingleB(game.getPlayingPlayer());
+        Market m = game.getMarket();
+        /*sposta le biglie nel mercato*/
+        LinkedList<Colours> res = (LinkedList<Colours>) m.moveMarbles(moveMarket);
+        /*mando nella funzione che manda a far scegliere al giocatore che fare di queste risorse*/
+        b.marketResHandler(res);
     }
 
     public void action(CardDev cardToBeBought) {
+        Board b = game.getSingleB(game.getPlayingPlayer());
         /*compra la carta*/
-        game.getSingleB(game.getPlayingPlayer()).buyCardDev(cardToBeBought);
+        b.buyCardDev(cardToBeBought);
     }
 
     public void action(CardLeader cardToBeActivated) {
@@ -77,19 +84,23 @@ public class GameController implements Observer<Game> {
 
         switch (cardToBeActivated) {
             case card_Lead1, card_Lead2, card_Lead3, card_Lead4: {
-                game.getSingleB(game.getPlayingPlayer()).setDiscount(cardToBeActivated.getSpecial());
+                Board b = game.getSingleB(game.getPlayingPlayer());
+                b.setDiscount(cardToBeActivated.getSpecial());
                 break;
             }
             case card_Lead5, card_Lead6, card_Lead7, card_Lead8: {
-                game.getSingleB(game.getPlayingPlayer()).getWarehouse().addLeaderSpace(cardToBeActivated);
+                Warehouse w = game.getSingleB(game.getPlayingPlayer()).getWarehouse();
+                w.addLeaderSpace(cardToBeActivated);
                 break;
             }
             case card_Lead9, card_Lead10, card_Lead11, card_Lead12: {
-                game.getSingleB(game.getPlayingPlayer()).setMarketAlt(cardToBeActivated.getSpecial());
+                Board b = game.getSingleB(game.getPlayingPlayer());
+                b.setMarketAlt(cardToBeActivated.getSpecial());
                 break;
             }
             case card_Lead13, card_Lead14, card_Lead15, card_Lead16: {
-                game.getSingleB(game.getPlayingPlayer()).setProductAlt(cardToBeActivated.getSpecial());
+                Board b = game.getSingleB(game.getPlayingPlayer());
+                b.setProductAlt(cardToBeActivated.getSpecial());
                 break;
             }
             default:

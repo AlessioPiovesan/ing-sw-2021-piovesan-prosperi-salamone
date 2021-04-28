@@ -18,9 +18,9 @@ public class Board {
     protected Library library;
     int idD;
     String nickname;
-    Colours discount = Colours.WHITE;
-    Colours marketAlt = Colours.WHITE;
-    Colours productAlt = Colours.WHITE;
+    Colours[] discount = {Colours.WHITE, Colours.WHITE};
+    Colours[] marketAlt = {Colours.WHITE, Colours.WHITE};
+    Colours[] productAlt = {Colours.WHITE, Colours.WHITE};
 
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library) {
         this.idD = id;
@@ -52,12 +52,16 @@ public class Board {
         return discarded.size();
     }
 
-    public void setDiscount(Colours color){
-        discount = color;
+    public void setDiscount(Colours color) {
+        if (discount[0] == Colours.WHITE)
+            discount[0] = color;
+        else discount[1] = color;
     }
 
-    public void setProductAlt(Colours color){
-        productAlt = color;
+    public void setProductAlt(Colours color) {
+        if (productAlt[0] == Colours.WHITE)
+            productAlt[0] = color;
+        else productAlt[1] = color;
     }
 
     public void productionAll() {
@@ -66,11 +70,14 @@ public class Board {
             Pick[] res = card.getResFrom();
             store(res);
         }
-        if (productAlt != Colours.WHITE){
-            /*prima chiede da dove prendere productAlt*/
-            /*poi chiede la risorsa a scelta*/
-            faithTrack.setPosition(1);
+        for (int i = 0; i < productAlt.length; i++) {
+            if (productAlt[i] != Colours.WHITE) {
+                /*prima chiede da dove prendere productAlt*/
+                /*poi chiede la risorsa a scelta*/
+                faithTrack.setPosition(1);
+            }
         }
+
     }
 
     public String getNickname() {
@@ -99,19 +106,21 @@ public class Board {
         return faithTrack;
     }
 
-    private LinkedList<Pick> chooseResources() { /* DA IMPLEMENTARE */
-        LinkedList<Pick> choice = new LinkedList<>();
-        var stop = true;
-        /*Mostra tutte le risorse del giocatore*/
-        for (Colours colours : Colours.values())
-            System.out.println(getResAll().get(colours));
-        /* DA IMPLEMENTARE */
-        while (stop) {
-            /*Il giocatore sceglie tutte le risorse*/
-            choice.add(new Pick(Colours.BLUE, 1));
-            if (/*condizione che dice che la scelta è stata fatta ed è conclusa*/ true) stop = false;
+    /*DA METTERE SUL CLIENT magari*/
+    private void chooseResourcesW(List<Pick> res, Class<Warehouse> warehouseClass) {
+        /*la quantità di res è negativa*/
+        for (Pick r : res) {
+            int i = warehouse.isThereThatRes(r.getResource());
+            warehouse.moveResources(i, r);
         }
-        return choice;
+    }
+
+    /*DA METTERE SUL CLIENT magari*/
+    private void chooseResourcesSB(List<Pick> res, Class<StrongBox> strongBoxClass) {
+        /*la quantità di res è negativa*/
+        for (Pick r : res) {
+            strongBox.moveResources(r);
+        }
     }
 
     public void updateResAll() {
@@ -142,23 +151,35 @@ public class Board {
         /*seleziona le risorse sia da warehouse che da strong box*/
         /*aggiungi alle carte che ha il giocatore*/
         /*controlla se c'è lo sconto*/
+        myDevCards.add(card);
     }
 
     public void setMyPFCards(CardPopeFav[] cards) { /* DA IMPLEMENTARE */
         faithTrack.setCard(cards);
     }
 
-    public void setMarketAlt(Colours colour){
-        marketAlt = colour;
+    public void setMarketAlt(Colours color) {
+        if (marketAlt[0] == Colours.WHITE)
+            marketAlt[0] = color;
+        else marketAlt[1] = color;
     }
 
-    public void marketResHandler(LinkedList<Colours> res){
-        for (Colours colours:res)
-            if(colours == Colours.WHITE) colours = marketAlt;
+    public void marketResHandler(LinkedList<Colours> res) {
+        for (Colours colours : res)
+            if (colours == Colours.WHITE) {
+                for (int i = 0; i < marketAlt.length; i++) {
+                    if (marketAlt[i] != Colours.WHITE) {
+                        /*si chiede al giocatore che fare di questa biglia bianca*/
+                        Colours choice = Colours.RED; /* DA IMPLEMENTARE */
+                        colours = choice;
+                    }
+                }
+            }
         /*attiva un pezzo di view che chiede quali tenere*/
+        /*DA IMPLEMENTARE*/
     }
 
-    public void resHandler(Colours res){
+    public void resHandler(Colours res) {
         /*attiva un pezzo di view che chiede a che lvl di warehouse infilare quelle risorsa*/
     }
 
