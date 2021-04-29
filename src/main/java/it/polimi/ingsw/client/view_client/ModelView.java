@@ -1,11 +1,14 @@
 package it.polimi.ingsw.client.view_client;
 
-import it.polimi.ingsw.client.view_client.CLI;
+public class ModelView {
+    private CLI cli;
+    private GUI gui;
 
-public class ModelView{
-    private final CLI cli;
-
-    public ModelView (CLI cli){
+    public ModelView(CLI cli) {
         this.cli = cli;
+    }
+
+    public ModelView(GUI gui) {
+        this.gui = gui;
     }
 }

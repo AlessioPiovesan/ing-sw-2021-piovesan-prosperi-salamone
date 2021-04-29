@@ -70,8 +70,9 @@ public class Board {
             Pick[] res = card.getResFrom();
             store(res);
         }
-        for (int i = 0; i < productAlt.length; i++) {
-            if (productAlt[i] != Colours.WHITE) {
+        /*DA IMPLEMENTARE prouzione plancia, quindi quella che chiede quale risorsa*/
+        for (Colours colours : productAlt) {
+            if (colours != Colours.WHITE) {
                 /*prima chiede da dove prendere productAlt*/
                 /*poi chiede la risorsa a scelta*/
                 faithTrack.setPosition(1);
