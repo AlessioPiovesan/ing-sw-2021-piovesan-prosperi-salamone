@@ -4,8 +4,8 @@ import it.polimi.ingsw.server.viewer_server.Server;
 
 import java.io.IOException;
 
-public class ServerApp{
-    public static void main (String[] args){
+public class ServerApp {
+    public static void main(String[] args) {
         Server server;
         try {
             server = new Server();

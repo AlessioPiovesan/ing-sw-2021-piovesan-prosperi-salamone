@@ -5,7 +5,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Connection extends Observable<String> implements Runnable{
+public class Connection extends Observable<String> implements Runnable {
 
     private final Socket socket;
     private final Server server;
@@ -14,30 +14,25 @@ public class Connection extends Observable<String> implements Runnable{
     private String name;
     private boolean active = true;
 
-    public Connection (Socket socket, Server server){
+    public Connection(Socket socket, Server server) {
         this.socket = socket;
         this.server = server;
     }
 
-    private synchronized boolean isActive ( ){
+    private synchronized boolean isActive() {
         return active;
     }
 
-    public void send (String message){
+    public void send(String message) {
         out.println(message);
         out.flush();
     }
 
-    public void asyncSend (final String message){
-        new Thread(new Runnable(){
-            @Override
-            public void run ( ){
-                send(message);
-            }
-        }).start();
+    public void asyncSend(final String message) {
+        new Thread(() -> send(message)).start();
     }
 
-    public synchronized void closeConnection ( ){
+    public synchronized void closeConnection() {
         send("Connection closed from the server side");
         try {
             socket.close();
@@ -47,22 +42,22 @@ public class Connection extends Observable<String> implements Runnable{
         active = false;
     }
 
-    private void close ( ){
+    private void close() {
         closeConnection();
-        System.out.println("Deregistering client...");
+        System.out.println("Unregistering client...");
         server.deregisterConnection(this);
         System.out.println("Done!");
     }
 
     @Override
-    public void run ( ){
+    public void run() {
         try {
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream());
             send("Welcome! What's your name?");
             name = in.nextLine();
             server.lobby(this, name);
-            while (isActive()){
+            while (isActive()) {
                 String read = in.nextLine();
                 notify(read);
             }

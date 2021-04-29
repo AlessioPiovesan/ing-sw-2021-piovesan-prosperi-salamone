@@ -14,17 +14,17 @@ import java.util.Random;
 
 public class Game {
 
-    int id;
-    private final Board[] b = new Board[4]; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
-    private Market market;
-    private Supply supply;
     private static int nGamers = 4;
-    int playingPlayer;
+    private final Board[] b = new Board[4]; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
     private final Random random = new Random();
     private final ArrayList<CardDev> cardDevArrayDeck = new ArrayList<>();
     private final ArrayList<CardLeader> cardLeaderDeck = new ArrayList<>();
     private final ArrayList<Integer> playableLeaderCards = new ArrayList<>();
     private final ArrayList<CardPopeFav> cardPopeDeck = new ArrayList<>();
+    int id;
+    int playingPlayer;
+    private Market market;
+    private Supply supply;
 
     public Game(Market newMarket, Supply newSupply) {
         /* Board creation for each player */
@@ -46,6 +46,10 @@ public class Game {
         /*...*/
     }
 
+    public static void setNGamers(int gamers) {
+        nGamers = gamers;
+    }
+
     public Board getSingleB(int i) {
         return b[i];
     }
@@ -54,7 +58,7 @@ public class Game {
         return b;
     }
 
-    public Market getMarket(){
+    public Market getMarket() {
         return market;
     }
 
@@ -131,10 +135,6 @@ public class Game {
         return nGamers;
     }
 
-    public static void setNGamers(int gamers) {
-        nGamers = gamers;
-    }
-
     public int checkNext() {
         if (playingPlayer++ >= nGamers - 1) return 0;
         return playingPlayer;
@@ -153,8 +153,8 @@ public class Game {
             b[i].setMyPFCards(giveCardLead().toArray(CardPopeFav[]::new));
     }
 
-    public void nextAction(){
+    public void nextAction() {
         /*chiede alla view l'azione da fare
-        * GameController riceve qualcosa e fa partire .action(...)*/
+         * GameController riceve qualcosa e fa partire .action(...)*/
     }
 }

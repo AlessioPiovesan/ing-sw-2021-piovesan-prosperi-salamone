@@ -1,15 +1,14 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.Client;
 import it.polimi.ingsw.client.view_client.CLI;
 import it.polimi.ingsw.client.view_client.GUI;
 
 import java.io.IOException;
 
-public class ClientApp{
-    public static void main (String[] args){
+public class ClientApp {
+    public static void main(String[] args) {
 
-        Client client = new Client("127.0.0.1", 12345);
+        var client = new Client("127.0.0.1", 12345);
         try {
             client.run();
         } catch (IOException e) {

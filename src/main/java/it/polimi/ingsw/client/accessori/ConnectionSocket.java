@@ -14,9 +14,9 @@ import java.util.logging.Logger;
 public class ConnectionSocket {
     private final String serverAddress;
     private final int serverPort;
+    private final Logger logger = Logger.getLogger(getClass().getName());
     SocketListener listener;
     private ObjectOutputStream outputStream;
-    private final Logger logger = Logger.getLogger(getClass().getName());
 
     public ConnectionSocket(String ip, int port) {
         this.serverAddress = ip;

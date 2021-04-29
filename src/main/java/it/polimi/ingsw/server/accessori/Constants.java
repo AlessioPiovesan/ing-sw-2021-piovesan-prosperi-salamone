@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.accessori;
 
-public enum Constants{
+public enum Constants {
     XMARKET(4),
     YMARKET(3),
     MAXTRACK(24),
@@ -13,11 +13,11 @@ public enum Constants{
 
     private final int val;
 
-    Constants (int num){
+    Constants(int num) {
         val = num;
     }
 
-    public int getVal ( ){
+    public int getVal() {
         return val;
     }
 }

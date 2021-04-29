@@ -1,44 +1,44 @@
 package it.polimi.ingsw.server.model_server.carte;
 
-public enum CardPopeFav implements Card{
-    cardPopeFav21(2),
-    cardPopeFav22(2),
-    cardPopeFav23(2),
-    cardPopeFav31(3),
-    cardPopeFav32(3),
-    cardPopeFav33(3),
-    cardPopeFav41(4),
-    cardPopeFav42(4),
-    cardPopeFav43(4);
+public enum CardPopeFav implements Card {
+    CARDPOPEFAV21(2),
+    CARDPOPEFAV22(2),
+    CARDPOPEFAV23(2),
+    CARDPOPEFAV31(3),
+    CARDPOPEFAV32(3),
+    CARDPOPEFAV33(3),
+    CARDPOPEFAV41(4),
+    CARDPOPEFAV42(4),
+    CARDPOPEFAV43(4);
 
     private final int winPnt;
     private boolean flipped;
     private int pos;
 
-    CardPopeFav (int winPnt){
+    CardPopeFav(int winPnt) {
         this.winPnt = winPnt;
         this.flipped = true;
     }
 
-    public int getPos ( ){
+    public int getPos() {
         return pos;
     }
 
-    protected void setPos (int p){
+    protected void setPos(int p) {
         pos = p;
     }
 
-    public boolean getFlipped ( ){
+    public boolean getFlipped() {
         return flipped;
     }
 
     @Override
-    public int getWinPnt ( ){
+    public int getWinPnt() {
         return winPnt;
     }
 
     @Override
-    public void flipCard ( ){
+    public void flipCard() {
         flipped = !flipped;
     }
 }

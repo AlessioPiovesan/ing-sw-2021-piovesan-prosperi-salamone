@@ -8,7 +8,6 @@ import it.polimi.ingsw.server.model_server.gioco.Game;
 import it.polimi.ingsw.server.model_server.plancia.Board;
 import it.polimi.ingsw.server.viewer_server.Observer;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class BoardController implements Observer<Board> {
@@ -44,22 +43,22 @@ public class BoardController implements Observer<Board> {
     }
 
     public void pickCardLead(int id) {
-        CardLeader[] choice = new CardLeader[2];
+        var choice = new CardLeader[2];
         System.out.println("Prima scelta");     /*Mostri le quattro carte e ne scegli una*/
-        choice[0] = (CardLeader.card_Lead1);      /*Inserisci la carta scelta nella lista */
+        choice[0] = (CardLeader.CARDLEAD01);      /*Inserisci la carta scelta nella lista */
         System.out.println("Seconda scelta");   /*Mostri le tre carte e ne scegli una*/
-        choice[1] = CardLeader.card_Lead2;      /*Inserisci la carta scelta nella lista */
+        choice[1] = CardLeader.CARDLEAD02;      /*Inserisci la carta scelta nella lista */
         player[id].setMyLeaderCards(choice);
     }
 
-    public void marketResHandler(LinkedList<Colours> keep, LinkedList<Colours> loose){
+    public void marketResHandler(List<Colours> keep, List<Colours> loose) {
         /*manda le keep in warehouse*/
         for (Colours colour : keep)
             game.getSingleB(game.getPlayingPlayer()).resHandler(colour);
         /*manda le loose in descarded*/
     }
 
-    public void warehouseResHandler(Colours colour, int lvl){
+    public void warehouseResHandler(Colours colour, int lvl) {
         game.getSingleB(game.getPlayingPlayer()).getWarehouse().moveResources(lvl, new Pick(colour, 1));
     }
 

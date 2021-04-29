@@ -83,22 +83,22 @@ public class GameController implements Observer<Game> {
         /*attiva quella carta leader*/
 
         switch (cardToBeActivated) {
-            case card_Lead1, card_Lead2, card_Lead3, card_Lead4: {
+            case CARDLEAD01, CARDLEAD02, CARDLEAD03, CARDLEAD04: {
                 Board b = game.getSingleB(game.getPlayingPlayer());
                 b.setDiscount(cardToBeActivated.getSpecial());
                 break;
             }
-            case card_Lead5, card_Lead6, card_Lead7, card_Lead8: {
+            case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08: {
                 Warehouse w = game.getSingleB(game.getPlayingPlayer()).getWarehouse();
                 w.addLeaderSpace(cardToBeActivated);
                 break;
             }
-            case card_Lead9, card_Lead10, card_Lead11, card_Lead12: {
+            case CARDLEAD09, CARDLEAD10, CARDLEAD11, CARDLEAD12: {
                 Board b = game.getSingleB(game.getPlayingPlayer());
                 b.setMarketAlt(cardToBeActivated.getSpecial());
                 break;
             }
-            case card_Lead13, card_Lead14, card_Lead15, card_Lead16: {
+            case CARDLEAD13, CARDLEAD14, CARDLEAD15, CARDLEAD16: {
                 Board b = game.getSingleB(game.getPlayingPlayer());
                 b.setProductAlt(cardToBeActivated.getSpecial());
                 break;

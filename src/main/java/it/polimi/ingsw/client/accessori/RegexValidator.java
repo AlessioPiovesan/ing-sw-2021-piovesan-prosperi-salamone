@@ -67,7 +67,7 @@
      * @version $Revision$
      * @since Validator 1.4
      */
-    public class RegexValidator implements Serializable{
+    public class RegexValidator implements Serializable {
 
         @Serial
         private static final long serialVersionUID = -8832409930574867162L;
@@ -81,7 +81,7 @@
          * @param regex The regular expression this validator will
          *              validate against
          */
-        public RegexValidator (String regex){
+        public RegexValidator(String regex) {
             this(regex, true);
         }
 
@@ -94,7 +94,7 @@
          * @param caseSensitive when <code>true</code> matching is <i>case
          *                      sensitive</i>, otherwise matching is <i>case in-sensitive</i>
          */
-        public RegexValidator (String regex, boolean caseSensitive){
+        public RegexValidator(String regex, boolean caseSensitive) {
             this(new String[]{regex}, caseSensitive);
         }
 
@@ -107,14 +107,14 @@
          * @param caseSensitive when <code>true</code> matching is <i>case
          *                      sensitive</i>, otherwise matching is <i>case in-sensitive</i>
          */
-        public RegexValidator (String[] regexs, boolean caseSensitive){
-            if (regexs == null || regexs.length == 0){
+        public RegexValidator(String[] regexs, boolean caseSensitive) {
+            if (regexs == null || regexs.length == 0) {
                 throw new IllegalArgumentException("Regular expressions are missing");
             }
             patterns = new Pattern[regexs.length];
             int flags = (caseSensitive ? 0 : Pattern.CASE_INSENSITIVE);
-            for (var i = 0;i < regexs.length;i++){
-                if (regexs[i] == null || regexs[i].length() == 0){
+            for (var i = 0; i < regexs.length; i++) {
+                if (regexs[i] == null || regexs[i].length() == 0) {
                     throw new IllegalArgumentException("Regular expression[" + i + "] is missing");
                 }
                 patterns[i] = Pattern.compile(regexs[i], flags);
@@ -129,8 +129,8 @@
          * @return String array of the <i>groups</i> matched if
          * valid or <code>null</code> if invalid
          */
-        public String[] match (String value){
-            if (value == null){
+        public String[] match(String value) {
+            if (value == null) {
                 return new String[0];
             }
             for (Pattern pattern : patterns) {
@@ -153,11 +153,11 @@
          * @return A String representation of this validator
          */
         @Override
-        public String toString ( ){
+        public String toString() {
             var buffer = new StringBuilder();
             buffer.append("RegexValidator{");
-            for (var i = 0;i < patterns.length;i++){
-                if (i > 0){
+            for (var i = 0; i < patterns.length; i++) {
+                if (i > 0) {
                     buffer.append(",");
                 }
                 buffer.append(patterns[i].pattern());

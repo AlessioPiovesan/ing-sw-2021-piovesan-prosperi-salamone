@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.accessori;
 
-public enum ColoursCards{
+public enum ColoursCards {
     GREEN,
     BLUE,
     VIOLET,

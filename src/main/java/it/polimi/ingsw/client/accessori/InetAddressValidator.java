@@ -150,9 +150,9 @@
                 }
             }
             parts = parts[0].split("%", -1);
-            if ((parts.length > 2)||
+            if ((parts.length > 2) ||
                     (parts.length == 2 && !parts[1].matches("[^\\s/%]+")) ||
-                    (inet6Address.contains("::") && (inet6Address.indexOf("::") != inet6Address.lastIndexOf("::")))||
+                    (inet6Address.contains("::") && (inet6Address.indexOf("::") != inet6Address.lastIndexOf("::"))) ||
                     ((inet6Address.startsWith(":") && !inet6Address.startsWith("::"))
                             || (inet6Address.endsWith(":") && !inet6Address.endsWith("::"))))
                 return false;

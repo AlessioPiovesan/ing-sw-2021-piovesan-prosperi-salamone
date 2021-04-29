@@ -4,8 +4,8 @@ import it.polimi.ingsw.server.model_server.Mod;
 import it.polimi.ingsw.server.model_server.gioco.Game;
 
 
-public abstract class View extends Observable<Game> implements Observer<Mod>{
+public abstract class View extends Observable<Game> implements Observer<Mod> {
 
-    void showModel (Mod mod){
+    void showModel(Mod mod) {
     }
 }

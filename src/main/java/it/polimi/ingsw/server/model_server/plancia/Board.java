@@ -10,7 +10,6 @@ import java.util.*;
 
 public class Board {
     private static final LinkedList<CardDev> myDevCards = new LinkedList<>();
-    private CardLeader[] myLeaderCards = new CardLeader[2];
     private final Warehouse warehouse;
     private final FaithTrack faithTrack;
     private final EnumMap<Colours, Integer> resAll;
@@ -21,6 +20,7 @@ public class Board {
     Colours[] discount = {Colours.WHITE, Colours.WHITE};
     Colours[] marketAlt = {Colours.WHITE, Colours.WHITE};
     Colours[] productAlt = {Colours.WHITE, Colours.WHITE};
+    private CardLeader[] myLeaderCards = new CardLeader[2];
 
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library) {
         this.idD = id;
@@ -39,13 +39,13 @@ public class Board {
         resAll.put(Colours.PURPLE, 0);
     }
 
+    public CardLeader[] getMyLeaderCards() {
+        return myLeaderCards;
+    }
+
     public void setMyLeaderCards(CardLeader[] choice) { /* DA IMPLEMENTARE */
         myLeaderCards[0] = choice[1];
         myLeaderCards[1] = choice[3];
-    }
-
-    public CardLeader[] getMyLeaderCards() {
-        return myLeaderCards;
     }
 
     public int checkDiscardedResources(List<Colours> discarded) {
@@ -165,11 +165,11 @@ public class Board {
         else marketAlt[1] = color;
     }
 
-    public void marketResHandler(LinkedList<Colours> res) {
+    public void marketResHandler(List<Colours> res) {
         for (Colours colours : res)
             if (colours == Colours.WHITE) {
-                for (int i = 0; i < marketAlt.length; i++) {
-                    if (marketAlt[i] != Colours.WHITE) {
+                for (Colours value : marketAlt) {
+                    if (value != Colours.WHITE) {
                         /*si chiede al giocatore che fare di questa biglia bianca*/
                         Colours choice = Colours.RED; /* DA IMPLEMENTARE */
                         colours = choice;

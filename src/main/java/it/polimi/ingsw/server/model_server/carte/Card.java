@@ -1,9 +1,9 @@
 package it.polimi.ingsw.server.model_server.carte;
 
-interface Card{
-    int getWinPnt ( );
+interface Card {
+    int getWinPnt();
 
-    boolean getFlipped ( );
+    boolean getFlipped();
 
-    void flipCard ( );
+    void flipCard();
 }

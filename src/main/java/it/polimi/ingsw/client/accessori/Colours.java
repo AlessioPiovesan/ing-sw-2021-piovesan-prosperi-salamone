@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.accessori;
 
-public enum Colours{
+public enum Colours {
 
     BLUE("SHEILD"),
     GREEN(null),
@@ -12,15 +12,15 @@ public enum Colours{
 
     final String type;
 
-    Colours (String type){
+    Colours(String type) {
         this.type = type;
     }
 
-    public String getType ( ){
+    public String getType() {
         return type;
     }
 
-    public Colours selectPref ( ){
+    public Colours selectPref() {
         Colours choice = Colours.WHITE;
         /* DA IMPLEMENTARE */
         /*Mostra le risorse tra cui scegliere e salva la scelta*/
