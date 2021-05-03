@@ -2,10 +2,10 @@ package it.polimi.ingsw.server.accessori;
 
 public interface Requirements {
 
-    public void getRequirements();
+    void getRequirements();
 
 
-    public static class RequirementsCard implements Requirements {
+    class RequirementsCard implements Requirements {
 
         private final ColoursCards type;
         private final int cardLvl;
@@ -29,7 +29,7 @@ public interface Requirements {
         }
     }
 
-    public static class RequirementsResources implements Requirements {
+    class RequirementsResources implements Requirements {
 
         private Colours type;
         private int qnt;

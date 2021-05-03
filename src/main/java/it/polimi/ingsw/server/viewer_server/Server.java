@@ -5,7 +5,10 @@ import it.polimi.ingsw.server.model_server.Mod;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -36,12 +39,7 @@ public class Server {
             opponent.closeConnection();
             playingConnection.remove(c);
             playingConnection.remove(opponent);
-            Iterator<String> iterator = waitingConnection.keySet().iterator();
-            while (iterator.hasNext()) {
-                if (waitingConnection.get(iterator.next()) == c) {
-                    iterator.remove();
-                }
-            }
+            waitingConnection.keySet().removeIf(s -> waitingConnection.get(s) == c);
         }
     }
 

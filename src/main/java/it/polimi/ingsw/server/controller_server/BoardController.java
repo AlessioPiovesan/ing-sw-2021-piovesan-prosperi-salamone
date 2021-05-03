@@ -32,7 +32,7 @@ public class BoardController implements Observer<Board> {
         int a = player[i].checkDiscardedResources(resExcess);
         for (var j = 0; j < game.getnGamers(); j++) {
             if (j != i) {
-                player[j].getFaithTrack().setPosition(a);
+                player[j].getFaithTrack().moveForward(a);
             }
         }
 

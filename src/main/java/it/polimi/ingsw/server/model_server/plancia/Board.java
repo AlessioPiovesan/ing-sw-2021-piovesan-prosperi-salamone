@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.accessori.Colours;
 import it.polimi.ingsw.server.accessori.Pick;
 import it.polimi.ingsw.server.model_server.carte.CardDev;
 import it.polimi.ingsw.server.model_server.carte.CardLeader;
-import it.polimi.ingsw.server.model_server.carte.CardPopeFav;
 
 import java.util.*;
 
@@ -13,6 +12,7 @@ public class Board {
     private final Warehouse warehouse;
     private final FaithTrack faithTrack;
     private final EnumMap<Colours, Integer> resAll;
+    private final CardLeader[] myLeaderCards = new CardLeader[2];
     protected StrongBox strongBox;
     protected Library library;
     int idD;
@@ -20,7 +20,6 @@ public class Board {
     Colours[] discount = {Colours.WHITE, Colours.WHITE};
     Colours[] marketAlt = {Colours.WHITE, Colours.WHITE};
     Colours[] productAlt = {Colours.WHITE, Colours.WHITE};
-    private CardLeader[] myLeaderCards = new CardLeader[2];
 
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library) {
         this.idD = id;
@@ -75,7 +74,7 @@ public class Board {
             if (colours != Colours.WHITE) {
                 /*prima chiede da dove prendere productAlt*/
                 /*poi chiede la risorsa a scelta*/
-                faithTrack.setPosition(1);
+                faithTrack.moveForward(1);
             }
         }
 
@@ -90,8 +89,8 @@ public class Board {
     }
 
     public void store(Pick[] start) {
-        for (var i = 0; i < start.length; i++) {
-            strongBox.moveResources(start[i]);
+        for (Pick pick : start) {
+            strongBox.moveResources(pick);
         }
     }
 
@@ -153,10 +152,6 @@ public class Board {
         /*aggiungi alle carte che ha il giocatore*/
         /*controlla se c'è lo sconto*/
         myDevCards.add(card);
-    }
-
-    public void setMyPFCards(CardPopeFav[] cards) { /* DA IMPLEMENTARE */
-        faithTrack.setCard(cards);
     }
 
     public void setMarketAlt(Colours color) {

@@ -7,7 +7,6 @@ import it.polimi.ingsw.server.model_server.gioco.Game;
 import it.polimi.ingsw.server.model_server.gioco.Market;
 import it.polimi.ingsw.server.model_server.gioco.Supply;
 import it.polimi.ingsw.server.model_server.plancia.Board;
-import it.polimi.ingsw.server.model_server.plancia.Warehouse;
 import it.polimi.ingsw.server.viewer_server.Observer;
 
 import java.util.LinkedList;
@@ -64,8 +63,8 @@ public class GameController implements Observer<Game> {
     }
 
     public void action(int moveMarket) {
-        Board b = game.getSingleB(game.getPlayingPlayer());
-        Market m = game.getMarket();
+        var b = game.getSingleB(game.getPlayingPlayer());
+        var m = game.getMarket();
         /*sposta le biglie nel mercato*/
         LinkedList<Colours> res = (LinkedList<Colours>) m.moveMarbles(moveMarket);
         /*mando nella funzione che manda a far scegliere al giocatore che fare di queste risorse*/
@@ -89,7 +88,7 @@ public class GameController implements Observer<Game> {
                 break;
             }
             case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08: {
-                Warehouse w = game.getSingleB(game.getPlayingPlayer()).getWarehouse();
+                var w = game.getSingleB(game.getPlayingPlayer()).getWarehouse();
                 w.addLeaderSpace(cardToBeActivated);
                 break;
             }

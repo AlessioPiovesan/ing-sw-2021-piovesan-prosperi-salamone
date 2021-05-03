@@ -13,7 +13,7 @@ import java.util.stream.IntStream;
 public class Market {
     private final LinkedList<Colours> marbles = new LinkedList<>();
     private final Random random = new Random();
-    public Colours[][] tray;
+    protected Colours[][] tray;
     private Colours external;
 
     public Market() {
@@ -38,7 +38,7 @@ public class Market {
 
     private Colours[][] fillMarket(LinkedList<Colours> marbles) {
         LinkedList<Integer> list = new LinkedList<>();
-        Colours[][] m = new Colours[Constants.XMARKET.getVal()][Constants.YMARKET.getVal()];
+        var m = new Colours[Constants.XMARKET.getVal()][Constants.YMARKET.getVal()];
         for (var j = 0; j < Constants.YMARKET.getVal(); j++) {
             fillColumns(marbles, list, Constants.XMARKET.getVal(), Constants.YMARKET.getVal(), m, j);
         }
@@ -95,14 +95,14 @@ public class Market {
 
     private void operationMoveY(Colours r1, int y) {
         external = tray[0][Constants.YMARKET.getVal() - y];
-        moveX(r1, y);
+        moveY(r1, y);
     }
 
-    private void moveX(Colours r1, int y) {
+    private void moveX(Colours r1, int x) {
         Colours r2;
         for (int i = Constants.YMARKET.getVal(); i > 0; i--) {
-            r2 = tray[Constants.XMARKET.getVal() - y][i - 1];
-            tray[Constants.XMARKET.getVal() - y][i - 1] = r1;
+            r2 = tray[Constants.XMARKET.getVal() - x][i - 1];
+            tray[Constants.XMARKET.getVal() - x][i - 1] = r1;
             r1 = r2;
         }
     }

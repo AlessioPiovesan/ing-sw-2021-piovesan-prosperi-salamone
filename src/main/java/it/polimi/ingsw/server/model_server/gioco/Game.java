@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.accessori.Colours;
 import it.polimi.ingsw.server.accessori.Pick;
 import it.polimi.ingsw.server.model_server.carte.CardDev;
 import it.polimi.ingsw.server.model_server.carte.CardLeader;
-import it.polimi.ingsw.server.model_server.carte.CardPopeFav;
 import it.polimi.ingsw.server.model_server.plancia.*;
 
 import java.util.ArrayList;
@@ -20,11 +19,10 @@ public class Game {
     private final ArrayList<CardDev> cardDevArrayDeck = new ArrayList<>();
     private final ArrayList<CardLeader> cardLeaderDeck = new ArrayList<>();
     private final ArrayList<Integer> playableLeaderCards = new ArrayList<>();
-    private final ArrayList<CardPopeFav> cardPopeDeck = new ArrayList<>();
+    private final Market market;
+    private final Supply supply;
     int id;
     int playingPlayer;
-    private Market market;
-    private Supply supply;
 
     public Game(Market newMarket, Supply newSupply) {
         /* Board creation for each player */
@@ -42,7 +40,6 @@ public class Game {
         /* Card cataloging for each Game */
         cardDevArrayDeck.addAll(Arrays.asList(CardDev.values()));
         cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
-        cardPopeDeck.addAll(Arrays.asList(CardPopeFav.values()));
         /*...*/
     }
 
@@ -102,10 +99,6 @@ public class Game {
         return cardLeaderDeck;
     }
 
-    public List<CardPopeFav> getCardPopeDeck() {
-        return cardPopeDeck;
-    }
-
     public void pickStartingResources() {
         Colours choice = Colours.WHITE;
         int next = checkNext();
@@ -115,7 +108,7 @@ public class Game {
             if (nGamers > 2) {
                 next = checkNext();
                 b[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
-                b[next].getFaithTrack().setPosition(1);
+                b[next].getFaithTrack().moveForward(1);
                 b[next].updateResAll();
                 if (nGamers > 3) {
                     next = checkNext();
@@ -124,7 +117,7 @@ public class Game {
                     int lvl = b[next].getWarehouse().isThereThatRes(c);
                     if (lvl < 0) lvl = 1;
                     b[next].getWarehouse().moveResources(lvl, new Pick(c, 1));
-                    b[next].getFaithTrack().setPosition(1);
+                    b[next].getFaithTrack().moveForward(1);
                     b[next].updateResAll();
                 }
             }
@@ -146,11 +139,6 @@ public class Game {
             pntWin[i] = b[i].countWinPnt();
         }
         return pntWin;
-    }
-
-    public void myCardPopeFavHandler() {
-        for (var i = 0; i < nGamers; i++)
-            b[i].setMyPFCards(giveCardLead().toArray(CardPopeFav[]::new));
     }
 
     public void nextAction() {

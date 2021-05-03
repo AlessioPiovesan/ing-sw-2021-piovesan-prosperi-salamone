@@ -6,9 +6,10 @@ import it.polimi.ingsw.client.accessori.InetAddressValidator;
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Scanner;
 
-public class CLI implements Runnable {
+public class CLI implements Runnable, UI {
 
     private static String ip = "";
     private static int port = 0;
@@ -59,7 +60,7 @@ public class CLI implements Runnable {
     public void setup() {
         var nickname = "";
         do {
-            while (nickname == "") {
+            while (Objects.equals(nickname, "")) {
                 System.out.println(">Insert your nickname: ");
                 System.out.println(">");
                 nickname = input.nextLine();

@@ -3,7 +3,7 @@ package it.polimi.ingsw.client.accessori;
 public enum Constants {
     XMARKET(4),
     YMARKET(3),
-    MAXTRACK(20),
+    MAXTRACK(24),
     MAXMARBLESW(4),
     MAXMARBLESB(2),
     MAXMARBLESG(2),

@@ -67,7 +67,7 @@
     <orderEntry type="library" name="Maven: org.apache.maven.surefire:surefire-shared-utils:3.0.0-M4" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven.plugins:maven-verifier-plugin:maven-plugin:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.codehaus.plexus:plexus-component-annotations:2.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.maven.plugin-tools:maven-plugin-annotations:3.6.0" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.maven.plugin-tools:maven-plugin-annotations:3.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven.plugins:maven-jar-plugin:maven-plugin:3.2.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven.shared:file-management:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.maven.shared:maven-shared-io:3.0.0" level="project" />

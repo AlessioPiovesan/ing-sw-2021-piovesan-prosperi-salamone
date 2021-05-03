@@ -9,7 +9,7 @@ import java.util.stream.IntStream;
 public class Library {
 
     /* Creation CardDev slot for each board */
-    private final ArrayList<CardDev>[] slot = new ArrayList[3];
+    private final List<CardDev>[] slot = new ArrayList[3];
 
 
     public Library() {
