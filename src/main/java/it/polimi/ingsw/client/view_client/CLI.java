@@ -1,18 +1,19 @@
 package it.polimi.ingsw.client.view_client;
 
-import it.polimi.ingsw.client.accessori.ConnectionSocket;
-import it.polimi.ingsw.client.accessori.InetAddressValidator;
+import it.polimi.ingsw.client.accessories.ConnectionSocket;
+import it.polimi.ingsw.server.controller_server.GameController;
+import it.polimi.ingsw.server.model_server.cards.CardLeader;
+import it.polimi.ingsw.server.model_server.game.Game;
+import it.polimi.ingsw.server.model_server.game.Market;
 
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-import java.util.LinkedList;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 
 public class CLI implements Runnable, UI {
 
-    private static String ip = "";
-    private static int port = 0;
+    private static final String IP = "";
+    private static final int PORT = 0;
     private final Scanner input;
     private final LinkedList<String> nameAll = new LinkedList<>();
     private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
@@ -28,7 +29,7 @@ public class CLI implements Runnable, UI {
         modelView = new ModelView(this);
     }
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
 
         System.out.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
         System.out.println("by\n\u001B[34mAlessio Piovesan\u001B[0m,\n\u001B[32mPier Giorgio Prosperi\u001B[0m,\n\u001B[33mMatteo Salamone\u001B[0m,\n");
@@ -50,11 +51,19 @@ public class CLI implements Runnable, UI {
         }
         var cli = new CLI();
         cli.run();
+    }*/
+
+    public static void main(String[] args) {
+        ArrayList<CardLeader> cardLeaderDeck = new ArrayList<>();
+        cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
     }
 
     @Override
     public void run() {
         setup();
+        GameController gameController = new GameController(new Game(new Market()));
+        gameController.setGamers(nameAll.size());
+        gameController.startGame();
     }
 
     public void setup() {
@@ -75,7 +84,7 @@ public class CLI implements Runnable, UI {
             }
         } while (nameAll.contains(nickname));
         nameAll.add(nickname);
-        connectionSocket = new ConnectionSocket(ip, port);
+        /*connectionSocket = new ConnectionSocket(ip, port);
         try {
             if (!connectionSocket.setup(nickname, modelView)) {
                 System.err.println("The entered IP/port doesn't match any active server or the server is not running. Please try again!");
@@ -83,7 +92,13 @@ public class CLI implements Runnable, UI {
             }
             System.out.println("Socket Connection setup completed!");
         } catch (Exception e) {
-            setup();
+            e.printStackTrace();
+        }*/
+    }
+
+    public void showCards(List<CardLeader> list) {
+        for (CardLeader cardLeader : list) {
+            System.out.println(cardLeader.toString());
         }
     }
 }

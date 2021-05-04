@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.viewer_server;
 
+import it.polimi.ingsw.server.accessories.Server;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;

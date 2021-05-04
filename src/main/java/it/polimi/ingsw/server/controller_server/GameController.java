@@ -1,12 +1,10 @@
 package it.polimi.ingsw.server.controller_server;
 
-import it.polimi.ingsw.server.accessori.Colours;
-import it.polimi.ingsw.server.model_server.carte.CardDev;
-import it.polimi.ingsw.server.model_server.carte.CardLeader;
-import it.polimi.ingsw.server.model_server.gioco.Game;
-import it.polimi.ingsw.server.model_server.gioco.Market;
-import it.polimi.ingsw.server.model_server.gioco.Supply;
-import it.polimi.ingsw.server.model_server.plancia.Board;
+import it.polimi.ingsw.server.accessories.Colours;
+import it.polimi.ingsw.server.model_server.board.Board;
+import it.polimi.ingsw.server.model_server.cards.CardDev;
+import it.polimi.ingsw.server.model_server.cards.CardLeader;
+import it.polimi.ingsw.server.model_server.game.Game;
 import it.polimi.ingsw.server.viewer_server.Observer;
 
 import java.util.LinkedList;
@@ -19,18 +17,14 @@ public class GameController implements Observer<Game> {
         this.game = game;
     }
 
-    private void nextTurn() {
-        game.setPlayingPlayer(game.checkNext());
-        /*funzione che non abbiamo di Game che chiede alla view qual è l'azione successiva*/
-    }
-
     @Override
     public void update(Game game) {
 
         /*Riceve le scelte del giocatore e manda avanti la partita*/
-
-        action();
-        nextTurn();
+        game.setPlayingPlayer(game.checkNext());
+        /*funzione che non abbiamo di Game che chiede alla view qual è l'azione successiva*/
+        game.ready();
+        update(game);
     }
 
     public void setGamers(int gamers) {
@@ -38,10 +32,9 @@ public class GameController implements Observer<Game> {
     }
 
     public void startGame() {
-        game = new Game(new Market(), new Supply());
         game.myLeaderCardsHandler();
         game.pickStartingResources();
-        nextTurn();
+        update(game);
     }
 
     public void endGame() {
