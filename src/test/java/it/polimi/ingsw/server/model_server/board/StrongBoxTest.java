@@ -14,13 +14,13 @@ class StrongBoxTest extends StrongBox {
         StrongBox strongBox = new StrongBox();
         for (Colours colour : Colours.values()) {
             switch (colour) {
-                case RED, WHITE -> assertFalse(strongBox.getComp().containsKey(colour));
-                case BLUE, GREY, PURPLE, YELLOW -> assertEquals(0, strongBox.getComp().get(colour));
+                case RED, WHITE -> assertFalse(strongBox.getStrongContent().containsKey(colour));
+                case BLUE, GREY, PURPLE, YELLOW -> assertEquals(0, strongBox.getStrongContent().get(colour));
             }
         }
         strongBox.moveResources(new Pick(Colours.BLUE, 5));
-        assertEquals(5, strongBox.getComp().get(Colours.BLUE));
+        assertEquals(5, strongBox.getStrongContent().get(Colours.BLUE));
         strongBox.moveResources(new Pick(Colours.BLUE, -3));
-        assertEquals(2, strongBox.getComp().get(Colours.BLUE));
+        assertEquals(2, strongBox.getStrongContent().get(Colours.BLUE));
     }
 }

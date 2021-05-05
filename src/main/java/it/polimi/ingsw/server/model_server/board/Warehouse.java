@@ -72,12 +72,12 @@ public class Warehouse {
         return new Pick(wareContent.get(lvl).getResource(), wareContent.get(lvl).getQnt());
     }
 
-    public void addLeaderSpace(CardLeader card) {
-        switch (card) {
-            case CARDLEAD05 -> wareContent.add(new Pick(Colours.GREY, 0));
-            case CARDLEAD06 -> wareContent.add(new Pick(Colours.PURPLE, 0));
-            case CARDLEAD07 -> wareContent.add(new Pick(Colours.BLUE, 0));
-            case CARDLEAD08 -> wareContent.add(new Pick(Colours.YELLOW, 0));
+    public void addLeaderSpace(Colours color) {
+        switch (color) {
+            case GREY -> wareContent.add(new Pick(Colours.GREY, 0));
+            case PURPLE -> wareContent.add(new Pick(Colours.PURPLE, 0));
+            case BLUE -> wareContent.add(new Pick(Colours.BLUE, 0));
+            case YELLOW -> wareContent.add(new Pick(Colours.YELLOW, 0));
             default -> System.out.println("ERROR");
         }
     }

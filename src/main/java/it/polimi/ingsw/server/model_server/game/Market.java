@@ -107,11 +107,11 @@ public class Market {
         }
     }
 
-    private void moveY(Colours r1, int x) {
+    private void moveY(Colours r1, int y) {
         Colours r2;
         for (int i = Constants.XMARKET.getVal(); i > 0; i--) {
-            r2 = tray[i - 1][Constants.YMARKET.getVal() - x];
-            tray[i - 1][Constants.YMARKET.getVal() - x] = r1;
+            r2 = tray[i - 1][Constants.YMARKET.getVal() - y];
+            tray[i - 1][Constants.YMARKET.getVal() - y] = r1;
             r1 = r2;
         }
     }

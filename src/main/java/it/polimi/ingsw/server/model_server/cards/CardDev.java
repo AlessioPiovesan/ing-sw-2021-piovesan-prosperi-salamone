@@ -4,6 +4,8 @@ import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.Pick;
 
+import java.util.Arrays;
+
 public enum CardDev implements Card {
 
     CARD_DEV1B1(1,
@@ -296,16 +298,16 @@ public enum CardDev implements Card {
             12);
 
     private final int lvl;
-    private final ColoursCards c;
+    private final ColoursCards colour;
     private final Pick[] cost;
     private final Pick[] resFrom;
     private final Pick[] resTo;
     private final int winPnt;
     boolean flipped;
 
-    CardDev(int lvl, ColoursCards c, Pick[] cost, Pick[] resFrom, Pick[] resTo, int winPnt) {
+    CardDev(int lvl, ColoursCards colour, Pick[] cost, Pick[] resFrom, Pick[] resTo, int winPnt) {
         this.lvl = lvl;
-        this.c = c;
+        this.colour = colour;
         this.cost = cost;
         this.resFrom = resFrom;
         this.resTo = resTo;
@@ -317,8 +319,8 @@ public enum CardDev implements Card {
         return lvl;
     }
 
-    public ColoursCards getC() {
-        return c;
+    public ColoursCards getColour() {
+        return colour;
     }
 
     public Pick[] getCost() {
@@ -331,6 +333,18 @@ public enum CardDev implements Card {
 
     public Pick[] getResTo() {
         return resTo;
+    }
+
+    @Override
+    public String toString() {
+        return "CardDev{" +
+                "lvl=" + lvl +
+                ", c=" + colour +
+                ", cost=" + Arrays.toString(cost) +
+                ", resFrom=" + Arrays.toString(resFrom) +
+                ", resTo=" + Arrays.toString(resTo) +
+                ", winPnt=" + winPnt +
+                '}';
     }
 
     @Override

@@ -64,6 +64,12 @@ public class Board implements Serializable {
         else productAlt[1] = color;
     }
 
+    public void setMarketAlt(Colours color) {
+        if (marketAlt[0] == Colours.WHITE)
+            marketAlt[0] = color;
+        else marketAlt[1] = color;
+    }
+
     public void productionAll() {
         for (var i = 0; i < 3; i++) {
             CardDev card = library.getCardOnTop(i);
@@ -129,7 +135,7 @@ public class Board implements Serializable {
         for (Pick pick : w)
             resAll.replace(pick.getResource(), pick.getQnt() + resAll.get(pick.getResource()));
         for (Colours c : Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
-            resAll.replace(c, resAll.get(c) + strongBox.getComp().get(c));
+            resAll.replace(c, resAll.get(c) + strongBox.getStrongContent().get(c));
     }
 
     private int getWinPntCardLeader() {
@@ -154,12 +160,6 @@ public class Board implements Serializable {
         /*controlla se c'è lo sconto*/
         myDevCards.add(card);
         if (myDevCards.size() == 7) System.out.println("Fine partita?");
-    }
-
-    public void setMarketAlt(Colours color) {
-        if (marketAlt[0] == Colours.WHITE)
-            marketAlt[0] = color;
-        else marketAlt[1] = color;
     }
 
     public void marketResHandler(List<Colours> res) {

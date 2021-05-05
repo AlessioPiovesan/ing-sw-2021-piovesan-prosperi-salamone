@@ -66,7 +66,7 @@ class WarehouseTest extends Warehouse {
         Warehouse w = new Warehouse();
         int i = 3;
         for (CardLeader c : Arrays.asList(CardLeader.CARDLEAD05, CardLeader.CARDLEAD06, CardLeader.CARDLEAD07, CardLeader.CARDLEAD08)) {
-            w.addLeaderSpace(c);
+            w.addLeaderSpace(c.getSpecial());
             assertEquals(++i, w.getWareContent().size());
         }
     }

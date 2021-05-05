@@ -15,9 +15,9 @@ import java.util.Random;
 public class Game implements Serializable {
 
     private static int nGamers = 4;
-    private final Board[] b = new Board[4]; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
+    private final Board[] boards = new Board[4]; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
     private final Random random = new Random();
-    private final ArrayList<CardDev> cardDevArrayDeck = new ArrayList<>();
+    private final ArrayList<CardDev> cardDevDeck = new ArrayList<>();
     private final ArrayList<CardLeader> cardLeaderDeck = new ArrayList<>();
     private final ArrayList<Integer> playableLeaderCards = new ArrayList<>();
     private final Market market;
@@ -31,26 +31,30 @@ public class Game implements Serializable {
             var strongBox = new StrongBox();
             var faithTrack = new FaithTrack();
             var library = new Library();
-            b[i] = new Board(i, warehouse, strongBox, faithTrack, library);
+            boards[i] = new Board(i, warehouse, strongBox, faithTrack, library);
         }
         /* Market creation for each Game */
         market = newMarket;
         /* Card cataloging for each Game */
-        cardDevArrayDeck.addAll(Arrays.asList(CardDev.values()));
+        cardDevDeck.addAll(Arrays.asList(CardDev.values()));
         cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
         /*...*/
+    }
+
+    public int getNGamers() {
+        return nGamers;
     }
 
     public static void setNGamers(int gamers) {
         nGamers = gamers;
     }
 
-    public Board getSingleB(int i) {
-        return b[i];
+    public Board[] getAllB() {
+        return boards;
     }
 
-    public Board[] getAllB() {
-        return b;
+    public Board getSingleB(int i) {
+        return boards[i];
     }
 
     public Market getMarket() {
@@ -68,7 +72,7 @@ public class Game implements Serializable {
 
     public void myLeaderCardsHandler() {
         for (var i = 0; i < nGamers; i++)
-            b[i].setMyLeaderCards(giveCardLead().toArray(CardLeader[]::new));
+            boards[i].setMyLeaderCards(giveCardLead().toArray(CardLeader[]::new));
     }
 
     public List<CardLeader> giveCardLead() {
@@ -89,8 +93,8 @@ public class Game implements Serializable {
         }
     }
 
-    public List<CardDev> getCardDevArrayDeck() {
-        return cardDevArrayDeck;
+    public List<CardDev> getCardDevDeck() {
+        return cardDevDeck;
     }
 
     public List<CardLeader> getCardLeaderDeck() {
@@ -101,29 +105,25 @@ public class Game implements Serializable {
         Colours choice = Colours.WHITE;
         int next = checkNext();
         if (nGamers > 1) {
-            b[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
-            b[next].updateResAll();
+            boards[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
+            boards[next].updateResAll();
             if (nGamers > 2) {
                 next = checkNext();
-                b[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
-                b[next].getFaithTrack().moveForward(1);
-                b[next].updateResAll();
+                boards[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
+                boards[next].getFaithTrack().moveForward(1);
+                boards[next].updateResAll();
                 if (nGamers > 3) {
                     next = checkNext();
-                    b[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
+                    boards[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
                     Colours c = choice.selectPref();
-                    int lvl = b[next].getWarehouse().isThereThatRes(c);
+                    int lvl = boards[next].getWarehouse().isThereThatRes(c);
                     if (lvl < 0) lvl = 1;
-                    b[next].getWarehouse().moveResources(lvl, new Pick(c, 1));
-                    b[next].getFaithTrack().moveForward(1);
-                    b[next].updateResAll();
+                    boards[next].getWarehouse().moveResources(lvl, new Pick(c, 1));
+                    boards[next].getFaithTrack().moveForward(1);
+                    boards[next].updateResAll();
                 }
             }
         }
-    }
-
-    public int getnGamers() {
-        return nGamers;
     }
 
     public int checkNext() {
@@ -134,7 +134,7 @@ public class Game implements Serializable {
     public int[] countWinPntPerBoard() {
         var pntWin = new int[nGamers];
         for (var i = 0; i < nGamers; i++) {
-            pntWin[i] = b[i].countWinPnt();
+            pntWin[i] = boards[i].countWinPnt();
         }
         return pntWin;
     }

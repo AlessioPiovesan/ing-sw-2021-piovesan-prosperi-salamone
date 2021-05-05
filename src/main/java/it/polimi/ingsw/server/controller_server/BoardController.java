@@ -30,7 +30,7 @@ public class BoardController implements Observer<Board> {
 
     private void addFaithPnt(int i, List<Colours> resExcess) {
         int a = player[i].checkDiscardedResources(resExcess);
-        for (var j = 0; j < game.getnGamers(); j++) {
+        for (var j = 0; j < game.getNGamers(); j++) {
             if (j != i) {
                 player[j].getFaithTrack().moveForward(a);
             }

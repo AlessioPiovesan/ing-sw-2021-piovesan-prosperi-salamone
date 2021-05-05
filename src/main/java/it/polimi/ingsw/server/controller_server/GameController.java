@@ -38,9 +38,9 @@ public class GameController implements Observer<Game> {
     }
 
     public void endGame() {
-        var win = new int[game.getnGamers()];
+        var win = new int[game.getNGamers()];
         var i = 0;
-        while (i < game.getnGamers()) {
+        while (i < game.getNGamers()) {
             for (Board b : game.getAllB()) {
                 win[i] += b.countWinPnt();
                 i++;
@@ -82,7 +82,7 @@ public class GameController implements Observer<Game> {
             }
             case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08: {
                 var w = game.getSingleB(game.getPlayingPlayer()).getWarehouse();
-                w.addLeaderSpace(cardToBeActivated);
+                w.addLeaderSpace(cardToBeActivated.getSpecial());
                 break;
             }
             case CARDLEAD09, CARDLEAD10, CARDLEAD11, CARDLEAD12: {
