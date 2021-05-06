@@ -1,4 +1,4 @@
-package it.polimi.ingsw.client.accessories;
+package it.polimi.ingsw.client.web;
 
 import it.polimi.ingsw.client.view_client.ModelView;
 

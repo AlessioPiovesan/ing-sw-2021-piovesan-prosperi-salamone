@@ -1,6 +1,6 @@
-package it.polimi.ingsw.server.viewer_server;
+package it.polimi.ingsw.server.web;
 
-import it.polimi.ingsw.server.accessories.Server;
+import it.polimi.ingsw.server.accessories.Observable;
 
 import java.io.IOException;
 import java.io.PrintWriter;

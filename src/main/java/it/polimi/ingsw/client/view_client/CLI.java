@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client.view_client;
 
-import it.polimi.ingsw.client.accessories.ConnectionSocket;
+import it.polimi.ingsw.client.web.ConnectionSocket;
 import it.polimi.ingsw.server.controller_server.GameController;
 import it.polimi.ingsw.server.model_server.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.game.Game;

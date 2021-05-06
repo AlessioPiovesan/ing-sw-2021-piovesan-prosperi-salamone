@@ -1,8 +1,9 @@
-package it.polimi.ingsw.server.accessories;
+package it.polimi.ingsw.server.web;
 
 import it.polimi.ingsw.server.controller_server.Controller;
+import it.polimi.ingsw.server.controller_server.GameController;
 import it.polimi.ingsw.server.model_server.Mod;
-import it.polimi.ingsw.server.viewer_server.Connection;
+import it.polimi.ingsw.server.web.Connection;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,7 +17,9 @@ import java.util.concurrent.Executors;
 public class Server {
     private static final int PORT = 12345;
     private final ServerSocket serverSocket;
-    //  private final Map<Integer, VirtualClient> idMapClient;
+    int nextClientID;
+    private final Map<Integer, VirtualClient> idMapClient;
+    //private final List<SocketClientConnection> waiting = new ArrayList<>();
     private final ExecutorService executor = Executors.newFixedThreadPool(128);
 
     private final List<Connection> connections = new ArrayList<>();
@@ -24,6 +27,7 @@ public class Server {
     private final Map<Connection, Connection> playingConnection = new HashMap<>();
 
     public Server() throws IOException {
+        idMapClient = new HashMap<>();
         this.serverSocket = new ServerSocket(PORT);
     }
 
@@ -62,7 +66,17 @@ public class Server {
             playingConnection.put(c2, c1);
             waitingConnection.clear();
         }
+    }
 
+    public GameController getGameByID (int id){
+        return idMapClient.get(id).getGameController();
+    }
+
+    public synchronized int createClientID ( ){
+
+        int id = nextClientID;
+        nextClientID++;
+        return id;
     }
 
     public void run() {
@@ -78,25 +92,6 @@ public class Server {
             }
         }
     }
-
-    /**
-     * Method unregisterClient deletes a client from the hashmaps and active lists, unregistering his
-     * connection with the server.
-     *
-     * @param clientID of type int - the ID of the virtual client to be removed.
-     */
-   /* public synchronized void unregisterClient (int clientID){
-        getGameByID(clientID).unregisterPlayer(clientID);
-        VirtualClient client = idMapClient.get(clientID);
-        System.out.println(
-                Constants.getInfo() + "Unregistering client " + client.getNickname() + "...");
-        idMapClient.remove(clientID);
-        nameMapId.remove(client.getNickname());
-        waiting.remove(clientToConnection.get(client));
-        idMapName.remove(client.getClientID());
-        clientToConnection.remove(client);
-        System.out.println(Constants.getInfo() + "ClientApp has been successfully unregistered.");
-    }*/
 
     /**
      * List of clients waiting in the lobby.

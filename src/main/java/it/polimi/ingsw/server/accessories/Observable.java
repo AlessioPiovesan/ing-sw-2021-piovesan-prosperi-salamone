@@ -1,19 +1,19 @@
-package it.polimi.ingsw.server.viewer_server;
+package it.polimi.ingsw.server.accessories;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Observable<T> {
 
-    private final List<it.polimi.ingsw.server.viewer_server.Observer<T>> observers = new ArrayList<>();
+    private final List<Observer<T>> observers = new ArrayList<>();
 
-    public void addObserver(it.polimi.ingsw.server.viewer_server.Observer<T> observer) {
+    public void addObserver(Observer<T> observer) {
         synchronized (observers) {
             observers.add(observer);
         }
     }
 
-    public void removeObserver(it.polimi.ingsw.server.viewer_server.Observer<T> observer) {
+    public void removeObserver(Observer<T> observer) {
         synchronized (observers) {
             observers.remove(observer);
         }
