@@ -1,8 +1,9 @@
 package it.polimi.ingsw.server.model_server.board;
 
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class FaithTrack {
+public class FaithTrack implements Serializable {
 
     private final boolean[] popeFavor = new boolean[3];
     private int position;

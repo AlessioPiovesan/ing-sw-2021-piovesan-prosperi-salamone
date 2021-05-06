@@ -28,7 +28,8 @@ public interface Requirements {
 
         @Override
         public void getRequirements() {
-
+            getCardLvl();
+            getColour();
         }
 
         @Override
@@ -62,7 +63,8 @@ public interface Requirements {
 
         @Override
         public void getRequirements() {
-
+            getQnt();
+            getColour();
         }
 
         @Override

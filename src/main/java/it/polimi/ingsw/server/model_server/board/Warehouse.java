@@ -2,12 +2,12 @@ package it.polimi.ingsw.server.model_server.board;
 
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
-import it.polimi.ingsw.server.model_server.cards.CardLeader;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Warehouse {
+public class Warehouse implements Serializable {
     private final ArrayList<Pick> wareContent;
 
     public Warehouse() {

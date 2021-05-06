@@ -2,11 +2,12 @@ package it.polimi.ingsw.server.model_server.board;
 
 import it.polimi.ingsw.server.model_server.cards.CardDev;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class Library {
+public class Library implements Serializable {
 
     /* Creation CardDev slot for each board */
     private final List<CardDev>[] slot = new ArrayList[3];

@@ -1,51 +1,34 @@
 package it.polimi.ingsw.server.model_server.board;
 
+import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.controller_server.BoardController;
 import it.polimi.ingsw.server.model_server.cards.CardLeader;
 import org.junit.jupiter.api.Test;
 
+import java.util.LinkedList;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
 
     @Test
     void testSetMyLeaderCards() {
-        Board[] b = new Board[4];
-        b[0] = new Board(0, null, null, null, null);
-        BoardController boardController = new BoardController(null, b);
-        boardController.pickCardLead(0);
-        assertArrayEquals(new CardLeader[]{CardLeader.CARDLEAD01, CardLeader.CARDLEAD02}, b[0].getMyLeaderCards());
+        Board b = new Board(0, null, null, null, null);
+        BoardController boardController = new BoardController(b);
+        boardController.pickCardLeader();
+        assertArrayEquals(new CardLeader[]{CardLeader.CARDLEAD01, CardLeader.CARDLEAD02}, b.getMyLeaderCards());
     }
 
     @Test
     void testCheckDiscardedResources() {
-    }
+        Board b = new Board(0, null, null, null, null);
+        LinkedList<Colours> list = new LinkedList<>();
+        list.add(Colours.BLUE);
+        list.add(Colours.YELLOW);
+        list.add(Colours.GREY);
+        list.add(Colours.BLUE);
+        assertEquals(4, b.checkDiscardedResources(list));
 
-    @Test
-    void testProductionAll() {
-    }
-
-    @Test
-    void testProduction() {
-    }
-
-    @Test
-    void testGetResAll() {
-    }
-
-    @Test
-    void testGetWarehouse() {
-    }
-
-    @Test
-    void testGetFaithTrack() {
-    }
-
-    @Test
-    void testUpdateResAll() {
-    }
-
-    @Test
-    void testCountWinPnt() {
     }
 }

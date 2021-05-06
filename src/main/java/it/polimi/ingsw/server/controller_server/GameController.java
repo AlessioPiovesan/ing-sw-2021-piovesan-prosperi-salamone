@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.model_server.game.Game;
 import it.polimi.ingsw.server.viewer_server.Observer;
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class GameController implements Observer<Game> {
 
@@ -96,6 +97,15 @@ public class GameController implements Observer<Game> {
                 break;
             }
             default:
+        }
+    }
+
+    private void addFaithPnt(int i, List<Colours> resExcess) {
+        int a = game.getSingleB(i).checkDiscardedResources(resExcess);
+        for (var j = 0; j < game.getNGamers(); j++) {
+            if (j != i) {
+                game.getSingleB(j).getFaithTrack().moveForward(a);
+            }
         }
     }
 

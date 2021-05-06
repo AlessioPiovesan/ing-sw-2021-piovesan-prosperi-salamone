@@ -3,10 +3,11 @@ package it.polimi.ingsw.server.model_server.board;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
 
+import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class StrongBox {
+public class StrongBox implements Serializable {
 
 
     private final EnumMap<Colours, Integer> strongContent;

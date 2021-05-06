@@ -6,18 +6,19 @@ import it.polimi.ingsw.server.accessories.Pick;
 
 public interface Requirements {
 
+
     void getRequirements();
 
     @Override
     String toString();
 
 
-    class RequirementsCard implements Requirements {
+    class RequirementsCard implements it.polimi.ingsw.server.accessories.Requirements {
 
-        private final it.polimi.ingsw.server.accessories.ColoursCards type;
+        private final ColoursCards type;
         private final int cardLvl;
 
-        public RequirementsCard(int cardLvl, it.polimi.ingsw.server.accessories.ColoursCards c) {
+        public RequirementsCard(int cardLvl, ColoursCards c) {
             this.cardLvl = cardLvl;
             this.type = c;
         }
@@ -32,7 +33,8 @@ public interface Requirements {
 
         @Override
         public void getRequirements() {
-
+            getCardLvl();
+            getColour();
         }
 
         @Override
@@ -44,12 +46,12 @@ public interface Requirements {
         }
     }
 
-    class RequirementsResources implements Requirements {
+    class RequirementsResources implements it.polimi.ingsw.server.accessories.Requirements {
 
-        private it.polimi.ingsw.server.accessories.Colours type;
+        private Colours type;
         private int qnt;
 
-        public RequirementsResources(it.polimi.ingsw.server.accessories.Pick[] picks) {
+        public RequirementsResources(Pick[] picks) {
             for (Pick pick : picks) {
                 this.type = pick.getResource();
                 this.qnt = pick.getQnt();
@@ -66,7 +68,8 @@ public interface Requirements {
 
         @Override
         public void getRequirements() {
-
+            getQnt();
+            getColour();
         }
 
         @Override

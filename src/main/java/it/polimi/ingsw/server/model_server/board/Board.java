@@ -12,10 +12,10 @@ public class Board implements Serializable {
     private static final LinkedList<CardDev> myDevCards = new LinkedList<>();
     private final Warehouse warehouse;
     private final FaithTrack faithTrack;
-    private final EnumMap<Colours, Integer> resAll;
+    private final StrongBox strongBox;
+    private final Library library;
     private final CardLeader[] myLeaderCards = new CardLeader[2];
-    protected StrongBox strongBox;
-    protected Library library;
+    private final EnumMap<Colours, Integer> resAll;
     int idD;
     String nickname;
     Colours[] discount = {Colours.WHITE, Colours.WHITE};
@@ -37,19 +37,6 @@ public class Board implements Serializable {
         resAll.put(Colours.YELLOW, 0);
         resAll.put(Colours.GREY, 0);
         resAll.put(Colours.PURPLE, 0);
-    }
-
-    public CardLeader[] getMyLeaderCards() {
-        return myLeaderCards;
-    }
-
-    public void setMyLeaderCards(CardLeader[] leaders) {
-        myLeaderCards[0] = leaders[1];
-        myLeaderCards[1] = leaders[3];
-    }
-
-    public int checkDiscardedResources(List<Colours> discarded) {
-        return discarded.size();
     }
 
     public void setDiscount(Colours color) {
@@ -87,18 +74,13 @@ public class Board implements Serializable {
 
     }
 
-    public String getNickname() {
-        return nickname;
+    public CardLeader[] getMyLeaderCards() {
+        return myLeaderCards;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public void store(Pick[] start) {
-        for (Pick pick : start) {
-            strongBox.moveResources(pick);
-        }
+    public void setMyLeaderCards(CardLeader[] leaders) {
+        myLeaderCards[0] = leaders[0];
+        myLeaderCards[1] = leaders[1];
     }
 
     public Map<Colours, Integer> getResAll() {
@@ -111,6 +93,14 @@ public class Board implements Serializable {
 
     public FaithTrack getFaithTrack() {
         return faithTrack;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     /*DA METTERE SUL CLIENT magari*/
@@ -127,6 +117,12 @@ public class Board implements Serializable {
         /*la quantità di res è negativa*/
         for (Pick r : res) {
             strongBox.moveResources(r);
+        }
+    }
+
+    public void store(Pick[] start) {
+        for (Pick pick : start) {
+            strongBox.moveResources(pick);
         }
     }
 
@@ -179,6 +175,10 @@ public class Board implements Serializable {
 
     public void resHandler(Colours res) {
         /*attiva un pezzo di view che chiede a che lvl di warehouse infilare quelle risorsa*/
+    }
+
+    public int checkDiscardedResources(List<Colours> discarded) {
+        return discarded.size();
     }
 
 }
