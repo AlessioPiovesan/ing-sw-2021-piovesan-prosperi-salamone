@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.web;
 import it.polimi.ingsw.server.controller_server.Controller;
 import it.polimi.ingsw.server.controller_server.GameController;
 import it.polimi.ingsw.server.model_server.Mod;
-import it.polimi.ingsw.server.web.Connection;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,14 +16,13 @@ import java.util.concurrent.Executors;
 public class Server {
     private static final int PORT = 12345;
     private final ServerSocket serverSocket;
-    int nextClientID;
     private final Map<Integer, VirtualClient> idMapClient;
     //private final List<SocketClientConnection> waiting = new ArrayList<>();
     private final ExecutorService executor = Executors.newFixedThreadPool(128);
-
     private final List<Connection> connections = new ArrayList<>();
     private final Map<String, Connection> waitingConnection = new HashMap<>();
     private final Map<Connection, Connection> playingConnection = new HashMap<>();
+    int nextClientID;
 
     public Server() throws IOException {
         idMapClient = new HashMap<>();
@@ -68,11 +66,11 @@ public class Server {
         }
     }
 
-    public GameController getGameByID (int id){
+    public GameController getGameByID(int id) {
         return idMapClient.get(id).getGameController();
     }
 
-    public synchronized int createClientID ( ){
+    public synchronized int createClientID() {
 
         int id = nextClientID;
         nextClientID++;

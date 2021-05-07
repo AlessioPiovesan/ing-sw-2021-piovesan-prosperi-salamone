@@ -15,11 +15,11 @@ public class VirtualClient implements PropertyChangeListener {
     /**
      * Constructor VirtualClient creates a new VirtualClient instance.
      *
-     * @param clientID               of type int - the client ID.
-     * @param nickname               of type String - the player's nickname.
-     * param socketClientConnection of type SocketClientConnection - the class linking client to
-     *                               server via socket.
-     * @param gameController         of type GameHandler - GameHandler reference.
+     * @param clientID       of type int - the client ID.
+     * @param nickname       of type String - the player's nickname.
+     *                       param socketClientConnection of type SocketClientConnection - the class linking client to
+     *                       server via socket.
+     * @param gameController of type GameHandler - GameHandler reference.
      */
     public VirtualClient(
             int clientID,
@@ -77,7 +77,7 @@ public class VirtualClient implements PropertyChangeListener {
     }*/
 
     @Override
-    public void propertyChange (PropertyChangeEvent evt){
+    public void propertyChange(PropertyChangeEvent evt) {
        /* if (evt.getNewValue() instanceof ChallengerMessages){
             send((ChallengerMessages)evt.getNewValue());
         }
