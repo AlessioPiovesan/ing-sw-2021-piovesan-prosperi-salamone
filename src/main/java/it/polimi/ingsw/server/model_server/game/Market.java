@@ -2,7 +2,6 @@ package it.polimi.ingsw.server.model_server.game;
 
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Constants;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -116,7 +115,6 @@ public class Market {
         }
     }
 
-    @NotNull
     private LinkedList<Colours> getRes(int choice) {
         return switch (choice) {
             case 0 -> getResX(0);
