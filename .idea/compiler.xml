@@ -12,7 +12,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="GC54" target="15" />
+      <module name="GC54" target="16" />
     </bytecodeTargetLevel>
   </component>
 </project>
