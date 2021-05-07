@@ -1,4 +1,4 @@
-package it.polimi.ingsw.resources;
+package it.polimi.ingsw.server;
 
 public class SimpleTestCaseJsonPOJO {
     private String title;

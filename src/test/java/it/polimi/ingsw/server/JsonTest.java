@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import it.polimi.ingsw.resources.SimpleTestCaseJsonPOJO;
 import it.polimi.ingsw.server.accessories.Json;
 import org.junit.jupiter.api.Test;
 
