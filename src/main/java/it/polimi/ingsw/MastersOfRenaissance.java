@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.client.ClientApp;
+import it.polimi.ingsw.clients.ClientApp;
 import it.polimi.ingsw.server.ServerApp;
 
 import java.util.InputMismatchException;
@@ -16,7 +16,7 @@ public class MastersOfRenaissance {
                 1. CLIENT (CLI INTERFACE)
                 2. CLIENT (GUI INTERFACE)
                 >Type the number of the desired option!
-                >   
+                >\040\040\040
                 """);
         var scanner = new Scanner(System.in);
         var input = 0;

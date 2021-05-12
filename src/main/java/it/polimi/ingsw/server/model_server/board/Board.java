@@ -2,9 +2,10 @@ package it.polimi.ingsw.server.model_server.board;
 
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
-import it.polimi.ingsw.server.model_server.cards.CardDev;
-import it.polimi.ingsw.server.model_server.cards.CardLeader;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 
+import java.beans.PropertyChangeSupport;
 import java.io.Serializable;
 import java.util.*;
 
@@ -16,8 +17,12 @@ public class Board implements Serializable {
     private final Library library;
     private final CardLeader[] myLeaderCards = new CardLeader[2];
     private final EnumMap<Colours, Integer> resAll;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     int idD;
+    int activeLeader = 0;
     String nickname;
+    Colours preference = Colours.WHITE;
+    LinkedList<Colours> buffer;
     Colours[] discount = {Colours.WHITE, Colours.WHITE};
     Colours[] marketAlt = {Colours.WHITE, Colours.WHITE};
     Colours[] productAlt = {Colours.WHITE, Colours.WHITE};
@@ -54,14 +59,22 @@ public class Board implements Serializable {
     public void setMarketAlt(Colours color) {
         if (marketAlt[0] == Colours.WHITE)
             marketAlt[0] = color;
-        else marketAlt[1] = color;
+        else {
+            marketAlt[1] = color;
+            pcs.firePropertyChange("marketAlt", "", marketAlt[1]);
+        }
+    }
+
+    public void setBuffer(List<Colours> res) {
+        buffer = (LinkedList<Colours>) res;
+        pcs.firePropertyChange("buffer", "", buffer);
     }
 
     public void productionAll() {
         for (var i = 0; i < 3; i++) {
             CardDev card = library.getCardOnTop(i);
             Pick[] res = card.getResFrom();
-            store(res);
+            storeSB(res);
         }
         /*DA IMPLEMENTARE prouzione plancia, quindi quella che chiede quale risorsa*/
         for (Colours colours : productAlt) {
@@ -120,9 +133,15 @@ public class Board implements Serializable {
         }
     }
 
-    public void store(Pick[] start) {
+    public void storeSB(Pick[] start) {
         for (Pick pick : start) {
             strongBox.moveResources(pick);
+        }
+    }
+
+    public void storeW(int lvl, Pick[] start) {
+        for (Pick pick : start) {
+            warehouse.moveResources(lvl, pick);
         }
     }
 
@@ -160,17 +179,10 @@ public class Board implements Serializable {
 
     public void marketResHandler(List<Colours> res) {
         for (Colours colours : res)
-            if (colours == Colours.WHITE) {
-                for (Colours value : marketAlt) {
-                    if (value != Colours.WHITE) {
-                        /*si chiede al giocatore che fare di questa biglia bianca*/
-                        Colours choice = Colours.RED; /* DA IMPLEMENTARE */
-                        colours = choice;
-                    }
-                }
+            if (colours == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE) {
+                colours = marketAlt[activeLeader];
             }
-        /*attiva un pezzo di view che chiede quali tenere*/
-        /*DA IMPLEMENTARE*/
+        setBuffer(res);
     }
 
     public void resHandler(Colours res) {
@@ -181,4 +193,12 @@ public class Board implements Serializable {
         return discarded.size();
     }
 
+    public void setPreference() {
+        preference = Colours.WHITE;
+        pcs.firePropertyChange("preference", "", preference);
+    }
+
+    public void resolveLeaderConflict(int i) {
+        activeLeader = i;
+    }
 }

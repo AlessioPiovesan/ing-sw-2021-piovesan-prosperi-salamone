@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model_server.board;
 
-import it.polimi.ingsw.server.model_server.cards.CardDev;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,14 +14,18 @@ public class Library implements Serializable {
 
     public Library() {
         slot = new ArrayList<>(3);
+        slot.add(new ArrayList<>());
+        slot.add(new ArrayList<>());
+        slot.add(new ArrayList<>());
     }
 
     public boolean checkAddableCard(int n, CardDev card) {
-        return getCardOnTop(n) == null || card.getLvl() >= getCardOnTop(n).getLvl();
+        return getCardOnTop(n) == null || card.getLvl() > getCardOnTop(n).getLvl();
     }
 
     public void addCard(int n, CardDev card) {
-        slot.get(n).add(card);
+        slot.get(n)
+                .add(card);
     }
 
     public CardDev getCardOnTop(int n) {

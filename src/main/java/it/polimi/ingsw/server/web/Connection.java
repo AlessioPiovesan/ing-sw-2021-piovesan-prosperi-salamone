@@ -1,13 +1,11 @@
 package it.polimi.ingsw.server.web;
 
-import it.polimi.ingsw.server.accessories.Observable;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
 
-public class Connection extends Observable<String> implements Runnable {
+public class Connection implements Runnable {
 
     private final Socket socket;
     private final Server server;
@@ -61,7 +59,7 @@ public class Connection extends Observable<String> implements Runnable {
             server.lobby(this, name);
             while (isActive()) {
                 String read = in.nextLine();
-                notify(read);
+                //notify(read);
             }
         } catch (IOException e) {
             System.err.println(e.getMessage());

@@ -2,15 +2,14 @@ package it.polimi.ingsw.server.controller_server;
 
 
 import it.polimi.ingsw.server.accessories.Colours;
-import it.polimi.ingsw.server.accessories.Observer;
 import it.polimi.ingsw.server.accessories.Pick;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.board.Board;
-import it.polimi.ingsw.server.model_server.cards.CardLeader;
 
 import java.util.List;
 import java.util.Map;
 
-public class BoardController implements Observer<Board> {
+public class BoardController {
 
     Board player;
 
@@ -46,7 +45,7 @@ public class BoardController implements Observer<Board> {
         player.getWarehouse().moveResources(lvl, new Pick(colour, 1));
     }
 
-    @Override
+
     public void update(Board message) {
     }
 }

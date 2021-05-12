@@ -1,16 +1,16 @@
 package it.polimi.ingsw.server.controller_server;
 
 import it.polimi.ingsw.server.accessories.Colours;
-import it.polimi.ingsw.server.accessories.Observer;
+import it.polimi.ingsw.server.accessories.Pick;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.board.Board;
-import it.polimi.ingsw.server.model_server.cards.CardDev;
-import it.polimi.ingsw.server.model_server.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.game.Game;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class GameController implements Observer<Game> {
+public class GameController {
 
     Game game;
 
@@ -18,7 +18,7 @@ public class GameController implements Observer<Game> {
         this.game = game;
     }
 
-    @Override
+
     public void update(Game game) {
 
         /*Riceve le scelte del giocatore e manda avanti la partita*/
@@ -50,13 +50,13 @@ public class GameController implements Observer<Game> {
 
     }
 
-    public void action() {
+    public void prodAction() {
         Board b = game.getSingleB(game.getPlayingPlayer());
         /*parte la produzione di tutto quello che c'è sulla plancia*/
         b.productionAll();
     }
 
-    public void action(int moveMarket) {
+    public void marketAction(int moveMarket) {
         var b = game.getSingleB(game.getPlayingPlayer());
         var m = game.getMarket();
         /*sposta le biglie nel mercato*/
@@ -65,13 +65,26 @@ public class GameController implements Observer<Game> {
         b.marketResHandler(res);
     }
 
-    public void action(CardDev cardToBeBought) {
+    public void storeInWarehose(List<Pick> goods, List<Colours> waste) {
+        var b = game.getSingleB(game.getPlayingPlayer());
+        for (Pick res : goods) {
+            b.storeW(res.getQnt(), new Pick[]{new Pick(res.getResource(), 1)});
+        }
+        addFaithPnt(waste);
+    }
+
+    public void resolveLeaderConflictInMarket(int i) {
+        var b = game.getSingleB(game.getPlayingPlayer());
+        b.resolveLeaderConflict(i);
+    }
+
+    public void cardDevAction(CardDev cardToBeBought) {
         Board b = game.getSingleB(game.getPlayingPlayer());
         /*compra la carta*/
         b.buyCardDev(cardToBeBought);
     }
 
-    public void action(CardLeader cardToBeActivated) {
+    public void cardLeadAction(CardLeader cardToBeActivated) {
         /*controlli che possa attivarla*/
         /*attiva quella carta leader*/
 
@@ -100,10 +113,10 @@ public class GameController implements Observer<Game> {
         }
     }
 
-    private void addFaithPnt(int i, List<Colours> resExcess) {
-        int a = game.getSingleB(i).checkDiscardedResources(resExcess);
+    private void addFaithPnt(List<Colours> waste) {
+        int a = game.getSingleB(game.getPlayingPlayer()).checkDiscardedResources(waste);
         for (var j = 0; j < game.getNGamers(); j++) {
-            if (j != i) {
+            if (j != game.getPlayingPlayer()) {
                 game.getSingleB(j).getFaithTrack().moveForward(a);
             }
         }

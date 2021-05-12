@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.viewer_server;
 
-import it.polimi.ingsw.server.accessories.Observer;
 import it.polimi.ingsw.server.model_server.Mod;
 import it.polimi.ingsw.server.web.Connection;
 
@@ -11,7 +10,6 @@ public class RemoteView extends View {
     public RemoteView(Mod mod, String opponent, Connection c) {
     }
 
-    @Override
     public void update(Mod message) {
 
     }
@@ -21,9 +19,8 @@ public class RemoteView extends View {
         connection.send("");
     }
 
-    private class MessageReceiver implements Observer<String> {
+    private class MessageReceiver {
 
-        @Override
         public void update(String message) {
             System.out.println("Received: " + message);
             try {

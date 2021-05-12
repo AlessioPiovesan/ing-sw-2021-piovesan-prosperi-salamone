@@ -2,7 +2,7 @@ package it.polimi.ingsw.server.accessories;
 
 public enum Colours {
 
-    BLUE("SHEILD"),
+    BLUE("SHIELD"),
     GREY("STONE"),
     PURPLE("SERVANT"),
     RED("FAITH"),
@@ -19,18 +19,9 @@ public enum Colours {
         return type;
     }
 
-    public Colours selectPref() {
-        Colours choice = Colours.BLUE;
-        /*facciamo la richiesta alla view che mostra le risorse tra cui scegliere*/
-        System.out.println("Scegli la risorsa"); /* DA IMPLEMENTARE */
-        /*la view parla al controller*/
-        /*riceve scelta dal controller*/
-        return choice;
-    }
-
     public Colours fromString(String color) {
         return switch (color.toUpperCase()) {
-            case "SHEILD", "BLUE" -> BLUE;
+            case "SHIELD", "BLUE" -> BLUE;
             case "STONE", "GREY" -> GREY;
             case "SERVANT", "PURPLE" -> PURPLE;
             case "FAITH", "RED" -> RED;

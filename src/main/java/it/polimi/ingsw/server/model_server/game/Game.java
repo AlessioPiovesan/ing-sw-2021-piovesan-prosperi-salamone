@@ -1,10 +1,8 @@
 package it.polimi.ingsw.server.model_server.game;
 
-import it.polimi.ingsw.server.accessories.Colours;
-import it.polimi.ingsw.server.accessories.Pick;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.board.*;
-import it.polimi.ingsw.server.model_server.cards.CardDev;
-import it.polimi.ingsw.server.model_server.cards.CardLeader;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -102,25 +100,19 @@ public class Game implements Serializable {
     }
 
     public void pickStartingResources() {
-        Colours choice = Colours.WHITE;
-        int next = checkNext();
+        int next = playingPlayer;
+        if (next++ >= nGamers - 1) next = 0;
         if (nGamers > 1) {
-            boards[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
-            boards[next].updateResAll();
+            boards[next].setPreference();
             if (nGamers > 2) {
-                next = checkNext();
-                boards[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
+                if (next++ >= nGamers - 1) next = 0;
+                boards[next].setPreference();
                 boards[next].getFaithTrack().moveForward(1);
-                boards[next].updateResAll();
                 if (nGamers > 3) {
-                    next = checkNext();
-                    boards[next].getWarehouse().moveResources(0, new Pick(choice.selectPref(), 1)); /*DA IMPLEMENTARE (la scelta del livello)*/
-                    Colours c = choice.selectPref();
-                    int lvl = boards[next].getWarehouse().isThereThatRes(c);
-                    if (lvl < 0) lvl = 1;
-                    boards[next].getWarehouse().moveResources(lvl, new Pick(c, 1));
+                    if (next++ >= nGamers - 1) next = 0;
+                    boards[next].setPreference();
+                    boards[next].setPreference();
                     boards[next].getFaithTrack().moveForward(1);
-                    boards[next].updateResAll();
                 }
             }
         }

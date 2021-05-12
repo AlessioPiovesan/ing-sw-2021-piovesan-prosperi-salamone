@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.model_server.game;
 
-import it.polimi.ingsw.server.model_server.cards.CardLeader;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
