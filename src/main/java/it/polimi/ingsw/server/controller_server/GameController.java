@@ -1,11 +1,11 @@
 package it.polimi.ingsw.server.controller_server;
 
 import it.polimi.ingsw.server.accessories.Colours;
+import it.polimi.ingsw.server.accessories.Observer;
 import it.polimi.ingsw.server.model_server.board.Board;
 import it.polimi.ingsw.server.model_server.cards.CardDev;
 import it.polimi.ingsw.server.model_server.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.game.Game;
-import it.polimi.ingsw.server.accessories.Observer;
 
 import java.util.LinkedList;
 import java.util.List;

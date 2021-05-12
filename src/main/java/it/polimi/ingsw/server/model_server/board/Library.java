@@ -5,16 +5,15 @@ import it.polimi.ingsw.server.model_server.cards.CardDev;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class Library implements Serializable {
 
     /* Creation CardDev slot for each board */
-    private final List<CardDev>[] slot = new ArrayList[3];
+    private final ArrayList<ArrayList<CardDev>> slot;
 
 
     public Library() {
-        IntStream.range(0, 3).forEach(i -> slot[i] = new ArrayList<>());
+        slot = new ArrayList<>(3);
     }
 
     public boolean checkAddableCard(int n, CardDev card) {
@@ -22,22 +21,22 @@ public class Library implements Serializable {
     }
 
     public void addCard(int n, CardDev card) {
-        slot[n].add(card);
+        slot.get(n).add(card);
     }
 
     public CardDev getCardOnTop(int n) {
-        return slot[n].get(slot[n].size() - 1);
+        return slot.get(n).get(slot.get(n).size() - 1);
     }
 
     public List<CardDev> getCardsOfASlot(int n) {
-        return slot[n];
+        return slot.get(n);
     }
 
     public int getWinPntCardDev() {
         var win = 0;
-        for (var i = 0; i < slot.length; i++)
+        for (var i = 0; i < slot.size(); i++)
             for (var j = 0; j < getCardsOfASlot(i).size(); j++) {
-                CardDev card = slot[i].get(j);
+                CardDev card = slot.get(i).get(j);
                 win += card.getWinPnt();
             }
         return win;
