@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LibraryTest extends Library {
+class LibraryTest {
 
     @Test
     void checkAddableCard() {
@@ -15,9 +15,9 @@ class LibraryTest extends Library {
         library.addCard(2, CardDev.CARD_DEV1B3);
         for (CardDev cardDev : CardDev.values())
             for (int i = 0; i < 3; i++) {
-                if(library.getCardOnTop(i).getLvl()<cardDev.getLvl())
-                    assertTrue(library.checkAddableCard(i,cardDev));
-                else assertFalse(library.checkAddableCard(i,cardDev));
+                if (library.getCardOnTop(i).getLvl() < cardDev.getLvl())
+                    assertTrue(library.checkAddableCard(i, cardDev));
+                else assertFalse(library.checkAddableCard(i, cardDev));
             }
 
     }

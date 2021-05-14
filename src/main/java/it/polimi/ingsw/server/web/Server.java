@@ -17,7 +17,10 @@ public class Server {
     private static final int PORT = 12345;
     private final ServerSocket serverSocket;
     private final Map<Integer, VirtualClient> idMapClient;
-    //private final List<SocketClientConnection> waiting = new ArrayList<>();
+    /**
+     * List of clients waiting in the lobby.
+     */
+    private final List<SocketClientConnection> waiting = new ArrayList<>();
     private final ExecutorService executor = Executors.newFixedThreadPool(128);
     private final List<Connection> connections = new ArrayList<>();
     private final Map<String, Connection> waitingConnection = new HashMap<>();
@@ -90,10 +93,4 @@ public class Server {
             }
         }
     }
-
-    /**
-     * List of clients waiting in the lobby.
-     */
-    //private final List<SocketClientConnection> waiting = new ArrayList<>();
-
 }

@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class WarehouseTest extends Warehouse {
+class WarehouseTest {
 
     @Test
     void checkAddTest() {

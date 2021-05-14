@@ -3,12 +3,12 @@ package it.polimi.ingsw.server.model_server.board;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Warehouse implements Serializable {
+public class Warehouse {
     private final ArrayList<Pick> wareContent;
+    String messageErr;
 
     public Warehouse() {
         wareContent = new ArrayList<>();
@@ -68,7 +68,6 @@ public class Warehouse implements Serializable {
     }
 
     public Pick checkLvlStatus(int lvl) {
-        //System.out.println("Sullo scaffale " + (lvl + 1) + " ci sono " + wareContent.get(lvl).getQnt() + " risorse di tipo " + wareContent.get(lvl).getResource().getType());
         return new Pick(wareContent.get(lvl).getResource(), wareContent.get(lvl).getQnt());
     }
 
@@ -78,7 +77,11 @@ public class Warehouse implements Serializable {
             case PURPLE -> wareContent.add(new Pick(Colours.PURPLE, 0));
             case BLUE -> wareContent.add(new Pick(Colours.BLUE, 0));
             case YELLOW -> wareContent.add(new Pick(Colours.YELLOW, 0));
-            default -> System.out.println("ERROR");
+            default -> setError("Not possible");
         }
+    }
+
+    private void setError(String error) {
+        messageErr = error;
     }
 }

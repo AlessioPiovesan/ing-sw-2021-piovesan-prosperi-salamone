@@ -6,10 +6,9 @@ import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 
 import java.beans.PropertyChangeSupport;
-import java.io.Serializable;
 import java.util.*;
 
-public class Board implements Serializable {
+public class Board {
     private static final LinkedList<CardDev> myDevCards = new LinkedList<>();
     private final Warehouse warehouse;
     private final FaithTrack faithTrack;
@@ -70,21 +69,18 @@ public class Board implements Serializable {
         pcs.firePropertyChange("buffer", "", buffer);
     }
 
+    public void productionExtra(Colours color) {
+        productionAll();
+        storeSB(new Pick[]{new Pick(color, 1)});
+        faithTrack.moveForward(1);
+    }
+
     public void productionAll() {
         for (var i = 0; i < 3; i++) {
             CardDev card = library.getCardOnTop(i);
             Pick[] res = card.getResFrom();
             storeSB(res);
         }
-        /*DA IMPLEMENTARE prouzione plancia, quindi quella che chiede quale risorsa*/
-        for (Colours colours : productAlt) {
-            if (colours != Colours.WHITE) {
-                /*prima chiede da dove prendere productAlt*/
-                /*poi chiede la risorsa a scelta*/
-                faithTrack.moveForward(1);
-            }
-        }
-
     }
 
     public CardLeader[] getMyLeaderCards() {
@@ -137,20 +133,23 @@ public class Board implements Serializable {
         for (Pick pick : start) {
             strongBox.moveResources(pick);
         }
+        updateResAll();
     }
 
     public void storeW(int lvl, Pick[] start) {
         for (Pick pick : start) {
             warehouse.moveResources(lvl, pick);
         }
+        updateResAll();
     }
 
-    public void updateResAll() {
+    public void updateResAll() { /* DA IMPLEMENTARE magari che un ActionListener fa aggiornare questa variabile*/
         List<Pick> w = warehouse.checkStatus();
         for (Pick pick : w)
             resAll.replace(pick.getResource(), pick.getQnt() + resAll.get(pick.getResource()));
         for (Colours c : Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
             resAll.replace(c, resAll.get(c) + strongBox.getStrongContent().get(c));
+        pcs.firePropertyChange("resAll", "", resAll);
     }
 
     private int getWinPntCardLeader() {
@@ -201,4 +200,6 @@ public class Board implements Serializable {
     public void resolveLeaderConflict(int i) {
         activeLeader = i;
     }
+
+
 }

@@ -50,6 +50,12 @@ public class GameController {
 
     }
 
+    public void prodAction(Colours colour) {
+        Board b = game.getSingleB(game.getPlayingPlayer());
+        /*parte la produzione di tutto quello che c'è sulla plancia*/
+        b.productionExtra(colour);
+    }
+
     public void prodAction() {
         Board b = game.getSingleB(game.getPlayingPlayer());
         /*parte la produzione di tutto quello che c'è sulla plancia*/
