@@ -71,7 +71,7 @@ public class GameController {
         b.marketResHandler(res);
     }
 
-    public void storeInWarehose(List<Pick> goods, List<Colours> waste) {
+    public void storeInWarehouse(List<Pick> goods, List<Colours> waste) {
         var b = game.getSingleB(game.getPlayingPlayer());
         for (Pick res : goods) {
             b.storeW(res.getQnt(), new Pick[]{new Pick(res.getResource(), 1)});

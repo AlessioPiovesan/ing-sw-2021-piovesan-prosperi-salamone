@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.web;
 
 import it.polimi.ingsw.server.controller_server.Controller;
-import it.polimi.ingsw.server.controller_server.GameController;
 import it.polimi.ingsw.server.model_server.Mod;
 
 import java.io.IOException;
@@ -16,7 +15,7 @@ import java.util.concurrent.Executors;
 public class Server {
     private static final int PORT = 12345;
     private final ServerSocket serverSocket;
-    private final Map<Integer, VirtualClient> idMapClient;
+    //private final Map<Integer, VirtualClient> idMapClient;
     /**
      * List of clients waiting in the lobby.
      */
@@ -28,7 +27,7 @@ public class Server {
     int nextClientID;
 
     public Server() throws IOException {
-        idMapClient = new HashMap<>();
+        //idMapClient = new HashMap<>();
         this.serverSocket = new ServerSocket(PORT);
     }
 
@@ -69,9 +68,9 @@ public class Server {
         }
     }
 
-    public GameController getGameByID(int id) {
+    /*public GameController getGameByID(int id) {
         return idMapClient.get(id).getGameController();
-    }
+    }*/
 
     public synchronized int createClientID() {
 
