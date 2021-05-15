@@ -23,7 +23,7 @@ public class ClientApp {
 
     public static void startGUI() {
         System.out.println("You selected the GUI interface, have fun!\nStarting...");
-        GUI.main(new String[0]);
+        GUI.start();
     }
 }
 

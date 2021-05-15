@@ -12,6 +12,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ConnectionSocket {
+
     private final String serverAddress;
     private final int serverPort;
     private final Logger logger = Logger.getLogger(getClass().getName());

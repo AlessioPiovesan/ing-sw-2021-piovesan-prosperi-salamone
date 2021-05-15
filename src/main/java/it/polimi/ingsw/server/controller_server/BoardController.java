@@ -25,12 +25,7 @@ public class BoardController {
         return player.getResAll();
     }
 
-    public void pickCardLeader() {
-        var choice = new CardLeader[2];
-        System.out.println("Prima scelta");     /*Mostri le quattro carte e ne scegli una*/
-        choice[0] = (CardLeader.CARDLEAD01);      /*Inserisci la carta scelta nella lista */
-        System.out.println("Seconda scelta");   /*Mostri le tre carte e ne scegli una*/
-        choice[1] = CardLeader.CARDLEAD02;      /*Inserisci la carta scelta nella lista */
+    public void pickCardLeader(CardLeader[] choice) {
         player.setMyLeaderCards(choice);
     }
 

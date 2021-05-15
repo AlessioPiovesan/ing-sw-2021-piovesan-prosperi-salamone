@@ -68,8 +68,12 @@ public class CLI implements Runnable, UI {
 
     public void setup() {
         var nickname = "";
+        var nPlayers="";
         do {
             while (Objects.equals(nickname, "")) {
+                System.out.println(">Insert number of players: ");
+                System.out.println(">");
+                nPlayers = input.nextLine();
                 System.out.println(">Insert your nickname: ");
                 System.out.println(">");
                 nickname = input.nextLine();

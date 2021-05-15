@@ -70,7 +70,7 @@ public class Game implements Serializable {
 
     public void myLeaderCardsHandler() {
         for (var i = 0; i < nGamers; i++)
-            boards[i].setMyLeaderCards(giveCardLead().toArray(CardLeader[]::new));
+            boards[i].setTemporaryLeaderCards(giveCardLead().toArray(CardLeader[]::new));
     }
 
     public List<CardLeader> giveCardLead() {

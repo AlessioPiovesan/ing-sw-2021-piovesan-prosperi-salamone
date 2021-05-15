@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
+import it.polimi.ingsw.server.viewer_server.RemoteView;
 
 import java.beans.PropertyChangeSupport;
 import java.util.*;
@@ -14,7 +15,8 @@ public class Board {
     private final FaithTrack faithTrack;
     private final StrongBox strongBox;
     private final Library library;
-    private final CardLeader[] myLeaderCards = new CardLeader[2];
+    private CardLeader[] myLeaderCards = new CardLeader[2];
+    private CardLeader[] temporaryLeaderCards = new CardLeader[4];
     private final EnumMap<Colours, Integer> resAll;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     int idD;
@@ -25,6 +27,9 @@ public class Board {
     Colours[] discount = {Colours.WHITE, Colours.WHITE};
     Colours[] marketAlt = {Colours.WHITE, Colours.WHITE};
     Colours[] productAlt = {Colours.WHITE, Colours.WHITE};
+
+
+    RemoteView remoteView;
 
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library) {
         this.idD = id;
@@ -41,6 +46,9 @@ public class Board {
         resAll.put(Colours.YELLOW, 0);
         resAll.put(Colours.GREY, 0);
         resAll.put(Colours.PURPLE, 0);
+
+
+        remoteView = new RemoteView();
     }
 
     public void setDiscount(Colours color) {
@@ -87,9 +95,14 @@ public class Board {
         return myLeaderCards;
     }
 
-    public void setMyLeaderCards(CardLeader[] leaders) {
-        myLeaderCards[0] = leaders[0];
-        myLeaderCards[1] = leaders[1];
+    public void setTemporaryLeaderCards(CardLeader[] leaders) {
+        temporaryLeaderCards = leaders;
+        pcs.firePropertyChange("temporaryLeaderCards", "", temporaryLeaderCards);
+        remoteView.scegliLeCarteLeaderAllInizio(temporaryLeaderCards);
+    }
+
+    public void setMyLeaderCards(CardLeader[] cards){
+        myLeaderCards = cards;
     }
 
     public Map<Colours, Integer> getResAll() {

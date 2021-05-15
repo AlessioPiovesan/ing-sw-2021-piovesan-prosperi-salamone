@@ -73,7 +73,6 @@ public class Server {
     }*/
 
     public synchronized int createClientID() {
-
         int id = nextClientID;
         nextClientID++;
         return id;
