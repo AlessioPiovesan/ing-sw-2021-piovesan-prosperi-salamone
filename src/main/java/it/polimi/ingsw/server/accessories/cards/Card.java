@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.accessories.cards;
 
-interface Card {
+public interface Card {
     int getWinPnt();
 
     boolean getFlipped();

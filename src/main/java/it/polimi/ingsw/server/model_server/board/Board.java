@@ -28,10 +28,9 @@ public class Board {
     Colours[] marketAlt = {Colours.WHITE, Colours.WHITE};
     Colours[] productAlt = {Colours.WHITE, Colours.WHITE};
 
-
     RemoteView remoteView;
 
-    public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library) {
+    public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library, RemoteView remoteView) {
         this.idD = id;
         /* Warehouse creation for a single Board */
         this.warehouse = warehouse;
@@ -46,9 +45,7 @@ public class Board {
         resAll.put(Colours.YELLOW, 0);
         resAll.put(Colours.GREY, 0);
         resAll.put(Colours.PURPLE, 0);
-
-
-        remoteView = new RemoteView();
+        this.remoteView = remoteView;
     }
 
     public void setDiscount(Colours color) {
@@ -98,7 +95,7 @@ public class Board {
     public void setTemporaryLeaderCards(CardLeader[] leaders) {
         temporaryLeaderCards = leaders;
         pcs.firePropertyChange("temporaryLeaderCards", "", temporaryLeaderCards);
-        remoteView.scegliLeCarteLeaderAllInizio(temporaryLeaderCards);
+        remoteView.scegliLeCarteLeaderAllInizioDomanda(temporaryLeaderCards);
     }
 
     public void setMyLeaderCards(CardLeader[] cards){
@@ -208,6 +205,7 @@ public class Board {
     public void setPreference() {
         preference = Colours.WHITE;
         pcs.firePropertyChange("preference", "", preference);
+        remoteView.getRisorsaPreferita();
     }
 
     public void resolveLeaderConflict(int i) {

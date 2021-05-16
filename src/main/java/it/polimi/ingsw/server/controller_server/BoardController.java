@@ -37,9 +37,12 @@ public class BoardController {
     }
 
     public void warehouseResHandler(Colours colour, int lvl) {
-        player.getWarehouse().moveResources(lvl, new Pick(colour, 1));
+        player.storeW(lvl, new Pick[]{new Pick(colour, 1)});
     }
 
+    public void strongboxResHandler(Colours colour, int qnt) {
+        player.storeSB(new Pick[]{new Pick(colour, 1)});
+    }
 
     public void update(Board message) {
     }

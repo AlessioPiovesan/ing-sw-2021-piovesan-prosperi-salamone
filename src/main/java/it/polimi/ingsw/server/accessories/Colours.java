@@ -1,5 +1,10 @@
 package it.polimi.ingsw.server.accessories;
 
+import org.apache.batik.util.ParsedURL;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Colours {
 
     BLUE("SHIELD"),
@@ -29,5 +34,14 @@ public enum Colours {
             case "COIN", "YELLOW" -> YELLOW;
             default -> throw new IllegalStateException("Unexpected value: " + color.toUpperCase());
         };
+    }
+
+    public static List<Colours> valid(){
+        ArrayList<Colours> list = new ArrayList<>();
+        list.add(BLUE);
+        list.add(GREY);
+        list.add(PURPLE);
+        list.add(YELLOW);
+        return list;
     }
 }

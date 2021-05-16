@@ -1,6 +1,8 @@
 package it.polimi.ingsw.clients.view_client;
 
 import it.polimi.ingsw.clients.web.ConnectionSocket;
+import it.polimi.ingsw.server.accessories.cards.Card;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.controller_server.GameController;
 import it.polimi.ingsw.server.model_server.game.Game;
@@ -61,8 +63,9 @@ public class CLI implements Runnable, UI {
     @Override
     public void run() {
         setup();
-        GameController gameController = new GameController(new Game(new Market()));
-        gameController.setGamers(nameAll.size());
+        int nGamers = nameAll.size();
+        var gameController = new GameController(nGamers, new Game(new Market()));
+        gameController.setGamers(nGamers);
         gameController.startGame();
     }
 
@@ -100,9 +103,10 @@ public class CLI implements Runnable, UI {
         }*/
     }
 
+    @Override
     public void showCards(List<CardLeader> list) {
-        for (CardLeader cardLeader : list) {
-            System.out.println(cardLeader.toString());
+        for (CardLeader card : list) {
+            System.out.println(card.toString());
         }
     }
 }

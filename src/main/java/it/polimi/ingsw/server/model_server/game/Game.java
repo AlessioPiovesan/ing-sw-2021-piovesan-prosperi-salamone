@@ -3,6 +3,7 @@ package it.polimi.ingsw.server.model_server.game;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.board.*;
+import it.polimi.ingsw.server.viewer_server.RemoteView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +23,8 @@ public class Game implements Serializable {
     int id;
     int playingPlayer;
 
+    RemoteView remoteView;
+
     public Game(Market newMarket) {
         /* Board creation for each player */
         for (var i = 0; i < nGamers; i++) {
@@ -29,7 +32,8 @@ public class Game implements Serializable {
             var strongBox = new StrongBox();
             var faithTrack = new FaithTrack();
             var library = new Library();
-            boards[i] = new Board(i, warehouse, strongBox, faithTrack, library);
+            remoteView = new RemoteView();
+            boards[i] = new Board(i, warehouse, strongBox, faithTrack, library, remoteView);
         }
         /* Market creation for each Game */
         market = newMarket;
@@ -37,6 +41,8 @@ public class Game implements Serializable {
         cardDevDeck.addAll(Arrays.asList(CardDev.values()));
         cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
         /*...*/
+
+
     }
 
     public int getNGamers() {
@@ -136,7 +142,11 @@ public class Game implements Serializable {
          * GameController riceve qualcosa e fa partire .action(...)*/
     }
 
-    public void ready() { /* DA IMPLEMENTARE */
-        notify();
+    public RemoteView getRemoteView() {
+        return remoteView;
+    }
+
+    public void ready() {
+        remoteView.nextChiedi();
     }
 }

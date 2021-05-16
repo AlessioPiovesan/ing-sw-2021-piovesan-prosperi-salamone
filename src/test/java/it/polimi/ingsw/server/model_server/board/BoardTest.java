@@ -1,24 +1,13 @@
 package it.polimi.ingsw.server.model_server.board;
 
 import it.polimi.ingsw.server.accessories.Colours;
-import it.polimi.ingsw.server.accessories.cards.CardLeader;
-import it.polimi.ingsw.server.controller_server.BoardController;
 import org.junit.jupiter.api.Test;
 
 import java.util.LinkedList;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest {
-
-    @Test
-    void testSetMyLeaderCards() {
-        Board b = new Board(0, null, null, null, null);
-        BoardController boardController = new BoardController(b);
-        boardController.pickCardLeader();
-        assertArrayEquals(new CardLeader[]{CardLeader.CARDLEAD01, CardLeader.CARDLEAD02}, b.getMyLeaderCards());
-    }
 
     @Test
     void testCheckDiscardedResources() {

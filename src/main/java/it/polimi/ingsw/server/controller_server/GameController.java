@@ -12,9 +12,12 @@ import java.util.List;
 
 public class GameController {
 
+    int id;
     Game game;
+    BoardController[] boardController;
 
-    public GameController(Game game) {
+    public GameController(int gamers, Game game) {
+        boardController = new BoardController[gamers];
         this.game = game;
     }
 
@@ -128,4 +131,7 @@ public class GameController {
         }
     }
 
+    public BoardController getActiveBoardController() {
+        return boardController[game.getNGamers()];
+    }
 }
