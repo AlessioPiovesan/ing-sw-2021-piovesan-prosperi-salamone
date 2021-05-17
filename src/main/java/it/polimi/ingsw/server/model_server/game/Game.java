@@ -34,6 +34,7 @@ public class Game implements Serializable {
             var library = new Library();
             remoteView = new RemoteView();
             boards[i] = new Board(i, warehouse, strongBox, faithTrack, library, remoteView);
+            playingPlayer = 0;
         }
         /* Market creation for each Game */
         market = newMarket;
@@ -71,7 +72,6 @@ public class Game implements Serializable {
 
     public void setPlayingPlayer(int playingPlayer) {
         this.playingPlayer = playingPlayer;
-        notify();
     }
 
     public void myLeaderCardsHandler() {

@@ -1,16 +1,16 @@
 package it.polimi.ingsw.clients.view_client;
 
 import it.polimi.ingsw.clients.web.ConnectionSocket;
-import it.polimi.ingsw.server.accessories.cards.Card;
-import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
-import it.polimi.ingsw.server.controller_server.GameController;
-import it.polimi.ingsw.server.model_server.game.Game;
-import it.polimi.ingsw.server.model_server.game.Market;
+import it.polimi.ingsw.server.controller_server.Controller;
+import it.polimi.ingsw.server.model_server.Mod;
 
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class CLI implements Runnable, UI {
 
@@ -55,28 +55,19 @@ public class CLI implements Runnable, UI {
         cli.run();
     }*/
 
-    public static void main(String[] args) {
-        ArrayList<CardLeader> cardLeaderDeck = new ArrayList<>();
-        cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
-    }
-
     @Override
     public void run() {
         setup();
-        int nGamers = nameAll.size();
-        var gameController = new GameController(nGamers, new Game(new Market()));
-        gameController.setGamers(nGamers);
-        gameController.startGame();
     }
 
     public void setup() {
         var nickname = "";
-        var nPlayers="";
+        var nPlayers = 0;
         do {
             while (Objects.equals(nickname, "")) {
                 System.out.println(">Insert number of players: ");
                 System.out.println(">");
-                nPlayers = input.nextLine();
+                nPlayers = Integer.parseInt(input.nextLine());
                 System.out.println(">Insert your nickname: ");
                 System.out.println(">");
                 nickname = input.nextLine();
@@ -101,6 +92,14 @@ public class CLI implements Runnable, UI {
         } catch (Exception e) {
             e.printStackTrace();
         }*/
+
+        /*  qui c'è in mezzo la lobby */
+
+        /*adesso abbiamo tutti i giocatori*/
+
+        int nGamers = nameAll.size();
+        var controller = new Controller(new Mod());
+        controller.createMatch(nPlayers);
     }
 
     @Override

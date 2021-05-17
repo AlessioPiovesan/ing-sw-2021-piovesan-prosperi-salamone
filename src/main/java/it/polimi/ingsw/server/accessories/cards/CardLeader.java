@@ -40,29 +40,6 @@ public enum CardLeader implements Card {
         this.flipped = false;
     }
 
-    public Requirements[] getReq() {
-        return req;
-    }
-
-    @Override
-    public int getWinPnt() {
-        return winPnt;
-    }
-
-    @Override
-    public boolean getFlipped() {
-        return flipped;
-    }
-
-    @Override
-    public void flipCard() {
-        flipped = !flipped;
-    }
-
-    public Colours getSpecial() {
-        return special;
-    }
-
     public static CardLeader getSpecificCard(int n) {
         switch (n) {
             case 1 -> {
@@ -118,6 +95,28 @@ public enum CardLeader implements Card {
 
     }
 
+    public Requirements[] getReq() {
+        return req;
+    }
+
+    @Override
+    public int getWinPnt() {
+        return winPnt;
+    }
+
+    @Override
+    public boolean getFlipped() {
+        return flipped;
+    }
+
+    @Override
+    public void flipCard() {
+        flipped = !flipped;
+    }
+
+    public Colours getSpecial() {
+        return special;
+    }
 
     @Override
     public String toString() {

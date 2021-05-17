@@ -15,22 +15,24 @@ public class Board {
     private final FaithTrack faithTrack;
     private final StrongBox strongBox;
     private final Library library;
-    private CardLeader[] myLeaderCards = new CardLeader[2];
-    private CardLeader[] temporaryLeaderCards = new CardLeader[4];
     private final EnumMap<Colours, Integer> resAll;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     int idD;
+    boolean endGame;
     int activeLeader = 0;
     String nickname;
     Colours preference = Colours.WHITE;
-    LinkedList<Colours> buffer;
+    LinkedList<Colours> bufferMarket;
+    LinkedList<Pick> bufferProd;
     Colours[] discount = {Colours.WHITE, Colours.WHITE};
     Colours[] marketAlt = {Colours.WHITE, Colours.WHITE};
     Colours[] productAlt = {Colours.WHITE, Colours.WHITE};
-
     RemoteView remoteView;
+    private CardLeader[] myLeaderCards = new CardLeader[2];
+    private CardLeader[] temporaryLeaderCards = new CardLeader[4];
 
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library, RemoteView remoteView) {
+        endGame = false;
         this.idD = id;
         /* Warehouse creation for a single Board */
         this.warehouse = warehouse;
@@ -69,9 +71,11 @@ public class Board {
         }
     }
 
-    public void setBuffer(List<Colours> res) {
-        buffer = (LinkedList<Colours>) res;
-        pcs.firePropertyChange("buffer", "", buffer);
+    public void setBufferMarket(List<Colours> res) {
+        bufferMarket = new LinkedList<>();
+        bufferMarket = (LinkedList<Colours>) res;
+        pcs.firePropertyChange("buffer", "", bufferMarket);
+        remoteView.resourcesHandlerMarket(bufferMarket);
     }
 
     public void productionExtra(Colours color) {
@@ -81,10 +85,14 @@ public class Board {
     }
 
     public void productionAll() {
+        bufferProd = new LinkedList<>();
         for (var i = 0; i < 3; i++) {
             CardDev card = library.getCardOnTop(i);
             Pick[] res = card.getResFrom();
-            storeSB(res);
+            Collections.addAll(bufferProd, res);
+            pcs.firePropertyChange("bufferProd", "", bufferProd);
+            remoteView.resourcesHandler(bufferProd);
+            storeSB(card.getResTo());
         }
     }
 
@@ -92,14 +100,14 @@ public class Board {
         return myLeaderCards;
     }
 
+    public void setMyLeaderCards(CardLeader[] cards) {
+        myLeaderCards = cards;
+    }
+
     public void setTemporaryLeaderCards(CardLeader[] leaders) {
         temporaryLeaderCards = leaders;
         pcs.firePropertyChange("temporaryLeaderCards", "", temporaryLeaderCards);
         remoteView.scegliLeCarteLeaderAllInizioDomanda(temporaryLeaderCards);
-    }
-
-    public void setMyLeaderCards(CardLeader[] cards){
-        myLeaderCards = cards;
     }
 
     public Map<Colours, Integer> getResAll() {
@@ -179,27 +187,28 @@ public class Board {
     }
 
     public void buyCardDev(CardDev card) {
-        /*seleziona le risorse sia da warehouse che da strong box*/
-        /*aggiungi alle carte che ha il giocatore*/
-        /*controlla se c'è lo sconto*/
+        bufferProd = new LinkedList<>();
+        Collections.addAll(bufferProd, card.getCost());
+        pcs.firePropertyChange("bufferProd", "", bufferProd);
+        remoteView.resourcesHandler(bufferProd);
         myDevCards.add(card);
-        if (myDevCards.size() == 7) System.out.println("Fine partita?");
+        checkIfEndGame();
+    }
+
+    private void checkIfEndGame() {
+        if (myDevCards.size() == 7) endGame = true;
+        if (getFaithTrack().getPosition() == 25) endGame = true;
     }
 
     public void marketResHandler(List<Colours> res) {
         for (Colours colours : res)
-            if (colours == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE) {
+            if (colours == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE)
                 colours = marketAlt[activeLeader];
-            }
-        setBuffer(res);
+        setBufferMarket(res);
     }
 
     public void resHandler(Colours res) {
         /*attiva un pezzo di view che chiede a che lvl di warehouse infilare quelle risorsa*/
-    }
-
-    public int checkDiscardedResources(List<Colours> discarded) {
-        return discarded.size();
     }
 
     public void setPreference() {

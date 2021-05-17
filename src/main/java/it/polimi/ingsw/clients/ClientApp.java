@@ -18,7 +18,8 @@ public class ClientApp {
     }
 
     public static void startCLI() {
-        CLI.main(new String[0]);
+        var cli = new CLI();
+        cli.run();
     }
 
     public static void startGUI() {

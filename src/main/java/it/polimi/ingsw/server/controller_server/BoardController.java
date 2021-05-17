@@ -36,8 +36,8 @@ public class BoardController {
         /*manda le loose in descarded*/
     }
 
-    public void warehouseResHandler(Colours colour, int lvl) {
-        player.storeW(lvl, new Pick[]{new Pick(colour, 1)});
+    public void warehouseResHandler(Colours colour, int qnt, int lvl) {
+        player.storeW(lvl, new Pick[]{new Pick(colour, qnt)});
     }
 
     public void strongboxResHandler(Colours colour, int qnt) {
