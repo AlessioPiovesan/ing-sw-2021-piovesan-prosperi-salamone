@@ -11,7 +11,7 @@ class BoardTest {
 
     @Test
     void testCheckDiscardedResources() {
-        Board b = new Board(0, null, null, null, null, null);
+        Board b = new Board(0, null, null, null, null);
         LinkedList<Colours> list = new LinkedList<>();
         list.add(Colours.BLUE);
         list.add(Colours.YELLOW);

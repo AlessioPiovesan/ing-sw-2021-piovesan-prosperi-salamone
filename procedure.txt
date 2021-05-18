@@ -1,0 +1,28 @@
+Si accende il gioco
+(piccolo check su ip e porta)
+Chiediamo il numero di giocatori
+Stabilire nickname che identifica il giocatore
+(controllo che il nick sia univoco su tutto il server prima di accettare il nick scelto)
+Quando si arriva al numero di giocatori scelto...
+...Parte CLI/GUI (a scelta del giocatore)
+Si inizia con le distribuzioni di cose
+Si danno le 4 carte leader...
+...e i giocatori ne scelgono 2
+Si distribuiscono le risorse con la funzione che abbiamo
+Prima azione del primo giocatore
+____________________________________________________________________________________________
+Le azioni possibili in un turno standard:
+- risorse dal mercato
+- comprare una carta sviluppo
+- attivare la produzione (si attivano tutte quelle in plancia nello stesso momento)
+(OPZIONALE) attivazione carta leader (l'attivazione ha un costo)
+____________________________________________________________________________________________
+Probabilmente si spostano le pedine nel percorso fede
+____________________________________________________________________________________________
+Finisce la partita se:
+- se un giocatore compra la settima carta sviluppo
+- se un giocatore raggiunge la casella 25
+____________________________________________________________________________________________
+Si contano i puntano i punti vittoria
+Si decreta il vincitore
+Si chiude il gioco

@@ -3,7 +3,6 @@ package it.polimi.ingsw.server.model_server.game;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.board.*;
-import it.polimi.ingsw.server.viewer_server.RemoteView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,30 +19,24 @@ public class Game implements Serializable {
     private final ArrayList<CardLeader> cardLeaderDeck = new ArrayList<>();
     private final ArrayList<Integer> playableLeaderCards = new ArrayList<>();
     private final Market market;
-    int id;
-    int playingPlayer;
+    private int id;
+    private int playingPlayer;
 
-    RemoteView remoteView;
-
-    public Game(Market newMarket) {
+    public Game(Market market) {
         /* Board creation for each player */
         for (var i = 0; i < nGamers; i++) {
             var warehouse = new Warehouse();
             var strongBox = new StrongBox();
             var faithTrack = new FaithTrack();
             var library = new Library();
-            remoteView = new RemoteView();
-            boards[i] = new Board(i, warehouse, strongBox, faithTrack, library, remoteView);
+            boards[i] = new Board(i, warehouse, strongBox, faithTrack, library);
             playingPlayer = 0;
         }
         /* Market creation for each Game */
-        market = newMarket;
+        this.market = market;
         /* Card cataloging for each Game */
         cardDevDeck.addAll(Arrays.asList(CardDev.values()));
         cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
-        /*...*/
-
-
     }
 
     public int getNGamers() {
@@ -140,13 +133,5 @@ public class Game implements Serializable {
     public void nextAction() {
         /*chiede alla view l'azione da fare
          * GameController riceve qualcosa e fa partire .action(...)*/
-    }
-
-    public RemoteView getRemoteView() {
-        return remoteView;
-    }
-
-    public void ready() {
-        remoteView.nextChiedi();
     }
 }

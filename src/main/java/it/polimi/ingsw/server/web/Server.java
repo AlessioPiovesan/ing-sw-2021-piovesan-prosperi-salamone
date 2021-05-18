@@ -14,7 +14,7 @@ import java.util.concurrent.Executors;
 
 public class Server {
     private static final int PORT = 12345;
-    private final ServerSocket serverSocket;
+    private ServerSocket serverSocket;
     //private final Map<Integer, VirtualClient> idMapClient;
     /**
      * List of clients waiting in the lobby.
@@ -26,9 +26,13 @@ public class Server {
     private final Map<Connection, Connection> playingConnection = new HashMap<>();
     int nextClientID;
 
-    public Server() throws IOException {
+    public Server() {
         //idMapClient = new HashMap<>();
-        this.serverSocket = new ServerSocket(PORT);
+        try {
+            this.serverSocket = new ServerSocket(PORT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //Register connection
@@ -80,7 +84,7 @@ public class Server {
 
     public void run() {
         System.out.println("Server listening on port: " + PORT);
-        while (true) {
+        while (!executor.isTerminated()) {
             try {
                 var socket = serverSocket.accept();
                 var connection = new Connection(socket, this);

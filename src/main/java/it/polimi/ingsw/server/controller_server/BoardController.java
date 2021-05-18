@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.controller_server;
 
 
+import it.polimi.ingsw.clients.view_client.UI;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
@@ -12,9 +13,11 @@ import java.util.Map;
 public class BoardController {
 
     Board player;
+    UI ui;
 
-    public BoardController(Board player) {
+    public BoardController(Board player, UI ui) {
         this.player = player;
+        this.ui = ui;
     }
 
     public Board getPlayer() {

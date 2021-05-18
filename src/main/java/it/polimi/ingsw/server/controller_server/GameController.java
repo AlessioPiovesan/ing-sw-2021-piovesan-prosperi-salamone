@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.controller_server;
 
+import it.polimi.ingsw.clients.view_client.UI;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
@@ -8,6 +9,7 @@ import it.polimi.ingsw.server.model_server.game.Game;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class GameController {
 
@@ -15,9 +17,11 @@ public class GameController {
     Game game;
     BoardController[] boardController;
 
-    public GameController(int gamers, Game game) {
-        boardController = new BoardController[gamers];
+    public GameController(int newID, int gamers, Game game, UI ui) {
+        id=newID;
         this.game = game;
+        boardController = new BoardController[gamers];
+        IntStream.range(0, gamers).forEachOrdered(i -> boardController[i] = new BoardController(game.getSingleB(i), ui));
     }
 
     public Game getGame() {
@@ -26,15 +30,12 @@ public class GameController {
 
 
     public void update() {
-
         /*Riceve le scelte del giocatore e manda avanti la partita*/
         game.setPlayingPlayer(game.checkNext());
-        /*funzione che non abbiamo di Game che chiede alla view qual è l'azione successiva*/
-        game.ready();
     }
 
     public void setGamers(int gamers) {
-        Game.setNGamers(gamers);
+        game.setNGamers(gamers);
     }
 
     public void startGame() {

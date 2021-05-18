@@ -4,8 +4,10 @@ import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
+import it.polimi.ingsw.server.controller_server.BoardController;
 import it.polimi.ingsw.server.viewer_server.RemoteView;
 
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
 
@@ -31,7 +33,7 @@ public class Board {
     private CardLeader[] myLeaderCards = new CardLeader[2];
     private CardLeader[] temporaryLeaderCards = new CardLeader[4];
 
-    public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library, RemoteView remoteView) {
+    public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library) {
         endGame = false;
         this.idD = id;
         /* Warehouse creation for a single Board */
@@ -47,7 +49,7 @@ public class Board {
         resAll.put(Colours.YELLOW, 0);
         resAll.put(Colours.GREY, 0);
         resAll.put(Colours.PURPLE, 0);
-        this.remoteView = remoteView;
+        remoteView = new RemoteView(this);
     }
 
     public void setDiscount(Colours color) {
@@ -221,5 +223,11 @@ public class Board {
         activeLeader = i;
     }
 
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        pcs.addPropertyChangeListener(listener);
+    }
 
+    public void removePropertyChangeListener(PropertyChangeListener listener){
+        pcs.removePropertyChangeListener(listener);
+    }
 }

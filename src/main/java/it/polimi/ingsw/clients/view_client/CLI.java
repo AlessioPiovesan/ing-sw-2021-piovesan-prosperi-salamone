@@ -3,7 +3,9 @@ package it.polimi.ingsw.clients.view_client;
 import it.polimi.ingsw.clients.web.ConnectionSocket;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.controller_server.Controller;
-import it.polimi.ingsw.server.model_server.Mod;
+import it.polimi.ingsw.server.controller_server.GameController;
+import it.polimi.ingsw.server.model_server.game.Game;
+import it.polimi.ingsw.server.model_server.game.Market;
 
 import java.beans.PropertyChangeSupport;
 import java.io.PrintStream;
@@ -55,25 +57,20 @@ public class CLI implements Runnable, UI {
         cli.run();
     }*/
 
-    @Override
-    public void run() {
-        setup();
+    public void setup() {
     }
 
-    public void setup() {
+    @Override
+    public void run() {
         var nickname = "";
-        var nPlayers = 0;
         do {
             while (Objects.equals(nickname, "")) {
-                System.out.println(">Insert number of players: ");
-                System.out.println(">");
-                nPlayers = Integer.parseInt(input.nextLine());
                 System.out.println(">Insert your nickname: ");
                 System.out.println(">");
                 nickname = input.nextLine();
                 System.out.println("> You chose: " + nickname);
                 System.out.println("> Is it ok? [y/n] ");
-                System.out.print(">");
+                System.out.print(">\t");
                 String r = input.nextLine();
                 if (!(r.equals("y"))) nickname = null;
             }
@@ -82,24 +79,10 @@ public class CLI implements Runnable, UI {
             }
         } while (nameAll.contains(nickname));
         nameAll.add(nickname);
-        /*connectionSocket = new ConnectionSocket(ip, port);
-        try {
-            if (!connectionSocket.setup(nickname, modelView)) {
-                System.err.println("The entered IP/port doesn't match any active server or the server is not running. Please try again!");
-                CLI.main(new String[0]);
-            }
-            System.out.println("Socket Connection setup completed!");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
-        /*  qui c'è in mezzo la lobby */
-
-        /*adesso abbiamo tutti i giocatori*/
-
         int nGamers = nameAll.size();
-        var controller = new Controller(new Mod());
-        controller.createMatch(nPlayers);
+        var gameController = new GameController(Controller.newID(), 1, new Game(new Market()), this);
+        gameController.setGamers(nGamers);
+        gameController.startGame();
     }
 
     @Override
