@@ -1,19 +1,23 @@
 package it.polimi.ingsw.server.controller_server;
 
-import it.polimi.ingsw.server.model_server.Mod;
-
 import java.util.LinkedList;
 import java.util.List;
 
 public class Controller {
 
     private static int idGame = 0;
-    private final Mod mod;
+    private static Controller singleInstance;
     private List<GameController> gameController;
 
-    public Controller(Mod mod) {
-        this.mod = mod;
+    private Controller() {
         gameController = new LinkedList<>();
+    }
+
+    public static Controller getInstance() {
+        if (singleInstance == null)
+            singleInstance = new Controller();
+
+        return singleInstance;
     }
 
     public static int newID() {
