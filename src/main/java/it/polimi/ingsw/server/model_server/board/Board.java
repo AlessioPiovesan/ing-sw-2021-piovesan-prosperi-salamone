@@ -4,7 +4,6 @@ import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
-import it.polimi.ingsw.server.controller_server.BoardController;
 import it.polimi.ingsw.server.viewer_server.RemoteView;
 
 import java.beans.PropertyChangeListener;
@@ -32,6 +31,7 @@ public class Board {
     RemoteView remoteView;
     private CardLeader[] myLeaderCards = new CardLeader[2];
     private CardLeader[] temporaryLeaderCards = new CardLeader[4];
+    private boolean activeTurn = false;
 
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library) {
         endGame = false;
@@ -50,6 +50,14 @@ public class Board {
         resAll.put(Colours.GREY, 0);
         resAll.put(Colours.PURPLE, 0);
         remoteView = new RemoteView(this);
+    }
+
+    private void active() {
+        activeTurn = !activeTurn;
+    }
+
+    private boolean isActive() {
+        return activeTurn;
     }
 
     public void setDiscount(Colours color) {
@@ -104,12 +112,14 @@ public class Board {
 
     public void setMyLeaderCards(CardLeader[] cards) {
         myLeaderCards = cards;
+        active();
+        pcs.firePropertyChange("active", "", activeTurn);
     }
 
     public void setTemporaryLeaderCards(CardLeader[] leaders) {
+        active();
         temporaryLeaderCards = leaders;
         pcs.firePropertyChange("temporaryLeaderCards", "", temporaryLeaderCards);
-        remoteView.scegliLeCarteLeaderAllInizioDomanda(temporaryLeaderCards);
     }
 
     public Map<Colours, Integer> getResAll() {
@@ -122,6 +132,10 @@ public class Board {
 
     public FaithTrack getFaithTrack() {
         return faithTrack;
+    }
+
+    public RemoteView getRemoteView() {
+        return remoteView;
     }
 
     public String getNickname() {
@@ -223,11 +237,11 @@ public class Board {
         activeLeader = i;
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener){
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
         pcs.addPropertyChangeListener(listener);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener listener){
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
         pcs.removePropertyChangeListener(listener);
     }
 }

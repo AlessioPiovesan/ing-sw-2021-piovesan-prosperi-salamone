@@ -7,16 +7,21 @@ import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.board.Board;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 
-public class BoardController {
+public class BoardController implements PropertyChangeListener {
 
     Board player;
     UI ui;
 
-    public BoardController(Board player, UI ui) {
+    public BoardController(Board player) {
         this.player = player;
+    }
+
+    public void setUi(UI ui) {
         this.ui = ui;
     }
 
@@ -28,8 +33,9 @@ public class BoardController {
         return player.getResAll();
     }
 
-    public void pickCardLeader(CardLeader[] choice) {
+    public void setMyCardLeader(CardLeader[] choice) {
         player.setMyLeaderCards(choice);
+        System.out.println("FATTO");
     }
 
     public void marketResHandler(List<Colours> keep, List<Colours> loose) {
@@ -47,6 +53,18 @@ public class BoardController {
         player.storeSB(new Pick[]{new Pick(colour, 1)});
     }
 
-    public void update(Board message) {
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        player.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        player.removePropertyChangeListener(listener);
+    }
+
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals("myLeaderCards"))
+            setMyCardLeader((CardLeader[]) evt.getNewValue());
     }
 }

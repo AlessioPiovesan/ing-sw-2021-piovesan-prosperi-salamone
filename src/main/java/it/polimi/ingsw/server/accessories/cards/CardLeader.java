@@ -5,8 +5,6 @@ import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.Requirements;
 
-import java.util.Arrays;
-
 public enum CardLeader implements Card {
 
     CARDLEAD01(new Requirements[]{new Requirements.RequirementsCard(1, ColoursCards.GREEN), new Requirements.RequirementsCard(1, ColoursCards.YELLOW)}, "-1 Servant", Colours.PURPLE, 2),
@@ -40,59 +38,60 @@ public enum CardLeader implements Card {
         this.flipped = false;
     }
 
-    public static CardLeader getSpecificCard(int n) {
+    public static CardLeader getSpecificCard(String n) {
         switch (n) {
-            case 1 -> {
+            case "01" -> {
                 return CARDLEAD01;
             }
-            case 2 -> {
+            case "02" -> {
                 return CARDLEAD02;
             }
-            case 3 -> {
+            case "03" -> {
                 return CARDLEAD03;
             }
-            case 4 -> {
+            case "04" -> {
                 return CARDLEAD04;
             }
-            case 5 -> {
+            case "05" -> {
                 return CARDLEAD05;
             }
-            case 6 -> {
+            case "06" -> {
                 return CARDLEAD06;
             }
-            case 7 -> {
+            case "07" -> {
                 return CARDLEAD07;
             }
-            case 8 -> {
+            case "08" -> {
                 return CARDLEAD08;
             }
-            case 9 -> {
+            case "09" -> {
                 return CARDLEAD09;
             }
-            case 10 -> {
+            case "10" -> {
                 return CARDLEAD10;
             }
-            case 11 -> {
+            case "11" -> {
                 return CARDLEAD11;
             }
-            case 12 -> {
+            case "12" -> {
                 return CARDLEAD12;
             }
-            case 13 -> {
+            case "13" -> {
                 return CARDLEAD13;
             }
-            case 14 -> {
+            case "14" -> {
                 return CARDLEAD14;
             }
-            case 15 -> {
+            case "15" -> {
                 return CARDLEAD15;
             }
-            case 16 -> {
+            case "16" -> {
                 return CARDLEAD16;
             }
-            default -> throw new IllegalStateException("Unexpected value: " + n);
+            default -> {
+                return null;
+            }
         }
-
     }
 
     public Requirements[] getReq() {
@@ -120,9 +119,10 @@ public enum CardLeader implements Card {
 
     @Override
     public String toString() {
-        return name() + "->\t{ " +
-                "this card's requirements are:" + Arrays.toString(req) +
-                ",\nspecial=" + ability +
-                ",\nwinPnt=" + winPnt + "}";
+        return name() + "\t->\t" +
+                "this card gives you the ability of" +
+                ability +
+                "and " + winPnt + "points, to activate this card you need:\n"
+                + req;
     }
 }

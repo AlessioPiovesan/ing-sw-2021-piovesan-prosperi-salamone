@@ -2,9 +2,7 @@ package it.polimi.ingsw.clients;
 
 import it.polimi.ingsw.clients.view_client.CLI;
 import it.polimi.ingsw.clients.view_client.GUI;
-import it.polimi.ingsw.server.controller_server.GameController;
-import it.polimi.ingsw.server.model_server.game.Game;
-import it.polimi.ingsw.server.model_server.game.Market;
+import it.polimi.ingsw.clients.view_client.ModelView;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -30,27 +28,32 @@ public class ClientApp {
 
     public static void startCLI(int input) {
         System.out.println("You selected the CLI interface, have fun!\nStarting...");
-        if (input == 1){
-            CLI cli = new CLI();
+        if (input == 1) {
+            var cli = new CLI();
+            new ModelView(cli);
             cli.run();
         }
     }
 
     public static void startGUI(int input) {
         System.out.println("You selected the GUI interface, have fun!\nStarting...");
-        GUI.start();
+        if (input == 1) {
+            var gui = new GUI();
+            new ModelView(gui);
+            gui.run();
+        }
     }
 
     public static void chooseUI(int input) {
         var exit = true;
         while (exit) {
             exit = false;
-            System.out.println("""
+            System.out.print("""
                     How do you wanna play?
                     0. COMMAND-LINE INTERFACE
                     1. GRAPHICAL USER INTERFACE
-                    >Type the number of the desired option!
-                    >\040""");
+                    > Type the number of the desired option!
+                    >>\040""");
             var scanner = new Scanner(System.in);
             var ui = 0;
             try {
@@ -58,9 +61,9 @@ public class ClientApp {
             } catch (InputMismatchException e) {
                 exit = true;
             } finally {
-                    if (ui == 0)
-                        startCLI(input);
-                    else startGUI(input);
+                if (ui == 0)
+                    startCLI(input);
+                else startGUI(input);
             }
         }
     }

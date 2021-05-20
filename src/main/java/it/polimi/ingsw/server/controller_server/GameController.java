@@ -1,6 +1,5 @@
 package it.polimi.ingsw.server.controller_server;
 
-import it.polimi.ingsw.clients.view_client.UI;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
@@ -13,21 +12,24 @@ import java.util.stream.IntStream;
 
 public class GameController {
 
-    int id;
-    Game game;
-    BoardController[] boardController;
+    private int id;
+    private Game game;
+    private BoardController[] boardController;
+    private int[] ready;
 
-    public GameController(int newID, int gamers, Game game, UI ui) {
-        id=newID;
+
+    public GameController(int newID, int gamers, Game game) {
+        id = newID;
         this.game = game;
+        ready = new int[gamers];
+        IntStream.range(0, gamers).forEachOrdered(i -> ready[i] = 0);
         boardController = new BoardController[gamers];
-        IntStream.range(0, gamers).forEachOrdered(i -> boardController[i] = new BoardController(game.getSingleB(i), ui));
+        IntStream.range(0, gamers).forEachOrdered(i -> boardController[i] = new BoardController(game.getSingleB(i)));
     }
 
     public Game getGame() {
         return game;
     }
-
 
     public void update() {
         /*Riceve le scelte del giocatore e manda avanti la partita*/
@@ -39,9 +41,18 @@ public class GameController {
     }
 
     public void startGame() {
+        System.out.println("Operazioni iniziali"); /*DA CANCELLARE*/
+        game.checkNext();
+        ready[game.getPlayingPlayer()]++;
+        leaderCardsHandler();
+    }
+
+    public void leaderCardsHandler() {
         game.myLeaderCardsHandler();
+    }
+
+    public void initialresourcesHandler() {
         game.pickStartingResources();
-        update();
     }
 
     public void endGame() {
@@ -133,6 +144,6 @@ public class GameController {
     }
 
     public BoardController getActiveBoardController() {
-        return boardController[game.getNGamers()];
+        return boardController[game.getNGamers() - 1];
     }
 }

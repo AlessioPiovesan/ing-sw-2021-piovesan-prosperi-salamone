@@ -1,47 +1,48 @@
 package it.polimi.ingsw.server.web;
 
-import it.polimi.ingsw.clients.web.Client;
-import it.polimi.ingsw.server.controller_server.Controller;
-import it.polimi.ingsw.server.model_server.Mod;
-
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
-    private final socketServer socketServer;
-    private final int port = 12345;
+    private static final int PORT = 12345;
+    private final SocketServer socketServer;
+    private final List<SocketClient> waiting = new ArrayList<>();
     private int totalPlayers;
-    private final List<socketClient> waiting = new ArrayList<>();
 
-    public it.polimi.ingsw.server.web.socketServer getSocketServer() {
+    public Server() {
+        socketServer = new SocketServer(PORT, this);
+        totalPlayers = -1;
+        var thread = new Thread(this::quitter);
+        thread.start();
+    }
+
+    public SocketServer getSocketServer() {
         return socketServer;
     }
 
-    public void quitter(){
-        Scanner scanner = new Scanner(System.in);
-        while (true){
-            if (scanner.next().equalsIgnoreCase("QUIT")){
-                getSocketServer().setActive(false);
-                System.exit(0);
-                break;
+    public void quitter() {
+        var reader = new BufferedReader(new InputStreamReader(System.in));
+        while (true) {
+            try {
+                if (reader.readLine().equalsIgnoreCase("QUIT")) {
+                    getSocketServer().setActive(false);
+                    System.exit(0);
+                    break;
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-    }
-
-    public Server(){
-        socketServer = new socketServer(port, this);
-        totalPlayers = -1;
-        Thread thread = new Thread(this::quitter);
-        thread.start();
     }
 
     public void setTotalPlayers(int totalPlayers) {
         this.totalPlayers = totalPlayers;
     }
-    
+
     public void run() {
     }
 

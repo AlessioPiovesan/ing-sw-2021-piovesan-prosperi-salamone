@@ -1,49 +1,25 @@
 package it.polimi.ingsw.server.viewer_server;
 
-import it.polimi.ingsw.clients.view_client.CLI;
-import it.polimi.ingsw.clients.view_client.UI;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
-import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
-import it.polimi.ingsw.server.controller_server.Controller;
 import it.polimi.ingsw.server.model_server.board.Board;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 public class RemoteView implements PropertyChangeListener {
-    Board board;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private Board board;
+    private boolean ready = false;
+
 
     public RemoteView(Board board) {
         board.addPropertyChangeListener(this);
-    }
-
-    public void scegliLeCarteLeaderAllInizioDomanda(CardLeader[] cards) {
-        ArrayList<CardLeader> list = new ArrayList<>();
-        Collections.addAll(list, cards);
-        System.out.println(list);
-        System.out.println("Indica il codice (le ultime due cifre del nome) delle carte scelte");
-        scegliLeCarteLeaderAllInizioRisposta();
-    }
-
-    public void scegliLeCarteLeaderAllInizioRisposta() {
-        var finale = new CardLeader[2];
-        var input = new Scanner(System.in);
-        String risposta = input.nextLine();
-        var i = 0;
-        while (i < 2)
-            if (Integer.parseInt(risposta) <= 0 || Integer.parseInt(risposta) >= 16) {
-                System.out.println("Errore");
-            } else {
-                System.out.println("Hai scelto " + risposta + ", giusto?");
-                finale[i] = CardLeader.getSpecificCard(Integer.parseInt(risposta));
-                i++;
-            }
     }
 
     public void getRisorsaPreferita() {
@@ -100,9 +76,9 @@ public class RemoteView implements PropertyChangeListener {
                 /*Mostro le carte*/
                 System.out.println("Chiedo di decidere (col numero se le numeriamo, col nome se è riconoscibile)");
                 var j = input.nextLine();
-               // for (CardDev cardDev : CardDev.values())
-                   // if (j.equals(cardDev.name()))
-                        //controller.getGameControllerById(id).cardDevAction(cardDev);
+                // for (CardDev cardDev : CardDev.values())
+                // if (j.equals(cardDev.name()))
+                //controller.getGameControllerById(id).cardDevAction(cardDev);
             }
             case 4 -> {
                 System.out.println("Mostro tutte le carte attivabili");
@@ -157,10 +133,29 @@ public class RemoteView implements PropertyChangeListener {
             mettiRisorseNelMagazzino(0, colours, 1, lvls.get(keep.indexOf(colours)));
     }
 
+    public void setMyLeaderCards(CardLeader[] myLeaderCards) {
+        pcs.firePropertyChange("myLeaderCards", "", myLeaderCards);
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
 
-        System.out.println(evt.getPropertyName());
+        switch (evt.getPropertyName()) {
+            case "active": {
+                if (!ready) {
+                    ready = !ready;
+                    /*deve distribuire le risorse*/
+                }
+            }
+        }
 
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        pcs.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        pcs.removePropertyChangeListener(listener);
     }
 }
