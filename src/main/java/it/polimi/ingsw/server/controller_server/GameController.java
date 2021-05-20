@@ -6,16 +6,20 @@ import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.board.Board;
 import it.polimi.ingsw.server.model_server.game.Game;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.IntStream;
 
 public class GameController {
 
-    private int id;
-    private Game game;
-    private BoardController[] boardController;
-    private int[] ready;
+    private final ArrayList<CardDev> cardDevDeck = new ArrayList<>();
+    private final ArrayList<CardLeader> cardLeaderDeck = new ArrayList<>();
+    private final ArrayList<Integer> playableLeaderCards = new ArrayList<>();
+    private final int id;
+    private final Game game;
+    private final BoardController[] boardController;
+    private final int[] ready;
 
 
     public GameController(int newID, int gamers, Game game) {
@@ -37,7 +41,7 @@ public class GameController {
     }
 
     public void setGamers(int gamers) {
-        game.setNGamers(gamers);
+        Game.setNGamers(gamers);
     }
 
     public void startGame() {
@@ -74,7 +78,7 @@ public class GameController {
     }
 
     public void prodAction() {
-        Board b = game.getSingleB(game.getPlayingPlayer());
+        var b = game.getSingleB(game.getPlayingPlayer());
         /*parte la produzione di tutto quello che c'è sulla plancia*/
         b.productionAll();
         update();

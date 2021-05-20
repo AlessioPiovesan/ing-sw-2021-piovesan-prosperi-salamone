@@ -30,7 +30,6 @@ public class Board {
     Colours[] productAlt = {Colours.WHITE, Colours.WHITE};
     RemoteView remoteView;
     private CardLeader[] myLeaderCards = new CardLeader[2];
-    private CardLeader[] temporaryLeaderCards = new CardLeader[4];
     private boolean activeTurn = false;
 
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library) {
@@ -52,8 +51,9 @@ public class Board {
         remoteView = new RemoteView(this);
     }
 
-    private void active() {
+    public void active() {
         activeTurn = !activeTurn;
+        pcs.firePropertyChange("active", "", activeTurn);
     }
 
     private boolean isActive() {
@@ -84,8 +84,8 @@ public class Board {
     public void setBufferMarket(List<Colours> res) {
         bufferMarket = new LinkedList<>();
         bufferMarket = (LinkedList<Colours>) res;
-        pcs.firePropertyChange("buffer", "", bufferMarket);
-        remoteView.resourcesHandlerMarket(bufferMarket);
+        pcs.firePropertyChange("marketbuffer", "", bufferMarket);
+        //remoteView.resourcesHandlerMarket(bufferMarket);
     }
 
     public void productionExtra(Colours color) {
@@ -100,8 +100,8 @@ public class Board {
             CardDev card = library.getCardOnTop(i);
             Pick[] res = card.getResFrom();
             Collections.addAll(bufferProd, res);
-            pcs.firePropertyChange("bufferProd", "", bufferProd);
-            remoteView.resourcesHandler(bufferProd);
+            pcs.firePropertyChange("ProductionBuffer", "", bufferProd);
+            //remoteView.resourcesHandler(bufferProd);
             storeSB(card.getResTo());
         }
     }
@@ -112,14 +112,11 @@ public class Board {
 
     public void setMyLeaderCards(CardLeader[] cards) {
         myLeaderCards = cards;
-        active();
-        pcs.firePropertyChange("active", "", activeTurn);
+        pcs.firePropertyChange("firstOp", "", 0);
     }
 
     public void setTemporaryLeaderCards(CardLeader[] leaders) {
-        active();
-        temporaryLeaderCards = leaders;
-        pcs.firePropertyChange("temporaryLeaderCards", "", temporaryLeaderCards);
+        pcs.firePropertyChange("temporaryLeaderCards", "", leaders);
     }
 
     public Map<Colours, Integer> getResAll() {
@@ -206,7 +203,7 @@ public class Board {
         bufferProd = new LinkedList<>();
         Collections.addAll(bufferProd, card.getCost());
         pcs.firePropertyChange("bufferProd", "", bufferProd);
-        remoteView.resourcesHandler(bufferProd);
+        //remoteView.resourcesHandler(bufferProd);
         myDevCards.add(card);
         checkIfEndGame();
     }

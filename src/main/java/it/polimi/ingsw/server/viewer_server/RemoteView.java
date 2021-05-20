@@ -1,15 +1,12 @@
 package it.polimi.ingsw.server.viewer_server;
 
 import it.polimi.ingsw.server.accessories.Colours;
-import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.board.Board;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 public class RemoteView implements PropertyChangeListener {
@@ -46,6 +43,7 @@ public class RemoteView implements PropertyChangeListener {
         //controller.getGameControllerById(id).getActiveBoardController().strongboxResHandler(colour, qnt);
     }
 
+    /*
     public void nextChiedi() {
         System.out.println("""
                 Prossima azione?
@@ -66,14 +64,14 @@ public class RemoteView implements PropertyChangeListener {
             }
             case 2 -> {
                 System.out.println("Mostro il mercato");
-                /*Mostro il mercato*/
+                Mostro il mercato
                 System.out.println("Chiedo la mossa in maniera furba chiedendo riga/colonna");
                 var j = Integer.parseInt(input.nextLine());
                 //controller.getGameControllerById(id).marketAction(j);
             }
             case 3 -> {
                 System.out.println("Mostro tutte le carte comprabili");
-                /*Mostro le carte*/
+                Mostro le carte
                 System.out.println("Chiedo di decidere (col numero se le numeriamo, col nome se è riconoscibile)");
                 var j = input.nextLine();
                 // for (CardDev cardDev : CardDev.values())
@@ -82,7 +80,7 @@ public class RemoteView implements PropertyChangeListener {
             }
             case 4 -> {
                 System.out.println("Mostro tutte le carte attivabili");
-                /*Mostro le carte*/
+                Mostro le carte
                 System.out.println("Chiedo di decidere (col numero se le numeriamo, col nome se è riconoscibile)");
                 var j = input.nextLine();
                 //for (CardLeader cardLeader : controller.getGameControllerById(id).getGame().getSingleB(controller.getGameControllerById(id).getGame().getPlayingPlayer()).getMyLeaderCards())
@@ -117,7 +115,7 @@ public class RemoteView implements PropertyChangeListener {
         var loose = new ArrayList<Colours>();
         var lvls = new ArrayList<Integer>();
         System.out.println("Mostro le risorse");
-        /*Mostro le risorse*/
+        Mostro le risorse
         for (Colours colours : bufferMarket) {
             System.out.println(colours + "la metto in magazzino?");
             var j = Integer.parseInt(input.nextLine());
@@ -131,7 +129,7 @@ public class RemoteView implements PropertyChangeListener {
         //controller.getGameControllerById(0).addFaithPnt(loose);
         for (Colours colours : keep)
             mettiRisorseNelMagazzino(0, colours, 1, lvls.get(keep.indexOf(colours)));
-    }
+    }*/
 
     public void setMyLeaderCards(CardLeader[] myLeaderCards) {
         pcs.firePropertyChange("myLeaderCards", "", myLeaderCards);

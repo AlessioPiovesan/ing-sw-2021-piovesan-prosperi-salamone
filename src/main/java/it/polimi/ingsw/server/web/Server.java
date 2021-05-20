@@ -3,24 +3,18 @@ package it.polimi.ingsw.server.web;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.net.ServerSocket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-public class Server {
+public class Server implements Runnable {
     private static final int PORT = 12345;
-    private final SocketServer socketServer;
-    private final List<SocketClient> waiting = new ArrayList<>();
     private int totalPlayers;
 
     public Server() {
-        socketServer = new SocketServer(PORT, this);
         totalPlayers = -1;
         var thread = new Thread(this::quitter);
         thread.start();
-    }
-
-    public SocketServer getSocketServer() {
-        return socketServer;
     }
 
     public void quitter() {
@@ -28,7 +22,7 @@ public class Server {
         while (true) {
             try {
                 if (reader.readLine().equalsIgnoreCase("QUIT")) {
-                    getSocketServer().setActive(false);
+                    //getSocketServer().setActive(false);
                     System.exit(0);
                     break;
                 }
@@ -43,7 +37,32 @@ public class Server {
         this.totalPlayers = totalPlayers;
     }
 
+    @Override
     public void run() {
+        //It creates threads when necessary, otherwise it re-uses existing one when possible
+        ExecutorService executor = Executors.newCachedThreadPool();
+        ServerSocket serverSocket;
+        try {
+            serverSocket = new ServerSocket(PORT);
+        } catch (IOException e) {
+            System.err.println(e.getMessage()); //port not available
+            return;
+        }
+        System.out.println("Server ready");
+        while (!serverSocket.isClosed()) {
+            try {
+                var socket = serverSocket.accept();
+                executor.submit(new ServerClientHandler(socket));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        executor.shutdown();
+        try {
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void lobby(Connection connection, String name) {

@@ -3,9 +3,11 @@ package it.polimi.ingsw.clients;
 import it.polimi.ingsw.clients.view_client.CLI;
 import it.polimi.ingsw.clients.view_client.GUI;
 import it.polimi.ingsw.clients.view_client.ModelView;
+import it.polimi.ingsw.clients.web.Client;
 
-import java.util.InputMismatchException;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class ClientApp {
 
@@ -47,23 +49,28 @@ public class ClientApp {
     public static void chooseUI(int input) {
         var exit = true;
         while (exit) {
-            exit = false;
             System.out.print("""
                     How do you wanna play?
                     0. COMMAND-LINE INTERFACE
                     1. GRAPHICAL USER INTERFACE
                     > Type the number of the desired option!
                     >>\040""");
-            var scanner = new Scanner(System.in);
-            var ui = 0;
+            var reader = new BufferedReader(new InputStreamReader(System.in));
+            int ui = -1;
             try {
-                ui = scanner.nextInt();
-            } catch (InputMismatchException e) {
-                exit = true;
+                ui = reader.read();
+            } catch (IOException e) {
+                e.printStackTrace();
             } finally {
-                if (ui == 0)
-                    startCLI(input);
-                else startGUI(input);
+                if (ui == 0 || ui == 1) {
+                    exit = false;
+                    var client = new Client("localhost", 12345, ui);
+                    try {
+                        client.run(input);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }

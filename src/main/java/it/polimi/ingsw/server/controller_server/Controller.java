@@ -7,7 +7,7 @@ public class Controller {
 
     private static int idGame = 0;
     private static Controller singleInstance;
-    private List<GameController> gameController;
+    private final List<GameController> gameController;
 
     private Controller() {
         gameController = new LinkedList<>();
@@ -16,7 +16,6 @@ public class Controller {
     public static Controller getInstance() {
         if (singleInstance == null)
             singleInstance = new Controller();
-
         return singleInstance;
     }
 
