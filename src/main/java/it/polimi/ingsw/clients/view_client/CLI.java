@@ -56,6 +56,18 @@ public class CLI implements Runnable, UI {
         cli.run();
     }*/
 
+    public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection) {
+        List<T> result = new ArrayList<>(rawCollection.size());
+        for (Object o : rawCollection) {
+            try {
+                result.add(clazz.cast(o));
+            } catch (ClassCastException e) {
+                // log the exception or other error handling
+            }
+        }
+        return result;
+    }
+
     private void setup() {
         output.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
         output.println("by\n\u001B[34mAlessio Piovesan\u001B[0m,\n\u001B[32mPier Giorgio Prosperi\u001B[0m,\n\u001B[33mMatteo Salamone\u001B[0m,\n");
@@ -87,14 +99,14 @@ public class CLI implements Runnable, UI {
         this.nickname = nickname;
     }
 
-    private Card pickCard(Class T) {
+    private Card pickCard(Class<? extends Card> clazz) {
         var ok = true;
         Card card = null;
         while (ok) {
             output.println("Code? (last digits)");
             try {
                 String response = input.readLine().toUpperCase();
-                if (T == CardLeader.class) {
+                if (clazz == CardLeader.class) {
                     if (Integer.parseInt(response) <= 0 || Integer.parseInt(response) >= 16) {
                         output.println("Not a correct code");
                     } else {
@@ -106,7 +118,7 @@ public class CLI implements Runnable, UI {
                         }
                     }
                 }
-                if (T == CardDev.class) {
+                if (clazz == CardDev.class) {
                     if (!(response.length() == 3 &&
                             (response.charAt(0) == '1') || response.charAt(0) == '2' || response.charAt(0) == '3' || response.charAt(0) == '4') &&
                             (response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y') &&
@@ -184,7 +196,7 @@ public class CLI implements Runnable, UI {
             prepareResForWarehouse(colours, 1);
     }
 
-    private void resourcesHandler(LinkedList<Pick> bufferProd) {
+    private void resourcesHandler(List<Pick> bufferProd) {
         output.println("Da dove le prendo?");
         for (Pick pick : bufferProd) {
             var ok = true;
@@ -323,8 +335,8 @@ public class CLI implements Runnable, UI {
         switch (evt.getPropertyName()) {
             case "temporaryLeaderCards" -> chooseInitialLeaders((CardLeader[]) evt.getNewValue());
             case "nextAction" -> nextAction();
-            case "marketBuffer" -> resourcesHandlerMarket((List<Colours>) evt.getNewValue());
-            case "ProductionBuffer" -> resourcesHandler((LinkedList<Pick>) evt.getNewValue());
+            case "marketBuffer" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>) evt.getNewValue()));
+            case "ProductionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>) evt.getNewValue()));
             default -> output.println("Nope");
         }
     }
