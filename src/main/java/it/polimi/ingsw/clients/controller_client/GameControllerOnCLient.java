@@ -1,6 +1,6 @@
 package it.polimi.ingsw.clients.controller_client;
 
-import it.polimi.ingsw.clients.model_client.SoloAction;
+import it.polimi.ingsw.clients.accessories.SoloAction;
 import it.polimi.ingsw.clients.model_client.single.GameOnClient;
 import it.polimi.ingsw.clients.model_client.single.Lorenzo;
 import it.polimi.ingsw.server.accessories.Colours;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.clients.model_client;
+package it.polimi.ingsw.clients.accessories;
 
 import it.polimi.ingsw.clients.controller_client.GameControllerOnCLient;
 import it.polimi.ingsw.server.accessories.ColoursCards;
