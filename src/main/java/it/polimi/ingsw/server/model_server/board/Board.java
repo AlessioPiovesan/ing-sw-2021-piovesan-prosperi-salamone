@@ -25,9 +25,9 @@ public class Board {
     Colours preference = Colours.WHITE;
     LinkedList<Colours> bufferMarket;
     LinkedList<Pick> bufferProd;
-    Colours[] discount = {Colours.WHITE, Colours.WHITE};
-    Colours[] marketAlt = {Colours.WHITE, Colours.WHITE};
-    Colours[] productAlt = {Colours.WHITE, Colours.WHITE};
+    Colours[] discount;
+    Colours[] marketAlt;
+    Colours[] productAlt;
     RemoteView remoteView;
     private CardLeader[] myLeaderCards = new CardLeader[2];
     private boolean activeTurn = false;
@@ -49,6 +49,9 @@ public class Board {
         resAll.put(Colours.GREY, 0);
         resAll.put(Colours.PURPLE, 0);
         remoteView = new RemoteView(this);
+        discount = new Colours[]{Colours.WHITE, Colours.WHITE};
+        marketAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
+        productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
     }
 
     public void active() {
