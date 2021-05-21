@@ -8,7 +8,6 @@ import java.util.List;
 
 public class Warehouse {
     private final ArrayList<Pick> wareContent;
-    String messageErr;
 
     public Warehouse() {
         wareContent = new ArrayList<>();
@@ -77,11 +76,8 @@ public class Warehouse {
             case PURPLE -> wareContent.add(new Pick(Colours.PURPLE, 0));
             case BLUE -> wareContent.add(new Pick(Colours.BLUE, 0));
             case YELLOW -> wareContent.add(new Pick(Colours.YELLOW, 0));
-            default -> setError("Not possible");
-        }
-    }
+            default -> checkStatus();
 
-    private void setError(String error) {
-        messageErr = error;
+        }
     }
 }

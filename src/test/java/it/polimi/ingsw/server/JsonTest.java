@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.server.accessories.Json;
 import org.junit.jupiter.api.Test;
@@ -35,9 +36,14 @@ class JsonTest {
 
     @Test
     void stringify() {
-        SimpleTestCaseJsonPOJO pojo = new SimpleTestCaseJsonPOJO();
-        pojo.setTitle("Testing 123");
-        JsonNode node = Json.toJson(pojo);
-        assertEquals("Testing 123", node.get("title").asText());
+        try {
+            SimpleTestCaseJsonPOJO pojo = new SimpleTestCaseJsonPOJO();
+            pojo.setTitle("Testing 123");
+            JsonNode node = Json.toJson(pojo);
+            var string = Json.stringify(node, false);
+            assertEquals("{\"title\":\"Testing 123\"}", string);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 }

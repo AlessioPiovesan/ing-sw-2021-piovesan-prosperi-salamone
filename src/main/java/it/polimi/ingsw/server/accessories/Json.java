@@ -33,9 +33,10 @@ public class Json {
         return objectMapper.valueToTree(a);
     }
 
-    public static String stringify(JsonNode node) throws JsonProcessingException {
+    public static String stringify(JsonNode node, boolean ident) throws JsonProcessingException {
         var objectWriter = objectMapper.writer();
-        objectWriter = objectWriter.with(SerializationFeature.INDENT_OUTPUT);
+        if (ident) objectWriter = objectWriter.with(SerializationFeature.INDENT_OUTPUT);
+        else objectWriter = objectWriter;
         return objectWriter.writeValueAsString(node);
     }
 }

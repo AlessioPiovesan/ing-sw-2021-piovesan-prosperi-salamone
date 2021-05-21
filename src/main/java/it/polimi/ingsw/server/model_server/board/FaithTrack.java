@@ -7,7 +7,6 @@ public class FaithTrack {
     private final boolean[] popeFavor = new boolean[3];
     private int position;
     private int popeFavorWinPnt;
-    private String messageErr;
 
     public FaithTrack() {
         position = 0;
@@ -74,12 +73,7 @@ public class FaithTrack {
                     popeFavorWinPnt += 4;
                 }
             }
-            default -> {
-            }
+            default -> getPosition();
         }
-    }
-
-    private void setError(String message) {
-        messageErr = message;
     }
 }

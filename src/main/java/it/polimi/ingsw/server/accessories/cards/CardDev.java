@@ -4,6 +4,8 @@ import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.Pick;
 
+import java.util.Arrays;
+
 public enum CardDev implements Card {
 
     CARD_DEV1B1(1,
@@ -314,57 +316,10 @@ public enum CardDev implements Card {
     }
 
     public static Card getSpecificCard(String code) {
-        return switch (code) {
-            case "1B1" -> CARD_DEV1B1;
-            case "2B1" -> CARD_DEV2B1;
-            case "3B1" -> CARD_DEV3B1;
-            case "4B1" -> CARD_DEV4B1;
-            case "1B2" -> CARD_DEV1B2;
-            case "2B2" -> CARD_DEV2B2;
-            case "3B2" -> CARD_DEV3B2;
-            case "4B2" -> CARD_DEV4B2;
-            case "1B3" -> CARD_DEV1B3;
-            case "2B3" -> CARD_DEV2B3;
-            case "3B3" -> CARD_DEV3B3;
-            case "4B3" -> CARD_DEV4B3;
-            case "1G1" -> CARD_DEV1G1;
-            case "2G1" -> CARD_DEV2G1;
-            case "3G1" -> CARD_DEV3G1;
-            case "4G1" -> CARD_DEV4G1;
-            case "1G2" -> CARD_DEV1G2;
-            case "2G2" -> CARD_DEV2G2;
-            case "3G2" -> CARD_DEV3G2;
-            case "4G2" -> CARD_DEV4G2;
-            case "1G3" -> CARD_DEV1G3;
-            case "2G3" -> CARD_DEV2G3;
-            case "3G3" -> CARD_DEV3G3;
-            case "4G3" -> CARD_DEV4G3;
-            case "1P1" -> CARD_DEV1P1;
-            case "2P1" -> CARD_DEV2P1;
-            case "3P1" -> CARD_DEV3P1;
-            case "4P1" -> CARD_DEV4P1;
-            case "1P2" -> CARD_DEV1P2;
-            case "2P2" -> CARD_DEV2P2;
-            case "3P2" -> CARD_DEV3P2;
-            case "4P2" -> CARD_DEV4P2;
-            case "1P3" -> CARD_DEV1P3;
-            case "2P3" -> CARD_DEV2P3;
-            case "3P3" -> CARD_DEV3P3;
-            case "4P3" -> CARD_DEV4P3;
-            case "1Y1" -> CARD_DEV1Y1;
-            case "2Y1" -> CARD_DEV2Y1;
-            case "3Y1" -> CARD_DEV3Y1;
-            case "4Y1" -> CARD_DEV4Y1;
-            case "1Y2" -> CARD_DEV1Y2;
-            case "2Y2" -> CARD_DEV2Y2;
-            case "3Y2" -> CARD_DEV3Y2;
-            case "4Y2" -> CARD_DEV4Y2;
-            case "1Y3" -> CARD_DEV1Y3;
-            case "2Y3" -> CARD_DEV2Y3;
-            case "3Y3" -> CARD_DEV3Y3;
-            case "4Y3" -> CARD_DEV4Y3;
-            default -> null;
-        };
+        for (CardDev card : CardDev.values())
+            if (card.name().contains(code.toUpperCase()))
+                return card;
+        return null;
     }
 
     public int getLvl() {
@@ -389,9 +344,8 @@ public enum CardDev implements Card {
 
     @Override
     public String toString() {
-        return name() + "\n" + "This is a " + lvl + "level " + colour + " card the gives " + winPnt + "points.\nIt costs" + "\t->\t" + cost +
-                "\nThis card allows you to produce\n" + resTo + "\nStarting from\n" + resFrom;
-
+        return name() + "\n" + "This is a " + lvl + "level " + colour + " card the gives " + winPnt + "points.\nIt costs" + "\t->\t" + Arrays.toString(cost) +
+                "\nThis card allows you to produce\n" + Arrays.toString(resTo) + "\nStarting from\n" + Arrays.toString(resFrom);
     }
 
     @Override

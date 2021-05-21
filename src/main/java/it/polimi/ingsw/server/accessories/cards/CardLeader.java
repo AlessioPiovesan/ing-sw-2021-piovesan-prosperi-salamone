@@ -5,6 +5,8 @@ import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.Requirements;
 
+import java.util.Arrays;
+
 public enum CardLeader implements Card {
 
     CARDLEAD01(new Requirements[]{new Requirements.RequirementsCard(1, ColoursCards.GREEN), new Requirements.RequirementsCard(1, ColoursCards.YELLOW)}, "-1 Servant", Colours.PURPLE, 2),
@@ -35,33 +37,22 @@ public enum CardLeader implements Card {
         this.ability = ability;
         this.special = special;
         this.winPnt = winPnt;
-        this.flipped = false;
+        this.flipped = true;
     }
 
-    public static CardLeader getSpecificCard(String n) {
-        return switch (n) {
-            case "01" -> CARDLEAD01;
-            case "02" -> CARDLEAD02;
-            case "03" -> CARDLEAD03;
-            case "04" -> CARDLEAD04;
-            case "05" -> CARDLEAD05;
-            case "06" -> CARDLEAD06;
-            case "07" -> CARDLEAD07;
-            case "08" -> CARDLEAD08;
-            case "09" -> CARDLEAD09;
-            case "10" -> CARDLEAD10;
-            case "11" -> CARDLEAD11;
-            case "12" -> CARDLEAD12;
-            case "13" -> CARDLEAD13;
-            case "14" -> CARDLEAD14;
-            case "15" -> CARDLEAD15;
-            case "16" -> CARDLEAD16;
-            default -> null;
-        };
+    public static Card getSpecificCard(String code) {
+        for (CardLeader card : CardLeader.values())
+            if (card.name().contains(code.toUpperCase()))
+                return card;
+        return null;
     }
 
     public Requirements[] getReq() {
         return req;
+    }
+
+    public String getAbility() {
+        return ability;
     }
 
     @Override
@@ -89,6 +80,6 @@ public enum CardLeader implements Card {
                 "this card gives you the ability of" +
                 ability +
                 "and " + winPnt + "points, to activate this card you need:\n"
-                + req;
+                + Arrays.toString(req);
     }
 }

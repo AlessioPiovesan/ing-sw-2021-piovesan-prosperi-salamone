@@ -12,7 +12,7 @@ public enum Colours {
     WHITE(""),
     YELLOW("COIN");
 
-    final String type;
+    private final String type;
 
     Colours(String type) {
         this.type = type;
@@ -27,11 +27,7 @@ public enum Colours {
         return list;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public Colours fromString(String color) {
+    public static Colours fromString(String color) {
         return switch (color.toUpperCase()) {
             case "SHIELD", "BLUE" -> BLUE;
             case "STONE", "GREY" -> GREY;
@@ -39,7 +35,11 @@ public enum Colours {
             case "FAITH", "RED" -> RED;
             case "", "WHITE" -> WHITE;
             case "COIN", "YELLOW" -> YELLOW;
-            default -> throw new IllegalStateException("Unexpected value: " + color.toUpperCase());
+            default -> null;
         };
+    }
+
+    public String getType() {
+        return type;
     }
 }
