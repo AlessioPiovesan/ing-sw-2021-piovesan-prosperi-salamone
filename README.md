@@ -73,11 +73,13 @@ All tests in model and controller has a classes' coverage at 100%.
 | Controller | TurnControllerTest | 0/0 (0%)
 | Model | Global Package | 0/0 (0%)
 
-## The Team
+## The Team - GC54
 
-* [Matteo Salamone](https://github.com/matoss21)
-* [Pier Giorgio Prosperi](https://github.com/piergiorgioprosperi)
-* [Alessio Piovesan](https://github.com/AlessioPiovesan)
+
+- ###   Matteo Salamone (10606104) ([@matoss21](https://github.com/matoss21))<br>matteo.salamone@mail.polimi.it
+- ###   Pier Giorgio Prosperi (10607931) ([@piergiorgioprosperi](https://github.com/piergiorgioprosperi))<br>piergiorgio.prosperi@mail.polimi.it
+- ###   Alessio Piovesan    (10279689) ([@AlessioPiovesan](https://github.com/AlessioPiovesan))<br>alessio.piovesan@mail.polimi.it
+
 
 ## Software used
 
