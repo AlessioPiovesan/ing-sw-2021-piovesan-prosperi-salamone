@@ -75,7 +75,7 @@ All tests in model and controller has a classes' coverage at 100%.
 
 ## The Team
 
-* [Matteo Salamone](https://github.com)
+* [Matteo Salamone](https://github.com/matoss21)
 * [Pier Giorgio Prosperi](https://github.com/piergiorgioprosperi)
 * [Alessio Piovesan](https://github.com/AlessioPiovesan)
 
