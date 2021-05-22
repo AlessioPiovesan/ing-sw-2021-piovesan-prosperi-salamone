@@ -64,6 +64,7 @@ public class ClientApp {
             } finally {
                 if (ui == 0 || ui == 1) {
                     exit = false;
+                    /*DA CHIEDERE IP E PORTA*/
                     var client = new Client("localhost", 12345, ui);
                     try {
                         client.run(input);

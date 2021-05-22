@@ -12,5 +12,8 @@
         <module name="ing-sw-2021-piovesan-prosperi-salamone" />
       </profile>
     </annotationProcessing>
+    <module name="GC54-Server" target="15" />
+    <module name="GC54-ClientSP" target="15" />
+    <module name="GC54-ClientMP" target="15" />
   </component>
 </project>

@@ -36,7 +36,6 @@ public class Json {
     public static String stringify(JsonNode node, boolean ident) throws JsonProcessingException {
         var objectWriter = objectMapper.writer();
         if (ident) objectWriter = objectWriter.with(SerializationFeature.INDENT_OUTPUT);
-        else objectWriter = objectWriter;
         return objectWriter.writeValueAsString(node);
     }
 }
