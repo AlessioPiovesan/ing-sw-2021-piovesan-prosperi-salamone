@@ -91,7 +91,7 @@ All tests in model and controller has a classes' coverage at 100%.
 
 ## Copyright and license
 
-Masters Of Renaissance Board Game is copyrighted 2020.
+Masters Of Renaissance Board Game is copyrighted 2021.
 
 
 [javadocs-image]: .github/Artboard%202.png
