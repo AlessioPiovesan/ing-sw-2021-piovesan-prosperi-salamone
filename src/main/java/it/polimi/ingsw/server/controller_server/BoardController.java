@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class BoardController implements PropertyChangeListener {
 
-    Board player;
+    private final Board player;
 
     public BoardController(Board player) {
         this.player = player;
@@ -53,7 +53,6 @@ public class BoardController implements PropertyChangeListener {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         player.removePropertyChangeListener(listener);
     }
-
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
