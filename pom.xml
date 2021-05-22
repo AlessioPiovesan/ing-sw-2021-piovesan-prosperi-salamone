@@ -52,7 +52,7 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-graphics</artifactId>
-            <version>14.0.1</version>
+            <version>16</version>
             <classifier>linux</classifier>
         </dependency>
         <dependency>
