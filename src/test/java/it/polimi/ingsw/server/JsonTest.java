@@ -14,12 +14,6 @@ class JsonTest {
     private final String SimpleTestCaseJsonSource = "{ \"title\": \"Code\", \"author\": \"nome\" }";
 
     @Test
-    void parse() throws IOException {
-        JsonNode node = Json.parse(SimpleTestCaseJsonSource);
-        assertEquals("Code", node.get("title").asText());
-    }
-
-    @Test
     void fromJson() throws IOException {
         JsonNode node = Json.parse(SimpleTestCaseJsonSource);
         SimpleTestCaseJsonPOJO pojo = Json.fromJson(node, SimpleTestCaseJsonPOJO.class);
@@ -27,11 +21,9 @@ class JsonTest {
     }
 
     @Test
-    void toJson() {
-        SimpleTestCaseJsonPOJO pojo = new SimpleTestCaseJsonPOJO();
-        pojo.setTitle("Testing 123");
-        JsonNode node = Json.toJson(pojo);
-        assertEquals("Testing 123", node.get("title").asText());
+    void parse() throws IOException {
+        JsonNode node = Json.parse(SimpleTestCaseJsonSource);
+        assertEquals("Code", node.get("title").asText());
     }
 
     @Test
@@ -45,5 +37,13 @@ class JsonTest {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    void toJson() {
+        SimpleTestCaseJsonPOJO pojo = new SimpleTestCaseJsonPOJO();
+        pojo.setTitle("Testing 123");
+        JsonNode node = Json.toJson(pojo);
+        assertEquals("Testing 123", node.get("title").asText());
     }
 }

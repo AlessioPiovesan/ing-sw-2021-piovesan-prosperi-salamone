@@ -8,6 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Server implements Runnable {
+
     private static final int PORT = 12345;
     private int totalPlayers;
 
@@ -15,6 +16,16 @@ public class Server implements Runnable {
         totalPlayers = -1;
         var thread = new Thread(this::quitter);
         thread.start();
+    }
+
+    public void setTotalPlayers(int totalPlayers) {
+        this.totalPlayers = totalPlayers;
+    }
+
+    public void deregisterConnection(Connection connection) {
+    }
+
+    public void lobby(Connection connection, String name) {
     }
 
     public void quitter() {
@@ -31,10 +42,6 @@ public class Server implements Runnable {
                 e.printStackTrace();
             }
         }
-    }
-
-    public void setTotalPlayers(int totalPlayers) {
-        this.totalPlayers = totalPlayers;
     }
 
     @Override
@@ -63,11 +70,5 @@ public class Server implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public void lobby(Connection connection, String name) {
-    }
-
-    public void deregisterConnection(Connection connection) {
     }
 }
