@@ -1,0 +1,23 @@
+.github/dependabot.yml
+# User-specific stuff
+.idea/codeStyles/
+.idea/dictionaries/
+.idea/libraries/
+.idea/shelf/
+.idea/tasks.xml
+.idea/usage.statistics.xml
+.idea/workspace.xml
+# Maven with auto-import
+*.iml
+*.ipr
+.idea/*.iml
+.idea/artifacts/
+.idea/compiler.xml
+.idea/contentModel.xml
+.idea/jarRepositories.xml
+.idea/modules.xml
+.idea/modules/
+# IntelliJ
+target/
+# Sonarlint plugin
+.idea/sonarlint/

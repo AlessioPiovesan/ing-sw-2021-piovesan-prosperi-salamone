@@ -3,45 +3,45 @@ package it.polimi.ingsw.server.viewer_server;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model_server.board.Board;
+import it.polimi.ingsw.server.web.SocketServerToClient;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.Scanner;
 
-public class RemoteView implements PropertyChangeListener {
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private Board board;
-    private boolean ready = false;
+public class RemoteView implements PropertyChangeListener{
 
+	Board player;
+	SocketServerToClient socketServerToClient;
 
-    public RemoteView(Board board) {
-        board.addPropertyChangeListener(this);
-    }
+	public RemoteView(SocketServerToClient socketServerToClient, Board board){
+		this.socketServerToClient = socketServerToClient;
+		board.addPropertyChangeListener(this);
+	}
 
-    public void getRisorsaPreferita() {
-        System.out.println("Scegli una risorsa tra:");
-        var i = 0;
-        for (Colours res : Colours.valid()) {
-            System.out.println(i + ") " + res.getType());
-            i++;
-        }
-        var input = new Scanner(System.in);
-        var k = Integer.parseInt(input.nextLine());
-        var risposta = Colours.valid().get(k);
-        System.out.println("Su quale ripiano? (1, 2, 3)");
-        var j = Integer.parseInt(input.nextLine());
-        mettiRisorseNelMagazzino(0, risposta, 1, j);
+	public void getRisorsaPreferita(){
+		System.out.println("Scegli una risorsa tra:");
+		var i = 0;
+		for(Colours res : Colours.valid()){
+			System.out.println(i + ") " + res.getType());
+			i++;
+		}
+		var input = new Scanner(System.in);
+		var k = Integer.parseInt(input.nextLine());
+		var risposta = Colours.valid().get(k);
+		System.out.println("Su quale ripiano? (1, 2, 3)");
+		var j = Integer.parseInt(input.nextLine());
+		mettiRisorseNelMagazzino(0, risposta, 1, j);
 
-    }
+	}
 
-    public void mettiRisorseNelMagazzino(int id, Colours colour, int qnt, int lvl) {
-        //controller.getGameControllerById(id).getActiveBoardController().warehouseResHandler(colour, qnt, lvl);
-    }
+	public void mettiRisorseNelMagazzino(int id, Colours colour, int qnt, int lvl){
+		//controller.getGameControllerById(id).getActiveBoardController().warehouseResHandler(colour, qnt, lvl);
+	}
 
-    public void mettiRisorseNelDeposito(int id, Colours colour, int qnt) {
-        //controller.getGameControllerById(id).getActiveBoardController().strongboxResHandler(colour, qnt);
-    }
+	public void mettiRisorseNelDeposito(int id, Colours colour, int qnt){
+		//controller.getGameControllerById(id).getActiveBoardController().strongboxResHandler(colour, qnt);
+	}
 
     /*
     public void nextChiedi() {
@@ -131,29 +131,18 @@ public class RemoteView implements PropertyChangeListener {
             mettiRisorseNelMagazzino(0, colours, 1, lvls.get(keep.indexOf(colours)));
     }*/
 
-    public void setMyLeaderCards(CardLeader[] myLeaderCards) {
-        pcs.firePropertyChange("myLeaderCards", "", myLeaderCards);
-    }
+	public void setMyLeaderCards(CardLeader[] myLeaderCards){
+		socketServerToClient.send(myLeaderCards);
+	}
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
+	@Override
+	public void propertyChange(PropertyChangeEvent evt){
 
-        switch (evt.getPropertyName()) {
-            case "active": {
-                if (!ready) {
-                    ready = !ready;
-                    /*deve distribuire le risorse*/
-                }
-            }
-        }
+		switch(evt.getPropertyName()){
+			case "active":{
+				/*deve distribuire le risorse*/
+			}
+		}
+	}
 
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        pcs.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        pcs.removePropertyChangeListener(listener);
-    }
 }

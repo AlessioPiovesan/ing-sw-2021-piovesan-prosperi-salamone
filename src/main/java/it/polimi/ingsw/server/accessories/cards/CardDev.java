@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.accessories.Pick;
 
 import java.util.Arrays;
 
-public enum CardDev implements Card {
+public enum CardDev implements Card{
 
     CARD_DEV1B1(1,
             ColoursCards.CYAN,
@@ -297,69 +297,67 @@ public enum CardDev implements Card {
             new Pick[]{new Pick(Colours.GREY, 1), new Pick(Colours.PURPLE, 3)},
             12);
 
-    private final int lvl;
-    private final ColoursCards colour;
-    private final Pick[] cost;
-    private final Pick[] resFrom;
-    private final Pick[] resTo;
-    private final int winPnt;
-    boolean flipped;
+	private final int lvl;
+	private final ColoursCards colour;
+	private final Pick[] cost;
+	private final Pick[] resFrom;
+	private final Pick[] resTo;
+	private final int winPnt;
+	boolean flipped;
 
-    CardDev(int lvl, ColoursCards colour, Pick[] cost, Pick[] resFrom, Pick[] resTo, int winPnt) {
-        this.lvl = lvl;
-        this.colour = colour;
-        this.cost = cost;
-        this.resFrom = resFrom;
-        this.resTo = resTo;
-        this.winPnt = winPnt;
-        this.flipped = true;
-    }
+	CardDev(int lvl, ColoursCards colour, Pick[] cost, Pick[] resFrom, Pick[] resTo, int winPnt){
+		this.lvl = lvl;
+		this.colour = colour;
+		this.cost = cost;
+		this.resFrom = resFrom;
+		this.resTo = resTo;
+		this.winPnt = winPnt;
+		this.flipped = true;
+	}
 
-    public static Card getSpecificCard(String code) {
-        for (CardDev card : CardDev.values())
-            if (card.name().contains(code.toUpperCase()))
-                return card;
-        return null;
-    }
+	public static Card getSpecificCard(String code){
+		for(CardDev card : CardDev.values())
+			if(card.name().contains(code.toUpperCase())) return card;
+		return null;
+	}
 
-    public int getLvl() {
-        return lvl;
-    }
+	public int getLvl(){
+		return lvl;
+	}
 
-    public ColoursCards getColour() {
-        return colour;
-    }
+	public ColoursCards getColour(){
+		return colour;
+	}
 
-    public Pick[] getCost() {
-        return cost;
-    }
+	public Pick[] getCost(){
+		return cost;
+	}
 
-    public Pick[] getResFrom() {
-        return resFrom;
-    }
+	public Pick[] getResFrom(){
+		return resFrom;
+	}
 
-    public Pick[] getResTo() {
-        return resTo;
-    }
+	public Pick[] getResTo(){
+		return resTo;
+	}
 
-    @Override
-    public String toString() {
-        return name() + "\n" + "This is a " + lvl + "level " + colour + " card the gives " + winPnt + "points.\nIt costs" + "\t->\t" + Arrays.toString(cost) +
-                "\nThis card allows you to produce\n" + Arrays.toString(resTo) + "\nStarting from\n" + Arrays.toString(resFrom);
-    }
+	@Override
+	public String toString(){
+		return name() + "\n" + "This is a " + lvl + "level " + colour + " card the gives " + winPnt + "points.\nIt costs" + "\t->\t" + Arrays.toString(cost) + "\nThis card allows you to produce\n" + Arrays.toString(resTo) + "\nStarting from\n" + Arrays.toString(resFrom);
+	}
 
-    @Override
-    public int getWinPnt() {
-        return winPnt;
-    }
+	@Override
+	public int getWinPnt(){
+		return winPnt;
+	}
 
-    @Override
-    public boolean getFlipped() {
-        return flipped;
-    }
+	@Override
+	public boolean getFlipped(){
+		return flipped;
+	}
 
-    @Override
-    public void flipCard() {
-        flipped = !flipped;
-    }
+	@Override
+	public void flipCard(){
+		flipped = !flipped;
+	}
 }

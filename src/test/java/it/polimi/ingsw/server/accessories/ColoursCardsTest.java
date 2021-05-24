@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-class ColoursCardsTest {
+class ColoursCardsTest{
 
-    @Test
-    void fromStringTest() {
-        for (ColoursCards color : ColoursCards.values())
-            assertEquals(color, ColoursCards.fromString(color.name()));
-        assertNull(ColoursCards.fromString("ciao"));
-    }
+	@Test
+	void fromStringTest(){
+		for(ColoursCards color : ColoursCards.values())
+			assertEquals(color, ColoursCards.fromString(color.name()));
+		assertNull(ColoursCards.fromString("ciao"));
+	}
 }

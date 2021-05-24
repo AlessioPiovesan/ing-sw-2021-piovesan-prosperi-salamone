@@ -1,23 +1,24 @@
 package it.polimi.ingsw.server.accessories;
 
-public enum Constants {
-    XMARKET(4),
-    YMARKET(3),
-    MAXTRACK(24),
-    MAXMARBLESW(4),
-    MAXMARBLESB(2),
-    MAXMARBLESG(2),
-    MAXMARBLESY(2),
-    MAXMARBLESP(2),
-    MAXMARBLESR(1);
+public enum Constants{
 
-    private final int val;
+	XMARKET(4),
+	YMARKET(3),
+	MAXTRACK(24),
+	MAXMARBLESW(4),
+	MAXMARBLESB(2),
+	MAXMARBLESG(2),
+	MAXMARBLESY(2),
+	MAXMARBLESP(2),
+	MAXMARBLESR(1);
 
-    Constants(int num) {
-        val = num;
-    }
+	private final int val;
 
-    public int getVal() {
-        return val;
-    }
+	Constants(int num){
+		val = num;
+	}
+
+	public int getVal(){
+		return val;
+	}
 }

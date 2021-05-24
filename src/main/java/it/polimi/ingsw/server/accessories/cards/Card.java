@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server.accessories.cards;
 
-public interface Card {
+public interface Card{
 
-    int getWinPnt();
+	int getWinPnt();
 
-    boolean getFlipped();
+	boolean getFlipped();
 
-    void flipCard();
+	void flipCard();
 }

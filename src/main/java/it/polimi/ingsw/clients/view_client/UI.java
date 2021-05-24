@@ -4,15 +4,15 @@ import it.polimi.ingsw.server.accessories.cards.Card;
 
 import java.beans.PropertyChangeListener;
 
-public interface UI extends PropertyChangeListener {
+public interface UI extends PropertyChangeListener{
 
-    void run();
+	void run();
 
-    void showCards(Card card);
+	void showCards(Card card);
 
-    void setIfSingle(boolean b);
+	void setIfSingle(boolean b);
 
-    void addPropertyChangeListener(PropertyChangeListener listener);
+	void addPropertyChangeListener(PropertyChangeListener listener);
 
-    void removePropertyChangeListener(PropertyChangeListener listener);
+	void removePropertyChangeListener(PropertyChangeListener listener);
 }

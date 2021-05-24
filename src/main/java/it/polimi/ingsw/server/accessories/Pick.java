@@ -1,19 +1,20 @@
 package it.polimi.ingsw.server.accessories;
 
-public class Pick {
-    private final int qnt;
-    private final Colours resource;
+public class Pick{
 
-    public Pick(Colours resource, int qnt) {
-        this.resource = resource;
-        this.qnt = qnt;
-    }
+	private final Colours resource;
+	private final int qnt;
 
-    public Colours getResource() {
-        return resource;
-    }
+	public Pick(Colours resource, int qnt){
+		this.resource = resource;
+		this.qnt = qnt;
+	}
 
-    public int getQnt() {
-        return qnt;
-    }
+	public Colours getResource(){
+		return resource;
+	}
+
+	public int getQnt(){
+		return qnt;
+	}
 }

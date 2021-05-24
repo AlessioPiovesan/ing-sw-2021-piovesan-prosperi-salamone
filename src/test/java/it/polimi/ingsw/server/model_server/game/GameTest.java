@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class GameTest {
+class GameTest{
 
-    @Test
-    void giveCardLeadTest() {
-        Game game = new Game(null);
-        ArrayList<CardLeader> cardPlayer = (ArrayList<CardLeader>) game.giveCardLead();
-        for (CardLeader cardLeader : cardPlayer) {
-            assertTrue(cardPlayer.contains(cardLeader));
-        }
-        assertEquals(4, cardPlayer.size());
-    }
+	@Test
+	void giveCardLeadTest(){
+		Game game = new Game(0, 4, null);
+		ArrayList<CardLeader> cardPlayer = (ArrayList<CardLeader>)game.giveCardLead();
+		for(CardLeader cardLeader : cardPlayer){
+			assertTrue(cardPlayer.contains(cardLeader));
+		}
+		assertEquals(4, cardPlayer.size());
+	}
 
     /*@ParameterizedTest
     @ValueSource(ints = {0, 1, 2, 3})

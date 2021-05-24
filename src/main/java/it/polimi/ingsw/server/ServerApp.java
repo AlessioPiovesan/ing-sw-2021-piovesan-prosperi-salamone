@@ -2,17 +2,25 @@ package it.polimi.ingsw.server;
 
 import it.polimi.ingsw.server.web.Server;
 
-public class ServerApp {
+import java.io.IOException;
 
-    private ServerApp() {
-    }
+public class ServerApp{
 
-    public static void start() {
-        // Chiedere la porta?
-        var server = new Server();
-        server.run();
-        System.out.println("Si accende!");
-    }
+	private ServerApp(){
+	}
+
+	public static void start(){
+		// Chiedere la porta?
+		var port = 12345;
+		Server server = null;
+		try{
+			server = new Server(port);
+		} catch(IOException e){
+			e.printStackTrace();
+		}
+		server.run();
+		System.out.println("Si accende!");
+	}
 }
 
 

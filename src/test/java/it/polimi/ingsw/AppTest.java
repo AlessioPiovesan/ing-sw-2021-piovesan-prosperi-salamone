@@ -1,6 +1,4 @@
 package it.polimi.ingsw;
 
-class AppTest {
-
-}
+class AppTest{}
 
