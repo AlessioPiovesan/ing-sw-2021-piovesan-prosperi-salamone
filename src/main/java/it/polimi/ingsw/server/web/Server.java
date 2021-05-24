@@ -1,11 +1,11 @@
 package it.polimi.ingsw.server.web;
 
-import it.polimi.ingsw.server.controller_server.Controller;
-import it.polimi.ingsw.server.controller_server.GameController;
-import it.polimi.ingsw.server.model_server.Mod;
-import it.polimi.ingsw.server.model_server.game.Game;
-import it.polimi.ingsw.server.model_server.game.Market;
-import it.polimi.ingsw.server.viewer_server.RemoteView;
+import it.polimi.ingsw.server.controller.Controller;
+import it.polimi.ingsw.server.controller.GameController;
+import it.polimi.ingsw.server.model.Mod;
+import it.polimi.ingsw.server.model.game.Game;
+import it.polimi.ingsw.server.model.game.Market;
+import it.polimi.ingsw.server.viewer.RemoteView;
 
 import java.io.IOException;
 import java.net.ServerSocket;

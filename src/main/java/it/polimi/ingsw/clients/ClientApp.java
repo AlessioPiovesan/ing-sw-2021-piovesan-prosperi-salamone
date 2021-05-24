@@ -1,9 +1,10 @@
 package it.polimi.ingsw.clients;
 
-import it.polimi.ingsw.clients.model_client.single.ModelView;
-import it.polimi.ingsw.clients.view_client.CLI;
-import it.polimi.ingsw.clients.view_client.GUI;
-import it.polimi.ingsw.clients.web.Client;
+import it.polimi.ingsw.clients.multiplayer.model.single.ModelView;
+import it.polimi.ingsw.clients.multiplayer.web.Client;
+import it.polimi.ingsw.clients.singleplayer.web.Local;
+import it.polimi.ingsw.clients.viewer.CLI;
+import it.polimi.ingsw.clients.viewer.GUI;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,22 +51,22 @@ public class ClientApp{
 
 	public static void chooseUI(int input){
 		var exit = true;
-		while(exit){
-			System.out.print("""
-			                 How do you wanna play?
-			                 0. COMMAND-LINE INTERFACE
-			                 1. GRAPHICAL USER INTERFACE
-			                 > Type the number of the desired option!
-			                 >>\040""");
-			var reader = new BufferedReader(new InputStreamReader(System.in));
-			int ui = -1;
-			try{
-				ui = reader.read();
-			} catch(IOException e){
-				e.printStackTrace();
-			} finally{
+		var ui = -1;
+		try{
+			while(exit){
+				System.out.print("""
+				                 How do you wanna play?
+				                 0. COMMAND-LINE INTERFACE
+				                 1. GRAPHICAL USER INTERFACE
+				                 > Type the number of the desired option!
+				                 >>\040""");
+				var reader = new BufferedReader(new InputStreamReader(System.in));
+				ui = Integer.parseInt(reader.readLine());
 				if(ui == 0 || ui == 1){
 					exit = false;
+				}
+				if(input == 1) new Local(ui).run();
+				else{
 					/*DA CHIEDERE IP E PORTA*/
 					var client = new Client("localhost", 12345, ui);
 					try{
@@ -75,6 +76,8 @@ public class ClientApp{
 					}
 				}
 			}
+		} catch(IOException e){
+			e.printStackTrace();
 		}
 	}
 }

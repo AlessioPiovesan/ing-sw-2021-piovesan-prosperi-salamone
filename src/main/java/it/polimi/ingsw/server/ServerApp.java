@@ -18,8 +18,10 @@ public class ServerApp{
 		} catch(IOException e){
 			e.printStackTrace();
 		}
-		server.run();
 		System.out.println("Si accende!");
+		if(server != null){
+			server.run();
+		}
 	}
 }
 

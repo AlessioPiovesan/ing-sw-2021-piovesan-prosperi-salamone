@@ -5,12 +5,7 @@ import java.util.List;
 
 public enum Colours{
 
-	BLUE("SHIELD"),
-	GREY("STONE"),
-	PURPLE("SERVANT"),
-	RED("FAITH"),
-	WHITE(""),
-	YELLOW("COIN");
+	BLUE("SHIELD"), GREY("STONE"), PURPLE("SERVANT"), RED("FAITH"), WHITE(""), YELLOW("COIN");
 
 	private final String type;
 

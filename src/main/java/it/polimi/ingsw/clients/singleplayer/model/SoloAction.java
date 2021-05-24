@@ -1,0 +1,75 @@
+package it.polimi.ingsw.clients.singleplayer.model;
+
+import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
+import it.polimi.ingsw.server.accessories.ColoursCards;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
+public enum SoloAction{
+
+	AS1, AS2, AS3, AS4, AS5, AS6, AS7;
+
+	private static final Random random = new Random();
+
+	public static void action(SoloAction sa){
+		sa.printSA(sa);
+		switch(sa){
+			case AS1 -> LocalGameController.getInstance().tossCardDev(ColoursCards.GREEN);
+			case AS2 -> LocalGameController.getInstance().tossCardDev(ColoursCards.YELLOW);
+			case AS3 -> LocalGameController.getInstance().tossCardDev(ColoursCards.CYAN);
+			case AS4 -> LocalGameController.getInstance().tossCardDev(ColoursCards.VIOLET);
+			case AS5, AS6 -> LocalGameController.getInstance().getBoardController().getLorenzo().getFaithTrack().moveForward(2);
+			case AS7 -> {
+				LocalGameController.getInstance().getBoardController().getLorenzo().getFaithTrack().moveForward(1);
+				shuffle();
+			}
+			default -> doNothing();
+		}
+	}
+
+	public static List<SoloAction> shuffle(){
+		var remain = new ArrayList<Integer>();
+		var start = new ArrayList<>(Arrays.asList(SoloAction.values()));
+		var heap = new ArrayList<SoloAction>();
+		while(heap.size() < start.size()){
+			var found = false;
+			SoloAction s = null;
+			while(!found){
+				var i = random.nextInt(start.size());
+				if(!(remain.contains(i))){
+					remain.add(i);
+					found = true;
+					s = start.get(i);
+				}
+			}
+			heap.add(s);
+		}
+		return heap;
+	}
+
+	private static void doNothing(){
+		shuffle();
+	}
+
+	public static List<SoloAction> pickSoloAction(List<SoloAction> list){
+		var sa = list.get(0);
+		list.remove(sa);
+		list.add(sa);
+		return list;
+	}
+
+	private void printSA(SoloAction sa){
+		switch(sa){
+			case AS1 -> System.out.println("Lorenzo take 2 GREEN Development Cards");
+			case AS2 -> System.out.println("Lorenzo take 2 YELLOW Development Cards");
+			case AS3 -> System.out.println("Lorenzo take 2 CYAN Development Cards");
+			case AS4 -> System.out.println("Lorenzo take 2 VIOLET Development Cards");
+			case AS5, AS6 -> System.out.println("Lorenzo's Black Cross token goes 2 spaces forward");
+			case AS7 -> System.out.println("Lorenzo's Black Cross token goes 1 spaces forward and a new stack of the Solo Actions is created");
+			default -> doNothing();
+		}
+	}
+}

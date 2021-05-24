@@ -2,10 +2,7 @@ package it.polimi.ingsw.server.accessories;
 
 public enum ColoursCards{
 
-	GREEN,
-	CYAN,
-	VIOLET,
-	YELLOW;
+	GREEN, CYAN, VIOLET, YELLOW;
 
 	public static ColoursCards fromString(String colour){
 		return switch(colour.toUpperCase()){
