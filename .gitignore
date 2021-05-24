@@ -1,4 +1,4 @@
-.github/dependabot.yml
+*.DS_Store
 # User-specific stuff
 .idea/codeStyles/
 .idea/dictionaries/
