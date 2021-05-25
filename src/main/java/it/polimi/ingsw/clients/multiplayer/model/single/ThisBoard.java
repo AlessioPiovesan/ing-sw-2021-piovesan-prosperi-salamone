@@ -13,11 +13,11 @@ import java.util.Map;
 
 public class ThisBoard{
 
+	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private LinkedList<CardDev> myDevCards = new LinkedList<>();
 	private String nickname;
 	private Colours[][] warehouse;
 	private int faithTrack;
-	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 	private EnumMap<Colours, Integer> strongBox;
 	private CardDev[] library;
 	private EnumMap<Colours, Integer> resAll;
@@ -34,7 +34,7 @@ public class ThisBoard{
 	public void setMyDevCards(List<CardDev> myDevCards){
 		var old = this.myDevCards;
 		this.myDevCards = (LinkedList<CardDev>)myDevCards;
-		pcs.firePropertyChange("myDevCards",old, this.myDevCards);
+		pcs.firePropertyChange("myDevCards", old, this.myDevCards);
 	}
 
 	public Colours[][] getWarehouse(){

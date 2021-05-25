@@ -2,6 +2,7 @@ package it.polimi.ingsw.clients.viewer;
 
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.server.accessories.Colours;
+import it.polimi.ingsw.server.accessories.Constants;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.Card;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
@@ -101,15 +102,16 @@ public class CLI implements Runnable, UI{
 	}
 
 	@Override
-	public void setSingle(boolean single){this.single = single;}
-
-	@Override
 	public void propertyChange(PropertyChangeEvent evt){
 		switch(evt.getPropertyName()){
 			case "temporaryLeaderCards" -> chooseInitialLeaders((CardLeader[])evt.getNewValue());
 			case "firstOp" -> {
 				if(single) LocalGameController.getInstance().nextPlayer();
 				else Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
+			}
+			case "nextPlayer" -> {
+				if(single) LocalGameController.getInstance().nextPlayer();
+				else Controller.getInstance().getGameControllerById(0);
 			}
 			case "nextAction" -> nextAction();
 			case "marketBuffer" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
@@ -183,11 +185,11 @@ public class CLI implements Runnable, UI{
 					ok = false;
 					output.println(colour + "la metto in magazzino?\n0) No\n1)Yes\n>\t");
 					var j = Integer.parseInt(input.readLine());
-					switch(j){
+					ok = switch(j){
 						case 0 -> loose.add(colour);
 						case 1 -> keep.add(colour);
-						default -> ok = true;
-					}
+						default -> true;
+					};
 				}
 			} catch(IOException e){
 				e.printStackTrace();
@@ -280,11 +282,33 @@ public class CLI implements Runnable, UI{
 
 	private void marketMove(){
 		try{
-			output.println("Mostro il mercato"); /*DA IMPLEMENTARE*/
-			/*Mostro il mercato*/
-			output.println("Chiedo la mossa in maniera furba chiedendo riga/colonna");
-			var j = Integer.parseInt(input.readLine());
-			LocalGameController.getInstance().marketAction(j);
+			var move = -1;
+			showMarket();
+			output.println("\n0 ) Row\n1) Column\n");
+			var i = Integer.parseInt(input.readLine());
+			if(i == 0){
+				output.println("Which on? [1-3]");
+				var j = Integer.parseInt(input.readLine());
+				move = switch(j){
+					case 1 -> 0;
+					case 2 -> 1;
+					case 3 -> 2;
+					default -> -1;
+
+				};
+			}
+			if(i == 1){
+				output.println("Which on? [1-4]");
+				var j = Integer.parseInt(input.readLine());
+				move = switch(j){
+					case 1 -> 3;
+					case 2 -> 4;
+					case 3 -> 5;
+					case 4 -> 6;
+					default -> -1;
+				};
+			}
+			LocalGameController.getInstance().marketAction(move);
 		} catch(IOException e){
 			e.printStackTrace();
 		}
@@ -346,6 +370,18 @@ public class CLI implements Runnable, UI{
 		}
 	}
 
+	private String drawMarket(Colours colours){
+		switch(colours){
+			case RED -> { return ConsoleColors.RED + "██";}
+			case BLUE -> { return ConsoleColors.BLUE + "██";}
+			case GREY -> { return ConsoleColors.BLACK_BRIGHT + "██";}
+			case WHITE -> { return ConsoleColors.WHITE + "██";}
+			case YELLOW -> { return ConsoleColors.YELLOW + "██";}
+			case PURPLE -> {return ConsoleColors.PURPLE + "██";}
+			default -> {return null;}
+		}
+	}
+
 	@Override
 	public void addPropertyChangeListener(PropertyChangeListener listener){
 		pcs.addPropertyChangeListener(listener);
@@ -354,5 +390,21 @@ public class CLI implements Runnable, UI{
 	@Override
 	public void removePropertyChangeListener(PropertyChangeListener listener){
 		pcs.removePropertyChangeListener(listener);
+	}
+
+	@Override
+	public void setSingle(boolean single){this.single = single;}
+
+	@Override
+	public void showMarket(){
+		var market = LocalGameController.getInstance().getGame().getMarket().getTray();
+		var print = new StringBuilder();
+		for(var i = 0; i < Constants.XMARKET.getVal(); i++){
+			for(var j = 0; j < Constants.YMARKET.getVal(); j++){
+				print.append(drawMarket(market[i][j])).append("\t");
+			}
+			print.append("\n");
+		}
+		output.println(print);
 	}
 }

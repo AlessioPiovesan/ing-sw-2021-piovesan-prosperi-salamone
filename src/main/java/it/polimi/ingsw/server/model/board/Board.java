@@ -108,6 +108,7 @@ public class Board{
 			//remoteView.resourcesHandler(bufferProd);
 			storeSB(card.getResTo());
 		}
+		checkIfEndGame();
 	}
 
 	public CardLeader[] getMyLeaderCards(){
@@ -207,6 +208,9 @@ public class Board{
 	private void checkIfEndGame(){
 		if(myDevCards.size() == 7) endGame = true;
 		if(getFaithTrack().getPosition() == 25) endGame = true;
+		if(endGame) pcs.firePropertyChange("endGame", false, true);
+		else pcs.firePropertyChange("nextPlayer", "", true);
+
 	}
 
 	public FaithTrack getFaithTrack(){
@@ -223,7 +227,6 @@ public class Board{
 		bufferMarket = new LinkedList<>();
 		bufferMarket = (LinkedList<Colours>)res;
 		pcs.firePropertyChange("marketbuffer", "", bufferMarket);
-		//remoteView.resourcesHandlerMarket(bufferMarket);
 	}
 
 	public void resHandler(Colours res){

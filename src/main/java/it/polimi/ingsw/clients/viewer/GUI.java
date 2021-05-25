@@ -31,12 +31,17 @@ public class GUI implements Runnable, UI{
 	}
 
 	@Override
-	public void propertyChange(PropertyChangeEvent evt){
-		System.out.println(evt);
+	public void setSingle(boolean single){
+
 	}
 
 	@Override
-	public void setSingle(boolean single){
+	public void showMarket(){
 
+	}
+
+	@Override
+	public void propertyChange(PropertyChangeEvent evt){
+		System.out.println(evt);
 	}
 }

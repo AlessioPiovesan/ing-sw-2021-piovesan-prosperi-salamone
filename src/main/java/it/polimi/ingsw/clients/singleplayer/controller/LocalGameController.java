@@ -39,6 +39,11 @@ public class LocalGameController{
 		nextPlayer();
 	}
 
+	public void nextPlayer(){
+		playingPlayer = !playingPlayer;
+		boardController.active();
+	}
+
 	public LocalGame getGame(){
 		return game;
 	}
@@ -50,11 +55,6 @@ public class LocalGameController{
 	public void startGame(){
 		playingPlayer = false;
 		game.myLeaderCardsHandler();
-	}
-
-	public void nextPlayer(){
-		playingPlayer = !playingPlayer;
-		boardController.active();
 	}
 
 	public boolean isLorenzoPlaying(){

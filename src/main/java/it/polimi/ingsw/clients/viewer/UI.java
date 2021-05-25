@@ -16,4 +16,6 @@ public interface UI extends PropertyChangeListener{
 
 	void setSingle(boolean single);
 
+	void showMarket();
+
 }

@@ -57,6 +57,10 @@ public class Market{
 		return r;
 	}
 
+	public Colours[][] getTray(){
+		return tray;
+	}
+
 	public Colours getExternal(){
 		return external;
 	}
@@ -87,30 +91,25 @@ public class Market{
 
 	private void move(int choice, Colours r1){
 		switch(choice){
-			case 0 -> operationMoveY(r1, 3);
-			case 1 -> operationMoveY(r1, 2);
-			case 2 -> operationMoveY(r1, 1);
-			case 3 -> operationMoveX(r1, 1);
-			case 4 -> operationMoveX(r1, 2);
-			case 5 -> operationMoveX(r1, 3);
-			case 6 -> operationMoveX(r1, 4);
+			case 0 -> operationMoveX(r1, 3);
+			case 1 -> operationMoveX(r1, 2);
+			case 2 -> operationMoveX(r1, 1);
+			case 3 -> operationMoveY(r1, 1);
+			case 4 -> operationMoveY(r1, 2);
+			case 5 -> operationMoveY(r1, 3);
+			case 6 -> operationMoveY(r1, 4);
 			default -> throw new IllegalStateException("Unexpected value: " + choice);
 		}
 	}
 
-	private LinkedList<Colours> getResX(int y){
-		LinkedList<Colours> res = new LinkedList<>();
-		for(var i = 0; i < Constants.XMARKET.getVal(); i++) res.add(tray[i][y]);
-		return res;
-	}
-
-	private LinkedList<Colours> getResY(int x){
+	private LinkedList<Colours> getResX(int x){
 		return new LinkedList<>(Arrays.asList(tray[x]).subList(0, Constants.YMARKET.getVal()));
 	}
 
-	private void operationMoveY(Colours r1, int y){
-		external = tray[0][Constants.YMARKET.getVal() - y];
-		moveY(r1, y);
+	private LinkedList<Colours> getResY(int y){
+		LinkedList<Colours> res = new LinkedList<>();
+		for(var i = 0; i < Constants.XMARKET.getVal(); i++) res.add(tray[i][y]);
+		return res;
 	}
 
 	private void operationMoveX(Colours r1, int x){
@@ -118,13 +117,9 @@ public class Market{
 		moveX(r1, x);
 	}
 
-	private void moveY(Colours r1, int y){
-		Colours r2;
-		for(int i = Constants.XMARKET.getVal(); i > 0; i--){
-			r2 = tray[i - 1][Constants.YMARKET.getVal() - y];
-			tray[i - 1][Constants.YMARKET.getVal() - y] = r1;
-			r1 = r2;
-		}
+	private void operationMoveY(Colours r1, int y){
+		external = tray[0][Constants.YMARKET.getVal() - y];
+		moveY(r1, y);
 	}
 
 	private void moveX(Colours r1, int x){
@@ -132,6 +127,15 @@ public class Market{
 		for(int i = Constants.YMARKET.getVal(); i > 0; i--){
 			r2 = tray[Constants.XMARKET.getVal() - x][i - 1];
 			tray[Constants.XMARKET.getVal() - x][i - 1] = r1;
+			r1 = r2;
+		}
+	}
+
+	private void moveY(Colours r1, int y){
+		Colours r2;
+		for(int i = Constants.XMARKET.getVal(); i > 0; i--){
+			r2 = tray[i - 1][Constants.YMARKET.getVal() - y];
+			tray[i - 1][Constants.YMARKET.getVal() - y] = r1;
 			r1 = r2;
 		}
 	}

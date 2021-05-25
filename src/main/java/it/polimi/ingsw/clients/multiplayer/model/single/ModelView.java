@@ -10,12 +10,12 @@ import java.util.*;
 
 public class ModelView{
 
-	private OtherBoard[] theirBoards;
-	private ThisBoard myBoard;
+	private final OtherBoard[] theirBoards;
+	private final ThisBoard myBoard;
+	private final int nPlayers;
 	private Colours[][] market;
 	private Colours externalMarble;
 	private HashMap<String, OtherBoard> boardMap;
-	private int nPlayers;
 
 	public ModelView(int nPlayers, UI ui){
 		this.nPlayers = nPlayers;
