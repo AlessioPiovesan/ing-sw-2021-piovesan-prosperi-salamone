@@ -1,6 +1,5 @@
 package it.polimi.ingsw.clients;
 
-import it.polimi.ingsw.clients.multiplayer.model.single.ModelView;
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.web.Local;
 import it.polimi.ingsw.clients.viewer.CLI;

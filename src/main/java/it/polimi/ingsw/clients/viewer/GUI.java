@@ -18,7 +18,6 @@ public class GUI implements Runnable, UI{
 
 	@Override
 	public void showCards(Card list){
-
 	}
 
 	@Override
@@ -34,5 +33,10 @@ public class GUI implements Runnable, UI{
 	@Override
 	public void propertyChange(PropertyChangeEvent evt){
 		System.out.println(evt);
+	}
+
+	@Override
+	public void setSingle(boolean single){
+
 	}
 }

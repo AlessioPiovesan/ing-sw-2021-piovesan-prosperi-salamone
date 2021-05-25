@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.Card;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
+import it.polimi.ingsw.server.controller.Controller;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -100,10 +101,16 @@ public class CLI implements Runnable, UI{
 	}
 
 	@Override
+	public void setSingle(boolean single){this.single = single;}
+
+	@Override
 	public void propertyChange(PropertyChangeEvent evt){
 		switch(evt.getPropertyName()){
 			case "temporaryLeaderCards" -> chooseInitialLeaders((CardLeader[])evt.getNewValue());
-			case "firstOp" -> {if(single) LocalGameController.getInstance().nextPlayer();}
+			case "firstOp" -> {
+				if(single) LocalGameController.getInstance().nextPlayer();
+				Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
+			}
 			case "nextAction" -> nextAction();
 			case "marketBuffer" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
 			case "ProductionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
@@ -239,7 +246,7 @@ public class CLI implements Runnable, UI{
 			try{
 				String response = input.readLine().toUpperCase();
 				if(clazz == CardLeader.class){
-					if(Integer.parseInt(response) <= 0 || Integer.parseInt(response) >= 16){
+					if(Integer.parseInt(response) <= 0 || Integer.parseInt(response) >= 17){
 						output.println("Not a correct code");
 					}
 					else{

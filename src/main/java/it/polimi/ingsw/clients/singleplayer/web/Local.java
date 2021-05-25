@@ -12,6 +12,7 @@ public class Local{
 	public Local(int i){
 		if(i == 0) ui = new CLI();
 		else ui = new GUI();
+		ui.setSingle(true);
 	}
 
 	public void run(){

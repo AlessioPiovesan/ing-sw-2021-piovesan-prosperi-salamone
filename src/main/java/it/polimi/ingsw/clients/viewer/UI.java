@@ -13,4 +13,7 @@ public interface UI extends PropertyChangeListener{
 	void addPropertyChangeListener(PropertyChangeListener listener);
 
 	void removePropertyChangeListener(PropertyChangeListener listener);
+
+	void setSingle(boolean single);
+
 }
