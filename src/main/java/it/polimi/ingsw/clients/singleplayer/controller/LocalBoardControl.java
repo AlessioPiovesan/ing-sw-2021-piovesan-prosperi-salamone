@@ -29,6 +29,5 @@ public class LocalBoardControl{
 
 	public void active(){
 		player.ready();
-
 	}
 }

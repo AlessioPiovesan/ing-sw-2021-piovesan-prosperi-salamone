@@ -55,7 +55,7 @@ public class Board{
 
 	public void ready(){
 		ready = !ready;
-		pcs.firePropertyChange("nextAction", false, ready);
+		pcs.firePropertyChange("nextAction", "", ready);
 	}
 
 	public int getIdD(){

@@ -36,6 +36,7 @@ public class LocalGameController{
 	public void moveLorenzo(){
 		SoloAction.action(listSoloAction.get(0));
 		SoloAction.pickSoloAction(listSoloAction);
+		nextPlayer();
 	}
 
 	public LocalGame getGame(){

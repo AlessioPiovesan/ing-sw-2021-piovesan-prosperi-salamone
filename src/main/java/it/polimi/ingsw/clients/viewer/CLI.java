@@ -109,7 +109,7 @@ public class CLI implements Runnable, UI{
 			case "temporaryLeaderCards" -> chooseInitialLeaders((CardLeader[])evt.getNewValue());
 			case "firstOp" -> {
 				if(single) LocalGameController.getInstance().nextPlayer();
-				Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
+				else Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
 			}
 			case "nextAction" -> nextAction();
 			case "marketBuffer" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
