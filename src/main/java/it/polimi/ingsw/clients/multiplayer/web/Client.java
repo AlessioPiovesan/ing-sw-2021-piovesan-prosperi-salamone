@@ -31,7 +31,7 @@ public class Client{
 		this.port = port;
 		if(i == 0) ui = new CLI();
 		else ui = new GUI();
-		new ModelView(ui);
+		//new ModelView(ui);
 		active = true;
 	}
 

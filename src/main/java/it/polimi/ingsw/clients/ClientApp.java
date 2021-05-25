@@ -35,7 +35,7 @@ public class ClientApp{
 		System.out.println("You selected the CLI interface, have fun!\nStarting...");
 		if(input == 1){
 			var cli = new CLI();
-			new ModelView(cli);
+			//new ModelView(cli);
 			cli.run();
 		}
 	}
@@ -44,7 +44,7 @@ public class ClientApp{
 		System.out.println("You selected the GUI interface, have fun!\nStarting...");
 		if(input == 1){
 			var gui = new GUI();
-			new ModelView(gui);
+			//new ModelView(gui);
 			gui.run();
 		}
 	}
