@@ -6,16 +6,16 @@ import java.beans.PropertyChangeListener;
 
 public interface UI extends PropertyChangeListener{
 
-	void run();
+    void run();
 
-	void showCards(Card card);
+    void showCards(Card card);
 
-	void addPropertyChangeListener(PropertyChangeListener listener);
+    void addPropertyChangeListener(PropertyChangeListener listener);
 
-	void removePropertyChangeListener(PropertyChangeListener listener);
+    void removePropertyChangeListener(PropertyChangeListener listener);
 
-	void setSingle(boolean single);
+    void setSingle(boolean single);
 
-	void showMarket();
+    void showMarket();
 
 }

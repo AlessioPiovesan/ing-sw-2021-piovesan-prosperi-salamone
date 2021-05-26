@@ -11,242 +11,242 @@ import java.util.*;
 
 public class Board{
 
-	private static final LinkedList<CardDev> myDevCards = new LinkedList<>();
-	private final Warehouse warehouse;
-	private final FaithTrack faithTrack;
-	private final StrongBox strongBox;
-	private final Library library;
-	private final EnumMap<Colours, Integer> resAll;
-	private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-	private final int idD;
-	private final Colours[] discount;
-	private final Colours[] marketAlt;
-	private final Colours[] productAlt;
-	private boolean endGame;
-	private int activeLeader = 0;
-	private String nickname;
-	private Colours preference = Colours.WHITE;
-	private LinkedList<Colours> bufferMarket;
-	private LinkedList<Pick> bufferProd;
-	private CardLeader[] myLeaderCards = new CardLeader[2];
-	private boolean ready;
+    private static final LinkedList<CardDev> myDevCards = new LinkedList<>();
+    private final Warehouse warehouse;
+    private final FaithTrack faithTrack;
+    private final StrongBox strongBox;
+    private final Library library;
+    private final EnumMap<Colours, Integer> resAll;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final int idD;
+    private final Colours[] discount;
+    private final Colours[] marketAlt;
+    private final Colours[] productAlt;
+    private boolean endGame;
+    private int activeLeader = 0;
+    private String nickname;
+    private Colours preference = Colours.WHITE;
+    private LinkedList<Colours> bufferMarket;
+    private LinkedList<Pick> bufferProd;
+    private CardLeader[] myLeaderCards = new CardLeader[2];
+    private boolean ready;
 
-	public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library){
-		endGame = false;
-		this.idD = id;
-		/* Warehouse creation for a single Board */
-		this.warehouse = warehouse;
-		/* Strongbox creation for a single Board */
-		this.strongBox = strongBox;
-		/* Faith Track creation for a single board */
-		this.faithTrack = faithTrack;
-		/* ________ creation for a single board */
-		this.library = library;
-		resAll = new EnumMap<>(Colours.class);
-		resAll.put(Colours.BLUE, 0);
-		resAll.put(Colours.YELLOW, 0);
-		resAll.put(Colours.GREY, 0);
-		resAll.put(Colours.PURPLE, 0);
-		discount = new Colours[]{Colours.WHITE, Colours.WHITE};
-		marketAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
-		productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
-		ready = false;
-	}
+    public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library){
+        endGame = false;
+        this.idD = id;
+        /* Warehouse creation for a single Board */
+        this.warehouse = warehouse;
+        /* Strongbox creation for a single Board */
+        this.strongBox = strongBox;
+        /* Faith Track creation for a single board */
+        this.faithTrack = faithTrack;
+        /* ________ creation for a single board */
+        this.library = library;
+        resAll = new EnumMap<>(Colours.class);
+        resAll.put(Colours.BLUE, 0);
+        resAll.put(Colours.YELLOW, 0);
+        resAll.put(Colours.GREY, 0);
+        resAll.put(Colours.PURPLE, 0);
+        discount = new Colours[]{Colours.WHITE, Colours.WHITE};
+        marketAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
+        productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
+        ready = false;
+    }
 
-	public void ready(){
-		ready = !ready;
-		pcs.firePropertyChange("nextAction", "", ready);
-	}
+    public void ready(){
+        ready = !ready;
+        pcs.firePropertyChange("nextAction", "", ready);
+    }
 
-	public int getIdD(){
-		return idD;
-	}
+    public int getIdD(){
+        return idD;
+    }
 
-	public Colours[] getDiscount(){
-		return discount;
-	}
+    public Colours[] getDiscount(){
+        return discount;
+    }
 
-	public void setDiscount(Colours color){
-		if(discount[0] == Colours.WHITE) discount[0] = color;
-		else discount[1] = color;
-	}
+    public void setDiscount(Colours color){
+        if(discount[0] == Colours.WHITE) discount[0] = color;
+        else discount[1] = color;
+    }
 
-	public Colours[] getMarketAlt(){
-		return marketAlt;
-	}
+    public Colours[] getMarketAlt(){
+        return marketAlt;
+    }
 
-	public void setMarketAlt(Colours color){
-		if(marketAlt[0] == Colours.WHITE) marketAlt[0] = color;
-		else{
-			marketAlt[1] = color;
-			pcs.firePropertyChange("marketAlt", "", marketAlt[1]);
-		}
-	}
+    public void setMarketAlt(Colours color){
+        if(marketAlt[0] == Colours.WHITE) marketAlt[0] = color;
+        else{
+            marketAlt[1] = color;
+            pcs.firePropertyChange("marketAlt", "", marketAlt[1]);
+        }
+    }
 
-	public Colours[] getProductAlt(){
-		return productAlt;
-	}
+    public Colours[] getProductAlt(){
+        return productAlt;
+    }
 
-	public void setProductAlt(Colours color){
-		if(productAlt[0] == Colours.WHITE) productAlt[0] = color;
-		else productAlt[1] = color;
-	}
+    public void setProductAlt(Colours color){
+        if(productAlt[0] == Colours.WHITE) productAlt[0] = color;
+        else productAlt[1] = color;
+    }
 
-	public void productionExtra(Colours color){
-		productionAll();
-		storeSB(new Pick[]{new Pick(color, 1)});
-		faithTrack.moveForward(1);
-	}
+    public void productionExtra(Colours color){
+        productionAll();
+        storeSB(new Pick[]{new Pick(color, 1)});
+        faithTrack.moveForward(1);
+    }
 
-	public void productionAll(){
-		bufferProd = new LinkedList<>();
-		for(var i = 0; i < 3; i++){
-			CardDev card = library.getCardOnTop(i);
-			Pick[] res = card.getResFrom();
-			Collections.addAll(bufferProd, res);
-			pcs.firePropertyChange("ProductionBuffer", "", bufferProd);
-			//remoteView.resourcesHandler(bufferProd);
-			storeSB(card.getResTo());
-		}
-		checkIfEndGame();
-	}
+    public void productionAll(){
+        bufferProd = new LinkedList<>();
+        for(var i = 0; i < 3; i++){
+            CardDev card = library.getCardOnTop(i);
+            Pick[] res = card.getResFrom();
+            Collections.addAll(bufferProd, res);
+            pcs.firePropertyChange("ProductionBuffer", "", bufferProd);
+            //remoteView.resourcesHandler(bufferProd);
+            storeSB(card.getResTo());
+        }
+        checkIfEndGame();
+    }
 
-	public CardLeader[] getMyLeaderCards(){
-		return myLeaderCards;
-	}
+    public CardLeader[] getMyLeaderCards(){
+        return myLeaderCards;
+    }
 
-	public void setMyLeaderCards(CardLeader[] cards){
-		myLeaderCards = cards;
-		pcs.firePropertyChange("firstOp", "", 0);
-	}
+    public void setMyLeaderCards(CardLeader[] cards){
+        myLeaderCards = cards;
+        pcs.firePropertyChange("firstOp", "", 0);
+    }
 
-	public void setTemporaryLeaderCards(CardLeader[] leaders){
-		pcs.firePropertyChange("temporaryLeaderCards", "", leaders);
-	}
+    public void setTemporaryLeaderCards(CardLeader[] leaders){
+        pcs.firePropertyChange("temporaryLeaderCards", "", leaders);
+    }
 
-	public Map<Colours, Integer> getResAll(){
-		return resAll;
-	}
+    public Map<Colours, Integer> getResAll(){
+        return resAll;
+    }
 
-	public Warehouse getWarehouse(){
-		return warehouse;
-	}
+    public Warehouse getWarehouse(){
+        return warehouse;
+    }
 
-	public String getNickname(){
-		return nickname;
-	}
+    public String getNickname(){
+        return nickname;
+    }
 
-	public void setNickname(String nickname){
-		this.nickname = nickname;
-	}
+    public void setNickname(String nickname){
+        this.nickname = nickname;
+    }
 
-	/*DA METTERE SUL CLIENT magari*/
-	private void chooseResourcesW(List<Pick> res, Class<Warehouse> warehouseClass){
-		/*la quantità di res è negativa*/
-		for(Pick r : res){
-			int i = warehouse.isThereThatRes(r.getResource());
-			warehouse.moveResources(i, r);
-		}
-	}
+    /*DA METTERE SUL CLIENT magari*/
+    private void chooseResourcesW(List<Pick> res, Class<Warehouse> warehouseClass){
+        /*la quantità di res è negativa*/
+        for(Pick r : res){
+            int i = warehouse.isThereThatRes(r.getResource());
+            warehouse.moveResources(i, r);
+        }
+    }
 
-	/*DA METTERE SUL CLIENT magari*/
-	private void chooseResourcesSB(List<Pick> res, Class<StrongBox> strongBoxClass){
-		/*la quantità di res è negativa*/
-		for(Pick r : res){
-			strongBox.moveResources(r);
-		}
-	}
+    /*DA METTERE SUL CLIENT magari*/
+    private void chooseResourcesSB(List<Pick> res, Class<StrongBox> strongBoxClass){
+        /*la quantità di res è negativa*/
+        for(Pick r : res){
+            strongBox.moveResources(r);
+        }
+    }
 
-	public void storeSB(Pick[] start){
-		for(Pick pick : start){
-			strongBox.moveResources(pick);
-		}
-		updateResAll();
-	}
+    public void storeSB(Pick[] start){
+        for(Pick pick : start){
+            strongBox.moveResources(pick);
+        }
+        updateResAll();
+    }
 
-	public void storeW(int lvl, Pick[] start){
-		for(Pick pick : start){
-			warehouse.moveResources(lvl, pick);
-		}
-		updateResAll();
-	}
+    public void storeW(int lvl, Pick[] start){
+        for(Pick pick : start){
+            warehouse.moveResources(lvl, pick);
+        }
+        updateResAll();
+    }
 
-	public void updateResAll(){ /* DA IMPLEMENTARE magari che un ActionListener fa aggiornare questa variabile*/
-		List<Pick> w = warehouse.checkStatus();
-		for(Pick pick : w)
-			resAll.replace(pick.getResource(), pick.getQnt() + resAll.get(pick.getResource()));
-		for(Colours c : Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
-			resAll.replace(c, resAll.get(c) + strongBox.getStrongContent().get(c));
-		pcs.firePropertyChange("resAll", "", resAll);
-	}
+    public void updateResAll(){ /* DA IMPLEMENTARE magari che un ActionListener fa aggiornare questa variabile*/
+        List<Pick> w = warehouse.checkStatus();
+        for(Pick pick : w)
+            resAll.replace(pick.getResource(), pick.getQnt() + resAll.get(pick.getResource()));
+        for(Colours c : Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
+            resAll.replace(c, resAll.get(c) + strongBox.getStrongContent().get(c));
+        pcs.firePropertyChange("resAll", "", resAll);
+    }
 
-	public int countWinPnt(){
-		var win = 0;
-		win += faithTrack.getWinPnt();
-		win += library.getWinPntCardDev();
-		win += getWinPntCardLeader();
-		return win;
-	}
+    public int countWinPnt(){
+        var win = 0;
+        win += faithTrack.getWinPnt();
+        win += library.getWinPntCardDev();
+        win += getWinPntCardLeader();
+        return win;
+    }
 
-	private int getWinPntCardLeader(){
-		var win = 0;
-		for(CardLeader myLeaderCard : myLeaderCards){
-			if(myLeaderCard.getFlipped()) win += myLeaderCard.getWinPnt();
-		}
-		return win;
-	}
+    private int getWinPntCardLeader(){
+        var win = 0;
+        for(CardLeader myLeaderCard : myLeaderCards){
+            if(myLeaderCard.getFlipped()) win += myLeaderCard.getWinPnt();
+        }
+        return win;
+    }
 
-	public void buyCardDev(CardDev card){
-		bufferProd = new LinkedList<>();
-		Collections.addAll(bufferProd, card.getCost());
-		pcs.firePropertyChange("bufferProd", "", bufferProd);
-		//remoteView.resourcesHandler(bufferProd);
-		myDevCards.add(card);
-		checkIfEndGame();
-	}
+    public void buyCardDev(CardDev card){
+        bufferProd = new LinkedList<>();
+        Collections.addAll(bufferProd, card.getCost());
+        pcs.firePropertyChange("bufferProd", "", bufferProd);
+        //remoteView.resourcesHandler(bufferProd);
+        myDevCards.add(card);
+        checkIfEndGame();
+    }
 
-	private void checkIfEndGame(){
-		if(myDevCards.size() == 7) endGame = true;
-		if(getFaithTrack().getPosition() == 25) endGame = true;
-		if(endGame) pcs.firePropertyChange("endGame", false, true);
-		else pcs.firePropertyChange("nextPlayer", "", true);
+    private void checkIfEndGame(){
+        if(myDevCards.size() == 7) endGame = true;
+        if(getFaithTrack().getPosition() == 25) endGame = true;
+        if(endGame) pcs.firePropertyChange("endGame", false, true);
+        else pcs.firePropertyChange("nextPlayer", "", true);
 
-	}
+    }
 
-	public FaithTrack getFaithTrack(){
-		return faithTrack;
-	}
+    public FaithTrack getFaithTrack(){
+        return faithTrack;
+    }
 
-	public void marketResHandler(List<Colours> res){
-		for(Colours colours : res)
-			if(colours == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE) colours = marketAlt[activeLeader];
-		setBufferMarket(res);
-	}
+    public void marketResHandler(List<Colours> res){
+        for(Colours colours : res)
+            if(colours == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE) colours = marketAlt[activeLeader];
+        setBufferMarket(res);
+    }
 
-	public void setBufferMarket(List<Colours> res){
-		bufferMarket = new LinkedList<>();
-		bufferMarket = (LinkedList<Colours>)res;
-		pcs.firePropertyChange("marketbuffer", "", bufferMarket);
-	}
+    public void setBufferMarket(List<Colours> res){
+        bufferMarket = new LinkedList<>();
+        bufferMarket = (LinkedList<Colours>)res;
+        pcs.firePropertyChange("marketbuffer", "", bufferMarket);
+    }
 
-	public void resHandler(Colours res){
-		/*attiva un pezzo di viewer che chiede a che lvl di warehouse infilare quelle risorsa*/
-	}
+    public void resHandler(Colours res){
+        /*attiva un pezzo di viewer che chiede a che lvl di warehouse infilare quelle risorsa*/
+    }
 
-	public void setPreference(){
-		preference = Colours.WHITE;
-		pcs.firePropertyChange("preference", "", preference);
-	}
+    public void setPreference(){
+        preference = Colours.WHITE;
+        pcs.firePropertyChange("preference", "", preference);
+    }
 
-	public void resolveLeaderConflict(int i){
-		activeLeader = i;
-	}
+    public void resolveLeaderConflict(int i){
+        activeLeader = i;
+    }
 
-	public void addPropertyChangeListener(PropertyChangeListener listener){
-		pcs.addPropertyChangeListener(listener);
-	}
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        pcs.addPropertyChangeListener(listener);
+    }
 
-	public void removePropertyChangeListener(PropertyChangeListener listener){
-		pcs.removePropertyChangeListener(listener);
-	}
+    public void removePropertyChangeListener(PropertyChangeListener listener){
+        pcs.removePropertyChangeListener(listener);
+    }
 }

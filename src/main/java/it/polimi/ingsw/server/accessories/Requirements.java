@@ -2,71 +2,71 @@ package it.polimi.ingsw.server.accessories;
 
 public interface Requirements{
 
-	void getRequirements();
+    void getRequirements();
 
-	@Override
-	String toString();
+    @Override
+    String toString();
 
 
-	class RequirementsCard implements Requirements{
+    class RequirementsCard implements Requirements{
 
-		private final ColoursCards type;
-		private final int cardLvl;
+        private final ColoursCards type;
+        private final int cardLvl;
 
-		public RequirementsCard(int cardLvl, ColoursCards c){
-			this.cardLvl = cardLvl;
-			this.type = c;
-		}
+        public RequirementsCard(int cardLvl, ColoursCards c){
+            this.cardLvl = cardLvl;
+            this.type = c;
+        }
 
-		@Override
-		public void getRequirements(){
-			getCardLvl();
-			getColour();
-		}
+        @Override
+        public void getRequirements(){
+            getCardLvl();
+            getColour();
+        }
 
-		public int getCardLvl(){
-			return cardLvl;
-		}
+        public int getCardLvl(){
+            return cardLvl;
+        }
 
-		public ColoursCards getColour(){
-			return type;
-		}
+        public ColoursCards getColour(){
+            return type;
+        }
 
-		@Override
-		public String toString(){
-			return "{" + "type=" + type + ", cardLvl=" + cardLvl + '}';
-		}
-	}
+        @Override
+        public String toString(){
+            return "{" + "type=" + type + ", cardLvl=" + cardLvl + '}';
+        }
+    }
 
-	class RequirementsResources implements Requirements{
+    class RequirementsResources implements Requirements{
 
-		private Colours type;
-		private int qnt;
+        private Colours type;
+        private int qnt;
 
-		public RequirementsResources(Pick[] picks){
-			for(Pick pick : picks){
-				this.type = pick.getResource();
-				this.qnt = pick.getQnt();
-			}
-		}
+        public RequirementsResources(Pick[] picks){
+            for(Pick pick : picks){
+                this.type = pick.getResource();
+                this.qnt = pick.getQnt();
+            }
+        }
 
-		@Override
-		public void getRequirements(){
-			getQnt();
-			getColour();
-		}
+        @Override
+        public void getRequirements(){
+            getQnt();
+            getColour();
+        }
 
-		public int getQnt(){
-			return qnt;
-		}
+        public int getQnt(){
+            return qnt;
+        }
 
-		public Colours getColour(){
-			return type;
-		}
+        public Colours getColour(){
+            return type;
+        }
 
-		@Override
-		public String toString(){
-			return "{" + "type=" + type.getType() + ", qnt=" + qnt + '}';
-		}
-	}
+        @Override
+        public String toString(){
+            return "{" + "type=" + type.getType() + ", qnt=" + qnt + '}';
+        }
+    }
 }

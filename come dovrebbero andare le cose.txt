@@ -5,8 +5,11 @@ SE LA PARTITA E' MULTIPLAYER SI FA PARTIRE IL PROGRAMMA TANTE VOLTE QUANTI SONO 
 - SE LA PARTITA E' MULTIPLAYER SI FA PARTIRE IL SERVER COME PRIMA COSA
 (#come singleton, se non esiste lo crei e ti ci connetti e se esiste ti ci connetti? #si può dare di default localhost e porta decisi a priori?)
 - SE LA PARTITA E' MULTIPLAYER
+    - SI CHIEDE IP E PORTA
     - PARTONO I VARI CLIENT -> ogni client ha un suo nickname che va chiesto e che deve essere unico su tutto il server
-    - SI GESTISCE LA LOBBY (numero di giocatori da gestire, quando la partita inizia deve essere noto)
+    - SI GESTISCE LA LOBBY (LATO SERVER) (numero di giocatori da gestire, quando la partita inizia deve essere noto)
+    - MESSAGGIO DI WAIT (LATO CLIENT)
+    - MESSAGGIO ORDINE DEI GIOCATORI
 CHE SIA PARTITA SINGOLA O NO SI CHIEDE SE USARE CLI O GUI
 PARTE LA CLI O GUI A SECONDA DELLA SCELTA
 - ATTESA CHE TUTTI I GIOCATORI CHE VORREBBERO INIZIARE UNA PARTITA ASSIEME SIANO CONNESSI E PRONTI

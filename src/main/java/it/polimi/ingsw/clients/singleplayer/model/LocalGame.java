@@ -12,54 +12,54 @@ import java.util.Random;
 
 public class LocalGame{
 
-	private final Market market;
-	private final Random random = new Random();
-	private final Board[] boards;
-	private final ArrayList<CardDev> cardDevDeck = new ArrayList<>();
-	private final ArrayList<CardLeader> cardLeaderDeck = new ArrayList<>();
-	private final ArrayList<Integer> playableLeaderCards = new ArrayList<>();
+    private final Market market;
+    private final Random random = new Random();
+    private final Board[] boards;
+    private final ArrayList<CardDev> cardDevDeck = new ArrayList<>();
+    private final ArrayList<CardLeader> cardLeaderDeck = new ArrayList<>();
+    private final ArrayList<Integer> playableLeaderCards = new ArrayList<>();
 
-	public LocalGame(Market market){
-		this.market = market;
-		boards = new Board[2];
-		boards[0] = new Board(0, new Warehouse(), new StrongBox(), new FaithTrack(), new Library());
-		boards[1] = new Lorenzo(1, new FaithTrack());
-		cardDevDeck.addAll(Arrays.asList(CardDev.values()));
-		cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
-	}
+    public LocalGame(Market market){
+        this.market = market;
+        boards = new Board[2];
+        boards[0] = new Board(0, new Warehouse(), new StrongBox(), new FaithTrack(), new Library());
+        boards[1] = new Lorenzo(1, new FaithTrack());
+        cardDevDeck.addAll(Arrays.asList(CardDev.values()));
+        cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
+    }
 
-	public List<CardDev> getCardDevDeck(){
-		return cardDevDeck;
-	}
+    public List<CardDev> getCardDevDeck(){
+        return cardDevDeck;
+    }
 
-	public Board getBoard(boolean isLorenzo){
-		if(isLorenzo) return boards[1];
-		else return boards[0];
-	}
+    public Board getBoard(boolean isLorenzo){
+        if(isLorenzo) return boards[1];
+        else return boards[0];
+    }
 
-	public Market getMarket(){
-		return market;
-	}
+    public Market getMarket(){
+        return market;
+    }
 
-	public void myLeaderCardsHandler(){
-		boards[0].setTemporaryLeaderCards(giveCardLead().toArray(CardLeader[]::new));
-	}
+    public void myLeaderCardsHandler(){
+        boards[0].setTemporaryLeaderCards(giveCardLead().toArray(CardLeader[]::new));
+    }
 
-	public List<CardLeader> giveCardLead(){
-		ArrayList<CardLeader> cardPlayer = new ArrayList<>();
-		while(cardPlayer.size() < 4){
-			cardPlayer.add(selectNextPlayableLeaderCards());
-		}
-		return cardPlayer;
-	}
+    public List<CardLeader> giveCardLead(){
+        ArrayList<CardLeader> cardPlayer = new ArrayList<>();
+        while(cardPlayer.size() < 4){
+            cardPlayer.add(selectNextPlayableLeaderCards());
+        }
+        return cardPlayer;
+    }
 
-	private CardLeader selectNextPlayableLeaderCards(){
-		while(true){
-			var i = random.nextInt(cardLeaderDeck.size());
-			if(!(playableLeaderCards.contains(i))){
-				playableLeaderCards.add(i);
-				return cardLeaderDeck.get(i);
-			}
-		}
-	}
+    private CardLeader selectNextPlayableLeaderCards(){
+        while(true){
+            var i = random.nextInt(cardLeaderDeck.size());
+            if(!(playableLeaderCards.contains(i))){
+                playableLeaderCards.add(i);
+                return cardLeaderDeck.get(i);
+            }
+        }
+    }
 }

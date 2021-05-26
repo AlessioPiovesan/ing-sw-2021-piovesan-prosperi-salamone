@@ -11,131 +11,135 @@ import java.util.Random;
 
 public class Game{
 
-	private static int nGamers = 4;
-	private final Board[] boards = new Board[4]; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
-	private final Random random = new Random();
-	private final ArrayList<CardDev> cardDevDeck;
-	private final ArrayList<CardLeader> cardLeaderDeck;
-	private final ArrayList<Integer> playableLeaderCards;
-	private final Market market;
-	private final int id;
-	private int playingPlayer;
+    private static int nGamers = 4;
+    private final Board[] boards = new Board[4]; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
+    private final Random random = new Random();
+    private final ArrayList<CardDev> cardDevDeck;
+    private final ArrayList<CardLeader> cardLeaderDeck;
+    private final ArrayList<Integer> playableLeaderCards;
+    private final Market market;
+    private final int id;
+    private int playingPlayer;
 
-	public Game(int id, int players, Market market){
-		this.id = id;
-		setNGamers(players);
-		/* Board creation for each player */
-		for(var i = 0; i < nGamers; i++){
-			var warehouse = new Warehouse();
-			var strongBox = new StrongBox();
-			var faithTrack = new FaithTrack();
-			var library = new Library();
-			boards[i] = new Board(i, warehouse, strongBox, faithTrack, library);
-			playingPlayer = 0;
-		}
-		/* Market creation for each Game */
-		this.market = market;
-		/* Card cataloging for each Game */
-		cardDevDeck = new ArrayList<>();
-		cardDevDeck.addAll(Arrays.asList(CardDev.values()));
-		cardLeaderDeck = new ArrayList<>();
-		cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
-		playableLeaderCards = new ArrayList<>();
-	}
+    public Game(int id, int players, Market market){
+        this.id = id;
+        setNGamers(players);
+        /* Board creation for each player */
+        for(var i = 0; i < nGamers; i++){
+            var warehouse = new Warehouse();
+            var strongBox = new StrongBox();
+            var faithTrack = new FaithTrack();
+            var library = new Library();
+            boards[i] = new Board(i, warehouse, strongBox, faithTrack, library);
+            playingPlayer = 0;
+        }
+        /* Market creation for each Game */
+        this.market = market;
+        /* Card cataloging for each Game */
+        cardDevDeck = new ArrayList<>();
+        cardDevDeck.addAll(Arrays.asList(CardDev.values()));
+        cardLeaderDeck = new ArrayList<>();
+        cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
+        playableLeaderCards = new ArrayList<>();
+    }
 
-	public int getNGamers(){
-		return nGamers;
-	}
+    public int getNGamers(){
+        return nGamers;
+    }
 
-	public static void setNGamers(int gamers){
-		nGamers = gamers;
-	}
+    public static void setNGamers(int gamers){
+        nGamers = gamers;
+    }
 
-	public Board[] getAllB(){
-		return boards;
-	}
+    public Board[] getAllB(){
+        return boards;
+    }
 
-	public Board getSingleB(int i){
-		return boards[i];
-	}
+    public int getId(){
+        return id;
+    }
 
-	public Market getMarket(){
-		return market;
-	}
+    public Board getSingleB(int i){
+        return boards[i];
+    }
 
-	public int getPlayingPlayer(){
-		return playingPlayer;
-	}
+    public Market getMarket(){
+        return market;
+    }
 
-	public void setPlayingPlayer(int playingPlayer){
-		this.playingPlayer = playingPlayer;
-	}
+    public int getPlayingPlayer(){
+        return playingPlayer;
+    }
 
-	public void myLeaderCardsHandler(){
-		for(var i = 0; i < nGamers; i++)
-			boards[i].setTemporaryLeaderCards(giveCardLead().toArray(CardLeader[]::new));
-	}
+    public void setPlayingPlayer(int playingPlayer){
+        this.playingPlayer = playingPlayer;
+    }
 
-	public List<CardLeader> giveCardLead(){
-		ArrayList<CardLeader> cardPlayer = new ArrayList<>();
-		while(cardPlayer.size() < 4){
-			cardPlayer.add(selectNextPlayableLeaderCards());
-		}
-		return cardPlayer;
-	}
+    public void myLeaderCardsHandler(){
+        for(var i = 0; i < nGamers; i++)
+            boards[i].setTemporaryLeaderCards(giveCardLead().toArray(CardLeader[]::new));
+    }
 
-	private CardLeader selectNextPlayableLeaderCards(){
-		while(true){
-			var i = random.nextInt(cardLeaderDeck.size());
-			if(!(playableLeaderCards.contains(i))){
-				playableLeaderCards.add(i);
-				return cardLeaderDeck.get(i);
-			}
-		}
-	}
+    public List<CardLeader> giveCardLead(){
+        ArrayList<CardLeader> cardPlayer = new ArrayList<>();
+        while(cardPlayer.size() < 4){
+            cardPlayer.add(selectNextPlayableLeaderCards());
+        }
+        return cardPlayer;
+    }
 
-	public List<CardDev> getCardDevDeck(){
-		return cardDevDeck;
-	}
+    private CardLeader selectNextPlayableLeaderCards(){
+        while(true){
+            var i = random.nextInt(cardLeaderDeck.size());
+            if(!(playableLeaderCards.contains(i))){
+                playableLeaderCards.add(i);
+                return cardLeaderDeck.get(i);
+            }
+        }
+    }
 
-	public List<CardLeader> getCardLeaderDeck(){
-		return cardLeaderDeck;
-	}
+    public List<CardDev> getCardDevDeck(){
+        return cardDevDeck;
+    }
 
-	public void pickStartingResources(){
-		int next = playingPlayer;
-		if(next++ >= nGamers - 1) next = 0;
-		if(nGamers > 1){
-			boards[next].setPreference();
-			if(nGamers > 2){
-				if(next++ >= nGamers - 1) next = 0;
-				boards[next].setPreference();
-				boards[next].getFaithTrack().moveForward(1);
-				if(nGamers > 3){
-					if(next++ >= nGamers - 1) next = 0;
-					boards[next].setPreference();
-					boards[next].setPreference();
-					boards[next].getFaithTrack().moveForward(1);
-				}
-			}
-		}
-	}
+    public List<CardLeader> getCardLeaderDeck(){
+        return cardLeaderDeck;
+    }
 
-	public int checkNext(){
-		if(playingPlayer++ >= nGamers - 1) return 0;
-		return playingPlayer;
-	}
+    public void pickStartingResources(){
+        int next = playingPlayer;
+        if(next++ >= nGamers - 1) next = 0;
+        if(nGamers > 1){
+            boards[next].setPreference();
+            if(nGamers > 2){
+                if(next++ >= nGamers - 1) next = 0;
+                boards[next].setPreference();
+                boards[next].getFaithTrack().moveForward(1);
+                if(nGamers > 3){
+                    if(next++ >= nGamers - 1) next = 0;
+                    boards[next].setPreference();
+                    boards[next].setPreference();
+                    boards[next].getFaithTrack().moveForward(1);
+                }
+            }
+        }
+    }
 
-	public int[] countWinPntPerBoard(){
-		var pntWin = new int[nGamers];
-		for(var i = 0; i < nGamers; i++){
-			pntWin[i] = boards[i].countWinPnt();
-		}
-		return pntWin;
-	}
+    public int checkNext(){
+        if(playingPlayer++ >= nGamers - 1) return 0;
+        return playingPlayer;
+    }
 
-	public void nextAction(){
-		/*chiede alla viewer l'azione da fare
-		 * GameController riceve qualcosa e fa partire .action(...)*/
-	}
+    public int[] countWinPntPerBoard(){
+        var pntWin = new int[nGamers];
+        for(var i = 0; i < nGamers; i++){
+            pntWin[i] = boards[i].countWinPnt();
+        }
+        return pntWin;
+    }
+
+    public void nextAction(){
+        /*chiede alla viewer l'azione da fare
+         * GameController riceve qualcosa e fa partire .action(...)*/
+    }
 }

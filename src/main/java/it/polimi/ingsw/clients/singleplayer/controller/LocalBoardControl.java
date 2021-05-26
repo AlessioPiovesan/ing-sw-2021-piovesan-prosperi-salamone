@@ -7,27 +7,27 @@ import it.polimi.ingsw.server.model.board.Board;
 
 public class LocalBoardControl{
 
-	private final Board player;
-	private final Lorenzo lorenzo;
+    private final Board player;
+    private final Lorenzo lorenzo;
 
-	public LocalBoardControl(Board player, Lorenzo lorenzo){
-		this.player = player;
-		this.lorenzo = lorenzo;
-	}
+    public LocalBoardControl(Board player, Lorenzo lorenzo){
+        this.player = player;
+        this.lorenzo = lorenzo;
+    }
 
-	public Lorenzo getLorenzo(){
-		return lorenzo;
-	}
+    public Lorenzo getLorenzo(){
+        return lorenzo;
+    }
 
-	public Board getPlayer(){
-		return player;
-	}
+    public Board getPlayer(){
+        return player;
+    }
 
-	public void warehouseResHandler(Colours colour, int qnt, int lvl){
-		player.storeW(lvl, new Pick[]{new Pick(colour, qnt)});
-	}
+    public void warehouseResHandler(Colours colour, int qnt, int lvl){
+        player.storeW(lvl, new Pick[]{new Pick(colour, qnt)});
+    }
 
-	public void active(){
-		player.ready();
-	}
+    public void active(){
+        player.ready();
+    }
 }

@@ -11,37 +11,37 @@ import java.util.Scanner;
 
 public class RemoteView implements PropertyChangeListener{
 
-	Board player;
-	SocketServerToClient socketServerToClient;
+    Board player;
+    SocketServerToClient socketServerToClient;
 
-	public RemoteView(SocketServerToClient socketServerToClient, Board board){
-		this.socketServerToClient = socketServerToClient;
-		board.addPropertyChangeListener(this);
-	}
+    public RemoteView(SocketServerToClient socketServerToClient, Board board){
+        this.socketServerToClient = socketServerToClient;
+        board.addPropertyChangeListener(this);
+    }
 
-	public void getRisorsaPreferita(){
-		System.out.println("Scegli una risorsa tra:");
-		var i = 0;
-		for(Colours res : Colours.valid()){
-			System.out.println(i + ") " + res.getType());
-			i++;
-		}
-		var input = new Scanner(System.in);
-		var k = Integer.parseInt(input.nextLine());
-		var risposta = Colours.valid().get(k);
-		System.out.println("Su quale ripiano? (1, 2, 3)");
-		var j = Integer.parseInt(input.nextLine());
-		mettiRisorseNelMagazzino(0, risposta, 1, j);
+    public void getRisorsaPreferita(){
+        System.out.println("Scegli una risorsa tra:");
+        var i = 0;
+        for(Colours res : Colours.valid()){
+            System.out.println(i + ") " + res.getType());
+            i++;
+        }
+        var input = new Scanner(System.in);
+        var k = Integer.parseInt(input.nextLine());
+        var risposta = Colours.valid().get(k);
+        System.out.println("Su quale ripiano? (1, 2, 3)");
+        var j = Integer.parseInt(input.nextLine());
+        mettiRisorseNelMagazzino(0, risposta, 1, j);
 
-	}
+    }
 
-	public void mettiRisorseNelMagazzino(int id, Colours colour, int qnt, int lvl){
-		//controller.getGameControllerById(id).getActiveBoardController().warehouseResHandler(colour, qnt, lvl);
-	}
+    public void mettiRisorseNelMagazzino(int id, Colours colour, int qnt, int lvl){
+        //controller.getGameControllerById(id).getActiveBoardController().warehouseResHandler(colour, qnt, lvl);
+    }
 
-	public void mettiRisorseNelDeposito(int id, Colours colour, int qnt){
-		//controller.getGameControllerById(id).getActiveBoardController().strongboxResHandler(colour, qnt);
-	}
+    public void mettiRisorseNelDeposito(int id, Colours colour, int qnt){
+        //controller.getGameControllerById(id).getActiveBoardController().strongboxResHandler(colour, qnt);
+    }
 
     /*
     public void nextChiedi() {
@@ -131,20 +131,19 @@ public class RemoteView implements PropertyChangeListener{
             mettiRisorseNelMagazzino(0, colours, 1, lvls.get(keep.indexOf(colours)));
     }*/
 
-	public void setMyLeaderCards(CardLeader[] myLeaderCards){
-		socketServerToClient.send(myLeaderCards);
-	}
+    public void setMyLeaderCards(CardLeader[] myLeaderCards){
+        socketServerToClient.send(myLeaderCards);
+    }
 
-	@Override
-	public void propertyChange(PropertyChangeEvent evt){
+    @Override
+    public void propertyChange(PropertyChangeEvent evt){
 
-		switch(evt.getPropertyName()){
-			case "active":{
-				/*deve distribuire le risorse*/
-			}
-			default:
-				System.out.println("ERR");
-		}
-	}
+        switch(evt.getPropertyName()){
+            case "active" -> {
+                /*deve distribuire le risorse*/
+            }
+            default -> System.out.println("ERR");
+        }
+    }
 
 }
