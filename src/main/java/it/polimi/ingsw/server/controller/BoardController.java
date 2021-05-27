@@ -57,4 +57,8 @@ public class BoardController implements PropertyChangeListener{
     public void setMyCardLeader(CardLeader[] choice){
         player.setMyLeaderCards(choice);
     }
+
+    public void sendStatus(){
+        player.createStatus();
+    }
 }

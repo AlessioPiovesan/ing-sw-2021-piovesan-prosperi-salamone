@@ -11,12 +11,25 @@ import java.util.Scanner;
 
 public class RemoteView implements PropertyChangeListener{
 
+    private final SocketServerToClient socketServerToClient;
     Board player;
-    SocketServerToClient socketServerToClient;
+    private String nickname;
+    private int nPlayers;
 
-    public RemoteView(SocketServerToClient socketServerToClient, Board board){
+    public RemoteView(SocketServerToClient socketServerToClient){
         this.socketServerToClient = socketServerToClient;
-        board.addPropertyChangeListener(this);
+    }
+
+    public void setPlayer(Board player){
+        this.player = player;
+    }
+
+    public void setNPlayers(int nPlayers){
+        this.nPlayers = nPlayers;
+    }
+
+    public void setNickname(String nickname){
+        this.nickname = nickname;
     }
 
     public void getRisorsaPreferita(){
@@ -142,6 +155,7 @@ public class RemoteView implements PropertyChangeListener{
             case "active" -> {
                 /*deve distribuire le risorse*/
             }
+            case "boardStatus" -> System.err.println("SIAMO QUI");
             default -> System.out.println("ERR");
         }
     }

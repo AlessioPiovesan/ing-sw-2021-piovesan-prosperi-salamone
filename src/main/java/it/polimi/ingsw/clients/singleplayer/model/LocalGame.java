@@ -15,17 +15,20 @@ public class LocalGame{
     private final Market market;
     private final Random random = new Random();
     private final Board[] boards;
-    private final ArrayList<CardDev> cardDevDeck = new ArrayList<>();
-    private final ArrayList<CardLeader> cardLeaderDeck = new ArrayList<>();
-    private final ArrayList<Integer> playableLeaderCards = new ArrayList<>();
+    private final ArrayList<CardDev> cardDevDeck;
+    private final ArrayList<CardLeader> cardLeaderDeck;
+    private final ArrayList<Integer> playableLeaderCards;
 
     public LocalGame(Market market){
         this.market = market;
         boards = new Board[2];
         boards[0] = new Board(0, new Warehouse(), new StrongBox(), new FaithTrack(), new Library());
         boards[1] = new Lorenzo(1, new FaithTrack());
+        cardDevDeck = new ArrayList<>();
         cardDevDeck.addAll(Arrays.asList(CardDev.values()));
+        cardLeaderDeck = new ArrayList<>();
         cardLeaderDeck.addAll(Arrays.asList(CardLeader.values()));
+        playableLeaderCards = new ArrayList<>();
     }
 
     public List<CardDev> getCardDevDeck(){
@@ -46,7 +49,7 @@ public class LocalGame{
     }
 
     public List<CardLeader> giveCardLead(){
-        ArrayList<CardLeader> cardPlayer = new ArrayList<>();
+        var cardPlayer = new ArrayList<CardLeader>();
         while(cardPlayer.size() < 4){
             cardPlayer.add(selectNextPlayableLeaderCards());
         }

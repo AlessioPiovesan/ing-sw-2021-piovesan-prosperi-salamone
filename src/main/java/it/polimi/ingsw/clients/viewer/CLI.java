@@ -1,5 +1,6 @@
 package it.polimi.ingsw.clients.viewer;
 
+import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Constants;
@@ -27,6 +28,7 @@ public class CLI implements Runnable, UI{
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private String nickname;
     private boolean single;
+    private Client client;
 
     public CLI(){
         input = new BufferedReader(new InputStreamReader(System.in));
@@ -57,9 +59,13 @@ public class CLI implements Runnable, UI{
         cli.run();
     }*/
 
+    public void setClient(Client client){this.client = client;}
+
     @Override
     public void run(){
         setup();
+        client.asyncWriteToSocket("nickname::" + nickname);
+        client.asyncWriteToSocket("nplayers::" + client.getnPlayers());
         /*Qui dovrà passare tutto da controller creato Server*//*
         var gameController = new GameController(controller.getInstance().newID(), 1, new Game(new Market()));
         gameController.setGamers(1);*/
@@ -73,7 +79,7 @@ public class CLI implements Runnable, UI{
     private void setup(){
         output.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
         output.println("by\n\u001B[34mAlessio Piovesan\u001B[0m,\n\u001B[32mPier Giorgio Prosperi\u001B[0m,\n\u001B[33mMatteo Salamone\u001B[0m,\n");
-        var nickname = "";
+        nickname = "";
         do{
             while(Objects.equals(nickname, "")){
                 output.println(">Insert your nickname: ");

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server.web;
 
+import it.polimi.ingsw.server.viewer.RemoteView;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -10,13 +12,18 @@ public class SocketServerToClient implements Runnable{
 
     private final Socket socket;
     private final Server server;
-
+    private final RemoteView remoteView;
     private boolean active;
 
     public SocketServerToClient(Socket newSocket, Server server){
         this.socket = newSocket;
         this.server = server;
+        remoteView = new RemoteView(this);
         active = true;
+    }
+
+    public RemoteView getRemoteView(){
+        return remoteView;
     }
 
     public void asyncSend(final Object message){
@@ -40,7 +47,7 @@ public class SocketServerToClient implements Runnable{
             while(isActive()){
                 var inputObject = socketIn.readObject();
                 if(inputObject instanceof String){
-                    System.out.println((String)inputObject); /*DA MANDARE A UN QUALCHE TIPO DI INTERPRETE*/
+                    interpreter((String)inputObject); /*DA MANDARE A UN QUALCHE TIPO DI INTERPRETE*/
                 }
 					/*else if(inputObject instanceof Board){
 						((Board)inputObject).print();
@@ -58,6 +65,15 @@ public class SocketServerToClient implements Runnable{
 
     private synchronized boolean isActive(){
         return active;
+    }
+
+    private void interpreter(String input){
+        var string = input.split("::");
+        switch(string[0]){
+            case "nickname" -> remoteView.setNickname(string[1]);
+            case "nplayers" -> remoteView.setNPlayers(Integer.parseInt(string[1]));
+            default -> {}
+        }
     }
 
     private void close(){

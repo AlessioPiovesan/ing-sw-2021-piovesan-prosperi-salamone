@@ -28,7 +28,7 @@ class CardDevTest{
             for(var i : new String[]{"1", "2", "3", "4"})
                 for(var c : new String[]{"B", "G", "P", "Y"})
                     for(var j : new String[]{"1", "2", "3"}){
-                        String code = new StringBuilder().append(i).append(c).append(j).toString();
+                        var code = new StringBuilder().append(i).append(c).append(j).toString();
                         if(card.name().contains(code)) assertEquals(card, CardDev.getSpecificCard(code));
                         else assertNotEquals(card, CardDev.getSpecificCard(code));
                     }

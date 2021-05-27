@@ -249,4 +249,19 @@ public class Board{
     public void removePropertyChangeListener(PropertyChangeListener listener){
         pcs.removePropertyChangeListener(listener);
     }
+
+    public void createStatus(){
+        var w = new Colours[3][3];
+        var list = warehouse.checkStatus();
+        for(var i = 0; i < 3; i++){
+            for(var j = 0; j < 3; j++){
+                if(j < list.get(i).getQnt()){
+                    w[i][j] = list.get(i).getResource();
+                }
+                w[i][j] = null;
+            }
+        }
+        var status = new StatusBoard(myDevCards, w, faithTrack.getPosition(), strongBox.getStrongContent(), library.visibleCards().toArray(new CardDev[0]), resAll, myLeaderCards);
+        pcs.firePropertyChange("boardStatus", "", status);
+    }
 }

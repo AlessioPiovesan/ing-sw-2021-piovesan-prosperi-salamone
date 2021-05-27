@@ -12,9 +12,9 @@ class GameTest{
 
     @Test
     void giveCardLeadTest(){
-        Game game = new Game(0, 4, null);
-        ArrayList<CardLeader> cardPlayer = (ArrayList<CardLeader>)game.giveCardLead();
-        for(CardLeader cardLeader : cardPlayer){
+        var game = new Game(0, 4, null);
+        var cardPlayer = (ArrayList<CardLeader>)game.giveCardLead();
+        for(var cardLeader : cardPlayer){
             assertTrue(cardPlayer.contains(cardLeader));
         }
         assertEquals(4, cardPlayer.size());

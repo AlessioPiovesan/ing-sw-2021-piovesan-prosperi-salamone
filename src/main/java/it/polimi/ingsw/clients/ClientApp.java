@@ -44,10 +44,10 @@ public class ClientApp{
                     port = Integer.parseInt(reader.readLine());
                 }
                 var client = new Client(ip, port, ui);
-                System.out.print(">\tInsert the the number of players you want for this match\n>\t");
+                System.out.print(">\tInsert the the number of players you want for this match [2-4]\n>\t");
                 var players = Integer.parseInt(reader.readLine());
-                while(players < 0 || players > 4){
-                    System.err.println("Number of player is not unknown");
+                while(players <= 1 || players >= 5){
+                    System.err.println("The number you typed is just wrong");
                     players = Integer.parseInt(reader.readLine());
                 }
                 client.setNPlayers(players);

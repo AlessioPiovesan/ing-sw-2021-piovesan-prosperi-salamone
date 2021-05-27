@@ -14,7 +14,7 @@ public enum Colours{
     }
 
     public static List<Colours> valid(){
-        ArrayList<Colours> list = new ArrayList<>();
+        var list = new ArrayList<Colours>();
         list.add(BLUE);
         list.add(GREY);
         list.add(PURPLE);

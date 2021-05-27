@@ -11,7 +11,7 @@ class StrongBoxTest{
 
     @Test
     void moveResources(){
-        StrongBox strongBox = new StrongBox();
+        var strongBox = new StrongBox();
         for(Colours colour : Colours.values()){
             switch(colour){
                 case RED, WHITE -> assertFalse(strongBox.getStrongContent().containsKey(colour));

@@ -19,6 +19,7 @@ public class Client{
     private final UI ui;
     private boolean active;
     private int nPlayers;
+    private Socket socket;
 
     /**
      * /*
@@ -37,6 +38,10 @@ public class Client{
 
     public void setNPlayers(int players){this.nPlayers = players;}
 
+    public int getnPlayers(){
+        return nPlayers;
+    }
+
     public UI getUi(){
         return ui;
     }
@@ -51,15 +56,14 @@ public class Client{
         }
         else{
             try{
-                var socket = new Socket(ip, port);
+                socket = new Socket(ip, port);
                 System.out.println("Connection established");
                 var socketIn = new ObjectInputStream(socket.getInputStream());
                 var socketOut = new PrintWriter(socket.getOutputStream());
                 var stdin = new Scanner(System.in);
                 var t0 = asyncReadFromSocket(socketIn);
-                var t1 = asyncWriteToSocket(stdin, socketOut);
                 t0.join();
-                t1.join();
+                new CLI().run();
             } catch(InterruptedException|NoSuchElementException|IOException e){
                 System.out.println("Connection closed from the client side");
                 Thread.currentThread().interrupt();
@@ -90,13 +94,20 @@ public class Client{
         return t;
     }
 
-    public Thread asyncWriteToSocket(final Scanner stdin, final PrintWriter socketOut){
+    public boolean isActive(){
+        return active;
+    }
+
+    public void setActive(boolean active){
+        this.active = active;
+    }
+
+    public Thread asyncWriteToSocket(String command){
         var t = new Thread(() -> {
             try{
+                var output = new PrintWriter(socket.getOutputStream(), true);
                 while(isActive()){
-                    String inputLine = stdin.nextLine();
-                    socketOut.println(inputLine);
-                    socketOut.flush();
+                    output.write(command);
                 }
             } catch(Exception e){
                 setActive(false);
@@ -104,13 +115,5 @@ public class Client{
         });
         t.start();
         return t;
-    }
-
-    public boolean isActive(){
-        return active;
-    }
-
-    public void setActive(boolean active){
-        this.active = active;
     }
 }

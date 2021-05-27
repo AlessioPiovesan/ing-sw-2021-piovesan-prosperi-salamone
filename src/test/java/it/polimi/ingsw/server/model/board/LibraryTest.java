@@ -9,7 +9,7 @@ class LibraryTest{
 
     @Test
     void checkAddableCard(){
-        Library library = new Library();
+        var library = new Library();
         library.addCard(0, CardDev.CARD_DEV1B1);
         library.addCard(1, CardDev.CARD_DEV1B2);
         library.addCard(2, CardDev.CARD_DEV1B3);
@@ -24,7 +24,7 @@ class LibraryTest{
 
     @Test
     void addCardTest(){
-        Library library = new Library();
+        var library = new Library();
         library.addCard(0, CardDev.CARD_DEV1B1);
         library.addCard(1, CardDev.CARD_DEV1B2);
         library.addCard(2, CardDev.CARD_DEV1B3);
@@ -35,7 +35,7 @@ class LibraryTest{
 
     @Test
     void getCardOnTopTest(){
-        Library library = new Library();
+        var library = new Library();
         library.addCard(0, CardDev.CARD_DEV1B1);
         library.addCard(1, CardDev.CARD_DEV1B2);
         library.addCard(2, CardDev.CARD_DEV1B3);
@@ -46,7 +46,7 @@ class LibraryTest{
 
     @Test
     void getWinPntCardDevTest(){
-        Library library = new Library();
+        var library = new Library();
         library.addCard(0, CardDev.CARD_DEV1B1);
         library.addCard(1, CardDev.CARD_DEV1B2);
         library.addCard(2, CardDev.CARD_DEV1B3);

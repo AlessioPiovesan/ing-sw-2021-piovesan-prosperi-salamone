@@ -29,7 +29,7 @@ public class Market{
     }
 
     private Colours[][] fillMarket(LinkedList<Colours> marbles){
-        LinkedList<Integer> list = new LinkedList<>();
+        var list = new LinkedList<Integer>();
         var m = new Colours[Constants.XMARKET.getVal()][Constants.YMARKET.getVal()];
         for(var j = 0; j < Constants.YMARKET.getVal(); j++){
             fillColumns(marbles, list, Constants.XMARKET.getVal(), Constants.YMARKET.getVal(), m, j);

@@ -81,7 +81,7 @@ public class Game{
     }
 
     public List<CardLeader> giveCardLead(){
-        ArrayList<CardLeader> cardPlayer = new ArrayList<>();
+        var cardPlayer = new ArrayList<CardLeader>();
         while(cardPlayer.size() < 4){
             cardPlayer.add(selectNextPlayableLeaderCards());
         }

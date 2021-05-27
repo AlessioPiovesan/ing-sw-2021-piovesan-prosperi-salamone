@@ -44,4 +44,12 @@ public class Library implements Serializable{
     public List<CardDev> getCardsOfASlot(int n){
         return slot.get(n);
     }
+
+    public List<CardDev> visibleCards(){
+        var list = new ArrayList<CardDev>();
+        for(var i = 0; i < 3; i++){
+            list.add(getCardOnTop(i));
+        }
+        return list;
+    }
 }

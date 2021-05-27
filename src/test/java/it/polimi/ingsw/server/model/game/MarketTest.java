@@ -31,8 +31,8 @@ class MarketTest extends Market{
     @ParameterizedTest
     @ValueSource (ints = {0, 1, 2, 3, 4, 5, 6, 9, -4})
     void move(int value){
-        Market market = new Market();
-        MarketTest marketTest = new MarketTest();
+        var market = new Market();
+        var marketTest = new MarketTest();
         market.tray = marketTest.tray;
         market.setExternal(marketTest.getExternal());
         try{
@@ -47,7 +47,7 @@ class MarketTest extends Market{
     }
 
     public LinkedList<Colours> getResourcesTest(int val){
-        LinkedList<Colours> list = new LinkedList<>();
+        var list = new LinkedList<Colours>();
         switch(val){
             case 0 -> {
                 list.add(Colours.BLUE);

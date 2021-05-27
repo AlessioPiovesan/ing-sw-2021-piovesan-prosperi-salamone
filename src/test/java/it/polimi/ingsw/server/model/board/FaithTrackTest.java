@@ -10,7 +10,7 @@ class FaithTrackTest{
     @Test
     void popeFavorWinPntTest(){
         for(int i = 1; i < Constants.MAXTRACK.getVal(); i++){
-            FaithTrack faithTrack = new FaithTrack();
+            var faithTrack = new FaithTrack();
             faithTrack.moveForward(i);
             assertEquals(i, faithTrack.getPosition());
             faithTrack.getWinPntCard();
@@ -26,7 +26,7 @@ class FaithTrackTest{
     @Test
     void getWinPntTest(){
         for(int i = 1; i < Constants.MAXTRACK.getVal(); i++){
-            FaithTrack faithTrack = new FaithTrack();
+            var faithTrack = new FaithTrack();
             faithTrack.moveForward(i);
             switch(i){
                 case 3, 4, 5 -> assertEquals(1, faithTrack.getWinPnt());

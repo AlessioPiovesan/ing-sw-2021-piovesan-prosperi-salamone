@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.Mod;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Market;
-import it.polimi.ingsw.server.viewer.RemoteView;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -49,16 +48,15 @@ public class Server implements Runnable{
     public synchronized void lobby(SocketServerToClient c, String name, int players){
         waitingForConnection.put(name, c);
         c.send("Ciao " + name + " sei nella lobby, aspetta.");
-        if(waitingForConnection.size() == players){ /*TARATO PER 4 GIOCATORI*/
+        if(waitingForConnection.size() == players){
             var keys = new ArrayList<>(waitingForConnection.keySet());
             var game = new Game(Mod.newID(), players, new Market());
             var gameController = new GameController(Controller.newID(), 4, game);
             gameController.setBoardController();
             for(var i = 0; i < players; i++)
-                new RemoteView(waitingForConnection.get(keys.get(i)), gameController.getGame().getSingleB(i));
+                waitingForConnection.get(keys.get(i)).getRemoteView().setPlayer(gameController.getGame().getSingleB(i));
             for(var i = 0; i < players; i++){
-                var statoditutteleboard = "";
-                waitingForConnection.get(keys.get(i)).asyncSend(statoditutteleboard);
+                gameController.getBoardController()[i].sendStatus();
             }
             for(var i = 0; i < players; i++){
                 for(var j = 0; j < players; j++)
@@ -67,6 +65,7 @@ public class Server implements Runnable{
             for(var i = 0; i < players; i++)
                 waitingForConnection.remove(keys.get(i));
         }
+        else c.send(players - waitingForConnection.size() + " slots left");
     }
 
     //Deregister connection

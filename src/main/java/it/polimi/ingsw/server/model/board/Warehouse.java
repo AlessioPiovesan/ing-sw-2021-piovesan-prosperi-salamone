@@ -73,8 +73,8 @@ public class Warehouse{
         }
     }
 
-    public List<Pick> checkStatus(){ /* DA IMPLERMENTARE */
-        ArrayList<Pick> status = new ArrayList<>();
+    public List<Pick> checkStatus(){
+        var status = new ArrayList<Pick>();
         for(var i = 0; i < wareContent.size(); i++){
             status.add(i, checkLvlStatus(i));
         }
