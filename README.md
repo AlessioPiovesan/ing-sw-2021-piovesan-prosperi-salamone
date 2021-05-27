@@ -5,8 +5,8 @@
 
 <img src="https://craniointernational.com/wp-content/uploads/2019/06/Masters-Of-Renaissance_scatola_ENG-e1560246260470.png" width=192px height=192px align="right"  alt="image"/>
 
-Masters Of Renaissance Board Game is the final test of **"Software Engineering"**, course of **"Computer Science
-Engineering"** held at Politecnico di Milano (2020/2021).
+_**Masters Of Renaissance**_ Board Game is the final test of “**Software Engineering**”, course of **”Computer Science
+Engineering”** held at Politecnico di Milano (2020/2021).
 
 **Teacher** Gianpaolo Cugola
 
@@ -14,7 +14,7 @@ Engineering"** held at Politecnico di Milano (2020/2021).
 
 ## Project specification
 
-The project consists of a Java version of the board game *Masters Of Renaissance*, made by Roxley Games.
+The project consists of a Java version of the board game *Masters Of Renaissance*, made by Cranio Games.
 
 You can find the full game [here](http://craniointernational.com/products/masters-of-renaissance/).
 
@@ -75,9 +75,9 @@ All tests in model and controller has a classes' coverage at 100%.
 
 ## The Team - GC54
 
-- ### Matteo Salamone (10606104) ([@matoss21](https://github.com/matoss21))<br>matteo.salamone@mail.polimi.it
-- ### Pier Giorgio Prosperi (10607931) ([@piergiorgioprosperi](https://github.com/piergiorgioprosperi))<br>piergiorgio.prosperi@mail.polimi.it
-- ### Alessio Piovesan    (10279689) ([@AlessioPiovesan](https://github.com/AlessioPiovesan))<br>alessio.piovesan@mail.polimi.it
+- ### Matteo Salamone (10606104) - [@matoss21](https://github.com/matoss21) <br> <a href = "mailto: matteo.salamone@mail.polimi.it">matteo.salamone@mail.polimi.it</a>
+- ### Pier Giorgio Prosperi (10607931) - [@piergiorgioprosperi](https://github.com/piergiorgioprosperi) <br> <a href = "mailto: piergiorgio.prosperi@mail.polimi.it">piergiorgio.prosperi@mail.polimi.it</a>
+- ### Alessio Piovesan    (10279689) - [@AlessioPiovesan](https://github.com/AlessioPiovesan) <br> <a href = "mailto: alessio.piovesan@mail.polimi.it">alessio.piovesan@mail.polimi.it</a>
 
 ## Software used
 

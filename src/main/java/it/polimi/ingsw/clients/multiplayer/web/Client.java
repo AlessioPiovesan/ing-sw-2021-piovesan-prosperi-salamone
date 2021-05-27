@@ -41,7 +41,7 @@ public class Client{
         return ui;
     }
 
-    public void run() throws IOException{
+    public void run(){
         if(nPlayers == 1){
             var gameController = LocalGameController.getInstance();
             var game = gameController.getGame();
@@ -50,7 +50,8 @@ public class Client{
             gameController.startGame();
         }
         else{
-            try(var socket = new Socket(ip, port)){
+            try{
+                var socket = new Socket(ip, port);
                 System.out.println("Connection established");
                 var socketIn = new ObjectInputStream(socket.getInputStream());
                 var socketOut = new PrintWriter(socket.getOutputStream());
@@ -59,7 +60,7 @@ public class Client{
                 var t1 = asyncWriteToSocket(stdin, socketOut);
                 t0.join();
                 t1.join();
-            } catch(InterruptedException|NoSuchElementException e){
+            } catch(InterruptedException|NoSuchElementException|IOException e){
                 System.out.println("Connection closed from the client side");
                 Thread.currentThread().interrupt();
             }

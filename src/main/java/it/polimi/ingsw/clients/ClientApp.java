@@ -13,8 +13,10 @@ public class ClientApp{
     private ClientApp(){}
 
     public static void chooseUI(int input){
+
         var reader = new BufferedReader(new InputStreamReader(System.in));
         var ui = -1;
+
         try{
             System.out.print("""
                              How do you wanna play?
@@ -56,8 +58,4 @@ public class ClientApp{
             System.exit(-1);
         }
     }
-
-
 }
-
-
