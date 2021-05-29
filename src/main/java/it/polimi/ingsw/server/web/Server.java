@@ -11,22 +11,15 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class Server implements Runnable{
 
     private final ServerSocket serverSocket;
-    private final ExecutorService executor;
     private final Map<String, SocketServerToClient> waitingForConnection;
     private final Map<SocketServerToClient, SocketServerToClient> playingConnection;
 
     public Server(int port) throws IOException{
         this.serverSocket = new ServerSocket(port);
-        //It creates threads when necessary, otherwise it re-uses existing one when possible
-        executor = new ThreadPoolExecutor(4, 20, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
         waitingForConnection = new HashMap<>();
         playingConnection = new HashMap<>();
     }
@@ -37,7 +30,7 @@ public class Server implements Runnable{
             try{
                 var newSocket = serverSocket.accept();
                 var socketConnection = new SocketServerToClient(newSocket, this);
-                executor.submit(socketConnection);
+                new Thread(socketConnection).start();
             } catch(IOException e){
                 System.err.println("Connection Error!");
             }

@@ -14,7 +14,8 @@ public class GUI extends Application implements UI{
     private boolean single;
 
     /**
-     * Main class of the GUI, which is called from the "Santorini" launcher in case user decides to play with it.
+     * Main class of the GUI, which is called from the "Masters Of Renaissance" launcher
+     * in case user decides to play with it.
      *
      * @param args of type String[] - parsed arguments.
      */
