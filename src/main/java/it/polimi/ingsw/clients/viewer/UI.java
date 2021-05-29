@@ -6,8 +6,6 @@ import java.beans.PropertyChangeListener;
 
 public interface UI extends PropertyChangeListener{
 
-    void run();
-
     void showCards(Card card);
 
     void addPropertyChangeListener(PropertyChangeListener listener);

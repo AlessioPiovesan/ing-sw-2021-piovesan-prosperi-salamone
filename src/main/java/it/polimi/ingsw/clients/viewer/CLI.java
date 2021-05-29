@@ -61,7 +61,6 @@ public class CLI implements Runnable, UI{
 
     public void setClient(Client client){this.client = client;}
 
-    @Override
     public void run(){
         setup();
         client.asyncWriteToSocket("nickname::" + nickname);

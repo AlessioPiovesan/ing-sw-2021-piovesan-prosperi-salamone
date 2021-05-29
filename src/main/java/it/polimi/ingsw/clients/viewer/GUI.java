@@ -1,19 +1,25 @@
 package it.polimi.ingsw.clients.viewer;
 
 import it.polimi.ingsw.server.accessories.cards.Card;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
-public class GUI implements Runnable, UI{
+public class GUI extends Application implements UI{
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private boolean single;
 
-    @Override
-    public void run(){
-
+    /**
+     * Main class of the GUI, which is called from the "Santorini" launcher in case user decides to play with it.
+     *
+     * @param args of type String[] - parsed arguments.
+     */
+    public static void main(String[] args){
+        launch(args);
     }
 
     @Override
@@ -43,5 +49,10 @@ public class GUI implements Runnable, UI{
     @Override
     public void propertyChange(PropertyChangeEvent evt){
         System.out.println(evt);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+
     }
 }

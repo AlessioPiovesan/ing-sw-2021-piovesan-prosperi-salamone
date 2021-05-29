@@ -13,8 +13,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Masters of Renaissance" target="15" />
-      <module name="GC54" target="15" />
+      <module name="GC54" target="16" />
     </bytecodeTargetLevel>
   </component>
 </project>
