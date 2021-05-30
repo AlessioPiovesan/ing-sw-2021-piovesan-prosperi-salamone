@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>it.polimi.ingsw</groupId>
     <artifactId>GC54</artifactId>
     <version>1.0-SNAPSHOT</version>
+
     <name>Masters Of Renaissance</name>
     <url>https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone</url>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <javafx.version>17-ea+11</javafx.version>
@@ -15,6 +19,7 @@
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -38,11 +43,6 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-maven-plugin</artifactId>
             <version>0.0.6</version>
-        </dependency>
-        <dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx-base</artifactId>
-            <version>${javafx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -95,18 +95,6 @@
             <artifactId>javafx-media</artifactId>
             <version>${javafx.version}</version>
             <classifier>mac</classifier>
-        </dependency>
-        <dependency>
-            <groupId>javax.faces</groupId>
-            <artifactId>javax.faces-api</artifactId>
-            <version>2.3</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.faces</artifactId>
-            <version>2.4.0</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
@@ -306,17 +294,20 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+
     <build>
+
         <resources>
             <resource>
                 <directory>src/main/java</directory>
                 <filtering>false</filtering>
             </resource>
             <resource>
-                <directory>src/main/res</directory>
+                <directory>src/main/resources</directory>
                 <filtering>false</filtering>
             </resource>
         </resources>
+
         <plugins>
             <!-- Export the project as a runnable JAR, with the provided mainClass -->
             <plugin>
@@ -339,7 +330,7 @@
             <!-- default lifecycle, jar packaging: see https://maven.apache.org/ref/current/maven-core/default-bindings.html#Plugin_bindings_for_jar_packaging -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>3.0.2</version>
+                <version>3.2.0</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -356,11 +347,11 @@
             </plugin>
             <plugin>
                 <artifactId>maven-install-plugin</artifactId>
-                <version>2.5.2</version>
+                <version>3.0.0-M1</version>
             </plugin>
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.2</version>
+                <version>3.0.0-M1</version>
             </plugin>
             <!-- site lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#site_Lifecycle -->
             <plugin>
@@ -415,5 +406,7 @@
                 </configuration>
             </plugin>
         </plugins>
+
     </build>
+
 </project>
