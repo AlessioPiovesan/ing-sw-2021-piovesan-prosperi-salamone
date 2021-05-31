@@ -1,4 +1,4 @@
-- Scrivere la GUI con tutti i disegni e le animazioni varie
+- Come programmare la GUI con i vari controller affinché le azioni corrispondano e funzionino
 
 - Controllare che ogni giro di MVC si concluda con una chiamata alla View a seguito del passaggio al giocatore successivo
  - per la partita in locale

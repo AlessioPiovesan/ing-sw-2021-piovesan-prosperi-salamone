@@ -40,7 +40,7 @@ public class Server implements Runnable{
     //Wait for the another players
     public synchronized void lobby(SocketServerToClient c, String name, int players){
         waitingForConnection.put(name, c);
-        c.send("Ciao " + name + " sei nella lobby, aspetta.");
+        c.send("Hi " + name + " you are in the lobby, please wait.");
         if(waitingForConnection.size() == players){
             var keys = new ArrayList<>(waitingForConnection.keySet());
             var game = new Game(Mod.newID(), players, new Market());

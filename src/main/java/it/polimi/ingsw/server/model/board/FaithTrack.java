@@ -21,11 +21,11 @@ public class FaithTrack{
     public void moveForward(int step){
         position += step;
         if((position >= 8) && !popeFavor[0])
-            System.out.println("Chiamata alla funzione che avvisa tutti i giocatori di controllare il Rapporto in Vaticano");
+            System.out.println("(Method Call): Check Vatican Report");
         if((position >= 16) && !popeFavor[1])
-            System.out.println("Chiamata alla funzione che avvisa tutti i giocatori di controllare il Rapporto in Vaticano");
+            System.out.println("(Method Call): Check Vatican Report");
         if((position >= 24) && !popeFavor[2])
-            System.out.println("Chiamata alla funzione che avvisa tutti i giocatori di controllare il Rapporto in Vaticano");
+            System.out.println("(Method Call): Check Vatican Report");
     }
 
     public int getWinPnt(){
@@ -70,7 +70,8 @@ public class FaithTrack{
                     popeFavorWinPnt += 4;
                 }
             }
-            default -> popeFavorWinPnt += 0;
+            default -> {
+            }
         }
     }
 

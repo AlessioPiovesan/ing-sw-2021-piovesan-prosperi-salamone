@@ -33,7 +33,7 @@ public class RemoteView implements PropertyChangeListener{
     }
 
     public void getRisorsaPreferita(){
-        System.out.println("Scegli una risorsa tra:");
+        System.out.println("Pick one resource from:");
         var i = 0;
         for(Colours res : Colours.valid()){
             System.out.println(i + ") " + res.getType());
@@ -42,7 +42,7 @@ public class RemoteView implements PropertyChangeListener{
         var input = new Scanner(System.in);
         var k = Integer.parseInt(input.nextLine());
         var risposta = Colours.valid().get(k);
-        System.out.println("Su quale ripiano? (1, 2, 3)");
+        System.out.println("Which depot? (1, 2, 3)");
         var j = Integer.parseInt(input.nextLine());
         mettiRisorseNelMagazzino(0, risposta, 1, j);
 
@@ -155,7 +155,7 @@ public class RemoteView implements PropertyChangeListener{
             case "active" -> {
                 /*deve distribuire le risorse*/
             }
-            case "boardStatus" -> System.err.println("SIAMO QUI");
+            case "boardStatus" -> System.err.println("WE'RE HERE");
             default -> System.out.println("ERR");
         }
     }

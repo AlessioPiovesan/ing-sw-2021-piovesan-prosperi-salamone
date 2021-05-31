@@ -150,11 +150,11 @@ public class CLI implements Runnable, UI{
         else{
             try{
                 output.println("""
-                               Prossima azione?
-                               1) Attivare la produzione in plancia
-                               2) Prendere risorse dal mercato
-                               3) Comprare una carta sviluppo
-                               4) Attivare Carta Leader
+                               What is your next action?
+                               1) Activate production
+                               2) Pick resources from the market
+                               3) Buy a Development Card
+                               4) Activate Leader Card
                                """);
                 var action = Integer.parseInt(input.readLine());
                 while(action < 0 || action > 5){
@@ -180,10 +180,10 @@ public class CLI implements Runnable, UI{
         /*Mostro le risorse*/
         for(Colours colour : bufferMarket){
             try{
-                output.println(colour + "la metto in magazzino?\n0) No\n1)Yes\n>\t");
+                output.println(colour + "Do you want to store it in your personal warehouse?\n0) No\n1)Yes\n>\t");
                 var j = Integer.parseInt(input.readLine());
                 while(j != 0 && j != 1){
-                    output.println("Command not valid unknown");
+                    output.println("Command not valid, unknown");
                     j = Integer.parseInt(input.readLine());
                 }
                 if(j == 0) loose.add(colour);
@@ -210,14 +210,14 @@ public class CLI implements Runnable, UI{
     }
 
     private void resourcesHandler(List<Pick> bufferProd){
-        output.println("Da dove le prendo?");
+        output.println("Where do you want to pick them from?");
         try{
             for(Pick pick : bufferProd){
                 output.println(pick);
                 output.println("0)Warehouse o 0)StrongBox?");
                 var j = Integer.parseInt(input.readLine());
                 while(j != 0 && j != 1){
-                    output.println("Command not valid unknown");
+                    output.println("Command not valid, unknown");
                     j = Integer.parseInt(input.readLine());
                 }
                 switch(j){
@@ -256,7 +256,7 @@ public class CLI implements Runnable, UI{
             output.println("\n0 ) Row\n1) Column\n");
             var i = Integer.parseInt(input.readLine());
             if(i == 0){
-                output.println("Which on? [1-3]");
+                output.println("Which one? [1-3]");
                 var j = Integer.parseInt(input.readLine());
                 move = switch(j){
                     case 1 -> 0;
@@ -267,7 +267,7 @@ public class CLI implements Runnable, UI{
                 };
             }
             if(i == 1){
-                output.println("Which on? [1-4]");
+                output.println("Which one? [1-4]");
                 var j = Integer.parseInt(input.readLine());
                 move = switch(j){
                     case 1 -> 3;

@@ -103,7 +103,7 @@ public enum CardDev implements Card{
 
     @Override
     public String toString(){
-        return name() + "\n" + "This is a " + lvl + "level " + colour + " card the gives " + winPnt + "points.\nIt costs" + "\t->\t" + Arrays.toString(cost) + "\nThis card allows you to produce\n" + Arrays.toString(resTo) + "\nStarting from\n" + Arrays.toString(resFrom);
+        return name() + "\n" + "This is a " + lvl + "level " + colour + " card that gives " + winPnt + "points.\nIt costs" + "\t->\t" + Arrays.toString(cost) + "\nThis card allows you to produce\n" + Arrays.toString(resTo) + "\nStarting from\n" + Arrays.toString(resFrom);
     }
 
     @Override
