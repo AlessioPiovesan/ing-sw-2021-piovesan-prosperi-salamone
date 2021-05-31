@@ -5,15 +5,7 @@ import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.model.board.Board;
 
-public class LocalBoardControl{
-
-    private final Board player;
-    private final Lorenzo lorenzo;
-
-    public LocalBoardControl(Board player, Lorenzo lorenzo){
-        this.player = player;
-        this.lorenzo = lorenzo;
-    }
+public record LocalBoardControl(Board player, Lorenzo lorenzo){
 
     public Lorenzo getLorenzo(){
         return lorenzo;

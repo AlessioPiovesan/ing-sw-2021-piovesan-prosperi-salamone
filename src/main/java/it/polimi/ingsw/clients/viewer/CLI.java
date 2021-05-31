@@ -35,29 +35,17 @@ public class CLI implements Runnable, UI{
         output = new PrintWriter(System.out, true);
     }
 
-   /* public static void main(String[] args) {
-
-        System.out.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
-        System.out.println("by\n\u001B[34mAlessio Piovesan\u001B[0m,\n\u001B[32mPier Giorgio Prosperi\u001B[0m,\n\u001B[33mMatteo Salamone\u001B[0m,\n");
-        //System.out.println("View full rules here: " + "URL delle regole" + "\n");
-        var scanner = new Scanner(System.in);
-        System.out.print(">\tInsert the server IP address\n>\t");
-        ip = scanner.nextLine();
-        while (!(InetAddressValidator.getInstance().isValid(ip))) {
-            if (!(InetAddressValidator.getInstance().isValid(ip)))
-                System.out.println("Server IP address is not valid");
-            ip = scanner.nextLine();
+    public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection){
+        List<T> result = new ArrayList<>(rawCollection.size());
+        for(Object o : rawCollection){
+            try{
+                result.add(clazz.cast(o));
+            } catch(ClassCastException e){
+                // log the exception or other error handling
+            }
         }
-        System.out.print(">\tInsert the server port\n>\t");
-        port = scanner.nextInt();
-        while (port < 1023 || port > 65535) {
-            if (port < 1023 || port > 65535)
-                System.out.println("Server port is not valid");
-            port = scanner.nextInt();
-        }
-        var cli = new CLI();
-        cli.run();
-    }*/
+        return result;
+    }
 
     public void setClient(Client client){this.client = client;}
 
@@ -76,8 +64,6 @@ public class CLI implements Runnable, UI{
     }
 
     private void setup(){
-        output.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
-        output.println("by\n\u001B[34mAlessio Piovesan\u001B[0m,\n\u001B[32mPier Giorgio Prosperi\u001B[0m,\n\u001B[33mMatteo Salamone\u001B[0m,\n");
         nickname = "";
         do{
             while(Objects.equals(nickname, "")){
@@ -158,8 +144,12 @@ public class CLI implements Runnable, UI{
                                """);
                 var action = Integer.parseInt(input.readLine());
                 while(action < 0 || action > 5){
-                    output.println("Command not valid unknown");
+                    output.println("Please type a valid number [1-4]");
                     action = Integer.parseInt(input.readLine());
+                }
+                if(action == 1 && LocalGameController.getInstance().getBoardController().getPlayer().isProducible()){
+                    output.println("You don't have any development card, you can't activate the production");
+                    nextAction();
                 }
                 switch(action){
                     case 1 -> LocalGameController.getInstance().prodAction();
@@ -197,18 +187,6 @@ public class CLI implements Runnable, UI{
             prepareResForWarehouse(colours, 1);
     }
 
-    public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection){
-        List<T> result = new ArrayList<>(rawCollection.size());
-        for(Object o : rawCollection){
-            try{
-                result.add(clazz.cast(o));
-            } catch(ClassCastException e){
-                // log the exception or other error handling
-            }
-        }
-        return result;
-    }
-
     private void resourcesHandler(List<Pick> bufferProd){
         output.println("Where do you want to pick them from?");
         try{
@@ -236,16 +214,41 @@ public class CLI implements Runnable, UI{
         output.println(card.toString());
     }
 
+    @Override
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        pcs.addPropertyChangeListener(listener);
+    }
+
+    @Override
+    public void removePropertyChangeListener(PropertyChangeListener listener){
+        pcs.removePropertyChangeListener(listener);
+    }
+
+    @Override
+    public void setSingle(boolean single){this.single = single;}
+
+    @Override
+    public void showMarket(){
+        var market = LocalGameController.getInstance().getGame().getMarket().getTray();
+        var print = new StringBuilder();
+        for(var i = 0; i < Constants.XMARKET.getVal(); i++){
+            for(var j = 0; j < Constants.YMARKET.getVal(); j++){
+                print.append(drawMarket(market[i][j])).append("\t");
+            }
+            print.append("\n");
+        }
+        output.println(print);
+    }
+
     private Card pickCard(Class<? extends Card> clazz){
         Card card = null;
         try{
             output.println("Code? (last digits)");
-            if(clazz == CardLeader.class) card = pickCardLeader();
-            if(clazz == CardDev.class) card = pickCardDev();
+            if(clazz == CardLeader.class) card = getCorrectLeaderCardCode();
+            if(clazz == CardDev.class) card = getCorrectDevCardCode();
         } catch(Exception e){
             e.printStackTrace();
         }
-
         return card;
     }
 
@@ -277,53 +280,37 @@ public class CLI implements Runnable, UI{
                     default -> -1;
                 };
             }
-            LocalGameController.getInstance().marketAction(move);
+            if(move == -1){
+                output.println("Impossible move");
+                nextAction();
+            }
+            else LocalGameController.getInstance().marketAction(move);
         } catch(IOException e){
             e.printStackTrace();
         }
     }
 
     private void chooseCardDev(){
-        var ok = true;
-        while(ok){
-            try{
-                var actual = LocalGameController.getInstance().getGame().getCardDevDeck();
-                for(CardDev card : actual)
-                    card.toString();
-                output.println("Choose the card [the code is the last digits]");
-                var j = input.readLine();
-                output.println("Is " + j + " right? [y/n]");
-                var i = input.readLine();
-                if(i.equals("y")){
-                    for(CardDev cardDev : actual)
-                        if(j.equals(cardDev.name())) LocalGameController.getInstance().cardDevAction(cardDev);
-                }
-                else ok = false;
-            } catch(IOException e){
-                e.printStackTrace();
-            }
+        var actual = LocalGameController.getInstance().getGame().getCardDevDeck();
+        for(var card : actual)
+            showCards(card);
+        var card = (CardDev)pickCard(CardDev.class);
+        if(actual.contains(card)) LocalGameController.getInstance().cardDevAction(card);
+        else{
+            output.println("This card is not available");
+            nextAction();
         }
     }
 
     private void wakeALeader(){
-        var ok = true;
-        while(ok){
-            try{
-                var actual = LocalGameController.getInstance().getGame().getBoard(false).getMyLeaderCards();
-                for(CardLeader card : actual)
-                    card.toString();
-                output.println("Choose the card [the code is the last digits]");
-                var j = input.readLine();
-                output.println("Is " + j + " right? [y/n]");
-                var i = input.readLine();
-                if(i.equals("y")){
-                    for(CardLeader card : actual)
-                        if(j.equals(card.name())) LocalGameController.getInstance().cardLeadAction(card);
-                }
-                else ok = false;
-            } catch(IOException e){
-                e.printStackTrace();
-            }
+        var actual = LocalGameController.getInstance().getGame().getBoard(false).getMyLeaderCards();
+        for(var card : actual)
+            showCards(card);
+        var card = (CardLeader)pickCard(CardLeader.class);
+        if(Arrays.stream(actual).toList().contains(card)) LocalGameController.getInstance().cardLeadAction(card);
+        else{
+            output.println("You don't have this Leader");
+            nextAction();
         }
     }
 
@@ -339,7 +326,7 @@ public class CLI implements Runnable, UI{
         }
     }
 
-    private Card pickCardLeader() throws IOException{
+    private Card getCorrectLeaderCardCode() throws IOException{
         var response = input.readLine().toUpperCase();
         while(Integer.parseInt(response) <= 0 || Integer.parseInt(response) >= 17){
             output.println("Not a correct code");
@@ -348,7 +335,7 @@ public class CLI implements Runnable, UI{
         return CardLeader.getSpecificCard(response);
     }
 
-    private Card pickCardDev() throws IOException{
+    private Card getCorrectDevCardCode() throws IOException{
         var response = input.readLine().toUpperCase();
         while(!(response.length() == 3 && (response.charAt(0) == '1') || response.charAt(0) == '2' || response.charAt(0) == '3' || response.charAt(0) == '4') && (response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y') && (response.charAt(2) == '1' || response.charAt(2) == '2' || response.charAt(2) == '3')){
             output.println("Not a correct code");
@@ -358,40 +345,13 @@ public class CLI implements Runnable, UI{
     }
 
     private String drawMarket(Colours colours){
-        switch(colours){
-            case RED -> {return ConsoleColors.RED + "██";}
-            case BLUE -> {return ConsoleColors.BLUE + "██";}
-            case GREY -> {return ConsoleColors.BLACK_BRIGHT + "██";}
-            case WHITE -> {return ConsoleColors.WHITE + "██";}
-            case YELLOW -> {return ConsoleColors.YELLOW + "██";}
-            case PURPLE -> {return ConsoleColors.PURPLE + "██";}
-            default -> {return null;}
-        }
-    }
-
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener){
-        pcs.addPropertyChangeListener(listener);
-    }
-
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener){
-        pcs.removePropertyChangeListener(listener);
-    }
-
-    @Override
-    public void setSingle(boolean single){this.single = single;}
-
-    @Override
-    public void showMarket(){
-        var market = LocalGameController.getInstance().getGame().getMarket().getTray();
-        var print = new StringBuilder();
-        for(var i = 0; i < Constants.XMARKET.getVal(); i++){
-            for(var j = 0; j < Constants.YMARKET.getVal(); j++){
-                print.append(drawMarket(market[i][j])).append("\t");
-            }
-            print.append("\n");
-        }
-        output.println(print);
+        return switch(colours){
+            case RED -> ConsoleColors.RED + "███";
+            case BLUE -> ConsoleColors.BLUE + "███";
+            case GREY -> ConsoleColors.BLACK_BRIGHT + "███";
+            case WHITE -> ConsoleColors.WHITE + "███";
+            case YELLOW -> ConsoleColors.YELLOW + "███";
+            case PURPLE -> ConsoleColors.PURPLE + "███";
+        };
     }
 }

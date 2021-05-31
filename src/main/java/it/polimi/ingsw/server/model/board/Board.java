@@ -83,6 +83,15 @@ public class Board{
         }
     }
 
+    public boolean isProducible(){
+        for(var i = 0; i < 3; i++){
+            if(library.getCardOnTop(i) != null){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Colours[] getProductAlt(){
         return productAlt;
     }

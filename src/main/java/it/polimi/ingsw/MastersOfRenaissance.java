@@ -13,6 +13,8 @@ public class MastersOfRenaissance{
         var exit = true;
         while(exit){
             exit = false;
+            System.out.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
+            System.out.println("by\n\u001B[34mAlessio Piovesan\u001B[0m,\n\u001B[32mPier Giorgio Prosperi\u001B[0m,\n\u001B[33mMatteo Salamone\u001B[0m,\n");
             System.out.print("""
                              Hi! Welcome to Masters of Renaissance!
                              What do you want to launch?

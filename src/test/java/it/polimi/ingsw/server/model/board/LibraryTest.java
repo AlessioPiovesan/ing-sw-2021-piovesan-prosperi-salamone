@@ -10,9 +10,9 @@ class LibraryTest{
     @Test
     void checkAddableCard(){
         var library = new Library();
-        library.addCard(0, CardDev.CARD_DEV1B1);
-        library.addCard(1, CardDev.CARD_DEV1B2);
-        library.addCard(2, CardDev.CARD_DEV1B3);
+        library.addCard(0, CardDev.CARDDEV_1C1);
+        library.addCard(1, CardDev.CARDDEV_1C2);
+        library.addCard(2, CardDev.CARDDEV_1C3);
         for(CardDev cardDev : CardDev.values())
             for(int i = 0; i < 3; i++){
                 if(library.getCardOnTop(i).getLvl() < cardDev.getLvl())
@@ -25,31 +25,31 @@ class LibraryTest{
     @Test
     void addCardTest(){
         var library = new Library();
-        library.addCard(0, CardDev.CARD_DEV1B1);
-        library.addCard(1, CardDev.CARD_DEV1B2);
-        library.addCard(2, CardDev.CARD_DEV1B3);
-        assertEquals(CardDev.CARD_DEV1B1, library.getCardOnTop(0));
-        assertEquals(CardDev.CARD_DEV1B2, library.getCardOnTop(1));
-        assertEquals(CardDev.CARD_DEV1B3, library.getCardOnTop(2));
+        library.addCard(0, CardDev.CARDDEV_1C1);
+        library.addCard(1, CardDev.CARDDEV_1C2);
+        library.addCard(2, CardDev.CARDDEV_1C3);
+        assertEquals(CardDev.CARDDEV_1C1, library.getCardOnTop(0));
+        assertEquals(CardDev.CARDDEV_1C2, library.getCardOnTop(1));
+        assertEquals(CardDev.CARDDEV_1C3, library.getCardOnTop(2));
     }
 
     @Test
     void getCardOnTopTest(){
         var library = new Library();
-        library.addCard(0, CardDev.CARD_DEV1B1);
-        library.addCard(1, CardDev.CARD_DEV1B2);
-        library.addCard(2, CardDev.CARD_DEV1B3);
-        assertEquals(CardDev.CARD_DEV1B1, library.getCardOnTop(0));
-        assertEquals(CardDev.CARD_DEV1B2, library.getCardOnTop(1));
-        assertEquals(CardDev.CARD_DEV1B3, library.getCardOnTop(2));
+        library.addCard(0, CardDev.CARDDEV_1C1);
+        library.addCard(1, CardDev.CARDDEV_1C2);
+        library.addCard(2, CardDev.CARDDEV_1C3);
+        assertEquals(CardDev.CARDDEV_1C1, library.getCardOnTop(0));
+        assertEquals(CardDev.CARDDEV_1C2, library.getCardOnTop(1));
+        assertEquals(CardDev.CARDDEV_1C3, library.getCardOnTop(2));
     }
 
     @Test
     void getWinPntCardDevTest(){
         var library = new Library();
-        library.addCard(0, CardDev.CARD_DEV1B1);
-        library.addCard(1, CardDev.CARD_DEV1B2);
-        library.addCard(2, CardDev.CARD_DEV1B3);
+        library.addCard(0, CardDev.CARDDEV_1C1);
+        library.addCard(1, CardDev.CARDDEV_1C2);
+        library.addCard(2, CardDev.CARDDEV_1C3);
         assertEquals(15, library.getWinPntCardDev());
     }
 }

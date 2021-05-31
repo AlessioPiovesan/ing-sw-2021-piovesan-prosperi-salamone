@@ -21,7 +21,7 @@ public class ServerApp{
         } catch(IOException e){
             e.printStackTrace();
         }
-        System.out.println("It works!");
+        System.out.println("It's ALIVE!");
         if(server != null){
             server.run();
         }
