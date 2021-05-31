@@ -1,2 +1,15 @@
-- Java DOC
+- Scrivere la GUI con tutti i disegni e le animazioni varie
+
+- Controllare che ogni giro di MVC si concluda con una chiamata alla View a seguito del passaggio al giocatore successivo
+ - per la partita in locale
+ - per la partita in rete (quindi la remote view deve chiamare il server che parla al client che aggiorna il model view)
+
+- Java DOC di tutti i metodi (almeno quelli pubblici) per tutte le classi
+
+- Scrivere (nel README o nella wiki) come installare e far partire il gioco
+
 - Controllare scritte e commenti in italiano
+
+- Capire come ricavare il jar da far partire per giocare
+
+-Capire come gestire la dimostrazione il giorno dell'esame e organizzarci di conseguenza
