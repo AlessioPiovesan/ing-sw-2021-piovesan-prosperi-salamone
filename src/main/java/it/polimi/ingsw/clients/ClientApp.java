@@ -2,6 +2,7 @@ package it.polimi.ingsw.clients;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.web.Local;
+import it.polimi.ingsw.clients.viewer.CLI;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 import java.io.BufferedReader;
@@ -52,6 +53,8 @@ public class ClientApp{
                 }
                 client.setNPlayers(players);
                 client.run();
+                client.getUi().setClient(client);
+                client.getUi().run();
             }
         } catch(IOException e){
             System.err.println("Numeric format requested, application will now close...\n" + e.getMessage());

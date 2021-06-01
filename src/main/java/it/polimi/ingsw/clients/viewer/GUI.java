@@ -1,5 +1,6 @@
 package it.polimi.ingsw.clients.viewer;
 
+import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.server.accessories.cards.Card;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -10,6 +11,8 @@ import java.beans.PropertyChangeSupport;
 
 public class GUI extends Application implements UI{
 
+    private static final String SETUP = "setup.fxml";
+    private static final String MENU = "MainMenu.fxml";
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private boolean single;
 
@@ -43,6 +46,14 @@ public class GUI extends Application implements UI{
     }
 
     @Override
+    public void run(){}
+
+    @Override
+    public void setClient(Client client){
+
+    }
+
+    @Override
     public void showMarket(){
 
     }
@@ -53,7 +64,6 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
+    public void start(Stage primaryStage) throws Exception{ }
 
-    }
 }

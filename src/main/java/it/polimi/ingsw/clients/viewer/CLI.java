@@ -47,23 +47,13 @@ public class CLI implements Runnable, UI{
         return result;
     }
 
-    public void setClient(Client client){this.client = client;}
-
     public void run(){
-        setup();
+        giveNickname();
         client.asyncWriteToSocket("nickname::" + nickname);
         client.asyncWriteToSocket("nplayers::" + client.getnPlayers());
-        /*Qui dovrà passare tutto da controller creato Server*//*
-        var gameController = new GameController(controller.getInstance().newID(), 1, new Game(new Market()));
-        gameController.setGamers(1);*/
-        /*Questa associazione la deve fare il Sever eventualmente*//*
-        gameController.getActiveBoardController().addPropertyChangeListener(this);
-        pcs.firePropertyChange("remoteView", "", gameController.getActiveBoardController().getPlayer().getRemoteView());
-        gameController.getActiveBoardController().getPlayer().getRemoteView().addPropertyChangeListener(gameController.getActiveBoardController());
-        gameController.startGame();*/
     }
 
-    private void setup(){
+    private void giveNickname(){
         nickname = "";
         do{
             while(Objects.equals(nickname, "")){
@@ -107,6 +97,7 @@ public class CLI implements Runnable, UI{
             case "nextAction" -> nextAction();
             case "marketBuffer" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
             case "ProductionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
+            case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
             default -> output.println("Nope");
         }
     }
@@ -239,6 +230,9 @@ public class CLI implements Runnable, UI{
         }
         output.println(print);
     }
+
+    @Override
+    public void setClient(Client client){this.client = client;}
 
     private Card pickCard(Class<? extends Card> clazz){
         Card card = null;

@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.Mod;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Market;
+import org.codehaus.plexus.i18n.I18NTokenizer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -16,12 +17,14 @@ public class Server implements Runnable{
 
     private final ServerSocket serverSocket;
     private final Map<String, SocketServerToClient> waitingForConnection;
+    private Map<SocketServerToClient, Integer> waitingForTheGameToStart;
     private final Map<SocketServerToClient, SocketServerToClient> playingConnection;
 
     public Server(int port) throws IOException{
         this.serverSocket = new ServerSocket(port);
         waitingForConnection = new HashMap<>();
         playingConnection = new HashMap<>();
+        waitingForTheGameToStart = new HashMap<>();
     }
 
     @Override
@@ -41,6 +44,13 @@ public class Server implements Runnable{
     public synchronized void lobby(SocketServerToClient c, String name, int players){
         waitingForConnection.put(name, c);
         c.send("Hi " + name + " you are in the lobby, please wait.");
+        if(waitingForConnection.size() == 1){
+            var game = new Game(Mod.newID(), players, new Market());
+            var gameControllerID = Controller.newID();
+            var gameController = new GameController(gameControllerID, 4, game);
+            waitingForConnection.get(name).send("Your game's ID is:: " + gameControllerID);
+            waitingForTheGameToStart.put(c,gameControllerID);
+        }
         if(waitingForConnection.size() == players){
             var keys = new ArrayList<>(waitingForConnection.keySet());
             var game = new Game(Mod.newID(), players, new Market());

@@ -43,6 +43,7 @@ public class SocketServerToClient implements Runnable{
 
     @Override
     public void run(){
+        sendInLobby();
         try(var socketIn = new ObjectInputStream(socket.getInputStream())){
             while(isActive()){
                 var inputObject = socketIn.readObject();
@@ -61,6 +62,10 @@ public class SocketServerToClient implements Runnable{
         } finally{
             close();
         }
+    }
+
+    private void sendInLobby(){
+        server.lobby(this, remoteView.getNickname(), remoteView.getnPlayers());
     }
 
     private synchronized boolean isActive(){

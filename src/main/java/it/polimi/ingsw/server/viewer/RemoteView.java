@@ -32,6 +32,14 @@ public class RemoteView implements PropertyChangeListener{
         this.nickname = nickname;
     }
 
+    public int getnPlayers(){
+        return nPlayers;
+    }
+
+    public String getNickname(){
+        return nickname;
+    }
+
     public void getRisorsaPreferita(){
         System.out.println("Pick one resource from:");
         var i = 0;

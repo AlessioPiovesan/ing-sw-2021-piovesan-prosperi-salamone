@@ -1,5 +1,6 @@
 package it.polimi.ingsw.clients.multiplayer.web;
 
+import it.polimi.ingsw.clients.multiplayer.model.single.ModelView;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.clients.viewer.GUI;
@@ -10,7 +11,6 @@ import java.io.ObjectInputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 public class Client{
 
@@ -20,6 +20,7 @@ public class Client{
     private boolean active;
     private int nPlayers;
     private Socket socket;
+    private final ModelView modelView;
 
     /**
      * /*
@@ -32,7 +33,7 @@ public class Client{
         this.port = port;
         if(i == 0) ui = new CLI();
         else ui = new GUI();
-        //new ModelView(ui);
+        modelView = new ModelView(nPlayers, ui);
         active = true;
     }
 
@@ -48,27 +49,55 @@ public class Client{
 
     public void run(){
         if(nPlayers == 1){
-            var gameController = LocalGameController.getInstance();
-            var game = gameController.getGame();
-            game.getBoard(true).addPropertyChangeListener(ui);
-            game.getBoard(false).addPropertyChangeListener(ui);
-            gameController.startGame();
+            startSinglePlayerGame();
         }
         else{
-            try{
-                socket = new Socket(ip, port);
-                System.out.println("Connection established");
-                var socketIn = new ObjectInputStream(socket.getInputStream());
-                var socketOut = new PrintWriter(socket.getOutputStream());
-                var stdin = new Scanner(System.in);
-                var t0 = asyncReadFromSocket(socketIn);
-                t0.join();
-                new CLI().run();
-            } catch(InterruptedException|NoSuchElementException|IOException e){
-                System.out.println("Connection closed from the client side");
-                Thread.currentThread().interrupt();
-            }
+            connect();
         }
+        try(var socketIn = new ObjectInputStream(socket.getInputStream())){
+            while(isActive()){
+                var inputObject = socketIn.readObject();
+                if(inputObject instanceof String)
+                    interpreter((String)inputObject); /*DA MANDARE A UN QUALCHE TIPO DI INTERPRETE*/
+                else{
+                    throw new IllegalArgumentException();
+                }
+            }
+        } catch(IOException|NoSuchElementException|ClassNotFoundException e){
+            System.err.println("Error!" + e.getMessage());
+        }
+    }
+
+    private void interpreter(String input){
+        var string = input.split("::");
+        switch(string[0]){
+            case "Your game's ID is" -> modelView.setGameID(Integer.parseInt(string[1]));
+            default -> {}
+        }
+    }
+
+    private void startSinglePlayerGame(){
+        var gameController = LocalGameController.getInstance();
+        var game = gameController.getGame();
+        game.getBoard(true).addPropertyChangeListener(ui);
+        game.getBoard(false).addPropertyChangeListener(ui);
+        gameController.startGame();
+    }
+
+    private void connect(){
+        try{
+            socket = new Socket(ip, port);
+            System.out.println("Connection established");
+            var socketIn = new ObjectInputStream(socket.getInputStream());
+            asyncReadFromSocket(socketIn);
+        } catch(NoSuchElementException|IOException e){
+            System.out.println("Connection closed from the client side");
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public boolean isActive(){
+        return active;
     }
 
     public Thread asyncReadFromSocket(final ObjectInputStream socketIn){
@@ -92,10 +121,6 @@ public class Client{
         });
         t.start();
         return t;
-    }
-
-    public boolean isActive(){
-        return active;
     }
 
     public void setActive(boolean active){

@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 
 import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +20,8 @@ public class ModelView{
     private Colours[][] market;
     private Colours externalMarble;
     private HashMap<String, OtherBoard> boardMap;
+    private  int gameID;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public ModelView(int nPlayers, UI ui){
         this.nPlayers = nPlayers;
@@ -101,4 +104,8 @@ public class ModelView{
             }
     }
 
+    public void setGameID(int n){
+        gameID = n;
+        pcs.firePropertyChange("gameID", "", gameID);
+    }
 }
