@@ -1,10 +1,9 @@
 package it.polimi.ingsw.server.accessories.cards;
 
+import it.polimi.ingsw.clients.viewer.ConsoleColors;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.Pick;
-
-import java.util.Arrays;
 
 public enum CardDev implements Card{
 
@@ -103,7 +102,12 @@ public enum CardDev implements Card{
 
     @Override
     public String toString(){
-        return name() + "\n" + "This is a " + lvl + "level " + colour + " card that gives " + winPnt + "points.\nIt costs" + "\t->\t" + Arrays.toString(cost) + "\nThis card allows you to produce\n" + Arrays.toString(resTo) + "\nStarting from\n" + Arrays.toString(resFrom);
+        return ConsoleColors.PURPLE + name() + ConsoleColors.RESET + "\n" + "This is a " + " level " + lvl + " " + ColoursCards.colored(colour.name()) + " card that gives " + winPnt + "points.\nIt costs" + "\t->\t" + showPick(cost) + "\nThis card allows you to produce\n" + showPick(resTo) + "\nStarting from\n" + showPick(resFrom);
+    }
+
+    private String showPick(Pick[] picks){
+        for(var pick : picks) return pick.getQnt() + " - " + pick.getResource().getType();
+        return "";
     }
 
     @Override

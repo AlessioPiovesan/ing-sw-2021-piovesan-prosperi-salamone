@@ -37,7 +37,7 @@ public class GameController{
         int a = waste.size();
         for(var j = 0; j < game.getNGamers(); j++){
             if(j != game.getPlayingPlayer()){
-                game.getSingleB(j).getFaithTrack().moveForward(a);
+                game.getSingleB(j).moveFT(a);
             }
         }
     }
@@ -66,8 +66,8 @@ public class GameController{
                 break;
             }
             case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08:{
-                var w = game.getSingleB(game.getPlayingPlayer()).getWarehouse();
-                w.addLeaderSpace(cardToBeActivated.getSpecial());
+                var b = game.getSingleB(game.getPlayingPlayer());
+                b.addLeaderSpace(cardToBeActivated.getSpecial());
                 break;
             }
             case CARDLEAD09, CARDLEAD10, CARDLEAD11, CARDLEAD12:{

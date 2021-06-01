@@ -24,7 +24,7 @@ public class Library implements Serializable{
     }
 
     public CardDev getCardOnTop(int n){
-        return slot.get(n).get(slot.get(n).size() - 1);
+        return slot.get(n).get(slot.get(n).size());
     }
 
     public void addCard(int n, CardDev card){

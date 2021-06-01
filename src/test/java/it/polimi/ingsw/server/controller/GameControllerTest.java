@@ -41,9 +41,8 @@ class GameControllerTest{
         list.add(Colours.BLUE);
         gameController.addFaithPnt(list);
         for(var board : game.getAllB())
-            if(!(board == game.getSingleB(game.getPlayingPlayer())))
-                assertEquals(2, board.getFaithTrack().getPosition());
-            else assertEquals(0, board.getFaithTrack().getPosition());
+            if(!(board == game.getSingleB(game.getPlayingPlayer()))) assertEquals(2, board.getPositionFT());
+            else assertEquals(0, board.getPositionFT());
     }
 
 }

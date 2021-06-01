@@ -1,11 +1,10 @@
 package it.polimi.ingsw.server.accessories.cards;
 
+import it.polimi.ingsw.clients.viewer.ConsoleColors;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.Requirements;
-
-import java.util.Arrays;
 
 public enum CardLeader implements Card{
 
@@ -75,6 +74,12 @@ public enum CardLeader implements Card{
 
     @Override
     public String toString(){
-        return name() + "\t->\t" + "this card gives you the ability of" + ability + "and " + winPnt + "points, to activate this card you need:\n" + Arrays.toString(req);
+        return ConsoleColors.PURPLE + name() + ConsoleColors.RESET + "\t->\t" + "this card gives you the ability of\n" + ConsoleColors.RED_UNDERLINED + ability + ConsoleColors.RESET + " and " + winPnt + " points,\n\tto activate this card you need:\n\t\t" + showReq(req);
+    }
+
+    private String showReq(Requirements[] requirements){
+        for(var requirement : requirements)
+            return requirement.toString();
+        return "";
     }
 }

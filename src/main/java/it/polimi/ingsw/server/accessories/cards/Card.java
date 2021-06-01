@@ -7,4 +7,6 @@ public interface Card{
     boolean getFlipped();
 
     void flipCard();
+
+    String toString();
 }

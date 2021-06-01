@@ -85,7 +85,7 @@ public class Board{
 
     public boolean isProducible(){
         for(var i = 0; i < 3; i++){
-            if(library.getCardOnTop(i) != null){
+            if(library.getCardsOfASlot(i) != null){
                 return true;
             }
         }
@@ -135,10 +135,6 @@ public class Board{
 
     public Map<Colours, Integer> getResAll(){
         return resAll;
-    }
-
-    public Warehouse getWarehouse(){
-        return warehouse;
     }
 
     public String getNickname(){
@@ -209,21 +205,16 @@ public class Board{
         bufferProd = new LinkedList<>();
         Collections.addAll(bufferProd, card.getCost());
         pcs.firePropertyChange("bufferProd", "", bufferProd);
-        //remoteView.resourcesHandler(bufferProd);
         myDevCards.add(card);
+        pcs.firePropertyChange("newCardDev", "", card);
         checkIfEndGame();
     }
 
     private void checkIfEndGame(){
         if(myDevCards.size() == 7) endGame = true;
-        if(getFaithTrack().getPosition() == 25) endGame = true;
+        if(faithTrack.getPosition() == 25) endGame = true;
         if(endGame) pcs.firePropertyChange("endGame", false, true);
         else pcs.firePropertyChange("nextPlayer", "", true);
-
-    }
-
-    public FaithTrack getFaithTrack(){
-        return faithTrack;
     }
 
     public void marketResHandler(List<Colours> res){
@@ -235,7 +226,7 @@ public class Board{
     public void setBufferMarket(List<Colours> res){
         bufferMarket = new LinkedList<>();
         bufferMarket = (LinkedList<Colours>)res;
-        pcs.firePropertyChange("marketbuffer", "", bufferMarket);
+        pcs.firePropertyChange("marketBuffer", "", bufferMarket);
     }
 
     public void resHandler(Colours res){
@@ -272,5 +263,18 @@ public class Board{
         }
         var status = new StatusBoard(myDevCards, w, faithTrack.getPosition(), strongBox.getStrongContent(), library.visibleCards().toArray(new CardDev[0]), resAll, myLeaderCards);
         pcs.firePropertyChange("boardStatus", "", status);
+    }
+
+    public void moveFT(int move){
+        faithTrack.moveForward(move);
+        pcs.firePropertyChange("redCrossMove", "", faithTrack.getPosition());
+    }
+
+    public void addLeaderSpace(Colours special){
+        warehouse.addLeaderSpace(special);
+    }
+
+    public int getPositionFT(){
+        return faithTrack.getPosition();
     }
 }

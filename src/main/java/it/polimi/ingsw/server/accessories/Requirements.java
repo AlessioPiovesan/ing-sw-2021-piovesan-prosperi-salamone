@@ -34,7 +34,7 @@ public interface Requirements{
 
         @Override
         public String toString(){
-            return "{" + "type=" + type + ", cardLvl=" + cardLvl + '}';
+            return "A level " + cardLvl + " " + ColoursCards.colored(type.name()) + " color card";
         }
     }
 

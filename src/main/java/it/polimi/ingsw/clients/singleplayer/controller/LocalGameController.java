@@ -72,7 +72,7 @@ public class LocalGameController{
 
     public void addFaithPnt(List<Colours> waste){
         int a = waste.size();
-        boardController.getLorenzo().getFaithTrack().moveForward(a);
+        boardController.getLorenzo().moveFT(a);
     }
 
     public void prodAction(){
@@ -85,7 +85,7 @@ public class LocalGameController{
         /*attiva quella carta leader*/
         switch(cardToBeActivated){
             case CARDLEAD01, CARDLEAD02, CARDLEAD03, CARDLEAD04 -> game.getBoard(false).setDiscount(cardToBeActivated.getSpecial());
-            case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08 -> game.getBoard(false).getWarehouse().addLeaderSpace(cardToBeActivated.getSpecial());
+            case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08 -> game.getBoard(false).addLeaderSpace(cardToBeActivated.getSpecial());
             case CARDLEAD09, CARDLEAD10, CARDLEAD11, CARDLEAD12 -> game.getBoard(false).setMarketAlt(cardToBeActivated.getSpecial());
             case CARDLEAD13, CARDLEAD14, CARDLEAD15, CARDLEAD16 -> game.getBoard(false).setProductAlt(cardToBeActivated.getSpecial());
             default -> throw new IllegalStateException("Unexpected value: " + cardToBeActivated);

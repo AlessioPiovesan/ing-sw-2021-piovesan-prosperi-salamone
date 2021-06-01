@@ -114,12 +114,12 @@ public class Game{
             if(nGamers > 2){
                 if(next++ >= nGamers - 1) next = 0;
                 boards[next].setPreference();
-                boards[next].getFaithTrack().moveForward(1);
+                boards[next].moveFT(1);
                 if(nGamers > 3){
                     if(next++ >= nGamers - 1) next = 0;
                     boards[next].setPreference();
                     boards[next].setPreference();
-                    boards[next].getFaithTrack().moveForward(1);
+                    boards[next].moveFT(1);
                 }
             }
         }

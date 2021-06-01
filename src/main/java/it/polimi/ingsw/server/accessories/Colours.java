@@ -1,11 +1,17 @@
 package it.polimi.ingsw.server.accessories;
 
+import it.polimi.ingsw.clients.viewer.ConsoleColors;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public enum Colours{
 
-    BLUE("SHIELD"), GREY("STONE"), PURPLE("SERVANT"), RED("FAITH"), WHITE(""), YELLOW("COIN");
+    BLUE((ConsoleColors.BLUE + "SHIELD" + ConsoleColors.RESET)),
+    GREY(ConsoleColors.BLACK_BRIGHT + "STONE" + ConsoleColors.RESET),
+    PURPLE(ConsoleColors.PURPLE + "SERVANT" + ConsoleColors.RESET),
+    RED(ConsoleColors.RED + "FAITH" + ConsoleColors.RESET), WHITE(""),
+    YELLOW(ConsoleColors.YELLOW + "COIN" + ConsoleColors.RESET);
 
     private final String type;
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.clients.singleplayer.model;
 
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
+import it.polimi.ingsw.clients.viewer.ConsoleColors;
 import it.polimi.ingsw.server.accessories.ColoursCards;
 
 import java.util.ArrayList;
@@ -21,9 +22,9 @@ public enum SoloAction{
             case AS2 -> LocalGameController.getInstance().tossCardDev(ColoursCards.YELLOW);
             case AS3 -> LocalGameController.getInstance().tossCardDev(ColoursCards.CYAN);
             case AS4 -> LocalGameController.getInstance().tossCardDev(ColoursCards.VIOLET);
-            case AS5, AS6 -> LocalGameController.getInstance().getBoardController().getLorenzo().getFaithTrack().moveForward(2);
+            case AS5, AS6 -> LocalGameController.getInstance().getBoardController().getLorenzo().moveFT(2);
             case AS7 -> {
-                LocalGameController.getInstance().getBoardController().getLorenzo().getFaithTrack().moveForward(1);
+                LocalGameController.getInstance().getBoardController().getLorenzo().moveFT(1);
                 shuffle();
             }
             default -> doNothing();
@@ -63,12 +64,12 @@ public enum SoloAction{
 
     private void printSA(SoloAction sa){
         switch(sa){
-            case AS1 -> System.out.println("Lorenzo take 2 GREEN Development Cards");
-            case AS2 -> System.out.println("Lorenzo take 2 YELLOW Development Cards");
-            case AS3 -> System.out.println("Lorenzo take 2 CYAN Development Cards");
-            case AS4 -> System.out.println("Lorenzo take 2 VIOLET Development Cards");
-            case AS5, AS6 -> System.out.println("Lorenzo's Black Cross token goes 2 spaces forward");
-            case AS7 -> System.out.println("Lorenzo's Black Cross token goes 1 spaces forward and a new stack of the Solo Actions is created");
+            case AS1 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 GREEN Development Cards" + ConsoleColors.RESET);
+            case AS2 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 YELLOW Development Cards" + ConsoleColors.RESET);
+            case AS3 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 CYAN Development Cards" + ConsoleColors.RESET);
+            case AS4 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 VIOLET Development Cards" + ConsoleColors.RESET);
+            case AS5, AS6 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo's Black Cross token goes 2 spaces forward" + ConsoleColors.RESET);
+            case AS7 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo's Black Cross token goes 1 spaces forward and a new stack of the Solo Actions is created" + ConsoleColors.RESET);
             default -> doNothing();
         }
     }

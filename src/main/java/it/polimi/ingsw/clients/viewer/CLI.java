@@ -95,7 +95,7 @@ public class CLI implements Runnable, UI{
                 else Controller.getInstance().getGameControllerById(0);
             }
             case "nextAction" -> nextAction();
-            case "marketbuffer" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
+            case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
             case "ProductionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
             case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
             default -> output.println("Nope");
@@ -108,8 +108,7 @@ public class CLI implements Runnable, UI{
         Collections.addAll(list, cards);
         var i = 0;
         while(i < 2){
-            for(CardLeader card : list)
-                showCards(card);
+            for(CardLeader card : list) showCards(card);
             var card = (CardLeader)pickCard(CardLeader.class);
             if(list.contains(card)){
                 list.remove(card);
@@ -186,7 +185,7 @@ public class CLI implements Runnable, UI{
         output.println("Where do you want to pick them from?");
         try{
             for(Pick pick : bufferProd){
-                output.println(pick);
+                output.println(pick.getResource().getType());
                 output.println("0)Warehouse o 0)StrongBox?");
                 var j = Integer.parseInt(input.readLine());
                 while(j != 0 && j != 1){
@@ -207,6 +206,7 @@ public class CLI implements Runnable, UI{
     @Override
     public void showCards(Card card){
         output.println(card.toString());
+        output.println("_________________________________________________");
     }
 
     @Override
