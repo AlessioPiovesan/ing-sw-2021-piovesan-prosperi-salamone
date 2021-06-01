@@ -17,10 +17,10 @@ public class Client{
     private final String ip;
     private final int port;
     private final UI ui;
+    private final ModelView modelView;
     private boolean active;
     private int nPlayers;
     private Socket socket;
-    private final ModelView modelView;
 
     /**
      * /*
@@ -68,14 +68,6 @@ public class Client{
         }
     }
 
-    private void interpreter(String input){
-        var string = input.split("::");
-        switch(string[0]){
-            case "Your game's ID is" -> modelView.setGameID(Integer.parseInt(string[1]));
-            default -> {}
-        }
-    }
-
     private void startSinglePlayerGame(){
         var gameController = LocalGameController.getInstance();
         var game = gameController.getGame();
@@ -98,6 +90,14 @@ public class Client{
 
     public boolean isActive(){
         return active;
+    }
+
+    private void interpreter(String input){
+        var string = input.split("::");
+        switch(string[0]){
+            case "Your game's ID is" -> modelView.setGameID(Integer.parseInt(string[1]));
+            default -> {}
+        }
     }
 
     public Thread asyncReadFromSocket(final ObjectInputStream socketIn){

@@ -17,11 +17,11 @@ public class ModelView{
     private final OtherBoard[] theirBoards;
     private final ThisBoard myBoard;
     private final int nPlayers;
+    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private Colours[][] market;
     private Colours externalMarble;
     private HashMap<String, OtherBoard> boardMap;
-    private  int gameID;
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private int gameID;
 
     public ModelView(int nPlayers, UI ui){
         this.nPlayers = nPlayers;

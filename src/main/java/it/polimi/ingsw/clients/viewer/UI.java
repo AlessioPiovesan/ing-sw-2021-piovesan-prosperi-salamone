@@ -17,7 +17,7 @@ public interface UI extends PropertyChangeListener{
 
     void showMarket();
 
-    void  run();
+    void run();
 
     void setClient(Client client);
 

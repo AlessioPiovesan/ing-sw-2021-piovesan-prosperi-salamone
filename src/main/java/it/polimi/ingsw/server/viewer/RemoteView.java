@@ -28,16 +28,16 @@ public class RemoteView implements PropertyChangeListener{
         this.nPlayers = nPlayers;
     }
 
-    public void setNickname(String nickname){
-        this.nickname = nickname;
-    }
-
     public int getnPlayers(){
         return nPlayers;
     }
 
     public String getNickname(){
         return nickname;
+    }
+
+    public void setNickname(String nickname){
+        this.nickname = nickname;
     }
 
     public void getRisorsaPreferita(){

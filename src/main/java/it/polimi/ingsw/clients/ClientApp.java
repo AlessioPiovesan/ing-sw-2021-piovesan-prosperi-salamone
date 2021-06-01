@@ -2,7 +2,6 @@ package it.polimi.ingsw.clients;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.web.Local;
-import it.polimi.ingsw.clients.viewer.CLI;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 import java.io.BufferedReader;

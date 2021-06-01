@@ -95,7 +95,7 @@ public class CLI implements Runnable, UI{
                 else Controller.getInstance().getGameControllerById(0);
             }
             case "nextAction" -> nextAction();
-            case "marketBuffer" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
+            case "marketbuffer" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
             case "ProductionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
             case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
             default -> output.println("Nope");
@@ -160,22 +160,26 @@ public class CLI implements Runnable, UI{
         var loose = new ArrayList<Colours>();
         /*Mostro le risorse*/
         for(Colours colour : bufferMarket){
-            try{
-                output.println(colour + "Do you want to store it in your personal warehouse?\n0) No\n1)Yes\n>\t");
-                var j = Integer.parseInt(input.readLine());
-                while(j != 0 && j != 1){
-                    output.println("Command not valid, unknown");
-                    j = Integer.parseInt(input.readLine());
+            if(colour == Colours.WHITE) loose.add(colour);
+            else{
+                try{
+                    output.print(colour + "\nDo you want to store it in your personal warehouse?\n0) No\n1)Yes\n>\t");
+                    var j = Integer.parseInt(input.readLine());
+                    while(j != 0 && j != 1){
+                        output.println("Command not valid, unknown");
+                        j = Integer.parseInt(input.readLine());
+                    }
+                    if(j == 0) loose.add(colour);
+                    else keep.add(colour);
+                } catch(IOException e){
+                    e.printStackTrace();
+                } finally{
+                    LocalGameController.getInstance().addFaithPnt(loose);
+                    for(Colours colours : keep)
+                        prepareResForWarehouse(colours, 1);
                 }
-                if(j == 0) loose.add(colour);
-                else keep.add(colour);
-            } catch(IOException e){
-                e.printStackTrace();
             }
         }
-        LocalGameController.getInstance().addFaithPnt(loose);
-        for(Colours colours : keep)
-            prepareResForWarehouse(colours, 1);
     }
 
     private void resourcesHandler(List<Pick> bufferProd){
@@ -309,8 +313,8 @@ public class CLI implements Runnable, UI{
     }
 
     private void prepareResForWarehouse(Colours colour, int qnt){
+        output.print("Level for this resource? [1-3]\n" + colour.getType() + "\n>\t");
         try{
-            output.print("Level for this resource? [1-3]\n" + colour.getType() + "\n>\t");
             var lvl = Integer.parseInt(input.readLine()) - 1;
             /*MANCANO I CONTROLLI*/
             if(lvl > -1 && lvl < 3)
@@ -340,12 +344,12 @@ public class CLI implements Runnable, UI{
 
     private String drawMarket(Colours colours){
         return switch(colours){
-            case RED -> ConsoleColors.RED + "███";
-            case BLUE -> ConsoleColors.BLUE + "███";
-            case GREY -> ConsoleColors.BLACK_BRIGHT + "███";
-            case WHITE -> ConsoleColors.WHITE + "███";
-            case YELLOW -> ConsoleColors.YELLOW + "███";
-            case PURPLE -> ConsoleColors.PURPLE + "███";
+            case RED -> ConsoleColors.RED + "███" + ConsoleColors.RESET;
+            case BLUE -> ConsoleColors.BLUE + "███" + ConsoleColors.RESET;
+            case GREY -> ConsoleColors.BLACK_BRIGHT + "███" + ConsoleColors.RESET;
+            case WHITE -> ConsoleColors.WHITE + "███" + ConsoleColors.RESET;
+            case YELLOW -> ConsoleColors.YELLOW + "███" + ConsoleColors.RESET;
+            case PURPLE -> ConsoleColors.PURPLE + "███" + ConsoleColors.RESET;
         };
     }
 }

@@ -5,7 +5,6 @@ import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.Mod;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Market;
-import org.codehaus.plexus.i18n.I18NTokenizer;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -17,8 +16,8 @@ public class Server implements Runnable{
 
     private final ServerSocket serverSocket;
     private final Map<String, SocketServerToClient> waitingForConnection;
-    private Map<SocketServerToClient, Integer> waitingForTheGameToStart;
     private final Map<SocketServerToClient, SocketServerToClient> playingConnection;
+    private Map<SocketServerToClient, Integer> waitingForTheGameToStart;
 
     public Server(int port) throws IOException{
         this.serverSocket = new ServerSocket(port);
@@ -49,7 +48,7 @@ public class Server implements Runnable{
             var gameControllerID = Controller.newID();
             var gameController = new GameController(gameControllerID, 4, game);
             waitingForConnection.get(name).send("Your game's ID is:: " + gameControllerID);
-            waitingForTheGameToStart.put(c,gameControllerID);
+            waitingForTheGameToStart.put(c, gameControllerID);
         }
         if(waitingForConnection.size() == players){
             var keys = new ArrayList<>(waitingForConnection.keySet());
