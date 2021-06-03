@@ -176,7 +176,7 @@ public class Board{
         updateResAll();
     }
 
-    public void updateResAll(){ /* DA IMPLEMENTARE magari che un ActionListener fa aggiornare questa variabile*/
+    public void updateResAll(){
         List<Pick> w = warehouse.checkStatus();
         for(var pick : w)
             if(pick.getResource() != Colours.WHITE)
@@ -281,5 +281,9 @@ public class Board{
 
     public List<Pick> checkWerhouseStatus(){
         return warehouse.getWareContent();
+    }
+
+    public boolean checkWarehouseAdd(Pick pick, int lvl){
+        return warehouse.checkAdd(lvl, pick);
     }
 }

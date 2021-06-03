@@ -48,7 +48,7 @@ public class Warehouse{
         return new Pick(wareContent.get(lvl).getResource(), wareContent.get(lvl).getQnt());
     }
 
-    public boolean checkAdd(int lvl, Pick add){
+    protected boolean checkAdd(int lvl, Pick add){
         if(add.getQnt() < 4){
             if(lvl == isThereThatRes(add.getResource()))
                 return ((checkLvlStatus(lvl).getQnt() + add.getQnt()) <= lvl + 1);
@@ -57,9 +57,10 @@ public class Warehouse{
         return false;
     }
 
-    public void lvlExchange(int lvlStart, int lvlEnd){
-        Pick buffer = wareContent.set(lvlStart, wareContent.get(lvlEnd));
-        wareContent.set(lvlEnd, buffer);
+    public void lvlExchange(int first, int second){
+        var buffer = wareContent.get(first);
+        wareContent.set(first, wareContent.get(second));
+        wareContent.set(second, buffer);
     }
 
     public void addLeaderSpace(Colours color){
