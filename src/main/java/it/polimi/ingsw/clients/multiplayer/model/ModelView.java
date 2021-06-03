@@ -1,4 +1,4 @@
-package it.polimi.ingsw.clients.multiplayer.model.single;
+package it.polimi.ingsw.clients.multiplayer.model;
 
 import it.polimi.ingsw.clients.viewer.UI;
 import it.polimi.ingsw.server.accessories.Colours;
@@ -38,12 +38,12 @@ public class ModelView{
     //		System.out.println(evt);
     //		switch(evt.getPropertyName()){
     //			case "myLeaderCards" -> {
-    //				if(single)
+    //				if(model)
     //					LocalGameController.getInstance().getGame().getBoard(false).setMyLeaderCards((CardLeader[])evt.getNewValue());
     //				else remoteView.setMyLeaderCards((CardLeader[])evt.getNewValue());
     //			}
     //			case "remoteView" -> setRemoteView((RemoteView)evt.getNewValue());
-    //			case "single" -> single = (boolean)evt.getNewValue();
+    //			case "model" -> model = (boolean)evt.getNewValue();
     //			case "firstOp" -> {
     //				var a = 1;/*Qui dà le risorse nel partita multipleyer*/
     //			}

@@ -19,6 +19,10 @@ public record LocalBoardControl(Board player, Lorenzo lorenzo){
         player.storeW(lvl, new Pick[]{new Pick(colour, qnt)});
     }
 
+    public void moveFT(int move){
+        player.moveFT(move);
+    }
+
     public void active(){
         player.ready();
     }

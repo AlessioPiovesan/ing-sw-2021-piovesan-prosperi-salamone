@@ -98,7 +98,7 @@ public class CLI implements Runnable, UI{
             case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
             case "ProductionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
             case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
-            default -> output.println("Nope");
+            default -> {}
         }
     }
 
@@ -161,8 +161,9 @@ public class CLI implements Runnable, UI{
         for(Colours colour : bufferMarket){
             if(colour == Colours.WHITE) loose.add(colour);
             else{
+                output.print(colour.getType() + "\nDo you want to store it in your personal warehouse?\n0) No\n1)Yes\n>\t");
+                output.flush();
                 try{
-                    output.print(colour + "\nDo you want to store it in your personal warehouse?\n0) No\n1)Yes\n>\t");
                     var j = Integer.parseInt(input.readLine());
                     while(j != 0 && j != 1){
                         output.println("Command not valid, unknown");
@@ -172,13 +173,12 @@ public class CLI implements Runnable, UI{
                     else keep.add(colour);
                 } catch(IOException e){
                     e.printStackTrace();
-                } finally{
-                    LocalGameController.getInstance().addFaithPnt(loose);
-                    for(Colours colours : keep)
-                        prepareResForWarehouse(colours, 1);
                 }
             }
         }
+        LocalGameController.getInstance().addFaithPnt(loose);
+        for(Colours colours : keep)
+            prepareResForWarehouse(colours, 1);
     }
 
     private void resourcesHandler(List<Pick> bufferProd){
@@ -312,15 +312,24 @@ public class CLI implements Runnable, UI{
         }
     }
 
-    private void prepareResForWarehouse(Colours colour, int qnt){
+    public void prepareResForWarehouse(Colours colour, int qnt){
+        output.println("At the moment the situation with the warehouse is this:");
+        var b = LocalGameController.getInstance().getBoardController().getPlayer();
+        var i = 0;
+        for(var pick : b.checkWerhouseStatus())
+            output.println("Sul ripiano #" + ++i + "ci sono " + pick.getQnt() + " risorse di tipo " + pick.getResource().getType());
+
         output.print("Level for this resource? [1-3]\n" + colour.getType() + "\n>\t");
-        try{
-            var lvl = Integer.parseInt(input.readLine()) - 1;
-            /*MANCANO I CONTROLLI*/
-            if(lvl > -1 && lvl < 3)
-                LocalGameController.getInstance().getBoardController().warehouseResHandler(colour, qnt, lvl);
-        } catch(IOException e){
-            e.printStackTrace();
+        output.flush();
+        if(colour == Colours.RED) LocalGameController.getInstance().getBoardController().moveFT(1);
+        else{
+            try{
+                var lvl = Integer.parseInt(input.readLine()) - 1;
+                if(lvl > -1 && lvl < 3)
+                    LocalGameController.getInstance().getBoardController().warehouseResHandler(colour, qnt, lvl);
+            } catch(IOException e){
+                e.printStackTrace();
+            }
         }
     }
 

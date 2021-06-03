@@ -1,4 +1,4 @@
-package it.polimi.ingsw.clients.multiplayer.model.single;
+package it.polimi.ingsw.clients.multiplayer.model;
 
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
@@ -7,21 +7,43 @@ import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.EnumMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
-public class OtherBoard{
+public class ThisBoard{
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private LinkedList<CardDev> myDevCards = new LinkedList<>();
+    private String nickname;
+    private Colours[][] warehouse;
     private int faithTrack;
+    private EnumMap<Colours, Integer> strongBox;
     private CardDev[] library;
-    private String nickname = "";
     private EnumMap<Colours, Integer> resAll;
     private boolean[] activeLeader;
-    private Colours[][] warehouse;
-    private Colours choosingRes = Colours.WHITE;
+    private Colours choosingRes;
     private CardLeader[] myLeaderCards = new CardLeader[2];
 
-    protected OtherBoard(){}
+    protected ThisBoard(){}
+
+    public List<CardDev> getMyDevCards(){
+        return myDevCards;
+    }
+
+    public void setMyDevCards(List<CardDev> myDevCards){
+        var old = this.myDevCards;
+        this.myDevCards = (LinkedList<CardDev>)myDevCards;
+        pcs.firePropertyChange("myDevCards", old, this.myDevCards);
+    }
+
+    public Colours[][] getWarehouse(){
+        return warehouse;
+    }
+
+    public void setWarehouse(Colours[][] warehouse){
+        this.warehouse = warehouse;
+    }
 
     public int getFaithTrack(){
         return faithTrack;
@@ -29,6 +51,14 @@ public class OtherBoard{
 
     public void setFaithTrack(int faithTrack){
         this.faithTrack = faithTrack;
+    }
+
+    public Map<Colours, Integer> getStrongBox(){
+        return strongBox;
+    }
+
+    public void setStrongBox(Map<Colours, Integer> strongBox){
+        this.strongBox = (EnumMap<Colours, Integer>)strongBox;
     }
 
     public CardDev[] getLibrary(){
@@ -47,20 +77,20 @@ public class OtherBoard{
         this.resAll = (EnumMap<Colours, Integer>)resAll;
     }
 
-    public boolean[] getActiveLeader(){
-        return activeLeader;
-    }
-
-    public void setActiveLeader(boolean[] activeLeader){
-        this.activeLeader = activeLeader;
-    }
-
     public String getNickname(){
         return nickname;
     }
 
     public void setNickname(String nickname){
         this.nickname = nickname;
+    }
+
+    public boolean[] getActiveLeader(){
+        return activeLeader;
+    }
+
+    public void setActiveLeader(boolean[] activeLeader){
+        this.activeLeader = activeLeader;
     }
 
     public Colours getChoosingRes(){
@@ -80,14 +110,6 @@ public class OtherBoard{
     }
 
     protected PropertyChangeSupport getPcs(){return pcs;}
-
-    public Colours[][] getWarehouse(){
-        return warehouse;
-    }
-
-    public void setWarehouse(Colours[][] warehouse){
-        this.warehouse = warehouse;
-    }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
         pcs.addPropertyChangeListener(listener);

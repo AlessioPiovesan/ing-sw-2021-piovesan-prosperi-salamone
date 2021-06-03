@@ -64,9 +64,9 @@ public class LocalGameController{
     public void marketAction(int moveMarket){
         var b = boardController.getPlayer();
         var m = game.getMarket();
-        /*sposta le biglie nel mercato*/
+        /*move the marbles of the market*/
         LinkedList<Colours> res = (LinkedList<Colours>)m.moveMarbles(moveMarket);
-        /*mando nella funzione che manda a far scegliere al giocatore che fare di queste risorse*/
+        /*call to the method that handles the new generated resources*/
         b.marketResHandler(res);
     }
 

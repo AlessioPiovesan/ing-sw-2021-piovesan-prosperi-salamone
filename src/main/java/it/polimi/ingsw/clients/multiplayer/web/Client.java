@@ -1,6 +1,6 @@
 package it.polimi.ingsw.clients.multiplayer.web;
 
-import it.polimi.ingsw.clients.multiplayer.model.single.ModelView;
+import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.clients.viewer.GUI;

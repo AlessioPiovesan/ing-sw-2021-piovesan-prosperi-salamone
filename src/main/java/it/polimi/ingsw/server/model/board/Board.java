@@ -34,13 +34,13 @@ public class Board{
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library){
         endGame = false;
         this.idD = id;
-        /* Warehouse creation for a single Board */
+        /* Warehouse creation for a model Board */
         this.warehouse = warehouse;
-        /* Strongbox creation for a single Board */
+        /* Strongbox creation for a model Board */
         this.strongBox = strongBox;
-        /* Faith Track creation for a single board */
+        /* Faith Track creation for a model board */
         this.faithTrack = faithTrack;
-        /* ________ creation for a single board */
+        /* ________ creation for a model board */
         this.library = library;
         resAll = new EnumMap<>(Colours.class);
         resAll.put(Colours.BLUE, 0);
@@ -170,7 +170,7 @@ public class Board{
     }
 
     public void storeW(int lvl, Pick[] start){
-        for(Pick pick : start){
+        for(var pick : start){
             warehouse.moveResources(lvl, pick);
         }
         updateResAll();
@@ -178,8 +178,9 @@ public class Board{
 
     public void updateResAll(){ /* DA IMPLEMENTARE magari che un ActionListener fa aggiornare questa variabile*/
         List<Pick> w = warehouse.checkStatus();
-        for(Pick pick : w)
-            resAll.replace(pick.getResource(), pick.getQnt() + resAll.get(pick.getResource()));
+        for(var pick : w)
+            if(pick.getResource() != Colours.WHITE)
+                resAll.replace(pick.getResource(), pick.getQnt() + resAll.get(pick.getResource()));
         for(Colours c : Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
             resAll.replace(c, resAll.get(c) + strongBox.getStrongContent().get(c));
         pcs.firePropertyChange("resAll", "", resAll);
@@ -276,5 +277,9 @@ public class Board{
 
     public int getPositionFT(){
         return faithTrack.getPosition();
+    }
+
+    public List<Pick> checkWerhouseStatus(){
+        return warehouse.getWareContent();
     }
 }

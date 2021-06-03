@@ -17,7 +17,7 @@ public class Server implements Runnable{
     private final ServerSocket serverSocket;
     private final Map<String, SocketServerToClient> waitingForConnection;
     private final Map<SocketServerToClient, SocketServerToClient> playingConnection;
-    private Map<SocketServerToClient, Integer> waitingForTheGameToStart;
+    private final Map<SocketServerToClient, Integer> waitingForTheGameToStart;
 
     public Server(int port) throws IOException{
         this.serverSocket = new ServerSocket(port);

@@ -47,7 +47,7 @@ public class ClientApp{
                 System.out.print(">\tInsert the the number of players you want for this match [2-4]\n>\t");
                 var players = Integer.parseInt(reader.readLine());
                 while(players <= 1 || players >= 5){
-                    System.err.println("The number you typed is just wrong");
+                    System.err.println("We can not support that number of players");
                     players = Integer.parseInt(reader.readLine());
                 }
                 client.setNPlayers(players);
