@@ -349,7 +349,7 @@ public class CLI implements Runnable, UI{
         for(var pick : b.checkWerhouseStatus())
             if(pick.getResource() == Colours.WHITE) output.println("This shelf is empty");
             else
-                output.println("On shelf #" + ++i + " there are " + pick.getQnt() + pick.getResource().getType()+" resources");
+                output.println("On shelf #" + ++i + " there are " + pick.getQnt() + pick.getResource().getType() + " resources");
     }
 
     private Card getCorrectLeaderCardCode() throws IOException{
