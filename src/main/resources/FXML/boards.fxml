@@ -3,38 +3,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/11.0.1">
-    <Tab text="Giocatore 1">
+<TabPane tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17-ea+11">
+    <Tab text="Player 1">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
             <ImageView fitHeight="480.0" fitWidth="640.0" layoutX="-1.0">
-                <Image url="@../graphics/front/Board.png"/>
+                <Image url="@../graphics/cards/front/Board.png"/>
             </ImageView>
             <Button blendMode="DARKEN" layoutX="9.0" layoutY="275.0" mnemonicParsing="false" prefHeight="83.0"
                     prefWidth="111.0"/>
         </AnchorPane>
     </Tab>
-    <Tab text="Giocatore 2">
+    <Tab text="Player 2">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
             <ImageView fitHeight="480.0" fitWidth="640.0" layoutX="-1.0">
-                <Image url="@../graphics/front/Board.png"/>
+                <Image url="@../graphics/cards/front/Board.png"/>
             </ImageView>
             <Button blendMode="DARKEN" layoutX="9.0" layoutY="275.0" mnemonicParsing="false" prefHeight="83.0"
                     prefWidth="111.0"/>
         </AnchorPane>
     </Tab>
-    <Tab text="Giocatore 3">
+    <Tab text="Player 3">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
             <ImageView fitHeight="480.0" fitWidth="640.0" layoutX="-1.0">
-                <Image url="@../graphics/front/Board.png"/>
+                <Image url="@../graphics/cards/front/Board.png"/>
             </ImageView>
             <Button blendMode="DARKEN" layoutX="9.0" layoutY="275.0" mnemonicParsing="false" prefHeight="83.0"
                     prefWidth="111.0"/>
         </AnchorPane>
     </Tab>
-    <Tab text="Giocatore 4">
+    <Tab text="Player 4">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="640.0">
             <ImageView fitHeight="480.0" fitWidth="640.0" layoutX="-1.0">
-                <Image url="@../graphics/front/Board.png"/>
+                <Image url="@../graphics/cards/front/Board.png"/>
             </ImageView>
             <Button blendMode="DARKEN" layoutX="9.0" layoutY="275.0" mnemonicParsing="false" prefHeight="83.0"
                     prefWidth="111.0"/>
