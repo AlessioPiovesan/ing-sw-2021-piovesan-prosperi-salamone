@@ -50,9 +50,10 @@ public class Warehouse{
 
     protected boolean checkAdd(int lvl, Pick add){
         if(add.getQnt() < 4){
-            if(lvl == isThereThatRes(add.getResource()))
+            if(isThereThatRes(add.getResource()) > 0)
                 return ((checkLvlStatus(lvl).getQnt() + add.getQnt()) <= lvl + 1);
-            return wareContent.get(lvl).getResource() == Colours.WHITE;
+            else if(lvl == isThereThatRes(add.getResource())) return false;
+            else return checkLvlStatus(lvl).getResource() == Colours.WHITE;
         }
         return false;
     }
