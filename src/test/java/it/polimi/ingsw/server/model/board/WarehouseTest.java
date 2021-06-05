@@ -31,7 +31,6 @@ class WarehouseTest{
         w.moveResources(1, new Pick(Colours.BLUE, 2));
         assertEquals(-1, w.isThereThatRes(Colours.YELLOW));
         assertEquals(1, w.isThereThatRes(Colours.BLUE));
-
     }
 
     @Test

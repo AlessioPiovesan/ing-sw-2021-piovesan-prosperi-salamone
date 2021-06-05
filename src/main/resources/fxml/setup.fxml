@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.*?>
+<AnchorPane maxHeight="-Infinity"
+            maxWidth="-Infinity"
+            minHeight="-Infinity"
+            minWidth="-Infinity"
+            prefHeight="311.0"
+            prefWidth="518.0"
+            styleClass="AnchorPane"
+            stylesheets="@../css/setup.css"
+            xmlns="http://javafx.com/javafx/17-ea+11">
+    <Button layoutX="80.0" layoutY="228.0" mnemonicParsing="false" prefHeight="62.0" prefWidth="119.0"
+            stylesheets="@../css/setup.css" text="PLAY" textFill="WHITE">
+        <font>
+            <Font size="25.0"/>
+        </font>
+    </Button>
+    <Label layoutX="45.0" layoutY="14.0" prefHeight="30.0" prefWidth="428.0"
+           text="Insert Nickname, Server IP and Port then click PLAY!" textAlignment="CENTER" textFill="WHITE">
+        <font>
+            <Font name="Academy Engraved LET Plain:1.0" size="18.0"/>
+        </font>
+    </Label>
+    <Label layoutX="75.0" layoutY="79.0" prefHeight="30.0" prefWidth="82.0" text="Nickname" textFill="WHITE">
+        <font>
+            <Font name="Academy Engraved LET Plain:1.0" size="18.0"/>
+        </font>
+    </Label>
+    <Label layoutX="81.0" layoutY="121.0" text="Server IP" textFill="WHITE">
+        <font>
+            <Font name="Academy Engraved LET Plain:1.0" size="18.0"/>
+        </font>
+    </Label>
+    <Label layoutX="71.0" layoutY="163.0" prefHeight="30.0" prefWidth="91.0" text="Server Port" textFill="WHITE">
+        <font>
+            <Font name="Academy Engraved LET Plain:1.0" size="18.0"/>
+        </font>
+    </Label>
+    <TextField layoutX="259.0" layoutY="81.0"/>
+    <TextField layoutX="259.0" layoutY="123.0"/>
+    <TextField layoutX="259.0" layoutY="165.0"/>
+</AnchorPane>

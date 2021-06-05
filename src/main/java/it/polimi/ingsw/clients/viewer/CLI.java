@@ -355,11 +355,12 @@ public class CLI implements Runnable, UI{
                             output.println("Destination?");
                             var second = getShelfLvl();
                             var secondQnt = bc.getPlayer().checkWarehouseStatus().get(second).getQnt();
-                            if(!(first < secondQnt && second < firstQnt)) bc.rearrangeWarehouse(first, second);
+                            if(first+1 > secondQnt && second+1 > firstQnt) bc.rearrangeWarehouse(first, second);
                             else output.println("You can't do that");
                             showWarehouse();
                         }
                         case 3 -> {
+                            showWarehouse();
                             output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
                             output.flush();
                             lvl = getShelfLvl();
@@ -377,12 +378,12 @@ public class CLI implements Runnable, UI{
     }
 
     private int getShelfLvl() throws IOException{
-        var lvl = Integer.parseInt(input.readLine()) - 1;
-        while(!(lvl > -1 && lvl < 3)){
+        var lvl = Integer.parseInt(input.readLine());
+        while(!(lvl > -1 && lvl < 4)){
             output.println("This is not a valid shelf");
-            lvl = Integer.parseInt(input.readLine()) - 1;
+            lvl = Integer.parseInt(input.readLine());
         }
-        return lvl;
+        return lvl - 1;
     }
 
     private void showWarehouse(){
@@ -390,7 +391,10 @@ public class CLI implements Runnable, UI{
         var b = LocalGameController.getInstance().getBoardController().getPlayer();
         var i = 0;
         for(var pick : b.checkWarehouseStatus())
-            if(pick.getResource() == Colours.WHITE) output.println("This shelf is empty");
+            if(pick.getResource() == Colours.WHITE){
+                output.println("This shelf is empty");
+                i++;
+            }
             else
                 output.println("On shelf #" + ++i + " there are " + pick.getQnt() + " " + pick.getResource().getType() + " resources");
     }
