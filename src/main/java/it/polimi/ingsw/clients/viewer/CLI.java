@@ -125,13 +125,14 @@ public class CLI implements Runnable, UI{
             LocalGameController.getInstance().moveLorenzo();
         else{
             try{
-                output.println("""
-                               What is your next action?
-                               1) Activate production
-                               2) Pick resources from the market
-                               3) Buy a Development Card
-                               4) Activate Leader Card
-                               >\040""");
+                output.print("""
+                             What is your next action?
+                             1) Activate production
+                             2) Pick resources from the market
+                             3) Buy a Development Card
+                             4) Activate Leader Card
+                             >\040\040""");
+                output.flush();
                 var action = Integer.parseInt(input.readLine());
                 while(action < 0 || action > 5){
                     output.println("Please type a valid number [1-4]");
@@ -321,35 +322,74 @@ public class CLI implements Runnable, UI{
     }
 
     public void prepareResForWarehouse(Colours colour, int qnt){
+        var newPick = new Pick(colour, qnt);
+        var response = 0;
         if(colour == Colours.RED) LocalGameController.getInstance().getBoardController().moveFT(1);
         else{
             showWarehouse();
+            output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
+            output.flush();
             try{
-                output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
-                output.flush();
-                var lvl = Integer.parseInt(input.readLine()) - 1;
-                while(!(lvl > -1 && lvl < 3)){
-                    output.println("This is not a valid shelf");
-                    lvl = Integer.parseInt(input.readLine()) - 1;
-                }
-                var b = LocalGameController.getInstance().getBoardController().getPlayer();
-                while(!(b.checkWarehouseAdd(new Pick(colour, qnt), lvl))){
-                    output.print("You can not add that resource on this shelf\n>\t");
+                var lvl = getShelfLvl();
+                var bc = LocalGameController.getInstance().getBoardController();
+                while(!bc.getPlayer().checkWarehouseAdd(newPick, lvl)){
+                    output.println("You can not add that resource on this shelf, try something else...");
+                    output.print("""
+                                 Choose how to proceed?
+                                 1) Discard the resource
+                                 2) Rearrange the warehouse
+                                 3) Put on an other shelf
+                                 >\040\040""");
                     output.flush();
-                    lvl = Integer.parseInt(input.readLine()) - 1;
+                    response = Integer.parseInt(input.readLine());
+                    while(response < 1 || response > 3){
+                        output.println("Not a valid command\n>\t");
+                        response = Integer.parseInt(input.readLine());
+                    }
+                    switch(response){
+                        case 1 -> LocalGameController.getInstance().addFaithPnt(Collections.singletonList(colour));
+                        case 2 -> {
+                            output.println("Starting shelf?");
+                            var first = getShelfLvl();
+                            var firstQnt = bc.getPlayer().checkWarehouseStatus().get(first).getQnt();
+                            output.println("Destination?");
+                            var second = getShelfLvl();
+                            var secondQnt = bc.getPlayer().checkWarehouseStatus().get(second).getQnt();
+                            if(!(first < secondQnt && second < firstQnt)) bc.rearrangeWarehouse(first, second);
+                            else output.println("You can't do that");
+                            showWarehouse();
+                        }
+                        case 3 -> {
+                            output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
+                            output.flush();
+                            lvl = getShelfLvl();
+                        }
+                        default -> output.println("Not possible");
+                    }
+                    if(response == 1) break;
                 }
-                LocalGameController.getInstance().getBoardController().warehouseResHandler(colour, qnt, lvl);
+                if(response != 1)
+                    LocalGameController.getInstance().getBoardController().warehouseResHandler(colour, qnt, lvl);
             } catch(IOException e){
                 e.printStackTrace();
             }
         }
     }
 
+    private int getShelfLvl() throws IOException{
+        var lvl = Integer.parseInt(input.readLine()) - 1;
+        while(!(lvl > -1 && lvl < 3)){
+            output.println("This is not a valid shelf");
+            lvl = Integer.parseInt(input.readLine()) - 1;
+        }
+        return lvl;
+    }
+
     private void showWarehouse(){
         output.println("At the moment the situation with the warehouse is this:");
         var b = LocalGameController.getInstance().getBoardController().getPlayer();
         var i = 0;
-        for(var pick : b.checkWerhouseStatus())
+        for(var pick : b.checkWarehouseStatus())
             if(pick.getResource() == Colours.WHITE) output.println("This shelf is empty");
             else
                 output.println("On shelf #" + ++i + " there are " + pick.getQnt() + " " + pick.getResource().getType() + " resources");

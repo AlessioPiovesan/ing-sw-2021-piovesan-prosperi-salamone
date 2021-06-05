@@ -2,11 +2,8 @@ package it.polimi.ingsw.server.accessories;
 
 public interface Requirements{
 
-    void getRequirements();
-
     @Override
     String toString();
-
 
     class RequirementsCard implements Requirements{
 
@@ -16,12 +13,6 @@ public interface Requirements{
         public RequirementsCard(int cardLvl, ColoursCards c){
             this.cardLvl = cardLvl;
             this.type = c;
-        }
-
-        @Override
-        public void getRequirements(){
-            getCardLvl();
-            getColour();
         }
 
         public int getCardLvl(){
@@ -50,12 +41,6 @@ public interface Requirements{
             }
         }
 
-        @Override
-        public void getRequirements(){
-            getQnt();
-            getColour();
-        }
-
         public int getQnt(){
             return qnt;
         }
@@ -66,7 +51,7 @@ public interface Requirements{
 
         @Override
         public String toString(){
-            return "{" + "type=" + type.getType() + ", qnt=" + qnt + '}';
+            return qnt + " " + type.getType();
         }
     }
 }
