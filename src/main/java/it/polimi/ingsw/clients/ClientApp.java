@@ -23,7 +23,7 @@ public class ClientApp{
                              0. COMMAND-LINE INTERFACE
                              1. GRAPHICAL USER INTERFACE
                              > Type the number of the desired option!
-                             >>\040""");
+                             >>\040\040""");
             ui = Integer.parseInt(reader.readLine());
             while(ui != 0 && ui != 1){
                 System.err.println("Command not valid unknown");

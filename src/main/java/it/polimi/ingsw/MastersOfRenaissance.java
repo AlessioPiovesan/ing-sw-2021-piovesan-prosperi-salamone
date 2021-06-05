@@ -22,7 +22,7 @@ public class MastersOfRenaissance{
                              1. CLIENT SINGLE PLAYER
                              2. CLIENT MULTIPLAYER
                              > Type the number of the desired option!
-                             >>\040""");
+                             >>\040\040""");
             var scanner = new Scanner(System.in);
             var input = 0;
             try{

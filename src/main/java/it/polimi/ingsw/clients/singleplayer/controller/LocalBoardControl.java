@@ -26,4 +26,8 @@ public record LocalBoardControl(Board player, Lorenzo lorenzo){
     public void active(){
         player.ready();
     }
+
+    public void rearrangeWarehouse(int first, int second){
+        player.rearrangeWarehouse(first, second);
+    }
 }

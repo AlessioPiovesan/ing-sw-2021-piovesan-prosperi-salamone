@@ -279,7 +279,11 @@ public class Board{
         return faithTrack.getPosition();
     }
 
-    public List<Pick> checkWerhouseStatus(){
+    public void rearrangeWarehouse(int first, int second){
+        warehouse.lvlExchange(first, second);
+    }
+
+    public List<Pick> checkWarehouseStatus(){
         return warehouse.getWareContent();
     }
 

@@ -1,34 +1,27 @@
-sistemare la visualizzazione dei requisiti-risorsa
-
-
 - Come programmare la GUI con i vari controller affinché le azioni corrispondano e funzionino
 
 - Controllare che ogni giro di MVC si concluda con una chiamata alla View a seguito del passaggio al giocatore successivo
  - per la partita in locale
  - per la partita in rete (quindi la remote view deve chiamare il server che parla al client che aggiorna il model view)
+ (se un socket "si è perso per strada" si salta al giocatore successivo)
 
-- Java DOC di tutti i metodi (almeno quelli pubblici) per tutte le classi
+- Javadoc di tutti i metodi (almeno quelli pubblici) per tutte le classi
 
-- Scrivere (nel README o nella wiki) come installare e far partire il gioco
+- Scrivere (c'è già la pagina nella wiki) come installare e far partire il gioco
 
 - Controllare commenti in italiano
 
 - Capire come ricavare il jar da far partire per giocare
 
--Capire come gestire la dimostrazione il giorno dell'esame e organizzarci di conseguenza
+- Capire come gestire la dimostrazione il giorno dell'esame e organizzarci di conseguenza
 
--Feedback da parte del programma nel momento in cui compriamo una carta sviluppo o attiviamo uan carta leader
+- Feedback da parte del programma nel momento in cui compriamo una carta sviluppo o attiviamo uan carta leader
 
--Mostrare solo le carte (sviluppo e leader) che possono essere o acquistate o attivate
+- Mostrare solo le carte (sviluppo e leader) che possono essere o acquistate o attivate
 
--Mostrare le carte sviluppo in mazzetti giusti divisi per livello e per colore (GUI)
+- Mostrare le carte sviluppo in mazzetti giusti divisi per livello e per colore (GUI)
 
--Piazzare le carte sviluppo nei rispettivi slot corrispondenti comprendendo la regola di rispettare il livello
+- Piazzare le carte sviluppo nei rispettivi slot corrispondenti comprendendo la regola di rispettare il livello
     (es: non può piazzare una dev card di livello 3 senza che abbia prima quelle di livello 1 e 2)
 
--Riorganizzazione del magazzino:
-    . Vuoi scartare la risorsa?
-    . Vuoi riorganizzare le risorse?
-    . Su quale ripiano vuoi inserirla?
-
--Ulteriori controlli sul piazzamento delle risorse
+- Ulteriori controlli sul piazzamento delle risorse
