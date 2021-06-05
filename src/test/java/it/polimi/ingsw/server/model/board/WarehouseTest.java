@@ -28,6 +28,10 @@ class WarehouseTest{
         var w = new Warehouse();
         assertEquals(0, w.isThereThatRes(Colours.WHITE));
         assertEquals(-1, w.isThereThatRes(Colours.BLUE));
+        w.moveResources(1, new Pick(Colours.BLUE, 2));
+        assertEquals(-1, w.isThereThatRes(Colours.YELLOW));
+        assertEquals(1, w.isThereThatRes(Colours.BLUE));
+
     }
 
     @Test
