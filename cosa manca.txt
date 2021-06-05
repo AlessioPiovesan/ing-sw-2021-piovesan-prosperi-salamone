@@ -25,3 +25,10 @@ sistemare la visualizzazione dei requisiti-risorsa
 
 -Piazzare le carte sviluppo nei rispettivi slot corrispondenti comprendendo la regola di rispettare il livello
     (es: non può piazzare una dev card di livello 3 senza che abbia prima quelle di livello 1 e 2)
+
+-Riorganizzazione del magazzino:
+    . Vuoi scartare la risorsa?
+    . Vuoi riorganizzare le risorse?
+    . Su quale ripiano vuoi inserirla?
+
+-Ulteriori controlli sul piazzamento delle risorse
