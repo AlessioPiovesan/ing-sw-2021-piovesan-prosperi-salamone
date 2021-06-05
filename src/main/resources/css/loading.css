@@ -1,0 +1,4 @@
+.mainBackground{
+    -fx-background-image: url("../graphics/loading/firenze.png");
+    -fx-background-color: transparent;
+}
