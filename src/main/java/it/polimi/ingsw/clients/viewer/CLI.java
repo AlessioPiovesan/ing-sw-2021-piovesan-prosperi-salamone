@@ -99,7 +99,7 @@ public class CLI implements Runnable, UI{
             case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
             case "ProductionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
             case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
-            default -> {}
+            default -> output.println(evt.getPropertyName() + " is not handled");
         }
     }
 
@@ -300,7 +300,10 @@ public class CLI implements Runnable, UI{
 
     private void chooseCardDev(){
         var actual = canUseCardDev(LocalGameController.getInstance().getGame().getCardDevDeck());
-        if(actual.isEmpty()) output.println("You can not buy any card");
+        if(actual.isEmpty()){
+            output.println("You can not buy any card");
+            nextAction();
+        }
         else{
             for(var card : actual)
                 showCards(card);
@@ -352,15 +355,17 @@ public class CLI implements Runnable, UI{
         var list = new LinkedList<Card>();
         for(var card : cards)
             for(var req : card.getReq()){
-                if(req.getClass() == Requirements.RequirementsResources.class){
-                    if(((Requirements.RequirementsResources)req).getQnt() <= resAll.get(((Requirements.RequirementsResources)req).getColour()))
-                        list.add(card);
-                }
+                if(req.getClass() == Requirements.RequirementsResources.class && ((Requirements.RequirementsResources)req).getQnt() <= resAll.get(((Requirements.RequirementsResources)req).getColour()))
+                    list.add(card);
                 if(req.getClass() == Requirements.RequirementsCard.class){
-                    for(var slot : slots)
-                        if(!(slot.isEmpty()))
-                            if(slot.get(slot.size()).getColour() == ((Requirements.RequirementsCard)req).getColour() && slot.get(slot.size()).getLvl() <= ((Requirements.RequirementsCard)req).getCardLvl())
+                    for(var slot : slots){
+                        for(var thisCard : slot)
+                            if(thisCard != null && thisCard.getColour() == ((Requirements.RequirementsCard)req).getColour() && thisCard.getLvl() <= ((Requirements.RequirementsCard)req).getCardLvl()){
                                 list.add(card);
+                                break;
+                            }
+                        if(list.contains(card)) break;
+                    }
                 }
             }
         return list;
@@ -368,7 +373,10 @@ public class CLI implements Runnable, UI{
 
     private void wakeALeader(){
         var actual = canUseCardLeader(LocalGameController.getInstance().getGame().getBoard(false).getMyLeaderCards());
-        if(actual.isEmpty()) output.println("You can not activate any leader at the moment");
+        if(actual.isEmpty()){
+            output.println("You can not activate any leader at the moment");
+            nextAction();
+        }
         else{
             for(var card : actual)
                 showCards(card);
