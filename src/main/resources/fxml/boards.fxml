@@ -6,9 +6,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
             xmlns="http://javafx.com/javafx/17-ea+11">
-    <TabPane layoutY="-1.0" prefHeight="880.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+    <TabPane layoutY="-1.0" prefHeight="900.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Player 1">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="960.0" prefWidth="1200.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1200.0">
                 <ImageView pickOnBounds="true" preserveRatio="true">
                     <Image url="@../graphics/board/boardFront.png" />
                 </ImageView>
@@ -18,18 +18,18 @@
             </AnchorPane>
         </Tab>
         <Tab text="Player 2">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="777.0" prefWidth="1167.0">
-                <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1200.0">
+                <ImageView pickOnBounds="true" preserveRatio="true">
                     <Image url="@../graphics/board/boardFront.png" />
                 </ImageView>
-                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="54.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="58.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../graphics/faithTrack/cross.png" />
                 </ImageView>
             </AnchorPane>
         </Tab>
         <Tab text="Player 3">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="777.0" prefWidth="1167.0">
-                <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1200.0">
+                <ImageView pickOnBounds="true" preserveRatio="true">
                     <Image url="@../graphics/board/boardFront.png" />
                 </ImageView>
                 <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="58.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
@@ -38,8 +38,8 @@
             </AnchorPane>
         </Tab>
         <Tab text="Player 4">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="777.0" prefWidth="1167.0">
-                <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1200.0">
+                <ImageView pickOnBounds="true" preserveRatio="true">
                     <Image url="@../graphics/board/boardFront.png" />
                 </ImageView>
                 <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="58.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
@@ -48,11 +48,11 @@
             </AnchorPane>
         </Tab>
         <Tab text="Market">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="777.0" prefWidth="1167.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1200.0">
                 <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../graphics/marbles/newMarbleBoard.png" />
                 </ImageView>
-                <AnchorPane layoutX="366.0" layoutY="82.0" prefHeight="375.0" prefWidth="451.0">
+                <AnchorPane layoutX="366.0" layoutY="82.0" prefHeight="360.0" prefWidth="450.0">
                     <ImageView fitHeight="388.0" fitWidth="465.0" layoutX="-9.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../graphics/marbles/marbleBoard.png" />
                     </ImageView>
