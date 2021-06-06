@@ -343,9 +343,12 @@ public class CLI implements Runnable, UI{
     private List<Card> canUseCardDev(List<CardDev> cards){
         var resAll = LocalGameController.getInstance().getBoardController().getPlayer().getResAll();
         var list = new LinkedList<Card>();
-        for(var card : cards)
-            for(var cost : card.getCost())
-                if(cost.getQnt() <= resAll.get(cost.getResource())) list.add(card);
+        for(var card : cards) {
+            var i = 0;
+            for (var cost : card.getCost())
+                if (cost.getQnt() <= resAll.get(cost.getResource())) i++;
+            if (i == card.getCost().length) list.add(card);
+        }
         return list;
     }
 

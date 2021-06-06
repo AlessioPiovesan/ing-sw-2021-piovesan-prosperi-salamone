@@ -91,6 +91,15 @@
                               <Image url="@../graphics/marbles/newmarbleboard.png" />
                            </image>
                         </ImageView>
+                        <AnchorPane layoutX="366.0" layoutY="82.0" prefHeight="375.0" prefWidth="451.0">
+                           <children>
+                              <ImageView fitHeight="388.0" fitWidth="465.0" layoutX="-9.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../graphics/marbles/marbleBoard.png" />
+                                 </image>
+                              </ImageView>
+                           </children>
+                        </AnchorPane>
                      </children>
                   </AnchorPane>
               </content>
