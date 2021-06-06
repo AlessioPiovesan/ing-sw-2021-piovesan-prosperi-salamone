@@ -14,24 +14,24 @@ public class FaithTrack{
         Arrays.fill(popeFavor, false);
     }
 
-    public int getPopeFavorWinPnt(){
+    protected int getPopeFavorWinPnt(){
         return popeFavorWinPnt;
     }
 
-    public void moveForward(int step){
+    protected void moveForward(int step){
         position += step;
         if((position >= 8) && !popeFavor[0]) System.out.println("(Method Call): Check Vatican Report");
         if((position >= 16) && !popeFavor[1]) System.out.println("(Method Call): Check Vatican Report");
         if((position >= 24) && !popeFavor[2]) System.out.println("(Method Call): Check Vatican Report");
     }
 
-    public int getWinPnt(){
+    protected int getWinPnt(){
         var win = popeFavorWinPnt;
         win += getWinPntPosition();
         return win;
     }
 
-    private int getWinPntPosition(){
+    protected int getWinPntPosition(){
         return switch(position){
             case 0, 1, 2 -> 0;
             case 3, 4, 5 -> 1;
@@ -46,7 +46,7 @@ public class FaithTrack{
         };
     }
 
-    public void getWinPntCard(){
+    protected void getWinPntCard(){
         switch(position){
             case 5, 6, 7, 8 -> {
                 if(!popeFavor[0]){
@@ -72,7 +72,7 @@ public class FaithTrack{
         }
     }
 
-    public int getPosition(){
+    protected int getPosition(){
         return position;
     }
 }

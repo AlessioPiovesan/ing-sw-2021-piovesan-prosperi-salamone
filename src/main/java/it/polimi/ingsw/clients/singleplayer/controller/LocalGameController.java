@@ -92,11 +92,11 @@ public class LocalGameController{
         }
     }
 
-    public void cardDevAction(CardDev cardToBeBought){
+    public void cardDevAction(CardDev cardToBeBought, int slot){
         var b = boardController.getPlayer();
         game.getCardDevDeck().remove(cardToBeBought);
         /*compra la carta*/
-        b.buyCardDev(cardToBeBought);
+        b.buyCardDev(cardToBeBought, slot);
     }
 
     public void tossCardDev(ColoursCards colour){
@@ -111,11 +111,11 @@ public class LocalGameController{
         if(found == null) endGame(false);
     }
 
-    public void endGame(boolean winner){
+    public String endGame(boolean winner){
         if(winner){
             var win = boardController.getPlayer().countWinPnt();
-            System.out.println("YOU WON!\nYour record is " + win + " points!");
+            return "YOU WON!\nYour record is " + win + " points!";
         }
-        else System.out.println("YOU LOSE");
+        else return "YOU LOSE";
     }
 }

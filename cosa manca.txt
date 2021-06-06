@@ -17,8 +17,6 @@
 
 - Feedback da parte del programma nel momento in cui compriamo una carta sviluppo o attiviamo uan carta leader
 
-- Mostrare solo le carte (sviluppo e leader) che possono essere o acquistate o attivate
-
 - Mostrare le carte sviluppo in mazzetti giusti divisi per livello e per colore (GUI)
 
 - Piazzare le carte sviluppo nei rispettivi slot corrispondenti comprendendo la regola di rispettare il livello

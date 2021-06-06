@@ -202,12 +202,13 @@ public class Board{
         return win;
     }
 
-    public void buyCardDev(CardDev card){
+    public void buyCardDev(CardDev card, int slot){
         bufferProd = new LinkedList<>();
         Collections.addAll(bufferProd, card.getCost());
         pcs.firePropertyChange("bufferProd", "", bufferProd);
         myDevCards.add(card);
         pcs.firePropertyChange("newCardDev", "", card);
+        library.addCard(slot, card);
         checkIfEndGame();
     }
 
@@ -289,5 +290,9 @@ public class Board{
 
     public boolean checkWarehouseAdd(Pick pick, int lvl){
         return warehouse.checkAdd(lvl, pick);
+    }
+
+    public ArrayList<ArrayList<CardDev>> checkLibraryStatus(){
+        return library.getSlot();
     }
 }

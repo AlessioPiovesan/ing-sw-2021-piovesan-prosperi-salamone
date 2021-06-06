@@ -45,8 +45,8 @@ public class GameController{
     public void cardDevAction(CardDev cardToBeBought){
         Board b = game.getSingleB(game.getPlayingPlayer());
         game.getCardDevDeck().remove(cardToBeBought);
-        /*compra la carta*/
-        b.buyCardDev(cardToBeBought);
+        /*manca da chiedere lo slot*/
+        //b.buyCardDev(cardToBeBought, slot);
         update();
     }
 

@@ -19,11 +19,11 @@ public class StrongBox implements Serializable{
         strongContent.put(Colours.YELLOW, 0);
     }
 
-    public void moveResources(Pick res){
+    protected void moveResources(Pick res){
         strongContent.replace(res.getResource(), strongContent.get(res.getResource()) + res.getQnt());
     }
 
-    public Map<Colours, Integer> getStrongContent(){
+    protected Map<Colours, Integer> getStrongContent(){
         return strongContent;
     }
 }

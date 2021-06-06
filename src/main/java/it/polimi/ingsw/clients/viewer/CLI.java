@@ -5,6 +5,7 @@ import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Constants;
 import it.polimi.ingsw.server.accessories.Pick;
+import it.polimi.ingsw.server.accessories.Requirements;
 import it.polimi.ingsw.server.accessories.cards.Card;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
@@ -298,26 +299,85 @@ public class CLI implements Runnable, UI{
     }
 
     private void chooseCardDev(){
-        var actual = LocalGameController.getInstance().getGame().getCardDevDeck();
-        for(var card : actual)
-            showCards(card);
-        var card = (CardDev)pickCard(CardDev.class);
-        if(actual.contains(card)) LocalGameController.getInstance().cardDevAction(card);
+        var actual = canUseCardDev(LocalGameController.getInstance().getGame().getCardDevDeck());
+        if(actual.isEmpty()) output.println("You can not buy any card");
         else{
-            output.println("This card is not available");
-            nextAction();
+            for(var card : actual)
+                showCards(card);
+            var card = (CardDev)pickCard(CardDev.class);
+            if(actual.contains(card)){
+                try{
+                    var slot = pickLibSlot(card);
+                    if(slot >= 0) LocalGameController.getInstance().cardDevAction(card, slot);
+                    else{
+                        output.println("You don't hav a slot for this card");
+                        nextAction();
+                    }
+                } catch(Exception e){
+                    e.printStackTrace();
+                }
+
+            }
+            else{
+                output.println("This card is not available");
+                nextAction();
+            }
         }
     }
 
+    private int pickLibSlot(CardDev card) throws IOException{
+        showLibrary();
+        output.print("Slot for this resource? [1-3]\n" + card.name() + "\n>\t");
+        output.flush();
+        var slot = Integer.parseInt(input.readLine());
+        while(!(slot > -1 && slot < 4)){
+            output.println("This is not a valid slot");
+            slot = Integer.parseInt(input.readLine());
+        }
+        return slot - 1;
+    }
+
+    private List<Card> canUseCardDev(List<CardDev> cards){
+        var resAll = LocalGameController.getInstance().getBoardController().getPlayer().getResAll();
+        var list = new LinkedList<Card>();
+        for(var card : cards)
+            for(var cost : card.getCost())
+                if(cost.getQnt() <= resAll.get(cost.getResource())) list.add(card);
+        return list;
+    }
+
+    private List<Card> canUseCardLeader(CardLeader[] cards){
+        var resAll = LocalGameController.getInstance().getBoardController().getPlayer().getResAll();
+        var slots = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus();
+        var list = new LinkedList<Card>();
+        for(var card : cards)
+            for(var req : card.getReq()){
+                if(req.getClass() == Requirements.RequirementsResources.class){
+                    if(((Requirements.RequirementsResources)req).getQnt() <= resAll.get(((Requirements.RequirementsResources)req).getColour()))
+                        list.add(card);
+                }
+                if(req.getClass() == Requirements.RequirementsCard.class){
+                    for(var slot : slots)
+                        if(!(slot.isEmpty()))
+                            if(slot.get(slot.size()).getColour() == ((Requirements.RequirementsCard)req).getColour() && slot.get(slot.size()).getLvl() <= ((Requirements.RequirementsCard)req).getCardLvl())
+                                list.add(card);
+                }
+            }
+        return list;
+    }
+
     private void wakeALeader(){
-        var actual = LocalGameController.getInstance().getGame().getBoard(false).getMyLeaderCards();
-        for(var card : actual)
-            showCards(card);
-        var card = (CardLeader)pickCard(CardLeader.class);
-        if(Arrays.stream(actual).toList().contains(card)) LocalGameController.getInstance().cardLeadAction(card);
+        var actual = canUseCardLeader(LocalGameController.getInstance().getGame().getBoard(false).getMyLeaderCards());
+        if(actual.isEmpty()) output.println("You can not activate any leader at the moment");
         else{
-            output.println("You don't have this Leader");
-            nextAction();
+            for(var card : actual)
+                showCards(card);
+            var card = (CardLeader)pickCard(CardLeader.class);
+            if(actual.contains(card)) LocalGameController.getInstance().cardLeadAction(card);
+            else{
+                output.println("You don't have this Leader");
+                nextAction();
+            }
         }
     }
 
@@ -355,7 +415,7 @@ public class CLI implements Runnable, UI{
                             output.println("Destination?");
                             var second = getShelfLvl();
                             var secondQnt = bc.getPlayer().checkWarehouseStatus().get(second).getQnt();
-                            if(first+1 > secondQnt && second+1 > firstQnt) bc.rearrangeWarehouse(first, second);
+                            if(first + 1 > secondQnt && second + 1 > firstQnt) bc.rearrangeWarehouse(first, second);
                             else output.println("You can't do that");
                             showWarehouse();
                         }
@@ -397,6 +457,22 @@ public class CLI implements Runnable, UI{
             }
             else
                 output.println("On shelf #" + ++i + " there are " + pick.getQnt() + " " + pick.getResource().getType() + " resources");
+    }
+
+    private void showLibrary(){
+        output.println("This are your board slots:");
+        var b = LocalGameController.getInstance().getBoardController().getPlayer();
+        var i = 0;
+        for(var thisSlot : b.checkLibraryStatus())
+            if(thisSlot.isEmpty()){
+                output.println("This slot is empty");
+                i++;
+            }
+            else{
+                output.println("On slot #" + ++i + " there are this cards:\n");
+                for(var card : thisSlot)
+                    output.println("\t" + card.toString());
+            }
     }
 
     private Card getCorrectLeaderCardCode() throws IOException{

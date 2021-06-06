@@ -17,18 +17,18 @@ public class Warehouse{
         wareContent.add(new Pick(Colours.WHITE, 0));
     }
 
-    public List<Pick> getWareContent(){
+    protected List<Pick> getWareContent(){
         return wareContent;
     }
 
-    public void moveResources(int lvl, Pick add){
+    protected void moveResources(int lvl, Pick add){
         /*prima di arrivare qui ho già controllato che posso farlo
          * metto una quantità qnt di risorsa di tipo color nella posizione lvl della lista*/
         int qntNow = wareContent.get(lvl).getQnt();
         wareContent.set(lvl, new Pick(add.getResource(), add.getQnt() + qntNow));
     }
 
-    public boolean checkAdd(Pick add){
+    protected boolean checkAdd(Pick add){
         if(add.getQnt() < 4){
             int lvl = isThereThatRes(add.getResource());
             if(lvl > 0) return ((checkLvlStatus(lvl).getQnt() + add.getQnt()) <= lvl + 1);
@@ -37,14 +37,14 @@ public class Warehouse{
         return false;
     }
 
-    public int isThereThatRes(Colours color){
+    protected int isThereThatRes(Colours color){
         for(var i = 0; i < wareContent.size(); i++){
             if(wareContent.get(i).getResource() == color) return i;
         }
         return -1;
     }
 
-    public Pick checkLvlStatus(int lvl){
+    protected Pick checkLvlStatus(int lvl){
         return new Pick(wareContent.get(lvl).getResource(), wareContent.get(lvl).getQnt());
     }
 
@@ -52,21 +52,20 @@ public class Warehouse{
         if(add.getQnt() < 4){
             var i = isThereThatRes(add.getResource());
             var j = checkLvlStatus(lvl);
-            if(lvl == i) /**/
-                return ((j.getQnt() + add.getQnt()) <= (lvl + 1));
+            if(lvl == i) return ((j.getQnt() + add.getQnt()) <= (lvl + 1));
             else if(i > -1) return false;
             else return j.getResource() == Colours.WHITE;
         }
         return false;
     }
 
-    public void lvlExchange(int first, int second){
+    protected void lvlExchange(int first, int second){
         var buffer = wareContent.get(first);
         wareContent.set(first, wareContent.get(second));
         wareContent.set(second, buffer);
     }
 
-    public void addLeaderSpace(Colours color){
+    protected void addLeaderSpace(Colours color){
         switch(color){
             case GREY -> wareContent.add(new Pick(Colours.GREY, 0));
             case PURPLE -> wareContent.add(new Pick(Colours.PURPLE, 0));
@@ -77,7 +76,7 @@ public class Warehouse{
         }
     }
 
-    public List<Pick> checkStatus(){
+    protected List<Pick> checkStatus(){
         var status = new ArrayList<Pick>();
         for(var i = 0; i < wareContent.size(); i++){
             status.add(i, checkLvlStatus(i));

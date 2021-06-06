@@ -19,19 +19,23 @@ public class Library implements Serializable{
         slot.add(new ArrayList<>());
     }
 
-    public boolean checkAddableCard(int n, CardDev card){
+    protected boolean checkAddableCard(int n, CardDev card){
         return getCardOnTop(n) == null || card.getLvl() > getCardOnTop(n).getLvl();
     }
 
-    public CardDev getCardOnTop(int n){
+    protected CardDev getCardOnTop(int n){
         return slot.get(n).get(slot.get(n).size());
     }
 
-    public void addCard(int n, CardDev card){
+    protected ArrayList<ArrayList<CardDev>> getSlot(){
+        return slot;
+    }
+
+    protected void addCard(int n, CardDev card){
         slot.get(n).add(card);
     }
 
-    public int getWinPntCardDev(){
+    protected int getWinPntCardDev(){
         var win = 0;
         for(var i = 0; i < slot.size(); i++)
             for(var j = 0; j < getCardsOfASlot(i).size(); j++){
@@ -41,11 +45,11 @@ public class Library implements Serializable{
         return win;
     }
 
-    public List<CardDev> getCardsOfASlot(int n){
+    protected List<CardDev> getCardsOfASlot(int n){
         return slot.get(n);
     }
 
-    public List<CardDev> visibleCards(){
+    protected List<CardDev> visibleCards(){
         var list = new ArrayList<CardDev>();
         for(var i = 0; i < 3; i++){
             list.add(getCardOnTop(i));
