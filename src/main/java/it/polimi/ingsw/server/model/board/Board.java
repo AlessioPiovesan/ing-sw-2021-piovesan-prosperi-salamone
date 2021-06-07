@@ -186,9 +186,9 @@ public class Board{
         map.put(Colours.YELLOW, 0);
         for(var pick : w)
             if(pick.getResource() != Colours.WHITE)
-                map.put(pick.getResource(), pick.getQnt() + map.get(pick.getResource()));
+                map.put(pick.getResource(), pick.getQnt());
         s.keySet().forEach(key -> map.put(key, s.get(key) + map.get(key)));
-        resAll.keySet().forEach(key -> map.put(key, map.get(key)));
+        resAll.keySet().forEach(key -> resAll.put(key, map.get(key)));
     }
 
     public int countWinPnt(){
