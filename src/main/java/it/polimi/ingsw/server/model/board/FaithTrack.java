@@ -48,27 +48,26 @@ public class FaithTrack{
 
     protected void getWinPntCard(){
         switch(position){
-            case 5, 6, 7, 8 -> {
+            case 5, 6, 7, 8:
                 if(!popeFavor[0]){
                     popeFavor[0] = true;
                     popeFavorWinPnt += 2;
                 }
-            }
-
-            case 12, 13, 14, 15, 16 -> {
+                break;
+            case 12, 13, 14, 15, 16:
                 if(!popeFavor[1]){
                     popeFavor[1] = true;
                     popeFavorWinPnt += 3;
                 }
-            }
-            case 19, 20, 21, 22, 23, 24 -> {
+                break;
+            case 19, 20, 21, 22, 23, 24:
                 if(!popeFavor[2]){
                     popeFavor[2] = true;
                     popeFavorWinPnt += 4;
                 }
-            }
-            default -> {
-            }
+                break;
+            default:
+                break;
         }
     }
 

@@ -46,7 +46,7 @@ public class Server implements Runnable{
         if(waitingForConnection.size() == 1){
             var game = new Game(Mod.newID(), players, new Market());
             var gameControllerID = Controller.newID();
-            var gameController = new GameController(gameControllerID, 4, game);
+            new GameController(gameControllerID, 4, game);
             waitingForConnection.get(name).send("Your game's ID is:: " + gameControllerID);
             waitingForTheGameToStart.put(c, gameControllerID);
         }

@@ -7,8 +7,6 @@ import java.beans.PropertyChangeSupport;
 
 public class Lorenzo extends Board{
 
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-
     Lorenzo(int id, FaithTrack faithTrack){
         super(id, null, null, faithTrack, null);
     }

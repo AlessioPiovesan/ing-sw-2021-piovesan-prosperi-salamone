@@ -6,16 +6,6 @@ public enum ColoursCards{
 
     GREEN, CYAN, VIOLET, YELLOW;
 
-    public static ColoursCards fromString(String colour){
-        return switch(colour.toUpperCase()){
-            case "GREEN" -> GREEN;
-            case "CYAN" -> CYAN;
-            case "VIOLET" -> VIOLET;
-            case "YELLOW" -> YELLOW;
-            default -> null;
-        };
-    }
-
     public static String colored(String colour){
         return switch(colour.toUpperCase()){
             case "GREEN" -> ConsoleColors.GREEN + "GREEN" + ConsoleColors.RESET;

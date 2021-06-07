@@ -77,7 +77,7 @@ public class SocketServerToClient implements Runnable{
         switch(string[0]){
             case "nickname" -> remoteView.setNickname(string[1]);
             case "nplayers" -> remoteView.setNPlayers(Integer.parseInt(string[1]));
-            default -> {}
+            default -> System.err.println(string[0] + " is not handled");
         }
     }
 
