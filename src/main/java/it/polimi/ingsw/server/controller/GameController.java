@@ -130,7 +130,7 @@ public class GameController{
         b.productionExtra(colour);
     }
 
-    public void resolveLeaderConflictInMarket(int i){
+    public void resolveLeaderConflictInMarket(boolean i){
         var b = game.getSingleB(game.getPlayingPlayer());
         b.resolveLeaderConflict(i);
     }

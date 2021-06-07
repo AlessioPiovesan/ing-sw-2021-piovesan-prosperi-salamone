@@ -216,12 +216,14 @@ public class Board{
         if(myDevCards.size() == 7) endGame = true;
         if(faithTrack.getPosition() == 25) endGame = true;
         if(endGame) pcs.firePropertyChange("endGame", false, true);
-        else pcs.firePropertyChange("nextPlayer", "", true);
     }
 
     public void marketResHandler(List<Colours> res){
-        for(Colours colours : res)
-            if(colours == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE) colours = marketAlt[activeLeader];
+        for(Colours colour : res)
+            if(colour == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE){
+                res.remove(colour);
+                res.add(marketAlt[activeLeader]);
+            }
         setBufferMarket(res);
     }
 
@@ -240,8 +242,9 @@ public class Board{
         pcs.firePropertyChange("preference", "", preference);
     }
 
-    public void resolveLeaderConflict(int i){
-        activeLeader = i;
+    public void resolveLeaderConflict(boolean i){
+        if(i) activeLeader = 0;
+        else activeLeader = 1;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -270,6 +273,7 @@ public class Board{
     public void moveFT(int move){
         faithTrack.moveForward(move);
         pcs.firePropertyChange("redCrossMove", "", faithTrack.getPosition());
+        checkIfEndGame();
     }
 
     public void addLeaderSpace(Colours special){
@@ -292,7 +296,11 @@ public class Board{
         return warehouse.checkAdd(lvl, pick);
     }
 
-    public ArrayList<ArrayList<CardDev>> checkLibraryStatus(){
+    public List<ArrayList<CardDev>> checkLibraryStatus(){
         return library.getSlot();
+    }
+
+    public Map<Colours, Integer> checkStrongBoxStatus(){
+        return strongBox.getStrongContent();
     }
 }

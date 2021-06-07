@@ -343,11 +343,11 @@ public class CLI implements Runnable, UI{
     private List<Card> canUseCardDev(List<CardDev> cards){
         var resAll = LocalGameController.getInstance().getBoardController().getPlayer().getResAll();
         var list = new LinkedList<Card>();
-        for(var card : cards) {
+        for(var card : cards){
             var i = 0;
-            for (var cost : card.getCost())
-                if (cost.getQnt() <= resAll.get(cost.getResource())) i++;
-            if (i == card.getCost().length) list.add(card);
+            for(var cost : card.getCost())
+                if(cost.getQnt() <= resAll.get(cost.getResource())) i++;
+            if(i == card.getCost().length) list.add(card);
         }
         return list;
     }
@@ -358,20 +358,27 @@ public class CLI implements Runnable, UI{
         var list = new LinkedList<Card>();
         for(var card : cards)
             for(var req : card.getReq()){
-                if(req.getClass() == Requirements.RequirementsResources.class && ((Requirements.RequirementsResources)req).getQnt() <= resAll.get(((Requirements.RequirementsResources)req).getColour()))
-                    list.add(card);
-                if(req.getClass() == Requirements.RequirementsCard.class){
-                    for(var slot : slots){
-                        for(var thisCard : slot)
-                            if(thisCard != null && thisCard.getColour() == ((Requirements.RequirementsCard)req).getColour() && thisCard.getLvl() <= ((Requirements.RequirementsCard)req).getCardLvl()){
-                                list.add(card);
-                                break;
-                            }
-                        if(list.contains(card)) break;
-                    }
-                }
+                if(req.getClass() == Requirements.RequirementsResources.class)
+                    checkOnReqRes(resAll, list, card, (Requirements.RequirementsResources)req);
+                if(req.getClass() == Requirements.RequirementsCard.class)
+                    checkOnReqCard(slots, list, card, (Requirements.RequirementsCard)req);
             }
         return list;
+    }
+
+    private void checkOnReqCard(List<ArrayList<CardDev>> slots, LinkedList<Card> list, CardLeader card, Requirements.RequirementsCard req){
+        for(var slot : slots){
+            for(var thisCard : slot)
+                if(thisCard != null && thisCard.getColour() == req.getColour() && thisCard.getLvl() <= req.getCardLvl()){
+                    list.add(card);
+                    break;
+                }
+            if(list.contains(card)) break;
+        }
+    }
+
+    private void checkOnReqRes(Map<Colours, Integer> resAll, LinkedList<Card> list, CardLeader card, Requirements.RequirementsResources req){
+        if(req.getQnt() <= resAll.get(req.getColour())) list.add(card);
     }
 
     private void wakeALeader(){
@@ -484,6 +491,14 @@ public class CLI implements Runnable, UI{
                 for(var card : thisSlot)
                     output.println("\t" + card.toString());
             }
+    }
+
+    private void showStrongBox(){
+        output.println("This is what's in your StrongBox:");
+        var b = LocalGameController.getInstance().getBoardController().getPlayer();
+        var map = b.checkStrongBoxStatus();
+        for(var color : map.keySet())
+            output.println(color.getType() + " -> " + map.get(color));
     }
 
     private Card getCorrectLeaderCardCode() throws IOException{
