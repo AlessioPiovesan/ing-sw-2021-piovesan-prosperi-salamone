@@ -19,7 +19,7 @@ public class ServerApp{
         try{
             server = new Server(port);
         } catch(IOException e){
-            e.printStackTrace();
+            System.out.println("Error in instanciate the server because: " + e.getMessage());
         }
         System.out.println("It's ALIVE!");
         if(server != null){

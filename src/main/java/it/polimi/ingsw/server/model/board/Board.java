@@ -113,7 +113,7 @@ public class Board{
             CardDev card = library.getCardOnTop(i);
             Pick[] res = card.getResFrom();
             Collections.addAll(bufferProd, res);
-            pcs.firePropertyChange("ProductionBuffer", "", bufferProd);
+            pcs.firePropertyChange("productionBuffer", "", bufferProd);
             //remoteView.resourcesHandler(bufferProd);
             storeSB(card.getResTo());
         }
@@ -162,35 +162,6 @@ public class Board{
         }
     }
 
-    public void storeSB(Pick[] start){
-        for(Pick pick : start){
-            strongBox.moveResources(pick);
-        }
-        updateResAll();
-    }
-
-    public void storeW(int lvl, Pick[] start){
-        for(var pick : start){
-            warehouse.moveResources(lvl, pick);
-        }
-        updateResAll();
-    }
-
-    public void updateResAll(){
-        var w = warehouse.getWareContent();
-        var s = strongBox.getStrongContent();
-        var map = new EnumMap<Colours, Integer>(Colours.class);
-        map.put(Colours.BLUE, 0);
-        map.put(Colours.PURPLE, 0);
-        map.put(Colours.GREY, 0);
-        map.put(Colours.YELLOW, 0);
-        for(var pick : w)
-            if(pick.getResource() != Colours.WHITE)
-                map.put(pick.getResource(), pick.getQnt());
-        s.keySet().forEach(key -> map.put(key, s.get(key) + map.get(key)));
-        resAll.keySet().forEach(key -> resAll.put(key, map.get(key)));
-    }
-
     public int countWinPnt(){
         var win = 0;
         win += faithTrack.getWinPnt();
@@ -208,11 +179,10 @@ public class Board{
     }
 
     public void buyCardDev(CardDev card, int slot){
-        bufferProd = new LinkedList<>();
-        Collections.addAll(bufferProd, card.getCost());
-        pcs.firePropertyChange("bufferProd", "", bufferProd);
+        var costCardDev = new LinkedList<Pick>();
+        Collections.addAll(costCardDev, card.getCost());
+        pcs.firePropertyChange("costCardDev", "", costCardDev);
         myDevCards.add(card);
-        pcs.firePropertyChange("newCardDev", "", card);
         library.addCard(slot, card);
         checkIfEndGame();
     }
@@ -307,5 +277,42 @@ public class Board{
 
     public Map<Colours, Integer> checkStrongBoxStatus(){
         return strongBox.getStrongContent();
+    }
+
+    public void takeFromWarehouse(Colours colour){
+        var lvl = warehouse.isThereThatRes(colour);
+        storeW(lvl, new Pick[]{new Pick(colour, -1)});
+    }
+
+    public void storeW(int lvl, Pick[] start){
+        for(var pick : start){
+            warehouse.moveResources(lvl, pick);
+        }
+        updateResAll();
+    }
+
+    public void updateResAll(){
+        var w = warehouse.getWareContent();
+        var s = strongBox.getStrongContent();
+        var map = new EnumMap<Colours, Integer>(Colours.class);
+        map.put(Colours.BLUE, 0);
+        map.put(Colours.PURPLE, 0);
+        map.put(Colours.GREY, 0);
+        map.put(Colours.YELLOW, 0);
+        for(var pick : w)
+            if(pick.getResource() != Colours.WHITE) map.put(pick.getResource(), pick.getQnt());
+        s.keySet().forEach(key -> map.put(key, s.get(key) + map.get(key)));
+        resAll.keySet().forEach(key -> resAll.put(key, map.get(key)));
+    }
+
+    public void takeFromStrongBox(Colours colour){
+        storeSB(new Pick[]{new Pick(colour, -1)});
+    }
+
+    public void storeSB(Pick[] start){
+        for(Pick pick : start){
+            strongBox.moveResources(pick);
+        }
+        updateResAll();
     }
 }

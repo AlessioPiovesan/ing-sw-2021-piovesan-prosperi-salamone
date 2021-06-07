@@ -30,4 +30,12 @@ public record LocalBoardControl(Board player, Lorenzo lorenzo){
     public void rearrangeWarehouse(int first, int second){
         player.rearrangeWarehouse(first, second);
     }
+
+    public void takeFromWarehouse(Colours colour){
+        player.takeFromWarehouse(colour);
+    }
+
+    public void takeFromStrongbox(Colours color){
+        player.takeFromStrongBox(color);
+    }
 }

@@ -14,8 +14,6 @@ import it.polimi.ingsw.server.controller.Controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
@@ -24,7 +22,7 @@ import java.util.*;
 
 public class CLI implements Runnable, UI{
 
-    private final BufferedReader input;
+    private final Scanner input;
     private final PrintWriter output;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private String nickname;
@@ -32,7 +30,7 @@ public class CLI implements Runnable, UI{
     private Client client;
 
     public CLI(){
-        input = new BufferedReader(new InputStreamReader(System.in));
+        input = new Scanner(new InputStreamReader(System.in));
         output = new PrintWriter(System.out, true);
     }
 
@@ -61,7 +59,7 @@ public class CLI implements Runnable, UI{
                 output.println(">Insert your nickname: ");
                 output.print(">\t");
                 try{
-                    nickname = input.readLine();
+                    nickname = input.nextLine();
                 } catch(Exception e){
                     e.printStackTrace();
                 }
@@ -69,7 +67,7 @@ public class CLI implements Runnable, UI{
                 output.println("> Is it ok? [y/n] ");
                 output.println(">\t");
                 try{
-                    String r = input.readLine();
+                    String r = input.nextLine();
                     if(!(r.equals("y"))) nickname = "";
                 } catch(Exception e){
                     e.printStackTrace();
@@ -97,9 +95,27 @@ public class CLI implements Runnable, UI{
             }
             case "nextAction" -> nextAction();
             case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
-            case "ProductionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
+            case "productionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
+            case "costCardDev" -> payForCardDev(castList(Pick.class, (Collection<?>)evt.getNewValue()));
             case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
             default -> output.println(evt.getPropertyName() + " is not handled");
+        }
+    }
+
+    private void payForCardDev(List<Pick> cost){
+        showWarehouse();
+        showStrongBox();
+        for(var pick : cost){
+            var color = pick.getResource();
+            output.print(color.getType() + "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t");
+            output.flush();
+            var j = input.nextByte();
+            while(j != 0 && j != 1){
+                output.println("Wrong option");
+                j = input.nextByte();
+            }
+            if(j == 0) LocalGameController.getInstance().getBoardController().takeFromWarehouse(color);
+            else LocalGameController.getInstance().getBoardController().takeFromStrongbox(color);
         }
     }
 
@@ -125,33 +141,29 @@ public class CLI implements Runnable, UI{
         if(single && LocalGameController.getInstance().isLorenzoPlaying())
             LocalGameController.getInstance().moveLorenzo();
         else{
-            try{
-                output.print("""
-                             What is your next action?
-                             1) Activate production
-                             2) Pick resources from the market
-                             3) Buy a Development Card
-                             4) Activate Leader Card
-                             >\040\040""");
-                output.flush();
-                var action = Integer.parseInt(input.readLine());
-                while(action < 0 || action > 5){
-                    output.println("Please type a valid number [1-4]");
-                    action = Integer.parseInt(input.readLine());
-                }
-                if(action == 1 && LocalGameController.getInstance().getBoardController().getPlayer().isProducible()){
-                    output.println("You don't have any development card, you can't activate the production");
-                    nextAction();
-                }
-                switch(action){
-                    case 1 -> LocalGameController.getInstance().prodAction();
-                    case 2 -> marketMove();
-                    case 3 -> chooseCardDev();
-                    case 4 -> wakeALeader();
-                    default -> output.println("Not Possible");
-                }
-            } catch(IOException e){
-                e.printStackTrace();
+            output.print("""
+                         What is your next action?
+                         1) Activate production
+                         2) Pick resources from the market
+                         3) Buy a Development Card
+                         4) Activate Leader Card
+                         >\040\040""");
+            output.flush();
+            var action = input.nextByte();
+            while(action < 0 || action > 5){
+                output.println("Please type a valid number [1-4]");
+                action = input.nextByte();
+            }
+            if(action == 1 && LocalGameController.getInstance().getBoardController().getPlayer().isProducible()){
+                output.println("You don't have any development card, you can't activate the production");
+                nextAction();
+            }
+            switch(action){
+                case 1 -> LocalGameController.getInstance().prodAction();
+                case 2 -> marketMove();
+                case 3 -> chooseCardDev();
+                case 4 -> wakeALeader();
+                default -> output.println("Not Possible");
             }
         }
     }
@@ -165,17 +177,13 @@ public class CLI implements Runnable, UI{
             else{
                 output.print(colour.getType() + "\nDo you want to store it in your personal warehouse?\n0) No\n1)Yes\n>\t");
                 output.flush();
-                try{
-                    var j = Integer.parseInt(input.readLine());
-                    while(j != 0 && j != 1){
-                        output.println("Command not valid, unknown");
-                        j = Integer.parseInt(input.readLine());
-                    }
-                    if(j == 0) loose.add(colour);
-                    else keep.add(colour);
-                } catch(IOException e){
-                    e.printStackTrace();
+                var j = input.nextByte();
+                while(j != 0 && j != 1){
+                    output.println("Command not valid, unknown");
+                    j = input.nextByte();
                 }
+                if(j == 0) loose.add(colour);
+                else keep.add(colour);
             }
         }
         LocalGameController.getInstance().addFaithPnt(loose);
@@ -186,31 +194,26 @@ public class CLI implements Runnable, UI{
         for(Colours colours : keep)
             prepareResForWarehouse(colours, 1);
         showWarehouse();
-        LocalGameController.getInstance().nextPlayer();
     }
 
     private void resourcesHandler(List<Pick> bufferProd){
         output.println("Where do you want to pick them from?");
-        try{
-            for(Pick pick : bufferProd){
-                output.println(pick.getResource().getType());
-                output.println("0)Warehouse o 0)StrongBox?");
-                var j = Integer.parseInt(input.readLine());
-                while(j != 0 && j != 1){
-                    output.println("Command not valid, unknown");
-                    j = Integer.parseInt(input.readLine());
-                }
-                switch(j){
-                    case 0 -> prepareResForWarehouse(pick.getResource(), -pick.getQnt());
-                    case 1 -> LocalGameController.getInstance().getBoardController().getPlayer().storeSB(new Pick[]{new Pick(pick.getResource(), -pick.getQnt())});
-                    default -> output.println("Not possible");
-                }
+        for(Pick pick : bufferProd){
+            output.println(pick.getResource().getType());
+            output.println("0)Warehouse o 0)StrongBox?");
+            var j = input.nextByte();
+            while(j != 0 && j != 1){
+                output.println("Command not valid, unknown");
+                j = input.nextByte();
             }
-            showWarehouse();
-            LocalGameController.getInstance().nextPlayer();
-        } catch(IOException e){
-            e.printStackTrace();
+            switch(j){
+                case 0 -> prepareResForWarehouse(pick.getResource(), -pick.getQnt());
+                case 1 -> LocalGameController.getInstance().getBoardController().getPlayer().storeSB(new Pick[]{new Pick(pick.getResource(), -pick.getQnt())});
+                default -> output.println("Not possible");
+            }
         }
+        showWarehouse();
+        LocalGameController.getInstance().nextPlayer();
     }
 
     @Override
@@ -261,41 +264,37 @@ public class CLI implements Runnable, UI{
     }
 
     private void marketMove(){
-        try{
-            var move = -1;
-            showMarket();
-            output.println("\n0 ) Row\n1 ) Column");
-            var i = Integer.parseInt(input.readLine());
-            if(i == 0){
-                output.println("Which one? [1-3]");
-                var j = Integer.parseInt(input.readLine());
-                move = switch(j){
-                    case 1 -> 0;
-                    case 2 -> 1;
-                    case 3 -> 2;
-                    default -> -1;
+        var move = -1;
+        showMarket();
+        output.println("\n0 ) Row\n1 ) Column");
+        var i = input.nextByte();
+        if(i == 0){
+            output.println("Which one? [1-3]");
+            var j = input.nextByte();
+            move = switch(j){
+                case 1 -> 0;
+                case 2 -> 1;
+                case 3 -> 2;
+                default -> -1;
 
-                };
-            }
-            if(i == 1){
-                output.println("Which one? [1-4]");
-                var j = Integer.parseInt(input.readLine());
-                move = switch(j){
-                    case 1 -> 3;
-                    case 2 -> 4;
-                    case 3 -> 5;
-                    case 4 -> 6;
-                    default -> -1;
-                };
-            }
-            if(move == -1){
-                output.println("Impossible move");
-                nextAction();
-            }
-            else LocalGameController.getInstance().marketAction(move);
-        } catch(IOException e){
-            e.printStackTrace();
+            };
         }
+        if(i == 1){
+            output.println("Which one? [1-4]");
+            var j = input.nextByte();
+            move = switch(j){
+                case 1 -> 3;
+                case 2 -> 4;
+                case 3 -> 5;
+                case 4 -> 6;
+                default -> -1;
+            };
+        }
+        if(move == -1){
+            output.println("Impossible move");
+            nextAction();
+        }
+        else LocalGameController.getInstance().marketAction(move);
     }
 
     private void chooseCardDev(){
@@ -328,14 +327,14 @@ public class CLI implements Runnable, UI{
         }
     }
 
-    private int pickLibSlot(CardDev card) throws IOException{
+    private int pickLibSlot(CardDev card){
         showLibrary();
-        output.print("Slot for this resource? [1-3]\n" + card.name() + "\n>\t");
+        output.print("Slot for " + card.name() + "? [1-3]\n>\t");
         output.flush();
-        var slot = Integer.parseInt(input.readLine());
+        var slot = input.nextByte();
         while(!(slot > -1 && slot < 4)){
             output.println("This is not a valid slot");
-            slot = Integer.parseInt(input.readLine());
+            slot = input.nextByte();
         }
         return slot - 1;
     }
@@ -407,59 +406,55 @@ public class CLI implements Runnable, UI{
             showWarehouse();
             output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
             output.flush();
-            try{
-                var lvl = getShelfLvl();
-                var bc = LocalGameController.getInstance().getBoardController();
-                while(!bc.getPlayer().checkWarehouseAdd(newPick, lvl)){
-                    output.println("You can not add that resource on this shelf, try something else...");
-                    output.print("""
-                                 Choose how to proceed?
-                                 1) Discard the resource
-                                 2) Rearrange the warehouse
-                                 3) Put on an other shelf
-                                 >\040\040""");
-                    output.flush();
-                    response = Integer.parseInt(input.readLine());
-                    while(response < 1 || response > 3){
-                        output.println("Not a valid command\n>\t");
-                        response = Integer.parseInt(input.readLine());
-                    }
-                    switch(response){
-                        case 1 -> LocalGameController.getInstance().addFaithPnt(Collections.singletonList(colour));
-                        case 2 -> {
-                            output.println("Starting shelf?");
-                            var first = getShelfLvl();
-                            var firstQnt = bc.getPlayer().checkWarehouseStatus().get(first).getQnt();
-                            output.println("Destination?");
-                            var second = getShelfLvl();
-                            var secondQnt = bc.getPlayer().checkWarehouseStatus().get(second).getQnt();
-                            if(first + 1 > secondQnt && second + 1 > firstQnt) bc.rearrangeWarehouse(first, second);
-                            else output.println("You can't do that");
-                            showWarehouse();
-                        }
-                        case 3 -> {
-                            showWarehouse();
-                            output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
-                            output.flush();
-                            lvl = getShelfLvl();
-                        }
-                        default -> output.println("Not possible");
-                    }
-                    if(response == 1) break;
+            var lvl = getShelfLvl();
+            var bc = LocalGameController.getInstance().getBoardController();
+            while(!bc.getPlayer().checkWarehouseAdd(newPick, lvl)){
+                output.println("You can not add that resource on this shelf, try something else...");
+                output.print("""
+                             Choose how to proceed?
+                             1) Discard the resource
+                             2) Rearrange the warehouse
+                             3) Put on an other shelf
+                             >\040\040""");
+                output.flush();
+                response = input.nextByte();
+                while(response < 1 || response > 3){
+                    output.println("Not a valid command\n>\t");
+                    response = input.nextByte();
                 }
-                if(response != 1)
-                    LocalGameController.getInstance().getBoardController().warehouseResHandler(colour, qnt, lvl);
-            } catch(IOException e){
-                e.printStackTrace();
+                switch(response){
+                    case 1 -> LocalGameController.getInstance().addFaithPnt(Collections.singletonList(colour));
+                    case 2 -> {
+                        output.println("Starting shelf?");
+                        var first = getShelfLvl();
+                        var firstQnt = bc.getPlayer().checkWarehouseStatus().get(first).getQnt();
+                        output.println("Destination?");
+                        var second = getShelfLvl();
+                        var secondQnt = bc.getPlayer().checkWarehouseStatus().get(second).getQnt();
+                        if(first + 1 > secondQnt && second + 1 > firstQnt) bc.rearrangeWarehouse(first, second);
+                        else output.println("You can't do that");
+                        showWarehouse();
+                    }
+                    case 3 -> {
+                        showWarehouse();
+                        output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
+                        output.flush();
+                        lvl = getShelfLvl();
+                    }
+                    default -> output.println("Not possible");
+                }
+                if(response == 1) break;
             }
+            if(response != 1)
+                LocalGameController.getInstance().getBoardController().warehouseResHandler(colour, qnt, lvl);
         }
     }
 
-    private int getShelfLvl() throws IOException{
-        var lvl = Integer.parseInt(input.readLine());
+    private int getShelfLvl(){
+        var lvl = input.nextByte();
         while(!(lvl > -1 && lvl < 4)){
             output.println("This is not a valid shelf");
-            lvl = Integer.parseInt(input.readLine());
+            lvl = input.nextByte();
         }
         return lvl - 1;
     }
@@ -478,7 +473,7 @@ public class CLI implements Runnable, UI{
     }
 
     private void showLibrary(){
-        output.println("This are your board slots:");
+        output.println("These are your board slots:");
         var b = LocalGameController.getInstance().getBoardController().getPlayer();
         var i = 0;
         for(var thisSlot : b.checkLibraryStatus())
@@ -497,24 +492,23 @@ public class CLI implements Runnable, UI{
         output.println("This is what's in your StrongBox:");
         var b = LocalGameController.getInstance().getBoardController().getPlayer();
         var map = b.checkStrongBoxStatus();
-        for(var color : map.keySet())
-            output.println(color.getType() + " -> " + map.get(color));
+        map.keySet().stream().map(color -> color.getType() + " -> " + map.get(color)).forEach(output::println);
     }
 
-    private Card getCorrectLeaderCardCode() throws IOException{
-        var response = input.readLine().toUpperCase();
+    private Card getCorrectLeaderCardCode(){
+        var response = input.nextLine().toUpperCase();
         while(Integer.parseInt(response) <= 0 || Integer.parseInt(response) >= 17){
             output.println("Not a correct code");
-            response = input.readLine().toUpperCase();
+            response = input.nextLine().toUpperCase();
         }
         return CardLeader.getSpecificCard(response);
     }
 
-    private Card getCorrectDevCardCode() throws IOException{
-        var response = input.readLine().toUpperCase();
+    private Card getCorrectDevCardCode(){
+        var response = input.nextLine().toUpperCase();
         while(!(response.length() == 3 && (response.charAt(0) == '1') || response.charAt(0) == '2' || response.charAt(0) == '3' || response.charAt(0) == '4') && (response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y') && (response.charAt(2) == '1' || response.charAt(2) == '2' || response.charAt(2) == '3')){
             output.println("Not a correct code");
-            response = input.readLine().toUpperCase();
+            response = input.nextLine().toUpperCase();
         }
         return CardDev.getSpecificCard(response);
     }
