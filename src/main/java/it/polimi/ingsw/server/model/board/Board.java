@@ -177,13 +177,18 @@ public class Board{
     }
 
     public void updateResAll(){
-        List<Pick> w = warehouse.checkStatus();
+        var w = warehouse.getWareContent();
+        var s = strongBox.getStrongContent();
+        var map = new EnumMap<Colours, Integer>(Colours.class);
+        map.put(Colours.BLUE, 0);
+        map.put(Colours.PURPLE, 0);
+        map.put(Colours.GREY, 0);
+        map.put(Colours.YELLOW, 0);
         for(var pick : w)
             if(pick.getResource() != Colours.WHITE)
-                resAll.replace(pick.getResource(), pick.getQnt() + resAll.get(pick.getResource()));
-        for(Colours c : Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
-            resAll.replace(c, resAll.get(c) + strongBox.getStrongContent().get(c));
-        pcs.firePropertyChange("resAll", "", resAll);
+                map.put(pick.getResource(), pick.getQnt() + map.get(pick.getResource()));
+        s.keySet().forEach(key -> map.put(key, s.get(key) + map.get(key)));
+        resAll.keySet().forEach(key -> map.put(key, map.get(key)));
     }
 
     public int countWinPnt(){
