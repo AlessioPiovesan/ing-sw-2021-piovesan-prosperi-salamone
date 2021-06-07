@@ -13,6 +13,8 @@ public class GUI extends Application implements UI{
 
     private static final String SETUP = "setup.fxml";
     private static final String MENU = "MainMenu.fxml";
+    private static final String LOADER = "loadingscreen.fxml";
+    private static final String BOARDS = "boards.fxml";
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private boolean single;
 

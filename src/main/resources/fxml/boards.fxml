@@ -1,66 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            xmlns="http://javafx.com/javafx/17-ea+11">
-    <TabPane layoutY="-1.0" prefHeight="900.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+    <TabPane layoutY="-1.0" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Player 1">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1200.0">
-                <ImageView pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../graphics/board/boardFront.png"/>
+                <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/board/boardFront.png" />
                 </ImageView>
-                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="58.0" layoutY="180.0" pickOnBounds="true"
-                           preserveRatio="true">
-                    <Image url="@../graphics/faithTrack/cross.png"/>
+                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="52.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/faithTrack/cross.png" />
                 </ImageView>
             </AnchorPane>
         </Tab>
         <Tab text="Player 2">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1200.0">
-                <ImageView pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../graphics/board/boardFront.png"/>
+                <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/board/boardFront.png" />
                 </ImageView>
-                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="58.0" layoutY="180.0" pickOnBounds="true"
-                           preserveRatio="true">
-                    <Image url="@../graphics/faithTrack/cross.png"/>
+                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="52.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/faithTrack/cross.png" />
                 </ImageView>
             </AnchorPane>
         </Tab>
         <Tab text="Player 3">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1200.0">
-                <ImageView pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../graphics/board/boardFront.png"/>
+                <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/board/boardFront.png" />
                 </ImageView>
-                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="58.0" layoutY="180.0" pickOnBounds="true"
-                           preserveRatio="true">
-                    <Image url="@../graphics/faithTrack/cross.png"/>
+                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="52.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/faithTrack/cross.png" />
                 </ImageView>
             </AnchorPane>
         </Tab>
         <Tab text="Player 4">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1200.0">
-                <ImageView pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../graphics/board/boardFront.png"/>
+                <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/board/boardFront.png" />
                 </ImageView>
-                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="58.0" layoutY="180.0" pickOnBounds="true"
-                           preserveRatio="true">
-                    <Image url="@../graphics/faithTrack/cross.png"/>
+                <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="52.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/faithTrack/cross.png" />
                 </ImageView>
             </AnchorPane>
         </Tab>
         <Tab text="Market">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="900.0" prefWidth="1200.0">
-                <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../graphics/marbles/newMarbleBoard.png"/>
-                </ImageView>
-                <AnchorPane layoutX="366.0" layoutY="82.0" prefHeight="360.0" prefWidth="450.0">
-                    <ImageView fitHeight="388.0" fitWidth="465.0" layoutX="-9.0" layoutY="-2.0" pickOnBounds="true"
-                               preserveRatio="true">
-                        <Image url="@../graphics/marbles/marbleBoard.png"/>
-                    </ImageView>
-                </AnchorPane>
+            <children>
+               <ImageView fitHeight="906.0" fitWidth="1204.0" layoutY="-23.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../graphics/marbles/newMarbleBoard.png" />
+                  </image>
+               </ImageView>
+               <AnchorPane layoutX="367.0" layoutY="62.0" prefHeight="398.0" prefWidth="450.0">
+                  <children>
+                     <ImageView fitHeight="357.0" fitWidth="447.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../graphics/marbles/marbleBoard.png" />
+                        </image>
+                     </ImageView>
+                  </children>
+               </AnchorPane>
+            </children>
             </AnchorPane>
         </Tab>
     </TabPane>
