@@ -22,10 +22,10 @@ public class ClientApp{
                          1. GRAPHICAL USER INTERFACE
                          > Type the number of the desired option!
                          >>\040\040""");
-        ui = scanner.nextByte();
+        ui = scanner.nextInt();
         while(ui != 0 && ui != 1){
             System.err.println("Command not valid unknown");
-            ui = scanner.nextByte();
+            ui = scanner.nextInt();
         }
         if(input == 1) new Local(ui).run();
         else{

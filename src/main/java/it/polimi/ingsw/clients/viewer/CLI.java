@@ -109,10 +109,10 @@ public class CLI implements Runnable, UI{
             var color = pick.getResource();
             output.print(color.getType() + "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t");
             output.flush();
-            var j = input.nextByte();
+            var j = input.nextInt();
             while(j != 0 && j != 1){
                 output.println("Wrong option");
-                j = input.nextByte();
+                j = input.nextInt();
             }
             if(j == 0) LocalGameController.getInstance().getBoardController().takeFromWarehouse(color);
             else LocalGameController.getInstance().getBoardController().takeFromStrongbox(color);
@@ -149,10 +149,10 @@ public class CLI implements Runnable, UI{
                          4) Activate Leader Card
                          >\040\040""");
             output.flush();
-            var action = input.nextByte();
-            while(action < 0 || action > 5){
+            var action = input.nextInt();
+            while(action < 1 || action > 5){
                 output.println("Please type a valid number [1-4]");
-                action = input.nextByte();
+                action = input.nextInt();
             }
             if(action == 1 && LocalGameController.getInstance().getBoardController().getPlayer().isProducible()){
                 output.println("You don't have any development card, you can't activate the production");
@@ -177,10 +177,10 @@ public class CLI implements Runnable, UI{
             else{
                 output.print(colour.getType() + "\nDo you want to store it in your personal warehouse?\n0) No\n1)Yes\n>\t");
                 output.flush();
-                var j = input.nextByte();
+                var j = input.nextInt();
                 while(j != 0 && j != 1){
                     output.println("Command not valid, unknown");
-                    j = input.nextByte();
+                    j = input.nextInt();
                 }
                 if(j == 0) loose.add(colour);
                 else keep.add(colour);
@@ -202,10 +202,10 @@ public class CLI implements Runnable, UI{
         for(Pick pick : bufferProd){
             output.println(pick.getResource().getType());
             output.println("0)Warehouse o 0)StrongBox?");
-            var j = input.nextByte();
+            var j = input.nextInt();
             while(j != 0 && j != 1){
                 output.println("Command not valid, unknown");
-                j = input.nextByte();
+                j = input.nextInt();
             }
             switch(j){
                 case 0 -> prepareResForWarehouse(pick.getResource(), -pick.getQnt());
@@ -268,10 +268,10 @@ public class CLI implements Runnable, UI{
         var move = -1;
         showMarket();
         output.println("\n0 ) Row\n1 ) Column");
-        var i = input.nextByte();
+        var i = input.nextInt();
         if(i == 0){
             output.println("Which one? [1-3]");
-            var j = input.nextByte();
+            var j = input.nextInt();
             move = switch(j){
                 case 1 -> 0;
                 case 2 -> 1;
@@ -282,7 +282,7 @@ public class CLI implements Runnable, UI{
         }
         if(i == 1){
             output.println("Which one? [1-4]");
-            var j = input.nextByte();
+            var j = input.nextInt();
             move = switch(j){
                 case 1 -> 3;
                 case 2 -> 4;
@@ -332,10 +332,10 @@ public class CLI implements Runnable, UI{
         showLibrary();
         output.print("Slot for " + card.name() + "? [1-3]\n>\t");
         output.flush();
-        var slot = input.nextByte();
+        var slot = input.nextInt();
         while(!(slot > -1 && slot < 4)){
             output.println("This is not a valid slot");
-            slot = input.nextByte();
+            slot = input.nextInt();
         }
         return slot - 1;
     }
@@ -418,10 +418,10 @@ public class CLI implements Runnable, UI{
                              3) Put on an other shelf
                              >\040\040""");
                 output.flush();
-                response = input.nextByte();
+                response = input.nextInt();
                 while(response < 1 || response > 3){
                     output.println("Not a valid command\n>\t");
-                    response = input.nextByte();
+                    response = input.nextInt();
                 }
                 switch(response){
                     case 1 -> LocalGameController.getInstance().addFaithPnt(Collections.singletonList(colour));
@@ -452,10 +452,10 @@ public class CLI implements Runnable, UI{
     }
 
     private int getShelfLvl(){
-        var lvl = input.nextByte();
+        var lvl = input.nextInt();
         while(!(lvl > -1 && lvl < 4)){
             output.println("This is not a valid shelf");
-            lvl = input.nextByte();
+            lvl = input.nextInt();
         }
         return lvl - 1;
     }
@@ -506,6 +506,7 @@ public class CLI implements Runnable, UI{
     }
 
     private Card getCorrectDevCardCode(){
+        input.reset();
         var response = input.nextLine().toUpperCase();
         while(!(response.length() == 3 && (response.charAt(0) == '1') || response.charAt(0) == '2' || response.charAt(0) == '3' || response.charAt(0) == '4') && (response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y') && (response.charAt(2) == '1' || response.charAt(2) == '2' || response.charAt(2) == '3')){
             output.println("Not a correct code");
