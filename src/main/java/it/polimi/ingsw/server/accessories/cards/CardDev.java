@@ -102,14 +102,7 @@ public enum CardDev implements Card{
 
     @Override
     public String toString(){
-        var color = switch(colour){
-            case CYAN -> ConsoleColors.CYAN_BACKGROUND_BRIGHT;
-            case GREEN -> ConsoleColors.GREEN_BACKGROUND_BRIGHT;
-            case VIOLET -> ConsoleColors.PURPLE_BACKGROUND_BRIGHT;
-            case YELLOW -> ConsoleColors.YELLOW_BACKGROUND_BRIGHT;
-        };
-
-        return color + (ConsoleColors.PURPLE + name() + ConsoleColors.RESET) + "\n" + "This is a " + " level " + lvl + " " + ColoursCards.colored(colour.name()) + " card that gives " + winPnt + "points.\nIt costs" + "\t->\t" + showPick(cost) + "\nThis card allows you to produce\n" + showPick(resTo) + "\nStarting from\n" + showPick(resFrom) + ConsoleColors.RESET;
+        return (ConsoleColors.PURPLE + name() + ConsoleColors.RESET) + "\n" + "This is a " + " level " + lvl + " " + ColoursCards.colored(colour.name()) + " card that gives " + winPnt + "points.\nIt costs" + "\t->\t" + showPick(cost) + "\nThis card allows you to produce\n" + showPick(resTo) + "\nStarting from\n" + showPick(resFrom);
     }
 
     private String showPick(Pick[] picks){
