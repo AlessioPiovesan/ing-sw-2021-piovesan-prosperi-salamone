@@ -24,7 +24,7 @@ public class ClientApp{
                          >>\040\040""");
         ui = scanner.nextInt();
         while(ui != 0 && ui != 1){
-            System.err.println("Command not valid unknown");
+            System.err.println("Command not valid, retry");
             ui = scanner.nextInt();
         }
         if(input == 1) new Local(ui).run();

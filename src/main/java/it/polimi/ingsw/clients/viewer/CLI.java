@@ -285,10 +285,10 @@ public class CLI implements Runnable, UI{
             output.println("Which one? [1-4]");
             var j = input.nextInt();
             move = switch(j){
-                case 1 -> 3;
-                case 2 -> 4;
-                case 3 -> 5;
-                case 4 -> 6;
+                case 1 -> 6;
+                case 2 -> 5;
+                case 3 -> 4;
+                case 4 -> 3;
                 default -> -1;
             };
         }
@@ -433,7 +433,7 @@ public class CLI implements Runnable, UI{
                         output.println("Destination?");
                         var second = getShelfLvl();
                         var secondQnt = bc.getPlayer().checkWarehouseStatus().get(second).getQnt();
-                        if(first + 1 > secondQnt && second + 1 > firstQnt) bc.rearrangeWarehouse(first, second);
+                        if(first + 1 >= secondQnt && second + 1 >= firstQnt) bc.rearrangeWarehouse(first, second);
                         else output.println("You can't do that");
                         showWarehouse();
                     }
@@ -454,7 +454,7 @@ public class CLI implements Runnable, UI{
 
     private int getShelfLvl(){
         var lvl = input.nextInt();
-        while(!(lvl > -1 && lvl < 4)){
+        while(!(lvl > 0 && lvl < 4)){
             output.println("This is not a valid shelf");
             lvl = input.nextInt();
         }
@@ -499,7 +499,7 @@ public class CLI implements Runnable, UI{
 
     private Card getCorrectLeaderCardCode(){
         var response = input.nextLine().toUpperCase();
-        while(Integer.parseInt(response) <= 0 || Integer.parseInt(response) >= 17){
+        while(Integer.parseInt(response) <= 1 || Integer.parseInt(response) >= 17){
             output.println("Not a correct code");
             response = input.nextLine().toUpperCase();
         }
@@ -507,13 +507,11 @@ public class CLI implements Runnable, UI{
     }
 
     private Card getCorrectDevCardCode(){
-        var thisScanner = new Scanner(System.in);
-        var response = thisScanner.nextLine().toUpperCase();
+        var response = input.nextLine().toUpperCase();
         while(!(response.length() == 3 && (response.charAt(0) == '1') || response.charAt(0) == '2' || response.charAt(0) == '3' || response.charAt(0) == '4') && (response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y') && (response.charAt(2) == '1' || response.charAt(2) == '2' || response.charAt(2) == '3')){
             output.println("Not a correct code");
             response = input.nextLine().toUpperCase();
         }
-        thisScanner.close();
         return CardDev.getSpecificCard(response);
     }
 

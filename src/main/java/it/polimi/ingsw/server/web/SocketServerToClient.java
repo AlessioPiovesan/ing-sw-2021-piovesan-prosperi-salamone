@@ -58,7 +58,7 @@ public class SocketServerToClient implements Runnable{
                 }
             }
         } catch(IOException|NoSuchElementException|ClassNotFoundException e){
-            System.err.println("Error!" + e.getMessage());
+            System.err.println("Error! " + e.getMessage());
         } finally{
             close();
         }
@@ -89,12 +89,12 @@ public class SocketServerToClient implements Runnable{
     }
 
     public synchronized void closeConnection(){
-        send("Connection closed!");
         try{
             socket.close();
         } catch(IOException e){
             System.err.println("Error when closing socket!");
         }
+        send("Connection closed!");
         active = false;
     }
 }
