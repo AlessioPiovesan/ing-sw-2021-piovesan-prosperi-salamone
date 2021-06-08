@@ -194,6 +194,7 @@ public class CLI implements Runnable, UI{
         for(Colours colours : keep)
             prepareResForWarehouse(colours, 1);
         showWarehouse();
+        LocalGameController.getInstance().nextPlayer();
     }
 
     private void resourcesHandler(List<Pick> bufferProd){
