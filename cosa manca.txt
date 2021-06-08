@@ -17,6 +17,8 @@
 
 - Feedback da parte del programma nel momento in cui compriamo una carta sviluppo o attiviamo uan carta leader
 
+- Controllare che il nickname sia unico sul server
+
 - Mostrare le carte sviluppo in mazzetti giusti divisi per livello e per colore (GUI)
 
 - Piazzare le carte sviluppo nei rispettivi slot corrispondenti comprendendo la regola di rispettare il livello
