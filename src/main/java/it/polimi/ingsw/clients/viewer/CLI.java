@@ -117,6 +117,7 @@ public class CLI implements Runnable, UI{
             if(j == 0) LocalGameController.getInstance().getBoardController().takeFromWarehouse(color);
             else LocalGameController.getInstance().getBoardController().takeFromStrongbox(color);
         }
+        LocalGameController.getInstance().nextPlayer();
     }
 
     private void chooseInitialLeaders(CardLeader[] cards){
@@ -506,11 +507,13 @@ public class CLI implements Runnable, UI{
     }
 
     private Card getCorrectDevCardCode(){
-        var response = input.nextLine().toUpperCase();
+        var thisScanner = new Scanner(System.in);
+        var response = thisScanner.nextLine().toUpperCase();
         while(!(response.length() == 3 && (response.charAt(0) == '1') || response.charAt(0) == '2' || response.charAt(0) == '3' || response.charAt(0) == '4') && (response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y') && (response.charAt(2) == '1' || response.charAt(2) == '2' || response.charAt(2) == '3')){
             output.println("Not a correct code");
             response = input.nextLine().toUpperCase();
         }
+        thisScanner.close();
         return CardDev.getSpecificCard(response);
     }
 
