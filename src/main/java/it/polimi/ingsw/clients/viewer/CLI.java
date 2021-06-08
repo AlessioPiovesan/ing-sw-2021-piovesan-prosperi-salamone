@@ -22,7 +22,7 @@ import java.util.*;
 
 public class CLI implements Runnable, UI{
 
-    private final Scanner input;
+    private Scanner input;
     private final PrintWriter output;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private String nickname;
@@ -506,7 +506,6 @@ public class CLI implements Runnable, UI{
     }
 
     private Card getCorrectDevCardCode(){
-        input.reset();
         var response = input.nextLine().toUpperCase();
         while(!(response.length() == 3 && (response.charAt(0) == '1') || response.charAt(0) == '2' || response.charAt(0) == '3' || response.charAt(0) == '4') && (response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y') && (response.charAt(2) == '1' || response.charAt(2) == '2' || response.charAt(2) == '3')){
             output.println("Not a correct code");

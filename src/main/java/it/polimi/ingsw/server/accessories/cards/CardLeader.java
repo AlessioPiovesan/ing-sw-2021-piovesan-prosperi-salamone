@@ -74,13 +74,13 @@ public enum CardLeader implements Card{
 
     @Override
     public String toString(){
-        return ConsoleColors.PURPLE + name() + ConsoleColors.RESET + "\t->\t" + "this card gives you the ability of\n" + ConsoleColors.RED_UNDERLINED + ability + ConsoleColors.RESET + " and " + winPnt + " points,\n\tto activate this card you need:\n\t\t" + showReq(req);
+        return ConsoleColors.PURPLE + name() + ConsoleColors.RESET + "\t->\t" + "this card gives you the ability of\n" + ConsoleColors.RED_UNDERLINED + ability + ConsoleColors.RESET + " and " + winPnt + " points,\n\tto activate this card you need:\n" + showReq(req);
     }
 
     private String showReq(Requirements[] requirements){
         var req = new StringBuilder();
         for(var requirement : requirements)
-            req.append(requirement.toString()).append("\n");
+            req.append("\t\t").append(requirement.toString()).append("\n");
         return String.valueOf(req);
     }
 }

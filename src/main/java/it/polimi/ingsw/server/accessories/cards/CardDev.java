@@ -115,7 +115,7 @@ public enum CardDev implements Card{
     private String showPick(Pick[] picks){
         var string = new StringBuilder();
         for(var pick : picks)
-            string.append(pick.getQnt()).append(" - ").append(pick.getResource().getType());
+            string.append(pick.getQnt()).append(" - ").append(pick.getResource().getType()).append("\t");
         return String.valueOf(string);
     }
 
