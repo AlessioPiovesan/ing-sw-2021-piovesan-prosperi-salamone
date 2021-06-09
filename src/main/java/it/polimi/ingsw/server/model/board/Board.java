@@ -126,23 +126,6 @@ public class Board{
         this.nickname = nickname;
     }
 
-    /*DA METTERE SUL CLIENT magari*/
-    private void chooseResourcesW(List<Pick> res, Class<Warehouse> warehouseClass){
-        /*la quantità di res è negativa*/
-        for(Pick r : res){
-            int i = warehouse.isThereThatRes(r.getResource());
-            warehouse.moveResources(i, r);
-        }
-    }
-
-    /*DA METTERE SUL CLIENT magari*/
-    private void chooseResourcesSB(List<Pick> res, Class<StrongBox> strongBoxClass){
-        /*la quantità di res è negativa*/
-        for(Pick r : res){
-            strongBox.moveResources(r);
-        }
-    }
-
     public int countWinPnt(){
         var win = 0;
         win += faithTrack.getWinPnt();
@@ -230,8 +213,8 @@ public class Board{
 
     public void moveFT(int move){
         faithTrack.moveForward(move);
-        pcs.firePropertyChange("redCrossMove", "", faithTrack.getPosition());
         checkIfEndGame();
+        pcs.firePropertyChange("redCrossMove", "", faithTrack.getPosition());
     }
 
     public void addLeaderSpace(Colours special){
@@ -288,6 +271,8 @@ public class Board{
         resAll.keySet().forEach(key -> resAll.put(key, map.get(key)));
     }
 
+    public int checkFT(){return faithTrack.getPosition();}
+
     public void takeFromStrongBox(Colours colour){
         storeSB(new Pick[]{new Pick(colour, -1)});
     }
@@ -301,5 +286,9 @@ public class Board{
 
     public void produce(CardDev card){
         storeSB(card.getResTo());
+    }
+
+    public void checkVaticanReport(){
+        faithTrack.getPopeFavorWinPnt();
     }
 }

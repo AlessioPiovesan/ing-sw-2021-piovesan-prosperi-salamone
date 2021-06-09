@@ -94,7 +94,7 @@ public class CLI implements Runnable, UI{
                     if(single) LocalGameController.getInstance().nextPlayer();
                     else Controller.getInstance().getGameControllerById(0);
                 }
-
+                case "redCrossMove" -> LocalGameController.getInstance().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
                 case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
                 case "productionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
@@ -159,12 +159,72 @@ public class CLI implements Runnable, UI{
                     output.println("Please type a valid number [1-5]");
                     s = Integer.parseInt(input.readLine());
                 }
+                switch(s){
+                    case 1 -> showWarehouse();
+                    case 2 -> showStrongBox();
+                    case 3 -> showLibrary();
+                    case 4 -> showFaithTrack();
+                    default -> output.print("Come hai fatto?");
+                }
             } while(s != 5);
             nextAction();
         } catch(NumberFormatException e){
             output.println("Not a number");
             showStatus();
         }
+    }
+
+    private void showFaithTrack(){
+        final var pos = LocalGameController.getInstance().getBoardController().getPlayer().checkFT();
+        final var posL = LocalGameController.getInstance().getBoardController().getLorenzo().checkFT();
+        var normal = "███";
+        var central = ConsoleColors.RED_BOLD + "███" + ConsoleColors.RESET;
+        var top = "█" + ConsoleColors.RED_BOLD + "█" + ConsoleColors.RESET + "█";
+        var centralL = ConsoleColors.BLACK_BOLD + "XXX" + ConsoleColors.RESET;
+        var topL = "█" + ConsoleColors.BLACK_BOLD + "X" + ConsoleColors.RESET + "█";
+        var trackTop = new StringBuilder();
+        var trackCen = new StringBuilder();
+        var trackN = new StringBuilder();
+        output.println("You are on " + pos + "\nLorenzo is on " + posL);
+        for(var i = 0; i < 25; i++){
+            if(i < 9) trackN.append("██").append(i).append("\t");
+            else trackN.append("█").append(i).append("\t");
+            if(isPopeFavor(i)){
+                trackTop.append(ConsoleColors.YELLOW_BOLD_BRIGHT);
+                trackCen.append(ConsoleColors.YELLOW_BOLD_BRIGHT);
+            }
+            if(i == pos){
+                if(pos == posL){
+                    trackTop.append("█" + ConsoleColors.RED_BOLD + "X" + ConsoleColors.RESET + "█").append("\t");
+                    trackCen.append(ConsoleColors.RED_BOLD + "XXX" + ConsoleColors.RESET).append("\t");
+                }
+                else{
+                    trackTop.append(top).append("\t");
+                    trackCen.append(central).append("\t");
+                }
+            }
+            else if(i == posL){
+                trackTop.append(topL).append("\t");
+                trackCen.append(centralL).append("\t");
+            }
+            else{
+                trackTop.append(normal).append("\t");
+                trackCen.append(normal).append("\t");
+            }
+            if(isPopeFavor(i)){
+                trackTop.append(ConsoleColors.RESET);
+                trackCen.append(ConsoleColors.RESET);
+            }
+
+        }
+        output.println(trackN);
+        output.println(trackTop);
+        output.println(trackCen);
+        output.println(trackTop);
+    }
+
+    private boolean isPopeFavor(int i){
+        return i == 5 || i == 6 || i == 7 || i == 8 || i == 12 || i == 13 || i == 14 || i == 15 || i == 16 || i == 19 || i == 20 || i == 21 || i == 22 || i == 23 || i == 24;
     }
 
     private void nextAction() throws IOException{
@@ -580,7 +640,7 @@ public class CLI implements Runnable, UI{
 
     private Card getCorrectLeaderCardCode(String response) throws IOException{
         try{
-            while(Integer.parseInt(response) <= 1 || Integer.parseInt(response) >= 17){
+            while(Integer.parseInt(response) < 1 || Integer.parseInt(response) > 16){
                 output.println("Not a correct code");
                 response = input.readLine().toUpperCase();
             }

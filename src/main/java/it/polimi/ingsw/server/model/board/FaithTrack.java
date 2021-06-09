@@ -20,9 +20,6 @@ public class FaithTrack{
 
     protected void moveForward(int step){
         position += step;
-        if((position >= 8) && !popeFavor[0]) System.out.println("(Method Call): Check Vatican Report");
-        if((position >= 16) && !popeFavor[1]) System.out.println("(Method Call): Check Vatican Report");
-        if((position >= 24) && !popeFavor[2]) System.out.println("(Method Call): Check Vatican Report");
     }
 
     protected int getWinPnt(){

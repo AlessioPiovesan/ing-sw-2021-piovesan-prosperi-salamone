@@ -16,7 +16,7 @@ public class LocalGameController{
 
     private static LocalGameController singleInstance;
     private final LocalGame game;
-    private final LocalBoardControl boardController;
+    private final LocalBoardController boardController;
     private final LinkedList<SoloAction> listSoloAction;
     private boolean playingPlayer;
 
@@ -24,7 +24,7 @@ public class LocalGameController{
         this.game = new LocalGame(new Market());
         var lorenzo = (Lorenzo)game.getBoard(true);
         var player = game.getBoard(false);
-        this.boardController = new LocalBoardControl(player, lorenzo);
+        this.boardController = new LocalBoardController(player, lorenzo);
         listSoloAction = new LinkedList<>(SoloAction.shuffle());
     }
 
@@ -48,7 +48,7 @@ public class LocalGameController{
         return game;
     }
 
-    public LocalBoardControl getBoardController(){
+    public LocalBoardController getBoardController(){
         return boardController;
     }
 
@@ -76,20 +76,18 @@ public class LocalGameController{
     }
 
     public void cardLeadAction(CardLeader cardToBeActivated){
-        /*attiva quella carta leader*/
         switch(cardToBeActivated){
             case CARDLEAD01, CARDLEAD02, CARDLEAD03, CARDLEAD04 -> game.getBoard(false).setDiscount(cardToBeActivated.getSpecial());
             case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08 -> game.getBoard(false).addLeaderSpace(cardToBeActivated.getSpecial());
             case CARDLEAD09, CARDLEAD10, CARDLEAD11, CARDLEAD12 -> game.getBoard(false).setMarketAlt(cardToBeActivated.getSpecial());
             case CARDLEAD13, CARDLEAD14, CARDLEAD15, CARDLEAD16 -> game.getBoard(false).setProductAlt(cardToBeActivated.getSpecial());
-            default -> throw new IllegalStateException("Unexpected value: " + cardToBeActivated);
+            default -> System.err.println("Where did you get this card?");
         }
     }
 
     public void cardDevAction(CardDev cardToBeBought, int slot){
         var b = boardController.getPlayer();
         game.getCardDevDeck().remove(cardToBeBought);
-        /*compra la carta*/
         b.buyCardDev(cardToBeBought, slot);
     }
 
