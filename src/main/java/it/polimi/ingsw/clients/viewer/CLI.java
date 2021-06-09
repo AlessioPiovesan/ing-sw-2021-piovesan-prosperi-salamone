@@ -368,10 +368,16 @@ public class CLI implements Runnable, UI{
         showLibrary();
         output.print("Slot for " + card.name() + "? [1-3]\n>\t");
         output.flush();
-        var slot = Integer.parseInt(input.readLine());
-        while(!(slot > -1 && slot < 4)){
-            output.println("This is not a valid slot");
+        var slot = -1;
+        try{
             slot = Integer.parseInt(input.readLine());
+            while(!(slot > -1 && slot < 4)){
+                output.println("This is not a valid slot");
+                slot = Integer.parseInt(input.readLine());
+            }
+        } catch(NumberFormatException e){
+            output.println("This slot doesn't exist\nTry again...");
+            pickLibSlot(card);
         }
         return slot - 1;
     }
@@ -521,7 +527,7 @@ public class CLI implements Runnable, UI{
             else{
                 output.println("On slot #" + ++i + " there are this cards:\n");
                 for(var card : thisSlot)
-                    output.println("\t" + card.toString());
+                    output.println("\t" + card.name());
             }
     }
 

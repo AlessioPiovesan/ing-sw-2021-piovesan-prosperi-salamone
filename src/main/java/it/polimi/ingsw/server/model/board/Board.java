@@ -181,10 +181,12 @@ public class Board{
     public void buyCardDev(CardDev card, int slot){
         var costCardDev = new LinkedList<Pick>();
         Collections.addAll(costCardDev, card.getCost());
-        pcs.firePropertyChange("costCardDev", "", costCardDev);
         myDevCards.add(card);
-        library.addCard(slot, card);
         checkIfEndGame();
+        library.addCard(slot, card);
+        pcs.firePropertyChange("costCardDev", "", costCardDev);
+
+
     }
 
     private void checkIfEndGame(){
