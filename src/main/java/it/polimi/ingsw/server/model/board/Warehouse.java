@@ -26,6 +26,12 @@ public class Warehouse{
          * metto una quantità qnt di risorsa di tipo color nella posizione lvl della lista*/
         int qntNow = wareContent.get(lvl).getQnt();
         wareContent.set(lvl, new Pick(add.getResource(), add.getQnt() + qntNow));
+        checkIfEmptied();
+    }
+
+    private void checkIfEmptied(){
+        for(var i = 0; i < 3; i++)
+            if(wareContent.get(i).getQnt() == 0) wareContent.set(i, new Pick(Colours.WHITE, 0));
     }
 
     protected boolean checkAdd(Pick add){

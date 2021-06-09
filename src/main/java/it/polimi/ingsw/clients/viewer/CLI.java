@@ -116,9 +116,12 @@ public class CLI implements Runnable, UI{
         showStrongBox();
         for(var pick : cost){
             var color = pick.getResource();
-            var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t", "Wrong option");
-            if(j == 0) LocalGameController.getInstance().getBoardController().takeFromWarehouse(color);
-            else LocalGameController.getInstance().getBoardController().takeFromStrongbox(color);
+            for(var i = 0; i < pick.getQnt(); i++){
+                output.println("A " + color.getType() + " resourse needs handling.");
+                var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t", "Wrong option");
+                if(j == 0) LocalGameController.getInstance().getBoardController().takeFromWarehouse(color);
+                else LocalGameController.getInstance().getBoardController().takeFromStrongbox(color);
+            }
         }
         LocalGameController.getInstance().nextPlayer();
     }
@@ -202,7 +205,7 @@ public class CLI implements Runnable, UI{
     private int resourcesDestination(Colours colour, String s, String s2) throws IOException{
         output.print(colour.getType() + s);
         output.flush();
-        var j=-1;
+        var j = -1;
         try{
             j = Integer.parseInt(input.readLine());
             while(j != 0 && j != 1){
@@ -210,7 +213,7 @@ public class CLI implements Runnable, UI{
                 j = Integer.parseInt(input.readLine());
             }
         } catch(NumberFormatException e){
-            resourcesDestination(colour,s,s2);
+            resourcesDestination(colour, s, s2);
         }
         return j;
     }
@@ -232,7 +235,7 @@ public class CLI implements Runnable, UI{
                     default -> output.println("Not possible");
                 }
             }
-        }catch(NumberFormatException e){
+        } catch(NumberFormatException e){
             resourcesHandler(bufferProd);
         }
         showWarehouse();
@@ -291,7 +294,7 @@ public class CLI implements Runnable, UI{
         var move = -1;
         showMarket();
         output.println("\n0 ) Row\n1 ) Column");
-        var j=-2;
+        var j = -2;
         try{
             var i = Integer.parseInt(input.readLine());
             if(!(i == 0 || i == 1)) marketMove();
@@ -326,7 +329,7 @@ public class CLI implements Runnable, UI{
                 nextAction();
             }
             else LocalGameController.getInstance().marketAction(move);
-        }catch(NumberFormatException e){
+        } catch(NumberFormatException e){
             marketMove();
         }
     }
