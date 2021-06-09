@@ -14,7 +14,10 @@ import it.polimi.ingsw.server.controller.Controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.*;
 
 /*CONTROLLA CHE SIA TUTTO SCRITTO IN INGLESE*/
@@ -89,10 +92,12 @@ public class CLI implements Runnable, UI{
                     if(single) LocalGameController.getInstance().nextPlayer();
                     else Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
                 }
+
                 case "nextPlayer" -> {
                     if(single) LocalGameController.getInstance().nextPlayer();
                     else Controller.getInstance().getGameControllerById(0);
                 }
+
                 case "nextAction" -> nextAction();
                 case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
                 case "productionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
@@ -140,29 +145,34 @@ public class CLI implements Runnable, UI{
         if(single && LocalGameController.getInstance().isLorenzoPlaying())
             LocalGameController.getInstance().moveLorenzo();
         else{
-            output.print("""
-                         What is your next action?
-                         1) Activate production
-                         2) Pick resources from the market
-                         3) Buy a Development Card
-                         4) Activate Leader Card
-                         >\040\040""");
-            output.flush();
-            var action = Integer.parseInt(input.readLine());
-            while(action < 1 || action > 5){
-                output.println("Please type a valid number [1-4]");
-                action = Integer.parseInt(input.readLine());
-            }
-            if(action == 1 && LocalGameController.getInstance().getBoardController().getPlayer().isProducible()){
-                output.println("You don't have any development card, you can't activate the production");
+            try{
+                output.print("""
+                             What is your next action?
+                             1) Activate production
+                             2) Pick resources from the market
+                             3) Buy a Development Card
+                             4) Activate Leader Card
+                             >\040\040""");
+                output.flush();
+                var action = Integer.parseInt(input.readLine());
+                while(action < 1 || action > 5){
+                    output.println("Please type a valid number [1-4]");
+                    action = Integer.parseInt(input.readLine());
+                }
+                if(action == 1 && LocalGameController.getInstance().getBoardController().getPlayer().isProducible()){
+                    output.println("You don't have any development card, you can't activate the production");
+                    nextAction();
+                }
+                switch(action){
+                    case 1 -> LocalGameController.getInstance().prodAction();
+                    case 2 -> marketMove();
+                    case 3 -> chooseCardDev();
+                    case 4 -> wakeALeader();
+                    default -> output.println("Not Possible");
+                }
+            } catch(NumberFormatException e){
+                output.println("Not even a number");
                 nextAction();
-            }
-            switch(action){
-                case 1 -> LocalGameController.getInstance().prodAction();
-                case 2 -> marketMove();
-                case 3 -> chooseCardDev();
-                case 4 -> wakeALeader();
-                default -> output.println("Not Possible");
             }
         }
     }
@@ -170,7 +180,6 @@ public class CLI implements Runnable, UI{
     private void resourcesHandlerMarket(List<Colours> bufferMarket) throws IOException{
         var keep = new ArrayList<Colours>();
         var loose = new ArrayList<Colours>();
-        /*Mostro le risorse*/
         for(Colours colour : bufferMarket){
             if(colour == Colours.WHITE) loose.add(colour);
             else{
@@ -193,29 +202,38 @@ public class CLI implements Runnable, UI{
     private int resourcesDestination(Colours colour, String s, String s2) throws IOException{
         output.print(colour.getType() + s);
         output.flush();
-        var j = Integer.parseInt(input.readLine());
-        while(j != 0 && j != 1){
-            output.println(s2);
+        var j=-1;
+        try{
             j = Integer.parseInt(input.readLine());
+            while(j != 0 && j != 1){
+                output.println(s2);
+                j = Integer.parseInt(input.readLine());
+            }
+        } catch(NumberFormatException e){
+            resourcesDestination(colour,s,s2);
         }
         return j;
     }
 
     private void resourcesHandler(List<Pick> bufferProd) throws IOException{
         output.println("Where do you want to pick them from?");
-        for(Pick pick : bufferProd){
-            output.println(pick.getResource().getType());
-            output.println("0)Warehouse o 0)StrongBox?");
-            var j = Integer.parseInt(input.readLine());
-            while(j != 0 && j != 1){
-                output.println("Command not valid, unknown");
-                j = Integer.parseInt(input.readLine());
+        try{
+            for(Pick pick : bufferProd){
+                output.println(pick.getResource().getType());
+                output.println("0)Warehouse o 0)StrongBox?");
+                var j = Integer.parseInt(input.readLine());
+                while(j != 0 && j != 1){
+                    output.println("Command not valid, unknown");
+                    j = Integer.parseInt(input.readLine());
+                }
+                switch(j){
+                    case 0 -> prepareResForWarehouse(pick.getResource(), -pick.getQnt());
+                    case 1 -> LocalGameController.getInstance().getBoardController().getPlayer().storeSB(new Pick[]{new Pick(pick.getResource(), -pick.getQnt())});
+                    default -> output.println("Not possible");
+                }
             }
-            switch(j){
-                case 0 -> prepareResForWarehouse(pick.getResource(), -pick.getQnt());
-                case 1 -> LocalGameController.getInstance().getBoardController().getPlayer().storeSB(new Pick[]{new Pick(pick.getResource(), -pick.getQnt())});
-                default -> output.println("Not possible");
-            }
+        }catch(NumberFormatException e){
+            resourcesHandler(bufferProd);
         }
         showWarehouse();
         LocalGameController.getInstance().nextPlayer();
@@ -262,7 +280,7 @@ public class CLI implements Runnable, UI{
             output.println("Code? (last digits)");
             var code = input.readLine();
             if(clazz == CardLeader.class) card = getCorrectLeaderCardCode(code);
-            if(clazz == CardDev.class) card = getCorrectDevCardCode(code);
+            if(clazz == CardDev.class) card = getCorrectDevCardCode(code.toUpperCase());
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -273,34 +291,44 @@ public class CLI implements Runnable, UI{
         var move = -1;
         showMarket();
         output.println("\n0 ) Row\n1 ) Column");
-        var i = Integer.parseInt(input.readLine());
-        if(i == 0){
-            output.println("Which one? [1-3]");
-            var j = Integer.parseInt(input.readLine());
-            move = switch(j){
-                case 1 -> 0;
-                case 2 -> 1;
-                case 3 -> 2;
-                default -> -1;
+        var j=-2;
+        try{
+            var i = Integer.parseInt(input.readLine());
+            if(!(i == 0 || i == 1)) marketMove();
+            if(i == 0){
+                output.println("Which one? [1-3]");
+                j = Integer.parseInt(input.readLine());
+                while(!(j > -1 && j < 4)){
+                    output.println("This is not a valid slot");
+                    j = Integer.parseInt(input.readLine());
+                }
+                move = switch(j){
+                    case 1 -> 0;
+                    case 2 -> 1;
+                    case 3 -> 2;
+                    default -> -1;
 
-            };
+                };
+            }
+            if(i == 1){
+                output.println("Which one? [1-4]");
+                j = Integer.parseInt(input.readLine());
+                move = switch(j){
+                    case 1 -> 6;
+                    case 2 -> 5;
+                    case 3 -> 4;
+                    case 4 -> 3;
+                    default -> -1;
+                };
+            }
+            if(move == -1){
+                output.println("Impossible move");
+                nextAction();
+            }
+            else LocalGameController.getInstance().marketAction(move);
+        }catch(NumberFormatException e){
+            marketMove();
         }
-        if(i == 1){
-            output.println("Which one? [1-4]");
-            var j = Integer.parseInt(input.readLine());
-            move = switch(j){
-                case 1 -> 6;
-                case 2 -> 5;
-                case 3 -> 4;
-                case 4 -> 3;
-                default -> -1;
-            };
-        }
-        if(move == -1){
-            output.println("Impossible move");
-            nextAction();
-        }
-        else LocalGameController.getInstance().marketAction(move);
     }
 
     private void chooseCardDev() throws IOException{
@@ -502,27 +530,21 @@ public class CLI implements Runnable, UI{
     }
 
     private Card getCorrectLeaderCardCode(String response) throws IOException{
-        while(Integer.parseInt(response) <= 1 || Integer.parseInt(response) >= 17){
-            output.println("Not a correct code");
+        try{
+            while(Integer.parseInt(response) <= 1 || Integer.parseInt(response) >= 17){
+                output.println("Not a correct code");
+                response = input.readLine().toUpperCase();
+            }
+        } catch(NumberFormatException e){
+            output.println("Not even a number");
             response = input.readLine().toUpperCase();
+            getCorrectDevCardCode(response);
         }
         return CardLeader.getSpecificCard(response);
     }
 
     private Card getCorrectDevCardCode(String response) throws IOException{
-        response.toUpperCase();
-        while(!(response.length() == 3
-                && (response.charAt(0) == '1') ||
-                response.charAt(0) == '2' ||
-                response.charAt(0) == '3' ||
-                response.charAt(0) == '4')
-                && (response.charAt(1) == 'B' ||
-                response.charAt(1) == 'G' ||
-                response.charAt(1) == 'P' ||
-                response.charAt(1) == 'Y') &&
-                (response.charAt(2) == '1' ||
-                response.charAt(2) == '2' ||
-                        response.charAt(2) == '3')){
+        while(!(response.length() == 3 && (response.charAt(0) == '1') || response.charAt(0) == '2' || response.charAt(0) == '3' || response.charAt(0) == '4') && (response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y') && (response.charAt(2) == '1' || response.charAt(2) == '2' || response.charAt(2) == '3')){
             output.println("Not a correct code");
             response = input.readLine().toUpperCase();
         }
