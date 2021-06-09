@@ -101,25 +101,6 @@ public class Board{
         else productAlt[1] = color;
     }
 
-    public void productionExtra(Colours color){
-        productionAll();
-        storeSB(new Pick[]{new Pick(color, 1)});
-        faithTrack.moveForward(1);
-    }
-
-    public void productionAll(){
-        bufferProd = new LinkedList<>();
-        for(var i = 0; i < 3; i++){
-            CardDev card = library.getCardOnTop(i);
-            Pick[] res = card.getResFrom();
-            Collections.addAll(bufferProd, res);
-            pcs.firePropertyChange("productionBuffer", "", bufferProd);
-            //remoteView.resourcesHandler(bufferProd);
-            storeSB(card.getResTo());
-        }
-        checkIfEndGame();
-    }
-
     public CardLeader[] getMyLeaderCards(){
         return myLeaderCards;
     }
@@ -316,5 +297,9 @@ public class Board{
             strongBox.moveResources(pick);
         }
         updateResAll();
+    }
+
+    public void produce(CardDev card){
+        storeSB(card.getResTo());
     }
 }

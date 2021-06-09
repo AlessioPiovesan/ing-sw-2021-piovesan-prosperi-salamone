@@ -191,7 +191,7 @@ public class CLI implements Runnable, UI{
                     nextAction();
                 }
                 switch(action){
-                    case 1 -> LocalGameController.getInstance().prodAction();
+                    case 1 -> startProd();
                     case 2 -> marketMove();
                     case 3 -> chooseCardDev();
                     case 4 -> wakeALeader();
@@ -203,6 +203,32 @@ public class CLI implements Runnable, UI{
                 nextAction();
             }
         }
+    }
+
+    private void startProd() throws IOException{
+        var list = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus();
+        for(var subList : list){
+            subList = (ArrayList<CardDev>)castList(CardDev.class, canUseCardDev(subList));
+            var card = subList.get(subList.size() - 1);
+            output.println("Do you want to activate");
+            output.println(card);
+            output.print("[y/n]");
+            var r = input.readLine();
+            if(Objects.equals(r, "y")) activateProdCard(card);
+            else break;
+        }
+
+    }
+
+    private void activateProdCard(CardDev card) throws IOException{
+        var resFrom = card.getResFrom();
+        for(var pick : resFrom){
+            var color = pick.getResource();
+            var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t", "Wrong option");
+            if(j == 0) LocalGameController.getInstance().getBoardController().takeFromWarehouse(color);
+            else LocalGameController.getInstance().getBoardController().takeFromStrongbox(color);
+        }
+        LocalGameController.getInstance().getBoardController().getPlayer().produce(card);
     }
 
     private void resourcesHandlerMarket(List<Colours> bufferMarket) throws IOException{

@@ -75,12 +75,6 @@ public class LocalGameController{
         boardController.getLorenzo().moveFT(a);
     }
 
-    public void prodAction(){
-        var b = game.getBoard(playingPlayer);
-        /*parte la produzione di tutto quello che c'è sulla plancia*/
-        b.productionAll();
-    }
-
     public void cardLeadAction(CardLeader cardToBeActivated){
         /*attiva quella carta leader*/
         switch(cardToBeActivated){

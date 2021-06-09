@@ -117,18 +117,18 @@ public class GameController{
         b.marketResHandler(res);
     }
 
-    public void prodAction(){
-        var b = game.getSingleB(game.getPlayingPlayer());
-        /*parte la produzione di tutto quello che c'è sulla plancia*/
-        b.productionAll();
-        update();
-    }
-
-    public void prodAction(Colours colour){
-        Board b = game.getSingleB(game.getPlayingPlayer());
-        /*parte la produzione di tutto quello che c'è sulla plancia*/
-        b.productionExtra(colour);
-    }
+    //    public void prodAction(){
+    //        var b = game.getSingleB(game.getPlayingPlayer());
+    //        /*parte la produzione di tutto quello che c'è sulla plancia*/
+    //        b.productionAll();
+    //        update();
+    //    }
+    //
+    //    public void prodAction(Colours colour){
+    //        Board b = game.getSingleB(game.getPlayingPlayer());
+    //        /*parte la produzione di tutto quello che c'è sulla plancia*/
+    //        b.productionExtra(colour);
+    //    }
 
     public void resolveLeaderConflictInMarket(boolean i){
         var b = game.getSingleB(game.getPlayingPlayer());
