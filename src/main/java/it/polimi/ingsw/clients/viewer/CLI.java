@@ -14,15 +14,14 @@ import it.polimi.ingsw.server.controller.Controller;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.*;
 
 /*CONTROLLA CHE SIA TUTTO SCRITTO IN INGLESE*/
 
 public class CLI implements Runnable, UI{
 
-    private Scanner input;
+    private final BufferedReader input;
     private final PrintWriter output;
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private String nickname;
@@ -30,7 +29,7 @@ public class CLI implements Runnable, UI{
     private Client client;
 
     public CLI(){
-        input = new Scanner(new InputStreamReader(System.in));
+        input = new BufferedReader(new InputStreamReader(System.in));
         output = new PrintWriter(System.out, true);
     }
 
@@ -59,7 +58,7 @@ public class CLI implements Runnable, UI{
                 output.println(">Insert your nickname: ");
                 output.print(">\t");
                 try{
-                    nickname = input.nextLine();
+                    nickname = input.readLine();
                 } catch(Exception e){
                     e.printStackTrace();
                 }
@@ -67,7 +66,7 @@ public class CLI implements Runnable, UI{
                 output.println("> Is it ok? [y/n] ");
                 output.println(">\t");
                 try{
-                    String r = input.nextLine();
+                    String r = input.readLine();
                     if(!(r.equals("y"))) nickname = "";
                 } catch(Exception e){
                     e.printStackTrace();
@@ -83,37 +82,36 @@ public class CLI implements Runnable, UI{
 
     @Override
     public void propertyChange(PropertyChangeEvent evt){
-        switch(evt.getPropertyName()){
-            case "temporaryLeaderCards" -> chooseInitialLeaders((CardLeader[])evt.getNewValue());
-            case "firstOp" -> {
-                if(single) LocalGameController.getInstance().nextPlayer();
-                else Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
+        try{
+            switch(evt.getPropertyName()){
+                case "temporaryLeaderCards" -> chooseInitialLeaders((CardLeader[])evt.getNewValue());
+                case "firstOp" -> {
+                    if(single) LocalGameController.getInstance().nextPlayer();
+                    else Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
+                }
+                case "nextPlayer" -> {
+                    if(single) LocalGameController.getInstance().nextPlayer();
+                    else Controller.getInstance().getGameControllerById(0);
+                }
+                case "nextAction" -> nextAction();
+                case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
+                case "productionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
+                case "costCardDev" -> payForCardDev(castList(Pick.class, (Collection<?>)evt.getNewValue()));
+
+                case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
+                default -> output.println(evt.getPropertyName() + " is not handled");
             }
-            case "nextPlayer" -> {
-                if(single) LocalGameController.getInstance().nextPlayer();
-                else Controller.getInstance().getGameControllerById(0);
-            }
-            case "nextAction" -> nextAction();
-            case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
-            case "productionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
-            case "costCardDev" -> payForCardDev(castList(Pick.class, (Collection<?>)evt.getNewValue()));
-            case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
-            default -> output.println(evt.getPropertyName() + " is not handled");
+        } catch(IOException e){
+            e.printStackTrace();
         }
     }
 
-    private void payForCardDev(List<Pick> cost){
+    private void payForCardDev(List<Pick> cost) throws IOException{
         showWarehouse();
         showStrongBox();
         for(var pick : cost){
             var color = pick.getResource();
-            output.print(color.getType() + "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t");
-            output.flush();
-            var j = input.nextInt();
-            while(j != 0 && j != 1){
-                output.println("Wrong option");
-                j = input.nextInt();
-            }
+            var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t", "Wrong option");
             if(j == 0) LocalGameController.getInstance().getBoardController().takeFromWarehouse(color);
             else LocalGameController.getInstance().getBoardController().takeFromStrongbox(color);
         }
@@ -138,7 +136,7 @@ public class CLI implements Runnable, UI{
         if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(finale);
     }
 
-    private void nextAction(){
+    private void nextAction() throws IOException{
         if(single && LocalGameController.getInstance().isLorenzoPlaying())
             LocalGameController.getInstance().moveLorenzo();
         else{
@@ -150,10 +148,10 @@ public class CLI implements Runnable, UI{
                          4) Activate Leader Card
                          >\040\040""");
             output.flush();
-            var action = input.nextInt();
+            var action = Integer.parseInt(input.readLine());
             while(action < 1 || action > 5){
                 output.println("Please type a valid number [1-4]");
-                action = input.nextInt();
+                action = Integer.parseInt(input.readLine());
             }
             if(action == 1 && LocalGameController.getInstance().getBoardController().getPlayer().isProducible()){
                 output.println("You don't have any development card, you can't activate the production");
@@ -169,20 +167,14 @@ public class CLI implements Runnable, UI{
         }
     }
 
-    private void resourcesHandlerMarket(List<Colours> bufferMarket){
+    private void resourcesHandlerMarket(List<Colours> bufferMarket) throws IOException{
         var keep = new ArrayList<Colours>();
         var loose = new ArrayList<Colours>();
         /*Mostro le risorse*/
         for(Colours colour : bufferMarket){
             if(colour == Colours.WHITE) loose.add(colour);
             else{
-                output.print(colour.getType() + "\nDo you want to store it in your personal warehouse?\n0) No\n1)Yes\n>\t");
-                output.flush();
-                var j = input.nextInt();
-                while(j != 0 && j != 1){
-                    output.println("Command not valid, unknown");
-                    j = input.nextInt();
-                }
+                var j = resourcesDestination(colour, "\nDo you want to store it in your personal warehouse?\n0) No\n1)Yes\n>\t", "Command not valid, unknown");
                 if(j == 0) loose.add(colour);
                 else keep.add(colour);
             }
@@ -198,15 +190,26 @@ public class CLI implements Runnable, UI{
         LocalGameController.getInstance().nextPlayer();
     }
 
-    private void resourcesHandler(List<Pick> bufferProd){
+    private int resourcesDestination(Colours colour, String s, String s2) throws IOException{
+        output.print(colour.getType() + s);
+        output.flush();
+        var j = Integer.parseInt(input.readLine());
+        while(j != 0 && j != 1){
+            output.println(s2);
+            j = Integer.parseInt(input.readLine());
+        }
+        return j;
+    }
+
+    private void resourcesHandler(List<Pick> bufferProd) throws IOException{
         output.println("Where do you want to pick them from?");
         for(Pick pick : bufferProd){
             output.println(pick.getResource().getType());
             output.println("0)Warehouse o 0)StrongBox?");
-            var j = input.nextInt();
+            var j = Integer.parseInt(input.readLine());
             while(j != 0 && j != 1){
                 output.println("Command not valid, unknown");
-                j = input.nextInt();
+                j = Integer.parseInt(input.readLine());
             }
             switch(j){
                 case 0 -> prepareResForWarehouse(pick.getResource(), -pick.getQnt());
@@ -257,22 +260,23 @@ public class CLI implements Runnable, UI{
         Card card = null;
         try{
             output.println("Code? (last digits)");
-            if(clazz == CardLeader.class) card = getCorrectLeaderCardCode();
-            if(clazz == CardDev.class) card = getCorrectDevCardCode();
+            var code = input.readLine();
+            if(clazz == CardLeader.class) card = getCorrectLeaderCardCode(code);
+            if(clazz == CardDev.class) card = getCorrectDevCardCode(code);
         } catch(Exception e){
             e.printStackTrace();
         }
         return card;
     }
 
-    private void marketMove(){
+    private void marketMove() throws IOException{
         var move = -1;
         showMarket();
         output.println("\n0 ) Row\n1 ) Column");
-        var i = input.nextInt();
+        var i = Integer.parseInt(input.readLine());
         if(i == 0){
             output.println("Which one? [1-3]");
-            var j = input.nextInt();
+            var j = Integer.parseInt(input.readLine());
             move = switch(j){
                 case 1 -> 0;
                 case 2 -> 1;
@@ -283,7 +287,7 @@ public class CLI implements Runnable, UI{
         }
         if(i == 1){
             output.println("Which one? [1-4]");
-            var j = input.nextInt();
+            var j = Integer.parseInt(input.readLine());
             move = switch(j){
                 case 1 -> 6;
                 case 2 -> 5;
@@ -299,7 +303,7 @@ public class CLI implements Runnable, UI{
         else LocalGameController.getInstance().marketAction(move);
     }
 
-    private void chooseCardDev(){
+    private void chooseCardDev() throws IOException{
         var actual = canUseCardDev(LocalGameController.getInstance().getGame().getCardDevDeck());
         if(actual.isEmpty()){
             output.println("You can not buy any card");
@@ -329,14 +333,14 @@ public class CLI implements Runnable, UI{
         }
     }
 
-    private int pickLibSlot(CardDev card){
+    private int pickLibSlot(CardDev card) throws IOException{
         showLibrary();
         output.print("Slot for " + card.name() + "? [1-3]\n>\t");
         output.flush();
-        var slot = input.nextInt();
+        var slot = Integer.parseInt(input.readLine());
         while(!(slot > -1 && slot < 4)){
             output.println("This is not a valid slot");
-            slot = input.nextInt();
+            slot = Integer.parseInt(input.readLine());
         }
         return slot - 1;
     }
@@ -382,7 +386,7 @@ public class CLI implements Runnable, UI{
         if(req.getQnt() <= resAll.get(req.getColour())) list.add(card);
     }
 
-    private void wakeALeader(){
+    private void wakeALeader() throws IOException{
         var actual = canUseCardLeader(LocalGameController.getInstance().getGame().getBoard(false).getMyLeaderCards());
         if(actual.isEmpty()){
             output.println("You can not activate any leader at the moment");
@@ -400,7 +404,7 @@ public class CLI implements Runnable, UI{
         }
     }
 
-    public void prepareResForWarehouse(Colours colour, int qnt){
+    public void prepareResForWarehouse(Colours colour, int qnt) throws IOException{
         var newPick = new Pick(colour, qnt);
         var response = 0;
         if(colour == Colours.RED) LocalGameController.getInstance().getBoardController().moveFT(1);
@@ -419,10 +423,10 @@ public class CLI implements Runnable, UI{
                              3) Put on an other shelf
                              >\040\040""");
                 output.flush();
-                response = input.nextInt();
+                response = Integer.parseInt(input.readLine());
                 while(response < 1 || response > 3){
                     output.println("Not a valid command\n>\t");
-                    response = input.nextInt();
+                    response = Integer.parseInt(input.readLine());
                 }
                 switch(response){
                     case 1 -> LocalGameController.getInstance().addFaithPnt(Collections.singletonList(colour));
@@ -452,11 +456,11 @@ public class CLI implements Runnable, UI{
         }
     }
 
-    private int getShelfLvl(){
-        var lvl = input.nextInt();
+    private int getShelfLvl() throws IOException{
+        var lvl = Integer.parseInt(input.readLine());
         while(!(lvl > 0 && lvl < 4)){
             output.println("This is not a valid shelf");
-            lvl = input.nextInt();
+            lvl = Integer.parseInt(input.readLine());
         }
         return lvl - 1;
     }
@@ -497,20 +501,30 @@ public class CLI implements Runnable, UI{
         map.keySet().stream().map(color -> color.getType() + " -> " + map.get(color)).forEach(output::println);
     }
 
-    private Card getCorrectLeaderCardCode(){
-        var response = input.nextLine().toUpperCase();
+    private Card getCorrectLeaderCardCode(String response) throws IOException{
         while(Integer.parseInt(response) <= 1 || Integer.parseInt(response) >= 17){
             output.println("Not a correct code");
-            response = input.nextLine().toUpperCase();
+            response = input.readLine().toUpperCase();
         }
         return CardLeader.getSpecificCard(response);
     }
 
-    private Card getCorrectDevCardCode(){
-        var response = input.nextLine().toUpperCase();
-        while(!(response.length() == 3 && (response.charAt(0) == '1') || response.charAt(0) == '2' || response.charAt(0) == '3' || response.charAt(0) == '4') && (response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y') && (response.charAt(2) == '1' || response.charAt(2) == '2' || response.charAt(2) == '3')){
+    private Card getCorrectDevCardCode(String response) throws IOException{
+        response.toUpperCase();
+        while(!(response.length() == 3
+                && (response.charAt(0) == '1') ||
+                response.charAt(0) == '2' ||
+                response.charAt(0) == '3' ||
+                response.charAt(0) == '4')
+                && (response.charAt(1) == 'B' ||
+                response.charAt(1) == 'G' ||
+                response.charAt(1) == 'P' ||
+                response.charAt(1) == 'Y') &&
+                (response.charAt(2) == '1' ||
+                response.charAt(2) == '2' ||
+                        response.charAt(2) == '3')){
             output.println("Not a correct code");
-            response = input.nextLine().toUpperCase();
+            response = input.readLine().toUpperCase();
         }
         return CardDev.getSpecificCard(response);
     }
