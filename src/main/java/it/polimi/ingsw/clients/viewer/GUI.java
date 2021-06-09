@@ -1,12 +1,10 @@
 package it.polimi.ingsw.clients.viewer;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
-import it.polimi.ingsw.server.accessories.cards.Card;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 public class GUI extends Application implements UI{
@@ -29,20 +27,6 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public void showCards(Card list){
-    }
-
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener){
-        pcs.addPropertyChangeListener(listener);
-    }
-
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener){
-        pcs.removePropertyChangeListener(listener);
-    }
-
-    @Override
     public void setSingle(boolean single){
 
     }
@@ -56,9 +40,7 @@ public class GUI extends Application implements UI{
     public void run(){}
 
     @Override
-    public void setClient(Client client){
-
-    }
+    public void setClient(Client client){ }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt){
@@ -67,5 +49,4 @@ public class GUI extends Application implements UI{
 
     @Override
     public void start(Stage primaryStage) throws Exception{ }
-
 }

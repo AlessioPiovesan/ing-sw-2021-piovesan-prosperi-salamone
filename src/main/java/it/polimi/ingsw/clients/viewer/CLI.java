@@ -12,8 +12,6 @@ import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.controller.Controller;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -26,7 +24,6 @@ public class CLI implements Runnable, UI{
 
     private final BufferedReader input;
     private final PrintWriter output;
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private String nickname;
     private boolean single;
     private Client client;
@@ -117,7 +114,7 @@ public class CLI implements Runnable, UI{
         for(var pick : cost){
             var color = pick.getResource();
             for(var i = 0; i < pick.getQnt(); i++){
-                output.println("A " + color.getType() + " resourse needs handling.");
+                output.println("The resource that needs handling is:");
                 var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t", "Wrong option");
                 if(j == 0) LocalGameController.getInstance().getBoardController().takeFromWarehouse(color);
                 else LocalGameController.getInstance().getBoardController().takeFromStrongbox(color);
@@ -144,6 +141,32 @@ public class CLI implements Runnable, UI{
         if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(finale);
     }
 
+    private void showStatus() throws IOException{
+        try{
+            int s;
+            do{
+                output.print("""
+                             What is your next action?
+                             1) Show Warehouse
+                             2) Show Strongbox
+                             3) Show card on board
+                             4) Show Faith Track
+                             5) Main menu
+                             >\040\040""");
+                output.flush();
+                s = Integer.parseInt(input.readLine());
+                while(s < 1 || s > 6){
+                    output.println("Please type a valid number [1-5]");
+                    s = Integer.parseInt(input.readLine());
+                }
+            } while(s != 5);
+            nextAction();
+        } catch(NumberFormatException e){
+            output.println("Not a number");
+            showStatus();
+        }
+    }
+
     private void nextAction() throws IOException{
         if(single && LocalGameController.getInstance().isLorenzoPlaying())
             LocalGameController.getInstance().moveLorenzo();
@@ -155,11 +178,12 @@ public class CLI implements Runnable, UI{
                              2) Pick resources from the market
                              3) Buy a Development Card
                              4) Activate Leader Card
+                             5) Show status
                              >\040\040""");
                 output.flush();
                 var action = Integer.parseInt(input.readLine());
-                while(action < 1 || action > 5){
-                    output.println("Please type a valid number [1-4]");
+                while(action < 1 || action > 6){
+                    output.println("Please type a valid number [1-5]");
                     action = Integer.parseInt(input.readLine());
                 }
                 if(action == 1 && LocalGameController.getInstance().getBoardController().getPlayer().isProducible()){
@@ -171,6 +195,7 @@ public class CLI implements Runnable, UI{
                     case 2 -> marketMove();
                     case 3 -> chooseCardDev();
                     case 4 -> wakeALeader();
+                    case 5 -> showStatus();
                     default -> output.println("Not Possible");
                 }
             } catch(NumberFormatException e){
@@ -242,20 +267,9 @@ public class CLI implements Runnable, UI{
         LocalGameController.getInstance().nextPlayer();
     }
 
-    @Override
-    public void showCards(Card card){
+    private void showCards(Card card){
         output.println(card.toString());
         output.println("_________________________________________________");
-    }
-
-    @Override
-    public void addPropertyChangeListener(PropertyChangeListener listener){
-        pcs.addPropertyChangeListener(listener);
-    }
-
-    @Override
-    public void removePropertyChangeListener(PropertyChangeListener listener){
-        pcs.removePropertyChangeListener(listener);
     }
 
     @Override
