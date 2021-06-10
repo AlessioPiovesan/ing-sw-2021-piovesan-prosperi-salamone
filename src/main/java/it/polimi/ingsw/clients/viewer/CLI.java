@@ -551,13 +551,12 @@ public class CLI implements Runnable, UI{
 
     private boolean isAddable(CardDev card, int slot){
         var slotCards = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus().get(slot);
-        if(!slotCards.isEmpty()) if(card.getLvl() == 1) return true;
+        if(slotCards.isEmpty()) return card.getLvl() == 1;
         else return switch(card.getLvl()){
-                case 2 -> slotCards.get(slotCards.size() - 1).getLvl() != 1;
-                case 3 -> slotCards.get(slotCards.size() - 1).getLvl() != 2;
-                default -> false;
-            };
-        return false;
+            case 2 -> slotCards.get(slotCards.size() - 1).getLvl() != 1;
+            case 3 -> slotCards.get(slotCards.size() - 1).getLvl() != 2;
+            default -> false;
+        };
     }
 
     private List<Card> canBuyCardDev(List<CardDev> cards){
