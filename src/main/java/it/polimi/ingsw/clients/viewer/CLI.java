@@ -172,6 +172,7 @@ public class CLI implements Runnable, UI{
                     case 2 -> showStrongBox();
                     case 3 -> showLibrary();
                     case 4 -> showFaithTrack();
+                    case 5 -> output.println("Ok");
                     default -> output.print("Come hai fatto?");
                 }
             } while(s != 5);
@@ -282,10 +283,11 @@ public class CLI implements Runnable, UI{
 
     private void startProd() throws IOException{
         var list = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus();
-        for(var subList : list){
+        if(!list.isEmpty()) for(var subList : list){
             if(subList.isEmpty()) break;
             else{
                 subList = (ArrayList<CardDev>)castList(CardDev.class, canUseCardDev(subList));
+                if(subList.isEmpty()) output.println("You don't have the resources to activate this card");
                 var card = subList.get(subList.size() - 1);
                 output.println("Do you want to activate");
                 output.println(card);
@@ -643,9 +645,9 @@ public class CLI implements Runnable, UI{
                 i++;
             }
             else{
-                output.println("On slot #" + ++i + " there are this cards:\n");
+                output.println("On slot #" + ++i + " there are this cards:");
                 for(var card : thisSlot)
-                    output.println("\t" + card.name());
+                    output.println("\t" + card.name() + "[" + card.getResFrom() + " -> " + card.getResTo() + "]");
             }
     }
 
