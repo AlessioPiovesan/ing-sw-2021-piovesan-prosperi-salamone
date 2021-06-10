@@ -237,16 +237,17 @@ public class CLI implements Runnable, UI{
 
     private void nextAction(){
         var menu = """
-                                     What is your next action?
-                                     1) Activate production
-                                     2) Pick resources from the market
-                                     3) Buy a Development Card
-                                     4) Activate Leader Card
-                                     5) Show status
-                                     >\040\040""";
+                   What is your next action?
+                   1) Activate production
+                   2) Pick resources from the market
+                   3) Buy a Development Card
+                   4) Activate Leader Card
+                   5) Show status
+                   >\040\040""";
         executor.execute(() -> {
             try{
-                if(single && LocalGameController.getInstance().isLorenzoPlaying()) LocalGameController.getInstance().moveLorenzo();
+                if(single && LocalGameController.getInstance().isLorenzoPlaying())
+                    LocalGameController.getInstance().moveLorenzo();
                 else{
                     try{
                         output.print(menu);
@@ -273,7 +274,7 @@ public class CLI implements Runnable, UI{
                         nextAction();
                     }
                 }
-            }catch(IOException e){
+            } catch(IOException e){
                 nextAction();
             }
         });
@@ -281,7 +282,8 @@ public class CLI implements Runnable, UI{
 
     private void startProd() throws IOException{
         var list = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus();
-        for(var subList : list){
+        if(list.isEmpty()) output.println("You can not activate your production");
+        else for(var subList : list){
             subList = (ArrayList<CardDev>)castList(CardDev.class, canUseCardDev(subList));
             var card = subList.get(subList.size() - 1);
             output.println("Do you want to activate");
