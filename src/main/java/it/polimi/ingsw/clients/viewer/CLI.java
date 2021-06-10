@@ -282,16 +282,18 @@ public class CLI implements Runnable, UI{
 
     private void startProd() throws IOException{
         var list = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus();
-        if(list.isEmpty()) output.println("You can not activate your production");
-        else for(var subList : list){
-            subList = (ArrayList<CardDev>)castList(CardDev.class, canUseCardDev(subList));
-            var card = subList.get(subList.size() - 1);
-            output.println("Do you want to activate");
-            output.println(card);
-            output.print("[y/n]");
-            var r = input.readLine();
-            if(Objects.equals(r, "y")) activateProdCard(card);
-            else break;
+        for(var subList : list){
+            if(subList.isEmpty()) break;
+            else{
+                subList = (ArrayList<CardDev>)castList(CardDev.class, canUseCardDev(subList));
+                var card = subList.get(subList.size() - 1);
+                output.println("Do you want to activate");
+                output.println(card);
+                output.print("[y/n]");
+                var r = input.readLine();
+                if(Objects.equals(r, "y")) activateProdCard(card);
+                else output.println("You refused");
+            }
         }
 
     }
