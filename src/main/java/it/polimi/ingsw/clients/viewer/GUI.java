@@ -32,15 +32,14 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public void showMarket(){
-
-    }
-
-    @Override
     public void run(){}
 
     @Override
     public void setClient(Client client){ }
+
+    private void showMarket(){
+
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt){

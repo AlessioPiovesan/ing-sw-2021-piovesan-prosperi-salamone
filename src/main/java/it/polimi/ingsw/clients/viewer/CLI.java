@@ -39,7 +39,7 @@ public class CLI implements Runnable, UI{
         executor = new ThreadPoolExecutor(0, 8, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
     }
 
-    public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection){
+    private static <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection){
         List<T> result = new ArrayList<>(rawCollection.size());
         for(Object o : rawCollection){
             try{
@@ -425,7 +425,9 @@ public class CLI implements Runnable, UI{
     public void setSingle(boolean single){this.single = single;}
 
     @Override
-    public void showMarket(){
+    public void setClient(Client client){this.client = client;}
+
+    private void showMarket(){
         var market = LocalGameController.getInstance().getGame().getMarket().getTray();
         var print = new StringBuilder();
         for(var i = 0; i < Constants.XMARKET.getVal(); i++){
@@ -436,9 +438,6 @@ public class CLI implements Runnable, UI{
         }
         output.println(print);
     }
-
-    @Override
-    public void setClient(Client client){this.client = client;}
 
     private Card pickCard(Class<? extends Card> clazz){
         Card card = null;
@@ -498,7 +497,7 @@ public class CLI implements Runnable, UI{
     }
 
     private synchronized void chooseCardDev() throws IOException{
-        var actual = canUseCardDev(LocalGameController.getInstance().getGame().getCardDevDeck());
+        var actual = canBuyCardDev(LocalGameController.getInstance().getGame().getCardDevDeck());
         if(actual.isEmpty()){
             output.println("You can not buy any card");
             nextAction();
@@ -545,12 +544,24 @@ public class CLI implements Runnable, UI{
         return slot - 1;
     }
 
-    private List<Card> canUseCardDev(List<CardDev> cards){
+    private List<Card> canBuyCardDev(List<CardDev> cards){
         var resAll = LocalGameController.getInstance().getBoardController().getPlayer().getResAll();
         var list = new LinkedList<Card>();
         for(var card : cards){
             var i = 0;
             for(var cost : card.getCost())
+                if(cost.getQnt() <= resAll.get(cost.getResource())) i++;
+            if(i == card.getCost().length) list.add(card);
+        }
+        return list;
+    }
+
+    private List<Card> canUseCardDev(List<CardDev> cards){
+        var resAll = LocalGameController.getInstance().getBoardController().getPlayer().getResAll();
+        var list = new LinkedList<Card>();
+        for(var card : cards){
+            var i = 0;
+            for(var cost : card.getResFrom())
                 if(cost.getQnt() <= resAll.get(cost.getResource())) i++;
             if(i == card.getCost().length) list.add(card);
         }
@@ -603,7 +614,7 @@ public class CLI implements Runnable, UI{
         nextAction();
     }
 
-    public void prepareResForWarehouse(Colours colour, int qnt) throws IOException{
+    private void prepareResForWarehouse(Colours colour, int qnt) throws IOException{
         var newPick = new Pick(colour, qnt);
         var response = 0;
         if(colour == Colours.RED) LocalGameController.getInstance().getBoardController().moveFT(1);

@@ -8,8 +8,6 @@ public interface UI extends PropertyChangeListener{
 
     void setSingle(boolean single);
 
-    void showMarket();
-
     void run();
 
     void setClient(Client client);
