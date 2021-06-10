@@ -39,7 +39,7 @@ public class LocalGameController{
         nextPlayer();
     }
 
-    public void nextPlayer(){
+    public synchronized void nextPlayer(){
         playingPlayer = !playingPlayer;
         boardController.active();
     }
@@ -75,7 +75,7 @@ public class LocalGameController{
         boardController.getLorenzo().moveFT(a);
     }
 
-    public void cardLeadAction(CardLeader cardToBeActivated){
+    public synchronized void cardLeadAction(CardLeader cardToBeActivated){
         switch(cardToBeActivated){
             case CARDLEAD01, CARDLEAD02, CARDLEAD03, CARDLEAD04 -> game.getBoard(false).setDiscount(cardToBeActivated.getSpecial());
             case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08 -> game.getBoard(false).addLeaderSpace(cardToBeActivated.getSpecial());

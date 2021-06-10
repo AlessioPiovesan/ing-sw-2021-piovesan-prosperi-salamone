@@ -36,7 +36,7 @@ public class CLI implements Runnable, UI{
     public CLI(){
         input = new BufferedReader(new InputStreamReader(System.in));
         output = new PrintWriter(System.out, true);
-        executor = new ThreadPoolExecutor(4, 20, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
+        executor = new ThreadPoolExecutor(0, 8, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
     }
 
     public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection){
@@ -116,7 +116,7 @@ public class CLI implements Runnable, UI{
         });
     }
 
-    private void payForCardDev(List<Pick> cost) throws IOException{
+    private synchronized void payForCardDev(List<Pick> cost) throws IOException{
         showWarehouse();
         showStrongBox();
         for(var pick : cost){
@@ -131,7 +131,7 @@ public class CLI implements Runnable, UI{
         LocalGameController.getInstance().nextPlayer();
     }
 
-    private void chooseInitialLeaders(CardLeader[] cards){
+    private synchronized void chooseInitialLeaders(CardLeader[] cards){
         var list = new ArrayList<CardLeader>();
         var finale = new CardLeader[2];
         Collections.addAll(list, cards);
@@ -149,7 +149,7 @@ public class CLI implements Runnable, UI{
         if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(finale);
     }
 
-    private void showStatus() throws IOException{
+    private synchronized void showStatus() throws IOException{
         try{
             int s;
             do{
@@ -173,7 +173,7 @@ public class CLI implements Runnable, UI{
                     case 3 -> showLibrary();
                     case 4 -> showFaithTrack();
                     case 5 -> output.println("Ok");
-                    default -> output.print("Come hai fatto?");
+                    default -> output.print("There's no way you were able to that... I think...");
                 }
             } while(s != 5);
             nextAction();
@@ -236,7 +236,7 @@ public class CLI implements Runnable, UI{
         return i == 5 || i == 6 || i == 7 || i == 8 || i == 12 || i == 13 || i == 14 || i == 15 || i == 16 || i == 19 || i == 20 || i == 21 || i == 22 || i == 23 || i == 24;
     }
 
-    private void nextAction(){
+    private synchronized void nextAction(){
         var menu = """
                    What is your next action?
                    1) Activate production
@@ -281,26 +281,33 @@ public class CLI implements Runnable, UI{
         });
     }
 
-    private void startProd() throws IOException{
+    private synchronized void startProd() throws IOException{
         var list = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus();
-        if(!list.isEmpty()) for(var subList : list){
+        for(var subList : list){
             if(subList.isEmpty()) break;
             else{
                 subList = (ArrayList<CardDev>)castList(CardDev.class, canUseCardDev(subList));
-                if(subList.isEmpty()) output.println("You don't have the resources to activate this card");
-                var card = subList.get(subList.size() - 1);
-                output.println("Do you want to activate");
-                output.println(card);
-                output.print("[y/n]");
-                var r = input.readLine();
-                if(Objects.equals(r, "y")) activateProdCard(card);
-                else output.println("You refused");
+                if(!subList.isEmpty()){
+                    var card = subList.get(subList.size() - 1);
+                    output.println("Do you want to activate");
+                    output.println(card);
+                    output.println("[y/n]");
+                    var r = input.readLine();
+                    if(Objects.equals(r, "y")) executor.execute(() -> {
+                        try{
+                            activateProdCard(card);
+                        } catch(IOException e){
+                            output.println("Missing response");
+                        }
+                    });
+                    else output.println("You refused");
+                }
             }
         }
 
     }
 
-    private void activateProdCard(CardDev card) throws IOException{
+    private synchronized void activateProdCard(CardDev card) throws IOException{
         var resFrom = card.getResFrom();
         for(var pick : resFrom){
             var color = pick.getResource();
@@ -311,7 +318,7 @@ public class CLI implements Runnable, UI{
         LocalGameController.getInstance().getBoardController().getPlayer().produce(card);
     }
 
-    private void resourcesHandlerMarket(List<Colours> bufferMarket) throws IOException{
+    private synchronized void resourcesHandlerMarket(List<Colours> bufferMarket) throws IOException{
         var keep = new ArrayList<Colours>();
         var loose = new ArrayList<Colours>();
         for(Colours colour : bufferMarket){
@@ -349,7 +356,7 @@ public class CLI implements Runnable, UI{
         return j;
     }
 
-    private void resourcesHandler(List<Pick> bufferProd) throws IOException{
+    private synchronized void resourcesHandler(List<Pick> bufferProd) throws IOException{
         output.println("Where do you want to pick them from?");
         try{
             for(Pick pick : bufferProd){
@@ -410,7 +417,7 @@ public class CLI implements Runnable, UI{
         return card;
     }
 
-    private void marketMove() throws IOException{
+    private synchronized void marketMove() throws IOException{
         var move = -1;
         showMarket();
         output.println("\n0 ) Row\n1 ) Column");
@@ -454,7 +461,7 @@ public class CLI implements Runnable, UI{
         }
     }
 
-    private void chooseCardDev() throws IOException{
+    private synchronized void chooseCardDev() throws IOException{
         var actual = canUseCardDev(LocalGameController.getInstance().getGame().getCardDevDeck());
         if(actual.isEmpty()){
             output.println("You can not buy any card");
@@ -469,7 +476,7 @@ public class CLI implements Runnable, UI{
                     var slot = pickLibSlot(card);
                     if(slot >= 0) LocalGameController.getInstance().cardDevAction(card, slot);
                     else{
-                        output.println("You don't hav a slot for this card");
+                        output.println("You don't have a slot for this card");
                         nextAction();
                     }
                 } catch(Exception e){
@@ -543,22 +550,21 @@ public class CLI implements Runnable, UI{
         if(req.getQnt() <= resAll.get(req.getColour())) list.add(card);
     }
 
-    private void wakeALeader(){
+    private synchronized void wakeALeader(){
         var actual = canUseCardLeader(LocalGameController.getInstance().getGame().getBoard(false).getMyLeaderCards());
         if(actual.isEmpty()){
             output.println("You can not activate any leader at the moment");
-            nextAction();
         }
         else{
             for(var card : actual)
                 showCards(card);
             var card = (CardLeader)pickCard(CardLeader.class);
-            if(actual.contains(card)) LocalGameController.getInstance().cardLeadAction(card);
+            if(actual.contains(card)) executor.execute(() -> LocalGameController.getInstance().cardLeadAction(card));
             else{
                 output.println("You don't have this Leader");
-                nextAction();
             }
         }
+        nextAction();
     }
 
     public void prepareResForWarehouse(Colours colour, int qnt) throws IOException{

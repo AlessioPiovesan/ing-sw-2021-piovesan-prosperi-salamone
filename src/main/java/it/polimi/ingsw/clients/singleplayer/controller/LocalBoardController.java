@@ -39,7 +39,7 @@ public record LocalBoardController(Board player, Lorenzo lorenzo){
         player.takeFromStrongBox(color);
     }
 
-    public void checkVaticanReport(){
+    public synchronized void checkVaticanReport(){
         player.checkVaticanReport();
         lorenzo.checkVaticanReport();
     }

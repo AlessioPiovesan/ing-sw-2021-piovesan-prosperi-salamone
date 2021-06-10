@@ -104,7 +104,7 @@ public class GameController{
         }
     }
 
-    public void initialResourcesHandler(){
+    public synchronized void initialResourcesHandler(){
         game.pickStartingResources();
     }
 
