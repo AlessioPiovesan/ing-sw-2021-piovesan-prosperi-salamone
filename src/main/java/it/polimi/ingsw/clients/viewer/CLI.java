@@ -96,7 +96,6 @@ public class CLI implements Runnable, UI{
                         if(single) LocalGameController.getInstance().nextPlayer();
                         else Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
                     }
-                    case "popeFavor" -> output.println("You got " + evt.getNewValue() + " from Pope's Favor!");
                     case "nextPlayer" -> {
                         if(single) LocalGameController.getInstance().nextPlayer();
                         else Controller.getInstance().getGameControllerById(0);
@@ -123,7 +122,7 @@ public class CLI implements Runnable, UI{
             var color = pick.getResource();
             for(var i = 0; i < pick.getQnt(); i++){
                 output.println("The resource that needs handling is:");
-                var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t", "Wrong option");
+                var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1) StrongBox\n>\t", "Wrong option");
                 if(j == 0) LocalGameController.getInstance().getBoardController().takeFromWarehouse(color);
                 else LocalGameController.getInstance().getBoardController().takeFromStrongbox(color);
             }
@@ -320,7 +319,10 @@ public class CLI implements Runnable, UI{
     private synchronized void startProd() throws IOException{
         var list = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus();
         for(var subList : list){
-            if(subList.isEmpty()) break;
+            if(subList.isEmpty()) {
+                output.println("You don't have any development card");
+                nextAction();
+            }
             else{
                 subList = (ArrayList<CardDev>)castList(CardDev.class, canUseCardDev(subList));
                 if(!subList.isEmpty()){
@@ -338,9 +340,9 @@ public class CLI implements Runnable, UI{
                     });
                     else output.println("You refused");
                 }
+                else output.println("You don't have the resources to activate any development card");
             }
         }
-
     }
 
     private synchronized void activateProdCard(CardDev card) throws IOException{
@@ -417,6 +419,7 @@ public class CLI implements Runnable, UI{
     }
 
     private void showCards(Card card){
+        output.println("_________________________________________________");
         output.println(card.toString());
         output.println("_________________________________________________");
     }
@@ -578,7 +581,7 @@ public class CLI implements Runnable, UI{
             var i = 0;
             for(var cost : card.getResFrom())
                 if(cost.getQnt() <= resAll.get(cost.getResource())) i++;
-            if(i == card.getCost().length) list.add(card);
+            if(i == card.getResFrom().length) list.add(card);
         }
         return list;
     }

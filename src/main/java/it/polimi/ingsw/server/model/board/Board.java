@@ -280,10 +280,6 @@ public class Board{
     }
 
     public void checkVaticanReport(){
-        var old = faithTrack.getWinPnt();
         faithTrack.getWinPntCard();
-        var newV = faithTrack.getWinPnt();
-        pcs.firePropertyChange("popeFavor", old, newV);
-
     }
 }

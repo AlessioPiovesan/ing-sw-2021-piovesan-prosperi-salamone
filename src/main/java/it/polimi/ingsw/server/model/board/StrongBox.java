@@ -20,7 +20,10 @@ public class StrongBox implements Serializable{
     }
 
     protected void moveResources(Pick res){
-        strongContent.replace(res.getResource(), strongContent.get(res.getResource()) + res.getQnt());
+        var color = res.getResource();
+        int old = strongContent.get(color);
+        var add = res.getQnt();
+        strongContent.put(color, old + add);
     }
 
     protected Map<Colours, Integer> getStrongContent(){
