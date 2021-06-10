@@ -464,7 +464,7 @@ public class CLI implements Runnable, UI{
                 output.println("Which one? [1-3]");
                 j = Integer.parseInt(input.readLine());
                 while(!(j > -1 && j < 4)){
-                    output.println("This is not a valid slot");
+                    output.println("This is not a valid row");
                     j = Integer.parseInt(input.readLine());
                 }
                 move = switch(j){
@@ -478,6 +478,10 @@ public class CLI implements Runnable, UI{
             if(i == 1){
                 output.println("Which one? [1-4]");
                 j = Integer.parseInt(input.readLine());
+                while(!(j > -1 && j < 5)){
+                    output.println("This is not a valid column");
+                    j = Integer.parseInt(input.readLine());
+                }
                 move = switch(j){
                     case 1 -> 6;
                     case 2 -> 5;
@@ -508,7 +512,7 @@ public class CLI implements Runnable, UI{
             var card = (CardDev)pickCard(CardDev.class);
             if(actual.contains(card)){
                 try{
-                    var slot = pickLibSlot(card);
+                    var slot = pickSlot(card);
                     if(slot >= 0) LocalGameController.getInstance().cardDevAction(card, slot);
                     else{
                         output.println("You don't have a slot for this card");
@@ -526,7 +530,7 @@ public class CLI implements Runnable, UI{
         }
     }
 
-    private int pickLibSlot(CardDev card) throws IOException{
+    private int pickSlot(CardDev card) throws IOException{
         showLibrary();
         output.print("Slot for " + card.name() + "? [1-3]\n>\t");
         output.flush();
@@ -539,9 +543,21 @@ public class CLI implements Runnable, UI{
             }
         } catch(NumberFormatException e){
             output.println("This slot doesn't exist\nTry again...");
-            pickLibSlot(card);
+            pickSlot(card);
         }
+        if(!isAddable(card, slot)) slot = -1;
         return slot - 1;
+    }
+
+    private boolean isAddable(CardDev card, int slot){
+        var slotCards = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus().get(slot);
+        if(!slotCards.isEmpty()) if(card.getLvl() == 1) return true;
+        else return switch(card.getLvl()){
+                case 2 -> slotCards.get(slotCards.size() - 1).getLvl() != 1;
+                case 3 -> slotCards.get(slotCards.size() - 1).getLvl() != 2;
+                default -> false;
+            };
+        return false;
     }
 
     private List<Card> canBuyCardDev(List<CardDev> cards){
