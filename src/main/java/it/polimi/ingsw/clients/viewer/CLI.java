@@ -96,7 +96,7 @@ public class CLI implements Runnable, UI{
                         if(single) LocalGameController.getInstance().nextPlayer();
                         else Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
                     }
-
+                    case "popeFavor" -> output.println("You got " + evt.getNewValue() + " from Pope's Favor!");
                     case "nextPlayer" -> {
                         if(single) LocalGameController.getInstance().nextPlayer();
                         else Controller.getInstance().getGameControllerById(0);
@@ -171,7 +171,10 @@ public class CLI implements Runnable, UI{
                     case 1 -> showWarehouse();
                     case 2 -> showStrongBox();
                     case 3 -> showLibrary();
-                    case 4 -> showFaithTrack();
+                    case 4 -> {
+                        if(single) showFaithTrackSingle();
+                        else showFaithTrack();
+                    }
                     case 5 -> output.println("Ok");
                     default -> output.print("There's no way you were able to that... I think...");
                 }
@@ -184,6 +187,38 @@ public class CLI implements Runnable, UI{
     }
 
     private void showFaithTrack(){
+        final var pos = 0;
+        var normal = "███";
+        var central = ConsoleColors.RED_BOLD + "███" + ConsoleColors.RESET;
+        var top = "█" + ConsoleColors.RED_BOLD + "█" + ConsoleColors.RESET + "█";
+        var trackTop = new StringBuilder();
+        var trackCen = new StringBuilder();
+        var trackN = new StringBuilder();
+        for(var i = 0; i < 25; i++){
+            if(i < 9) trackN.append("██").append(i).append("\t");
+            else trackN.append("█").append(i).append("\t");
+            if(isPopeFavor(i)){
+                trackTop.append(ConsoleColors.YELLOW_BOLD_BRIGHT);
+                trackCen.append(ConsoleColors.YELLOW_BOLD_BRIGHT);
+            }
+            if(i == pos){
+                trackTop.append(top).append("\t");
+                trackCen.append(central).append("\t");
+            }
+            else{
+                trackTop.append(normal).append("\t");
+                trackCen.append(normal).append("\t");
+            }
+            trackTop.append(ConsoleColors.RESET);
+            trackCen.append(ConsoleColors.RESET);
+        }
+        output.println(trackN);
+        output.println(trackTop);
+        output.println(trackCen);
+        output.println(trackTop);
+    }
+
+    private void showFaithTrackSingle(){
         final var pos = LocalGameController.getInstance().getBoardController().getPlayer().checkFT();
         final var posL = LocalGameController.getInstance().getBoardController().getLorenzo().checkFT();
         var normal = "███";
@@ -194,7 +229,6 @@ public class CLI implements Runnable, UI{
         var trackTop = new StringBuilder();
         var trackCen = new StringBuilder();
         var trackN = new StringBuilder();
-        output.println("You are on " + pos + "\nLorenzo is on " + posL);
         for(var i = 0; i < 25; i++){
             if(i < 9) trackN.append("██").append(i).append("\t");
             else trackN.append("█").append(i).append("\t");
@@ -204,9 +238,15 @@ public class CLI implements Runnable, UI{
             }
             if(i == pos){
                 if(pos == posL){
-                    trackTop.append("█" + ConsoleColors.RED_BOLD + "X" + ConsoleColors.RESET + "█").append("\t");
+                    if(isPopeFavor(i)){
+                        trackTop.append("█" + ConsoleColors.RED_BOLD + "X" + ConsoleColors.RESET + ConsoleColors.YELLOW_BOLD_BRIGHT + "█").append("\t");
+                    }
+                    else{
+                        trackTop.append("█" + ConsoleColors.RED_BOLD + "X" + ConsoleColors.RESET + "█").append("\t");
+                    }
                     trackCen.append(ConsoleColors.RED_BOLD + "XXX" + ConsoleColors.RESET).append("\t");
                 }
+
                 else{
                     trackTop.append(top).append("\t");
                     trackCen.append(central).append("\t");
@@ -257,10 +297,6 @@ public class CLI implements Runnable, UI{
                         while(action < 1 || action > 6){
                             output.println("Please type a valid number [1-5]");
                             action = Integer.parseInt(input.readLine());
-                        }
-                        if(action == 1 && LocalGameController.getInstance().getBoardController().getPlayer().isProducible()){
-                            output.println("You don't have any development card, you can't activate the production");
-                            nextAction();
                         }
                         switch(action){
                             case 1 -> startProd();
@@ -653,7 +689,7 @@ public class CLI implements Runnable, UI{
             else{
                 output.println("On slot #" + ++i + " there are this cards:");
                 for(var card : thisSlot)
-                    output.println("\t" + card.name() + "[" + card.getResFrom() + " -> " + card.getResTo() + "]");
+                    showCards(card);
             }
     }
 

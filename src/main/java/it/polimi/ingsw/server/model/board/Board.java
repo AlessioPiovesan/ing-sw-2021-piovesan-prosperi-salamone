@@ -83,15 +83,6 @@ public class Board{
         }
     }
 
-    public boolean isProducible(){
-        for(var i = 0; i < 3; i++){
-            if(library.getCardsOfASlot(i) != null){
-                return true;
-            }
-        }
-        return false;
-    }
-
     public Colours[] getProductAlt(){
         return productAlt;
     }
@@ -289,6 +280,10 @@ public class Board{
     }
 
     public void checkVaticanReport(){
-        faithTrack.getPopeFavorWinPnt();
+        var old = faithTrack.getWinPnt();
+        faithTrack.getWinPntCard();
+        var newV = faithTrack.getWinPnt();
+        pcs.firePropertyChange("popeFavor", old, newV);
+
     }
 }
