@@ -6,7 +6,7 @@ import it.polimi.ingsw.server.ServerApp;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class MastersOfRenaissance{
+public class MastersOfRenaissanceCLI{
 
     public static void main(String[] args){
 

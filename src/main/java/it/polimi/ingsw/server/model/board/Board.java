@@ -49,6 +49,7 @@ public class Board{
         productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
         ready = false;
     }
+
     public void somethingIsWrong(String s){
         pcs.firePropertyChange("wrong", "", s);
     }

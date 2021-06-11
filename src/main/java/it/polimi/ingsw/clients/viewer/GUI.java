@@ -1,23 +1,32 @@
 package it.polimi.ingsw.clients.viewer;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
+import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
+import it.polimi.ingsw.clients.viewer.controllers.GUIController;
+import it.polimi.ingsw.clients.viewer.controllers.InitialLeader;
+import it.polimi.ingsw.clients.viewer.controllers.ResizeHandler;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeSupport;
-import java.util.Objects;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 
 public class GUI extends Application implements UI{
 
-    private static final String SETUP = "setup.fxml";
-    private static final String MENU = "MainMenu.fxml";
-    private static final String LOADER = "loadingscreen.fxml";
     private static final String BOARDS = "boards.fxml";
+    private static final String INITIALLEADERCARDS = "initialLeaderCards.fxml";
+    private final HashMap<String, Scene> nameMapScene = new HashMap<>();
     private boolean single;
+    private Scene currentScene;
+    private Stage stage;
+    private HashMap<String, GUIController> nameMapController;
 
     @Override
     public void setSingle(boolean single){
@@ -49,17 +58,66 @@ public class GUI extends Application implements UI{
 
     @Override
     public void propertyChange(PropertyChangeEvent evt){
-        System.out.println(evt);
+        switch(evt.getPropertyName()){
+            case "temporaryLeaderCards" -> {
+                changeStage(INITIALLEADERCARDS);
+                chooseInitialLeaders((CardLeader[])evt.getNewValue());
+            }
+            default -> System.out.println(evt);
+        }
+    }
+
+    public void changeStage(String newScene){
+        currentScene = nameMapScene.get(newScene);
+        stage.setScene(currentScene);
+        stage.show();
+        var controller = (GUIController)new FXMLLoader(getClass().getResource("/fxml/" + newScene)).getController();
+        var pane = controller.getMainPane();
+        var resize = new ResizeHandler(pane);
+        currentScene.widthProperty().addListener(resize.getWidthListener());
+        currentScene.heightProperty().addListener(resize.getHeightListener());
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        var root = (Parent)FXMLLoader.load(Objects.requireNonNull(getClass().getResource(MENU)));
-        var setup = (Parent)FXMLLoader.load(Objects.requireNonNull(getClass().getResource(SETUP)));
-        var mainScene = new Scene(root);
+    }
 
-        primaryStage.setTitle("Masters Of Renaissance");
-        primaryStage.setScene(mainScene);
-        primaryStage.show();
+    /**
+     * Method setup creates all the stage phases which will be updated in other methods, in particular:
+     * - MENU: the game's main menu with Play and Quit buttons;
+     * - SETUP: small windows containing player's inserted nickname, the server IP and port;
+     * - LOADER: the game loader containing player's chosen color, god power and places their workers;
+     * - GUI: the effective game GUI (island board).
+     * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
+     */
+    public void setup() throws IOException{
+        var fxmList = new ArrayList<>(Arrays.asList(BOARDS, INITIALLEADERCARDS));
+        for(String path : fxmList){
+            var loader = new FXMLLoader(getClass().getResource("/fxml/" + path));
+            nameMapScene.put(path, new Scene(loader.load()));
+            var controller = (GUIController)loader.getController();
+            controller.setGui(this);
+            nameMapController.put(path, controller);
+        }
+        currentScene = nameMapScene.get(BOARDS);
+    }
+
+    private synchronized void chooseInitialLeaders(CardLeader[] cards){
+        var list = new ArrayList<CardLeader>();
+        var finale = new CardLeader[2];
+        Collections.addAll(list, cards);
+        var i = 0;
+        var controller = new InitialLeader();
+        while(i < 2){
+            controller.showCards(list);
+//            var card = controller.pickCard(CardLeader.class);
+//            if(list.contains(card)){
+//                list.remove(card);
+//                finale[i] = card;
+//                i++;
+//            }
+//            else System.out.println("Something went wrong");
+        }
+        if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(finale);
     }
 }

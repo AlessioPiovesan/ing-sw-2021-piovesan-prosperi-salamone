@@ -2,9 +2,10 @@
     -fx-font-family: "Academy Engraved LET";
     -fx-background-image: url("../graphics/setup/setupButton.png");
     -fx-background-color: transparent;
+    -fx-background-size: stretch;
 }
 
 .mainBackground {
-    -fx-background-image: url("../graphics/MainMenuBackground copia.png");
+    -fx-background-image: url("../graphics/MainMenuBackground.png");
     -fx-background-color: transparent;
 }

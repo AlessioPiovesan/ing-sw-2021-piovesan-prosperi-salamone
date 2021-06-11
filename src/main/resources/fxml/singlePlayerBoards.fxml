@@ -11,7 +11,11 @@
              prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Your Board">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <AnchorPane fx:id="p00" prefHeight="200.0" prefWidth="1203.0">
+                <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/board/boardFront.png"/>
+                </ImageView>
+                <AnchorPane fx:id="p00" accessibleRole="IMAGE_VIEW" layoutX="39.0" layoutY="65.0" prefHeight="200.0"
+                            prefWidth="1203.0">
                     <Label layoutX="18.0" layoutY="116.0" maxHeight="54.0" maxWidth="54.0" minHeight="54.0"
                            minWidth="54.0" prefHeight="54.0" prefWidth="54.0" text="0">
                         <graphic>
@@ -139,46 +143,37 @@
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
-                    <Label prefHeight="54.0" prefWidth="54.0" text="24">
+                    <Label layoutX="-11.0" layoutY="-28.0" prefHeight="54.0" prefWidth="65.0" text="24">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                 </AnchorPane>
-                <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../graphics/board/boardFront.png"/>
-                </ImageView>
-                <Button layoutX="25.0" layoutY="632.0" mnemonicParsing="false" prefHeight="208.0" prefWidth="243.0"
-                        text="Button"/>
+                <Button blendMode="MULTIPLY" layoutX="25.0" layoutY="632.0" mnemonicParsing="false" prefHeight="208.0"
+                        prefWidth="243.0"/>
                 <AnchorPane layoutX="47.0" layoutY="399.0" prefHeight="200.0" prefWidth="200.0">
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
-                                       preserveRatio="true"/>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                     </AnchorPane>
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
-                                       preserveRatio="true"/>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
-                                       preserveRatio="true"/>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                     </AnchorPane>
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
-                                       preserveRatio="true"/>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
-                                       preserveRatio="true"/>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true"
-                                       preserveRatio="true"/>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                     </AnchorPane>
                 </AnchorPane>
@@ -200,7 +195,7 @@
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
-                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                    <AnchorPane layoutX="29.0" layoutY="190.0" prefHeight="200.0" prefWidth="200.0">
                         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
                 </AnchorPane>
