@@ -2,10 +2,14 @@ package it.polimi.ingsw.clients.viewer;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
+import java.util.Objects;
 
 public class GUI extends Application implements UI{
 
@@ -13,18 +17,7 @@ public class GUI extends Application implements UI{
     private static final String MENU = "MainMenu.fxml";
     private static final String LOADER = "loadingscreen.fxml";
     private static final String BOARDS = "boards.fxml";
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
     private boolean single;
-
-    /**
-     * Main class of the GUI, which is called from the "Masters Of Renaissance" launcher
-     * in case user decides to play with it.
-     *
-     * @param args of type String[] - parsed arguments.
-     */
-    public static void main(String[] args){
-        launch(args);
-    }
 
     @Override
     public void setSingle(boolean single){
@@ -32,13 +25,26 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public void run(){}
-
-    @Override
     public void setClient(Client client){ }
 
-    private void showMarket(){
+    @Override
+    public String getIP(){
+        return null;
+    }
 
+    @Override
+    public int getPort(){
+        return 0;
+    }
+
+    @Override
+    public String getNickname(){
+        return null;
+    }
+
+    @Override
+    public int getNPlayers(){
+        return 0;
     }
 
     @Override
@@ -47,5 +53,13 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{ }
+    public void start(Stage primaryStage) throws Exception{
+        var root = (Parent)FXMLLoader.load(Objects.requireNonNull(getClass().getResource(MENU)));
+        var setup = (Parent)FXMLLoader.load(Objects.requireNonNull(getClass().getResource(SETUP)));
+        var mainScene = new Scene(root);
+
+        primaryStage.setTitle("Masters Of Renaissance");
+        primaryStage.setScene(mainScene);
+        primaryStage.show();
+    }
 }

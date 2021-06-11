@@ -1,7 +1,6 @@
 package it.polimi.ingsw.clients.multiplayer.web;
 
 import it.polimi.ingsw.clients.multiplayer.model.ModelView;
-import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.clients.viewer.GUI;
 import it.polimi.ingsw.clients.viewer.UI;
@@ -14,32 +13,22 @@ import java.util.NoSuchElementException;
 
 public class Client{
 
-    private final String ip;
-    private final int port;
     private final UI ui;
     private final ModelView modelView;
+    private String ip;
+    private int port;
     private boolean active;
     private int nPlayers;
     private Socket socket;
 
-    /**
-     * /*
-     *
-     * @param ip   of type String - ip reference, should be 127.0.0.1
-     * @param port of type int - port reference, should be 12345
-     */
-    public Client(String ip, int port, int i){
-        this.ip = ip;
-        this.port = port;
+    public Client(int i){
         if(i == 0) ui = new CLI();
         else ui = new GUI();
         modelView = new ModelView(nPlayers, ui);
         active = true;
     }
 
-    public void setNPlayers(int players){this.nPlayers = players;}
-
-    public int getnPlayers(){
+    public int getNPlayers(){
         return nPlayers;
     }
 
@@ -48,12 +37,8 @@ public class Client{
     }
 
     public void run(){
-        if(nPlayers == 1){
-            startSinglePlayerGame();
-        }
-        else{
-            connect();
-        }
+        setup();
+        connect();
         try(var socketIn = new ObjectInputStream(socket.getInputStream())){
             while(isActive()){
                 var inputObject = socketIn.readObject();
@@ -68,12 +53,10 @@ public class Client{
         }
     }
 
-    private void startSinglePlayerGame(){
-        var gameController = LocalGameController.getInstance();
-        var game = gameController.getGame();
-        game.getBoard(true).addPropertyChangeListener(ui);
-        game.getBoard(false).addPropertyChangeListener(ui);
-        gameController.startGame();
+    private void setup(){
+        ip = ui.getIP();
+        port = ui.getPort();
+        nPlayers = ui.getNPlayers();
     }
 
     private void connect(){
@@ -96,7 +79,7 @@ public class Client{
         var string = input.split("::");
         switch(string[0]){
             case "Your game's ID is" -> modelView.setGameID(Integer.parseInt(string[1]));
-            default -> {}
+            default -> System.out.println(string[1] + " is not handled");
         }
     }
 

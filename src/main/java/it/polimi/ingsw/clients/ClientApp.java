@@ -2,7 +2,6 @@ package it.polimi.ingsw.clients;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.web.Local;
-import org.apache.commons.validator.routines.InetAddressValidator;
 
 import java.io.InputStreamReader;
 import java.util.Scanner;
@@ -29,29 +28,9 @@ public class ClientApp{
         }
         if(input == 1) new Local(ui).run();
         else{
-            System.out.print(">\tInsert the server IP address\n>\t");
-            var ip = scanner.nextLine();
-            while(!(InetAddressValidator.getInstance().isValid(ip))){
-                System.err.println("Server IP address is not valid");
-                ip = scanner.nextLine();
-            }
-            System.out.print(">\tInsert the server port\n>\t");
-            var port = scanner.nextInt();
-            while(port < 1023 || port > 65535){
-                System.err.println("Server port is not valid");
-                port = Integer.parseInt(scanner.nextLine());
-            }
-            var client = new Client(ip, port, ui);
-            System.out.print(">\tInsert the the number of players you want for this match [2-4]\n>\t");
-            var players = scanner.nextInt();
-            while(players <= 1 || players >= 5){
-                System.err.println("We can not support that number of players");
-                players = scanner.nextInt();
-            }
-            client.setNPlayers(players);
+            var client = new Client(ui);
             client.run();
             client.getUi().setClient(client);
-            client.getUi().run();
         }
     }
 }

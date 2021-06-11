@@ -25,9 +25,6 @@ public class Board{
     private boolean endGame;
     private int activeLeader = 0;
     private String nickname;
-    private Colours preference = Colours.WHITE;
-    private LinkedList<Colours> bufferMarket;
-    private LinkedList<Pick> bufferProd;
     private CardLeader[] myLeaderCards = new CardLeader[2];
     private boolean ready;
 
@@ -51,6 +48,9 @@ public class Board{
         marketAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
         productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
         ready = false;
+    }
+    public void somethingIsWrong(String s){
+        pcs.firePropertyChange("wrong", "", s);
     }
 
     public void ready(){
@@ -160,8 +160,7 @@ public class Board{
     }
 
     public void setBufferMarket(List<Colours> res){
-        bufferMarket = new LinkedList<>();
-        bufferMarket = (LinkedList<Colours>)res;
+        var bufferMarket = (LinkedList<Colours>)res;
         pcs.firePropertyChange("marketBuffer", "", bufferMarket);
     }
 
@@ -170,7 +169,7 @@ public class Board{
     }
 
     public void setPreference(){
-        preference = Colours.WHITE;
+        Colours preference = Colours.WHITE;
         pcs.firePropertyChange("preference", "", preference);
     }
 

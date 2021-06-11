@@ -8,8 +8,14 @@ public interface UI extends PropertyChangeListener{
 
     void setSingle(boolean single);
 
-    void run();
-
     void setClient(Client client);
+
+    String getIP();
+
+    int getPort();
+
+    String getNickname();
+
+    int getNPlayers();
 
 }

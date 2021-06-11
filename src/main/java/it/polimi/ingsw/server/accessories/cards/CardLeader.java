@@ -78,9 +78,9 @@ public enum CardLeader implements Card{
     }
 
     private String showReq(Requirements[] requirements){
-        var req = new StringBuilder();
+        var stringReq = new StringBuilder();
         for(var requirement : requirements)
-            req.append("\t\t").append(requirement.toString()).append("\n");
-        return String.valueOf(req);
+            stringReq.append("\t\t").append(requirement.toString()).append("\n");
+        return String.valueOf(stringReq);
     }
 }
