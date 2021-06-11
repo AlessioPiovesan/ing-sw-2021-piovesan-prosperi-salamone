@@ -33,7 +33,7 @@ public class MastersOfRenaissanceCLI{
             } finally{
                 switch(input){
                     case 0 -> ServerApp.start();
-                    case 1, 2 -> ClientApp.chooseUI(input);
+                    case 1, 2 -> ClientApp.start(input);
                     default -> {
                         exit = true;
                         System.err.println("Invalid argument, please run the executable again with a viable options");

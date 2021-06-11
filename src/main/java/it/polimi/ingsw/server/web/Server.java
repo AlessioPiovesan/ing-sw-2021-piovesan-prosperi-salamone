@@ -10,11 +10,13 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 public class Server implements Runnable{
 
     private final ServerSocket serverSocket;
+    private final LinkedList<String> players;
     private final Map<String, SocketServerToClient> waitingForConnection;
     private final Map<SocketServerToClient, SocketServerToClient> playingConnection;
     private final Map<SocketServerToClient, Integer> waitingForTheGameToStart;
@@ -24,6 +26,7 @@ public class Server implements Runnable{
         waitingForConnection = new HashMap<>();
         playingConnection = new HashMap<>();
         waitingForTheGameToStart = new HashMap<>();
+        players = new LinkedList<>();
     }
 
     @Override
@@ -80,5 +83,18 @@ public class Server implements Runnable{
             waitingForConnection.keySet().removeIf(s -> waitingForConnection.get(s) == c);
             opponent = playingConnection.get(c);
         }
+    }
+
+    private void addPlayer(String name){
+        players.add(name);
+    }
+
+    private void removePlayer(String name){
+        players.remove(name);
+    }
+
+    public void checkExistNickname(String s, SocketServerToClient socket){
+        if(players.contains(s)) socket.send("nicknameNo::");
+        else socket.send("nicknameYes::" + s);
     }
 }

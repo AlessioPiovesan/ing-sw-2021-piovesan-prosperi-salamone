@@ -4,7 +4,6 @@ import it.polimi.ingsw.clients.singleplayer.web.Local;
 import it.polimi.ingsw.clients.viewer.GUI;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import org.apache.maven.scm.provider.git.gitexe.command.update.GitUpdateCommand;
 
 public class MainMenuController implements GUIController{
 
@@ -23,7 +22,7 @@ public class MainMenuController implements GUIController{
 
     @Override
     public void setGui(GUI gui){
-        this.gui=gui;
+        this.gui = gui;
     }
 
     @Override

@@ -52,6 +52,16 @@ public class GUI extends Application implements UI{
     }
 
     @Override
+    public void setNickname(String name){
+
+    }
+
+    @Override
+    public void reChooseNickname(){
+
+    }
+
+    @Override
     public int getNPlayers(){
         return 0;
     }
@@ -78,6 +88,25 @@ public class GUI extends Application implements UI{
         currentScene.heightProperty().addListener(resize.getHeightListener());
     }
 
+    private synchronized void chooseInitialLeaders(CardLeader[] cards){
+        var list = new ArrayList<CardLeader>();
+        var finale = new CardLeader[2];
+        Collections.addAll(list, cards);
+        var i = 0;
+        var controller = new InitialLeader();
+        while(i < 2){
+            controller.showCards(list);
+            //            var card = controller.pickCard(CardLeader.class);
+            //            if(list.contains(card)){
+            //                list.remove(card);
+            //                finale[i] = card;
+            //                i++;
+            //            }
+            //            else System.out.println("Something went wrong");
+        }
+        if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(finale);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception{
     }
@@ -100,24 +129,5 @@ public class GUI extends Application implements UI{
             nameMapController.put(path, controller);
         }
         currentScene = nameMapScene.get(BOARDS);
-    }
-
-    private synchronized void chooseInitialLeaders(CardLeader[] cards){
-        var list = new ArrayList<CardLeader>();
-        var finale = new CardLeader[2];
-        Collections.addAll(list, cards);
-        var i = 0;
-        var controller = new InitialLeader();
-        while(i < 2){
-            controller.showCards(list);
-//            var card = controller.pickCard(CardLeader.class);
-//            if(list.contains(card)){
-//                list.remove(card);
-//                finale[i] = card;
-//                i++;
-//            }
-//            else System.out.println("Something went wrong");
-        }
-        if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(finale);
     }
 }

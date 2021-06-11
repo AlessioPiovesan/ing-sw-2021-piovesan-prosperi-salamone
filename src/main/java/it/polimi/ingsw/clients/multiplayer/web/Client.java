@@ -14,18 +14,22 @@ import java.util.NoSuchElementException;
 public class Client{
 
     private final UI ui;
-    private final ModelView modelView;
     private String ip;
     private int port;
     private boolean active;
     private int nPlayers;
     private Socket socket;
+    private ModelView modelView;
 
     public Client(int i){
         if(i == 0) ui = new CLI();
         else ui = new GUI();
-        modelView = new ModelView(nPlayers, ui);
+        setSingle();
         active = true;
+    }
+
+    private void setSingle(){
+        ui.setSingle(false);
     }
 
     public int getNPlayers(){
@@ -79,7 +83,9 @@ public class Client{
         var string = input.split("::");
         switch(string[0]){
             case "Your game's ID is" -> modelView.setGameID(Integer.parseInt(string[1]));
-            default -> System.out.println(string[1] + " is not handled");
+            case "nicknameNo" -> ui.reChooseNickname();
+            case "nicknameYes" -> ui.setNickname(string[1]);
+            default -> System.out.println(string[0] + " is not handled");
         }
     }
 

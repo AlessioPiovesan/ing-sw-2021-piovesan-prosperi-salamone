@@ -16,6 +16,10 @@ public interface UI extends PropertyChangeListener{
 
     String getNickname();
 
+    void setNickname(String name);
+
+    void reChooseNickname();
+
     int getNPlayers();
 
 }

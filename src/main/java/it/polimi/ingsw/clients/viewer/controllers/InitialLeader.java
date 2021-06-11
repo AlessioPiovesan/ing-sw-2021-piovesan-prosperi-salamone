@@ -39,16 +39,16 @@ public class InitialLeader implements GUIController{
         return mainPane;
     }
 
-    public void selectCard(Event event){    }
+    public void selectCard(Event event){ }
 
     public void showCards(ArrayList<CardLeader> list){
-        for(var i=0; i<4;i++){
-        var path = getPath(list.get(i));
-        cards.get(i).setImage(new Image(path));
+        for(var i = 0; i < 4; i++){
+            var path = getPath(list.get(i));
+            cards.get(i).setImage(new Image(path));
         }
     }
 
     private String getPath(CardLeader card){
-        return "graphics/cards/front/lead/"+card.name()+".png";
+        return "graphics/cards/front/lead/" + card.name() + ".png";
     }
 }

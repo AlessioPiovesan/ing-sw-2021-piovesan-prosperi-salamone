@@ -50,34 +50,9 @@ public class CLI implements Runnable, UI{
     }
 
     public void run(){
-        giveNickname();
+        chooseNickname();
         client.asyncWriteToSocket("nickname::" + nickname);
         client.asyncWriteToSocket("nplayers::" + client.getNPlayers());
-    }
-
-    private void giveNickname(){
-        nickname = "";
-        do{
-            while(Objects.equals(nickname, "")){
-                output.println(">Insert your nickname: ");
-                output.print(">\t");
-                try{
-                    nickname = input.next();
-                } catch(Exception e){
-                    e.printStackTrace();
-                }
-                output.println("> You chose: " + nickname);
-                output.println("> Is it ok? [y/n] ");
-                output.println(">\t");
-                try{
-                    String r = input.next();
-                    if(!(r.equals("y"))) nickname = "";
-                } catch(Exception e){
-                    e.printStackTrace();
-                }
-            }
-        } while(nickname.equals(""));
-        setNickname(nickname);
     }
 
     @Override
@@ -422,6 +397,7 @@ public class CLI implements Runnable, UI{
     public String getIP(){
         var ip = "";
         output.print(">\tInsert the server IP address\n>\t");
+        output.flush();
         ip = input.next();
         while(!(InetAddressValidator.getInstance().isValid(ip))){
             output.println("Server IP address is not valid");
@@ -433,6 +409,7 @@ public class CLI implements Runnable, UI{
     @Override
     public int getPort(){
         output.print(">\tInsert the server port\n>\t");
+        output.flush();
         var port = input.nextInt();
         while(port < 1023 || port > 65535){
             System.err.println("Server port is not valid");
@@ -443,12 +420,23 @@ public class CLI implements Runnable, UI{
 
     @Override
     public String getNickname(){
-        return null;
+        return nickname;
+    }
+
+    @Override
+    public void setNickname(String name){
+        nickname = name;
+    }
+
+    public void reChooseNickname(){
+        output.println("This nickname is already taken");
+        chooseNickname();
     }
 
     @Override
     public int getNPlayers(){
         output.print(">\tInsert the the number of players you want for this match [2-4]\n>\t");
+        output.flush();
         var players = input.nextInt();
         while(players <= 1 || players >= 5){
             System.err.println("We can not support that number of players");
@@ -457,8 +445,18 @@ public class CLI implements Runnable, UI{
         return players;
     }
 
-    private void setNickname(String nickname){
-        this.nickname = nickname;
+    private void chooseNickname(){
+        output.print(">\tChoose a nickname\n>\t");
+        output.flush();
+        var name = input.next();
+        output.print("Your nickname will be:\t" + name + "\nDo you confirm? [y/n]");
+        output.flush();
+        var s = input.next();
+        if(s.charAt(0) == 'y') client.asyncWriteToSocket("checkNickname::" + name);
+        else{
+            output.println("Ok, try again");
+            chooseNickname();
+        }
     }
 
     private void showMarket(){
