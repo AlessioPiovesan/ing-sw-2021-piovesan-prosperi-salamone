@@ -3,7 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="it.polimi.ingsw.clients.viewer.controllers.BoardsController" maxHeight="-Infinity"
+            maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1">
     <TabPane layoutY="-1.0" maxWidth="-Infinity" prefHeight="900.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Player 1">

@@ -257,12 +257,12 @@ public class CLI implements Runnable, UI{
             if(single && LocalGameController.getInstance().isLorenzoPlaying())
                 LocalGameController.getInstance().moveLorenzo();
             else{
-                shooseAction(menu);
+                chooseAction(menu);
             }
         });
     }
 
-    private void shooseAction(String menu){
+    private void chooseAction(String menu){
         try{
             output.print(menu);
             output.flush();
@@ -382,8 +382,12 @@ public class CLI implements Runnable, UI{
     }
 
     private void showCards(Card card){
-        output.println("_________________________________________________");
+        printLine();
         output.println(card.toString());
+        printLine();
+    }
+
+    private void printLine(){
         output.println("_________________________________________________");
     }
 
@@ -460,15 +464,18 @@ public class CLI implements Runnable, UI{
     }
 
     private void showMarket(){
+        printLine();
         var market = LocalGameController.getInstance().getGame().getMarket().getTray();
+        var extern = LocalGameController.getInstance().getGame().getMarket().getExternal();
         var print = new StringBuilder();
+        print.append(ConsoleColors.BLACK + "   \t   \t   \t" + ConsoleColors.RESET).append(drawMarket(extern)).append("\n");
         for(var i = 0; i < Constants.XMARKET.getVal(); i++){
             for(var j = 0; j < Constants.YMARKET.getVal(); j++){
                 print.append(drawMarket(market[i][j])).append("\t");
             }
-            print.append("\n");
         }
         output.println(print);
+        printLine();
     }
 
     private Card pickCard(Class<? extends Card> clazz){
@@ -723,6 +730,7 @@ public class CLI implements Runnable, UI{
     }
 
     private void showWarehouse(){
+        printLine();
         output.println("At the moment the situation with the warehouse is this:");
         var b = LocalGameController.getInstance().getBoardController().getPlayer();
         var i = 0;
@@ -733,9 +741,11 @@ public class CLI implements Runnable, UI{
             }
             else
                 output.println("On shelf #" + ++i + " there are " + pick.getQnt() + " " + pick.getResource().getType() + " resources");
+        printLine();
     }
 
     private void showLibrary(){
+        printLine();
         output.println("These are your board slots:");
         var b = LocalGameController.getInstance().getBoardController().getPlayer();
         var i = 0;
@@ -749,13 +759,16 @@ public class CLI implements Runnable, UI{
                 for(var card : thisSlot)
                     showCards(card);
             }
+        printLine();
     }
 
     private void showStrongBox(){
+        printLine();
         output.println("This is what's in your StrongBox:");
         var b = LocalGameController.getInstance().getBoardController().getPlayer();
         var map = b.checkStrongBoxStatus();
         map.keySet().stream().map(color -> color.getType() + " -> " + map.get(color)).forEach(output::println);
+        printLine();
     }
 
     private Card getCorrectLeaderCardCode(String response){

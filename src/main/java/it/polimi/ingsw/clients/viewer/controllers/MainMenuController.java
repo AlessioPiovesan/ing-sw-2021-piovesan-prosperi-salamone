@@ -1,5 +1,6 @@
 package it.polimi.ingsw.clients.viewer.controllers;
 
+import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.web.Local;
 import it.polimi.ingsw.clients.viewer.GUI;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +19,10 @@ public class MainMenuController implements GUIController{
 
     public void startSingleGame(){
         new Local(1).run();
+    }
+
+    public void startMultiGame(){
+        new Client(1).run();
     }
 
     @Override

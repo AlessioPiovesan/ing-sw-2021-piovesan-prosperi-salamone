@@ -8,25 +8,54 @@ import it.polimi.ingsw.clients.viewer.controllers.ResizeHandler;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.*;
 
 public class GUI extends Application implements UI{
 
-    private static final String BOARDS = "boards.fxml";
-    private static final String INITIALLEADERCARDS = "initialLeaderCards.fxml";
-    private final HashMap<String, Scene> nameMapScene = new HashMap<>();
+    private static final String BOARDS = "/fxml/boards.fxml";
+    private static final String INITIALLEADERCARDS = "/fxml/initialLeaderCards.fxml";
+    private final HashMap<String, Scene> nameMapScene;
     private boolean single;
     private Scene currentScene;
     private Stage stage;
     private HashMap<String, GUIController> nameMapController;
+
+    public GUI(){
+        nameMapScene = new HashMap<>();
+        nameMapController = new HashMap<>();
+        try{
+            setup();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Method setup creates all the stage phases which will be updated in other methods, in particular:
+     * - MENU: the game's main menu with Play and Quit buttons;
+     * - SETUP: small windows containing player's inserted nickname, the server IP and port;
+     * - LOADER: the game loader containing player's chosen color, god power and places their workers;
+     * - GUI: the effective game GUI (island board).
+     * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
+     */
+    public void setup() throws IOException{
+        var fxmList = new ArrayList<>(Arrays.asList(BOARDS, INITIALLEADERCARDS));
+        for(String path : fxmList){
+            var loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(path)));
+            var loaded = (Parent)loader.load();
+            var controller = (GUIController)loader.getController();
+            controller.setGui(this);
+            nameMapController.put(path, controller);
+            nameMapScene.put(path, new Scene(loaded));
+        }
+        currentScene = nameMapScene.get(BOARDS);
+    }
 
     @Override
     public void setSingle(boolean single){
@@ -109,25 +138,5 @@ public class GUI extends Application implements UI{
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-    }
-
-    /**
-     * Method setup creates all the stage phases which will be updated in other methods, in particular:
-     * - MENU: the game's main menu with Play and Quit buttons;
-     * - SETUP: small windows containing player's inserted nickname, the server IP and port;
-     * - LOADER: the game loader containing player's chosen color, god power and places their workers;
-     * - GUI: the effective game GUI (island board).
-     * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
-     */
-    public void setup() throws IOException{
-        var fxmList = new ArrayList<>(Arrays.asList(BOARDS, INITIALLEADERCARDS));
-        for(String path : fxmList){
-            var loader = new FXMLLoader(getClass().getResource("/fxml/" + path));
-            nameMapScene.put(path, new Scene(loader.load()));
-            var controller = (GUIController)loader.getController();
-            controller.setGui(this);
-            nameMapController.put(path, controller);
-        }
-        currentScene = nameMapScene.get(BOARDS);
     }
 }
