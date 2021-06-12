@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
@@ -99,11 +100,20 @@ public class GUI extends Application implements UI{
     public void propertyChange(PropertyChangeEvent evt){
         switch(evt.getPropertyName()){
             case "temporaryLeaderCards" -> {
+                start(new Stage());
                 changeStage(INITIALLEADERCARDS);
                 chooseInitialLeaders((CardLeader[])evt.getNewValue());
             }
             default -> System.out.println(evt);
         }
+    }
+
+    @Override
+    public void start(Stage primaryStage){
+        primaryStage.setTitle("Masters Of Renaissance");
+        primaryStage.setScene(currentScene);
+        this.stage = primaryStage;
+        Font.loadFont(getClass().getResourceAsStream("/font/Academy Engraved LET Fonts.ttf"), 25);
     }
 
     public void changeStage(String newScene){
@@ -134,9 +144,5 @@ public class GUI extends Application implements UI{
             //            else System.out.println("Something went wrong");
         }
         if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(finale);
-    }
-
-    @Override
-    public void start(Stage primaryStage) throws Exception{
     }
 }

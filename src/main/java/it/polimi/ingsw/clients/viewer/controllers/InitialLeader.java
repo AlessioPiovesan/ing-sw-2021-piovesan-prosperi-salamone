@@ -13,20 +13,14 @@ import java.util.LinkedList;
 
 public class InitialLeader implements GUIController{
     private final LinkedList<CardLeader> selected;
-    public ImageView card1;
-    public ImageView card2;
-    public ImageView card3;
-    public ImageView card4;
+
     public AnchorPane mainPane;
     private GUI gui;
     private LinkedList<ImageView> cards;
 
     public InitialLeader(){
         selected = new LinkedList<>();
-        cards.add(card1);
-        cards.add(card2);
-        cards.add(card3);
-        cards.add(card4);
+        cards = new LinkedList<>();
     }
 
     @Override
