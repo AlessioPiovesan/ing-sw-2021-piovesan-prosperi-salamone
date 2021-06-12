@@ -1,26 +1,11 @@
 package it.polimi.ingsw.server.model.board;
 
-import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import org.junit.jupiter.api.Test;
-
-import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BoardTest{
-
-    @Test
-    void testCheckDiscardedResources(){
-        var b = new Board(0, null, null, null, null);
-        var list = new LinkedList<Colours>();
-        list.add(Colours.BLUE);
-        list.add(Colours.YELLOW);
-        list.add(Colours.GREY);
-        list.add(Colours.BLUE);
-        assertEquals(4, list.size());
-
-    }
 
     @Test
     void setDiscount(){

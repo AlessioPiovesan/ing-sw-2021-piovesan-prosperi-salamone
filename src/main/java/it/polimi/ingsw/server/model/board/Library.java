@@ -2,11 +2,10 @@ package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Library implements Serializable{
+public class Library{
 
     /* Creation CardDev slot for each board */
     private final ArrayList<ArrayList<CardDev>> slot;
@@ -24,7 +23,7 @@ public class Library implements Serializable{
     }
 
     protected CardDev getCardOnTop(int n){
-        return slot.get(n).get(slot.get(n).size());
+        return slot.get(n).get(slot.get(n).size() - 1);
     }
 
     protected ArrayList<ArrayList<CardDev>> getSlot(){
@@ -35,7 +34,7 @@ public class Library implements Serializable{
         slot.get(n).add(card);
     }
 
-    protected int getWinPntCardDev(){
+    public int getWinPntCardDev(){
         var win = 0;
         for(var i = 0; i < slot.size(); i++)
             for(var j = 0; j < getCardsOfASlot(i).size(); j++){

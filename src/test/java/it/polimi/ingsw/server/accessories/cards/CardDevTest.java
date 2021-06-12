@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.accessories.cards;
 
+import it.polimi.ingsw.clients.viewer.ConsoleColors;
+import it.polimi.ingsw.server.accessories.ColoursCards;
+import it.polimi.ingsw.server.accessories.Pick;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,8 +20,24 @@ class CardDevTest{
             var resTo = card.getResTo();
             var resFrom = card.getResFrom();
             var winPnt = card.getWinPnt();
-            assertEquals(name + "\n" + "This is a " + lvl + "level " + colour + " card the gives " + winPnt + "points.\nIt costs" + "\t->\t" + Arrays.toString(cost) + "\nThis card allows you to produce\n" + Arrays.toString(resTo) + "\nStarting from\n" + Arrays.toString(resFrom), card.toString());
+            assertEquals(getColor(colour) + name + ConsoleColors.RESET + "\n" + "This is a " + " level " + lvl + " " + ColoursCards.colored(colour.name()) + " card that gives " + winPnt + " points.\nIt costs" + "\t->\t" + showPick(cost) + "\nThis card allows you to produce\n" + showPick(resTo) + "\nStarting from\n" + showPick(resFrom), card.toString());
         }
+    }
+
+    @NotNull String getColor(ColoursCards colour){
+        return switch(colour){
+            case YELLOW -> ConsoleColors.YELLOW_BACKGROUND;
+            case VIOLET -> ConsoleColors.PURPLE_BACKGROUND;
+            case GREEN -> ConsoleColors.GREEN_BACKGROUND;
+            case CYAN -> ConsoleColors.CYAN_BACKGROUND;
+        };
+    }
+
+    String showPick(Pick[] picks){
+        var string = new StringBuilder();
+        for(var pick : picks)
+            string.append(pick.getQnt()).append(" - ").append(pick.getResource().getType()).append("\t");
+        return String.valueOf(string);
     }
 
     @Test
@@ -28,7 +46,7 @@ class CardDevTest{
             for(var i : new String[]{"1", "2", "3", "4"})
                 for(var c : new String[]{"B", "G", "P", "Y"})
                     for(var j : new String[]{"1", "2", "3"}){
-                        var code = new StringBuilder().append(i).append(c).append(j).toString();
+                        var code = i + c + j;
                         if(card.name().contains(code)) assertEquals(card, CardDev.getSpecificCard(code));
                         else assertNotEquals(card, CardDev.getSpecificCard(code));
                     }
@@ -41,6 +59,5 @@ class CardDevTest{
             card.flipCard();
             assertFalse(card.getFlipped());
         }
-
     }
 }

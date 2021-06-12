@@ -4,6 +4,7 @@ import it.polimi.ingsw.clients.viewer.ConsoleColors;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.Pick;
+import org.jetbrains.annotations.NotNull;
 
 public enum CardDev implements Card{
 
@@ -102,13 +103,18 @@ public enum CardDev implements Card{
 
     @Override
     public String toString(){
-        var color = switch(colour){
+        var color = getColor();
+        return color + name() + ConsoleColors.RESET + "\n" + "This is a " + " level " + lvl + " " + ColoursCards.colored(colour.name()) + " card that gives " + winPnt + " points.\nIt costs" + "\t->\t" + showPick(cost) + "\nThis card allows you to produce\n" + showPick(resTo) + "\nStarting from\n" + showPick(resFrom);
+    }
+
+    @NotNull
+    private String getColor(){
+        return switch(colour){
             case YELLOW -> ConsoleColors.YELLOW_BACKGROUND;
             case VIOLET -> ConsoleColors.PURPLE_BACKGROUND;
             case GREEN -> ConsoleColors.GREEN_BACKGROUND;
             case CYAN -> ConsoleColors.CYAN_BACKGROUND;
         };
-        return color + name() + ConsoleColors.RESET + "\n" + "This is a " + " level " + lvl + " " + ColoursCards.colored(colour.name()) + " card that gives " + winPnt + " points.\nIt costs" + "\t->\t" + showPick(cost) + "\nThis card allows you to produce\n" + showPick(resTo) + "\nStarting from\n" + showPick(resFrom);
     }
 
     private String showPick(Pick[] picks){

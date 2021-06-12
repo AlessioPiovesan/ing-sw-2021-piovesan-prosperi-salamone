@@ -12,13 +12,13 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class InitialLeader implements GUIController{
+    private final LinkedList<CardLeader> selected;
     public ImageView card1;
     public ImageView card2;
     public ImageView card3;
     public ImageView card4;
     public AnchorPane mainPane;
     private GUI gui;
-    private LinkedList<CardLeader> selected;
     private LinkedList<ImageView> cards;
 
     public InitialLeader(){
