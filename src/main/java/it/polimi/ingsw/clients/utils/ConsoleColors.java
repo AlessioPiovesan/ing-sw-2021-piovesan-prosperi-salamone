@@ -1,4 +1,4 @@
-package it.polimi.ingsw.clients.viewer;
+package it.polimi.ingsw.clients.utils;
 
 public class ConsoleColors{
 

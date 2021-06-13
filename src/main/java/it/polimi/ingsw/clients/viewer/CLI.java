@@ -2,6 +2,8 @@ package it.polimi.ingsw.clients.viewer;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
+import it.polimi.ingsw.clients.utils.ConsoleColors;
+import it.polimi.ingsw.clients.utils.Utils;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Constants;
 import it.polimi.ingsw.server.accessories.Pick;
@@ -37,18 +39,6 @@ public class CLI implements Runnable, UI{
         executor = new ThreadPoolExecutor(0, 8, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
     }
 
-    private static <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection){
-        List<T> result = new ArrayList<>(rawCollection.size());
-        for(Object o : rawCollection){
-            try{
-                result.add(clazz.cast(o));
-            } catch(ClassCastException e){
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
     public void run(){
         chooseNickname();
         client.asyncWriteToSocket("nickname::" + nickname);
@@ -71,9 +61,9 @@ public class CLI implements Runnable, UI{
                 case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
                 case "redCrossMove" -> LocalGameController.getInstance().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
-                case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(castList(Colours.class, (Collection<?>)evt.getNewValue()));
-                case "productionBuffer" -> resourcesHandler(castList(Pick.class, (Collection<?>)evt.getNewValue()));
-                case "costCardDev" -> payForCardDev(castList(Pick.class, (Collection<?>)evt.getNewValue()));
+                case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Utils.castList(Colours.class, (Collection<?>)evt.getNewValue()));
+                case "productionBuffer" -> resourcesHandler(Utils.castList(Pick.class, (Collection<?>)evt.getNewValue()));
+                case "costCardDev" -> payForCardDev(Utils.castList(Pick.class, (Collection<?>)evt.getNewValue()));
 
                 case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
                 default -> output.println(evt.getPropertyName() + " is not handled");
@@ -293,7 +283,7 @@ public class CLI implements Runnable, UI{
                 nextAction();
             }
             else{
-                subList = (ArrayList<CardDev>)castList(CardDev.class, canUseCardDev(subList));
+                subList = (ArrayList<CardDev>)Utils.castList(CardDev.class, canUseCardDev(subList));
                 if(!subList.isEmpty()){
                     var card = subList.get(subList.size() - 1);
                     output.println("Do you want to activate");

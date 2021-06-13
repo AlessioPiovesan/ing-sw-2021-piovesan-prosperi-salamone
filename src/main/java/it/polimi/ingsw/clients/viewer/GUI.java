@@ -19,13 +19,13 @@ import java.util.*;
 
 public class GUI extends Application implements UI{
 
-    private static final String BOARDS = "/fxml/boards.fxml";
-    private static final String INITIALLEADERCARDS = "/fxml/initialLeaderCards.fxml";
+    private static final String BOARDS = "boards.fxml";
+    private static final String INITIALLEADERCARDS = "initialLeaderCards.fxml";
     private final HashMap<String, Scene> nameMapScene;
+    private final HashMap<String, GUIController> nameMapController;
     private boolean single;
     private Scene currentScene;
     private Stage stage;
-    private HashMap<String, GUIController> nameMapController;
 
     public GUI(){
         nameMapScene = new HashMap<>();
@@ -37,6 +37,10 @@ public class GUI extends Application implements UI{
         }
     }
 
+    public void setCurrentScene(Scene currentScene){
+        this.currentScene = currentScene;
+    }
+
     /**
      * Method setup creates all the stage phases which will be updated in other methods, in particular:
      * - MENU: the game's main menu with Play and Quit buttons;
@@ -46,29 +50,26 @@ public class GUI extends Application implements UI{
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
      */
     public void setup() throws IOException{
-        var fxmList = new ArrayList<>(Arrays.asList(BOARDS, INITIALLEADERCARDS));
+        var fxmList = new ArrayList<>(Arrays.asList(INITIALLEADERCARDS, BOARDS));
         for(String path : fxmList){
-            var loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(path)));
-            var loaded = (Parent)loader.load();
+            var thisPath = "/fxml/" + path;
+            var loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(thisPath)));
+            var root = (Parent)loader.load();
+            var thisScene = new Scene(root);
             var controller = (GUIController)loader.getController();
             controller.setGui(this);
             nameMapController.put(path, controller);
-            nameMapScene.put(path, new Scene(loaded));
+            nameMapScene.put(path, thisScene);
         }
-        currentScene = nameMapScene.get(BOARDS);
     }
 
     @Override
     public void setSingle(boolean single){
-
+        this.single = single;
     }
 
     @Override
     public void setClient(Client client){ }
-
-    public void chooseInitialLeaders(CardLeader[] selected){
-        if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(selected);
-    }
 
     @Override
     public String getNickname(){
@@ -96,9 +97,10 @@ public class GUI extends Application implements UI{
             case "temporaryLeaderCards" -> {
                 start(new Stage());
                 changeStage(INITIALLEADERCARDS);
-                chooseInitialLeaders((CardLeader[])evt.getNewValue());
+                var controller = (InitialLeader)nameMapController.get(INITIALLEADERCARDS);
+                controller.getCards((CardLeader[])evt.getNewValue());
             }
-            default -> System.out.println(evt);
+            default -> System.out.println(evt.getPropertyName()+ " is not handled");
         }
     }
 
@@ -114,10 +116,14 @@ public class GUI extends Application implements UI{
         currentScene = nameMapScene.get(newScene);
         stage.setScene(currentScene);
         stage.show();
-        var controller = (GUIController)new FXMLLoader(getClass().getResource("/fxml/" + newScene)).getController();
+        var controller = nameMapController.get(newScene);
         var pane = controller.getMainPane();
         var resize = new ResizeHandler(pane);
         currentScene.widthProperty().addListener(resize.getWidthListener());
         currentScene.heightProperty().addListener(resize.getHeightListener());
+    }
+
+    public void chooseInitialLeaders(CardLeader[] selected){
+        if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(selected);
     }
 }

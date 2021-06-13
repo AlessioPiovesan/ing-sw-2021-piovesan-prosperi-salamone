@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.accessories.cards;
 
-import it.polimi.ingsw.clients.viewer.ConsoleColors;
+import it.polimi.ingsw.clients.utils.ConsoleColors;
 import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.Pick;
 import org.jetbrains.annotations.NotNull;

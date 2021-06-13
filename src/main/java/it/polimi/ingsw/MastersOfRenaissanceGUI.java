@@ -16,7 +16,7 @@ public class MastersOfRenaissanceGUI extends Application{
     private static final String SETUP = "/fxml/setup.fxml";
     private static final String MENU = "/fxml/mainMenu.fxml";
     private static final String LOADER = "/fxml/loadingScreen.fxml";
-    private Scene currentScene;
+    private static Scene currentScene;
 
     public static void main(String[] args){
         launch(args);
@@ -33,5 +33,13 @@ public class MastersOfRenaissanceGUI extends Application{
         var resize = new ResizeHandler((AnchorPane)currentScene.lookup("#mainPane"));
         currentScene.widthProperty().addListener(resize.getWidthListener());
         currentScene.heightProperty().addListener(resize.getHeightListener());
+    }
+
+    public static Scene getCurrentScene(){
+        return currentScene;
+    }
+
+    public static void close(){
+
     }
 }
