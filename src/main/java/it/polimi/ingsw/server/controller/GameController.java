@@ -47,10 +47,9 @@ public class GameController{
         game.getCardDevDeck().remove(cardToBeBought);
         /*manca da chiedere lo slot*/
         //b.buyCardDev(cardToBeBought, slot);
-        update();
     }
 
-    public void update(){
+    public void nextPlayer(){
         /*Riceve le scelte del giocatore e manda avanti la partita*/
         game.setPlayingPlayer(game.checkNext());
     }
@@ -98,8 +97,7 @@ public class GameController{
         var i = 0;
         while(i < game.getNGamers()){
             for(Board b : game.getAllB()){
-                win[i] += b.countWinPnt();
-                i++;
+                win[i++] += b.countWinPnt();
             }
         }
     }

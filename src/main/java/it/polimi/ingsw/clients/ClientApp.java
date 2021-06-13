@@ -11,8 +11,7 @@ public class ClientApp{
         Client client;
         if(input == 1) client = new Local(0);
         else client = new Client(0);
-        client.run();
         client.getUi().setClient(client);
-
+        client.run();
     }
 }

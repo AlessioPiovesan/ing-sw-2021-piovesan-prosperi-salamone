@@ -398,31 +398,6 @@ public class CLI implements Runnable, UI{
     public void setClient(Client client){this.client = client;}
 
     @Override
-    public String getIP(){
-        var ip = "";
-        output.print(">\tInsert the server IP address\n>\t");
-        output.flush();
-        ip = input.next();
-        while(!(InetAddressValidator.getInstance().isValid(ip))){
-            output.println("Server IP address is not valid");
-            ip = input.next();
-        }
-        return ip;
-    }
-
-    @Override
-    public int getPort(){
-        output.print(">\tInsert the server port\n>\t");
-        output.flush();
-        var port = input.nextInt();
-        while(port < 1023 || port > 65535){
-            System.err.println("Server port is not valid");
-            port = Integer.parseInt(input.nextLine());
-        }
-        return 0;
-    }
-
-    @Override
     public String getNickname(){
         return nickname;
     }
@@ -438,7 +413,35 @@ public class CLI implements Runnable, UI{
     }
 
     @Override
-    public int getNPlayers(){
+    public void clientSetup(){
+        client.setIP(askIP());
+        client.setPort(askPort());
+    }
+
+    public String askIP(){
+        var ip = "";
+        output.print(">\tInsert the server IP address\n>\t");
+        output.flush();
+        ip = input.next();
+        while(!(InetAddressValidator.getInstance().isValid(ip))){
+            output.println("Server IP address is not valid");
+            ip = input.next();
+        }
+        return ip;
+    }
+
+    private int askPort(){
+        output.print(">\tInsert the server port\n>\t");
+        output.flush();
+        var port = input.nextInt();
+        while(port < 1023 || port > 65535){
+            System.err.println("Server port is not valid");
+            port = Integer.parseInt(input.nextLine());
+        }
+        return port;
+    }
+
+    private int askNPlayers(){
         output.print(">\tInsert the the number of players you want for this match [2-4]\n>\t");
         output.flush();
         var players = input.nextInt();

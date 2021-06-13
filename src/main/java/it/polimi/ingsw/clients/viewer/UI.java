@@ -10,16 +10,11 @@ public interface UI extends PropertyChangeListener{
 
     void setClient(Client client);
 
-    String getIP();
-
-    int getPort();
-
     String getNickname();
 
     void setNickname(String name);
 
     void reChooseNickname();
 
-    int getNPlayers();
-
+    void clientSetup();
 }

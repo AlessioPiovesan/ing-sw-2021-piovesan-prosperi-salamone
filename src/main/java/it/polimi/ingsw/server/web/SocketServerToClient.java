@@ -13,6 +13,7 @@ public class SocketServerToClient implements Runnable{
     private final Socket socket;
     private final Server server;
     private final RemoteView remoteView;
+    private boolean newSocket;
     private boolean active;
 
     public SocketServerToClient(Socket newSocket, Server server){
@@ -20,6 +21,7 @@ public class SocketServerToClient implements Runnable{
         this.server = server;
         remoteView = new RemoteView(this);
         active = true;
+        this.newSocket = true;
     }
 
     public RemoteView getRemoteView(){
@@ -43,22 +45,20 @@ public class SocketServerToClient implements Runnable{
 
     @Override
     public void run(){
-        sendInLobby();
+        if(newSocket){
+            newSocket= false;
+            asyncSend("askNickname");
+            sendInLobby();
+        }
         try(var socketIn = new ObjectInputStream(socket.getInputStream())){
             while(isActive()){
                 var inputObject = socketIn.readObject();
-                if(inputObject instanceof String){
-                    interpreter((String)inputObject); /*DA MANDARE A UN QUALCHE TIPO DI INTERPRETE*/
-                }
-					/*else if(inputObject instanceof Board){
-						((Board)inputObject).print();
-					}*/ /*ALTRE COSE CHE PUO' RICEVERE*/
-                else{
-                    throw new IllegalArgumentException();
-                }
+                if(inputObject instanceof String) interpreter((String)inputObject);
+                else throw new IllegalArgumentException();
             }
-        } catch(IOException|NoSuchElementException|ClassNotFoundException e){
-            System.err.println("Error! " + e.getMessage());
+        } catch(IOException|NoSuchElementException|ClassNotFoundException|IllegalArgumentException e){
+            asyncSend("Error! " + e.getMessage());
+            new Thread(this::run);
         } finally{
             close();
         }
@@ -95,7 +95,7 @@ public class SocketServerToClient implements Runnable{
         } catch(IOException e){
             System.err.println("Error when closing socket!");
         }
-        send("Connection closed!");
+        asyncSend("Connection closed!");
         active = false;
     }
 }

@@ -66,14 +66,8 @@ public class GUI extends Application implements UI{
     @Override
     public void setClient(Client client){ }
 
-    @Override
-    public String getIP(){
-        return null;
-    }
-
-    @Override
-    public int getPort(){
-        return 0;
+    public void chooseInitialLeaders(CardLeader[] selected){
+        if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(selected);
     }
 
     @Override
@@ -92,8 +86,8 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public int getNPlayers(){
-        return 0;
+    public void clientSetup(){
+
     }
 
     @Override
@@ -125,24 +119,5 @@ public class GUI extends Application implements UI{
         var resize = new ResizeHandler(pane);
         currentScene.widthProperty().addListener(resize.getWidthListener());
         currentScene.heightProperty().addListener(resize.getHeightListener());
-    }
-
-    private synchronized void chooseInitialLeaders(CardLeader[] cards){
-        var list = new ArrayList<CardLeader>();
-        var finale = new CardLeader[2];
-        Collections.addAll(list, cards);
-        var i = 0;
-        var controller = new InitialLeader();
-        while(i < 2){
-            controller.showCards(list);
-            //            var card = controller.pickCard(CardLeader.class);
-            //            if(list.contains(card)){
-            //                list.remove(card);
-            //                finale[i] = card;
-            //                i++;
-            //            }
-            //            else System.out.println("Something went wrong");
-        }
-        if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(finale);
     }
 }

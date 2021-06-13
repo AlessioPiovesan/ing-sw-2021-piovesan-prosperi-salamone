@@ -46,8 +46,7 @@ public class Client{
         try(var socketIn = new ObjectInputStream(socket.getInputStream())){
             while(isActive()){
                 var inputObject = socketIn.readObject();
-                if(inputObject instanceof String)
-                    interpreter((String)inputObject); /*DA MANDARE A UN QUALCHE TIPO DI INTERPRETE*/
+                if(inputObject instanceof String) interpreter((String)inputObject);
                 else{
                     throw new IllegalArgumentException();
                 }
@@ -58,9 +57,7 @@ public class Client{
     }
 
     private void setup(){
-        ip = ui.getIP();
-        port = ui.getPort();
-        nPlayers = ui.getNPlayers();
+        ui.clientSetup();
     }
 
     private void connect(){
@@ -69,7 +66,7 @@ public class Client{
             System.out.println("Connection established");
             var socketIn = new ObjectInputStream(socket.getInputStream());
             asyncReadFromSocket(socketIn);
-        } catch(NoSuchElementException|IOException e){
+        } catch(IOException e){
             System.out.println("Connection closed from the client side");
             Thread.currentThread().interrupt();
         }
@@ -114,6 +111,14 @@ public class Client{
 
     public void setActive(boolean active){
         this.active = active;
+    }
+
+    public void setPort(int port){
+        this.port = port;
+    }
+
+    public void setIP(String ip){
+        this.ip = ip;
     }
 
     public Thread asyncWriteToSocket(String command){

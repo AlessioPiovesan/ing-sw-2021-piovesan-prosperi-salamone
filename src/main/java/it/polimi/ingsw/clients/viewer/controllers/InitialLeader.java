@@ -4,23 +4,25 @@ import it.polimi.ingsw.clients.viewer.GUI;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-import javax.enterprise.event.Event;
-import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 public class InitialLeader implements GUIController{
-    private final LinkedList<CardLeader> selected;
 
     public AnchorPane mainPane;
+    public ImageView card1;
+    public ImageView card2;
+    public ImageView card3;
+    public ImageView card4;
+    private LinkedList<CardLeader> selected;
     private GUI gui;
-    private LinkedList<ImageView> cards;
 
     public InitialLeader(){
         selected = new LinkedList<>();
-        cards = new LinkedList<>();
     }
 
     @Override
@@ -33,16 +35,23 @@ public class InitialLeader implements GUIController{
         return mainPane;
     }
 
-    public void selectCard(Event event){ }
-
-    public void showCards(ArrayList<CardLeader> list){
-        for(var i = 0; i < 4; i++){
-            var path = getPath(list.get(i));
-            cards.get(i).setImage(new Image(path));
-        }
+    public void showCards(List<CardLeader> list){
+        card1.setImage(new Image(getPath(list.get(0))));
+        card2.setImage(new Image(getPath(list.get(1))));
+        card3.setImage(new Image(getPath(list.get(2))));
+        card4.setImage(new Image(getPath(list.get(3))));
     }
 
     private String getPath(CardLeader card){
         return "graphics/cards/front/lead/" + card.name() + ".png";
+    }
+
+    public void addCard(MouseEvent mouseEvent){
+        selected.add(CardLeader.CARDLEAD01);
+        if(selected.size()>2) selected.remove(0);
+    }
+
+    public void confirmCards(MouseEvent mouseEvent){
+        if(selected.size() == 2) gui.chooseInitialLeaders(selected.toArray(new CardLeader[2]));
     }
 }
