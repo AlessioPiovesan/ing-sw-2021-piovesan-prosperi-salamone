@@ -1,10 +1,12 @@
-package it.polimi.ingsw.clients.utils;
+package it.polimi.ingsw.clients.viewer.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class Utils{
+    private Utils(){}
+
     public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection){
         List<T> result = new ArrayList<>(rawCollection.size());
         for(Object o : rawCollection){
@@ -16,6 +18,4 @@ public class Utils{
         }
         return result;
     }
-
-    private Utils(){}
 }

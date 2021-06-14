@@ -1,7 +1,7 @@
 package it.polimi.ingsw.clients.singleplayer.model;
 
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
-import it.polimi.ingsw.clients.utils.ConsoleColors;
+import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.server.accessories.ColoursCards;
 
 import java.util.ArrayList;

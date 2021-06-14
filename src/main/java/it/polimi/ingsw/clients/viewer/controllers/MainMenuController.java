@@ -27,7 +27,7 @@ public class MainMenuController implements GUIController{
         var client = new Local(1);
         var ui = (GUI)client.getUi();
         ui.setCurrentScene(MastersOfRenaissanceGUI.getCurrentScene());
-        var stage = (Stage) singleButton.getScene().getWindow();
+        var stage = (Stage)singleButton.getScene().getWindow();
         stage.close();
         client.run();
     }
@@ -36,7 +36,7 @@ public class MainMenuController implements GUIController{
         var client = new Client(1);
         var ui = (GUI)client.getUi();
         ui.setCurrentScene(MastersOfRenaissanceGUI.getCurrentScene());
-        var stage = (Stage) multiButton.getScene().getWindow();
+        var stage = (Stage)multiButton.getScene().getWindow();
         stage.close();
         client.run();
     }

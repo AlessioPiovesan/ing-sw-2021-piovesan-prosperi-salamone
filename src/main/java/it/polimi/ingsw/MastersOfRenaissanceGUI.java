@@ -22,6 +22,10 @@ public class MastersOfRenaissanceGUI extends Application{
         launch(args);
     }
 
+    public static Scene getCurrentScene(){
+        return currentScene;
+    }
+
     @Override
     public void start(Stage stage) throws Exception{
         var root = (Parent)FXMLLoader.load(Objects.requireNonNull(getClass().getResource(MENU)));
@@ -33,13 +37,5 @@ public class MastersOfRenaissanceGUI extends Application{
         var resize = new ResizeHandler((AnchorPane)currentScene.lookup("#mainPane"));
         currentScene.widthProperty().addListener(resize.getWidthListener());
         currentScene.heightProperty().addListener(resize.getHeightListener());
-    }
-
-    public static Scene getCurrentScene(){
-        return currentScene;
-    }
-
-    public static void close(){
-
     }
 }

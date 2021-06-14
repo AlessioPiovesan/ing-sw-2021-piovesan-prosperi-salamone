@@ -15,12 +15,16 @@ import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Objects;
 
 public class GUI extends Application implements UI{
 
     private static final String BOARDS = "boards.fxml";
     private static final String INITIALLEADERCARDS = "initialLeaderCards.fxml";
+    private static final String STRONGBOX = "strongBoxPane.fxml";
     private final HashMap<String, Scene> nameMapScene;
     private final HashMap<String, GUIController> nameMapController;
     private boolean single;
@@ -37,10 +41,6 @@ public class GUI extends Application implements UI{
         }
     }
 
-    public void setCurrentScene(Scene currentScene){
-        this.currentScene = currentScene;
-    }
-
     /**
      * Method setup creates all the stage phases which will be updated in other methods, in particular:
      * - MENU: the game's main menu with Play and Quit buttons;
@@ -50,7 +50,7 @@ public class GUI extends Application implements UI{
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
      */
     public void setup() throws IOException{
-        var fxmList = new ArrayList<>(Arrays.asList(INITIALLEADERCARDS, BOARDS));
+        var fxmList = new ArrayList<>(Arrays.asList(INITIALLEADERCARDS, BOARDS, STRONGBOX));
         for(String path : fxmList){
             var thisPath = "/fxml/" + path;
             var loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(thisPath)));
@@ -61,6 +61,10 @@ public class GUI extends Application implements UI{
             nameMapController.put(path, controller);
             nameMapScene.put(path, thisScene);
         }
+    }
+
+    public void setCurrentScene(Scene currentScene){
+        this.currentScene = currentScene;
     }
 
     @Override
@@ -92,6 +96,16 @@ public class GUI extends Application implements UI{
     }
 
     @Override
+    public void showError(String message){
+
+    }
+
+    @Override
+    public void chooseNickname(){
+
+    }
+
+    @Override
     public void propertyChange(PropertyChangeEvent evt){
         switch(evt.getPropertyName()){
             case "temporaryLeaderCards" -> {
@@ -100,7 +114,7 @@ public class GUI extends Application implements UI{
                 var controller = (InitialLeader)nameMapController.get(INITIALLEADERCARDS);
                 controller.getCards((CardLeader[])evt.getNewValue());
             }
-            default -> System.out.println(evt.getPropertyName()+ " is not handled");
+            default -> System.out.println(evt.getPropertyName() + " is not handled (GUI)");
         }
     }
 

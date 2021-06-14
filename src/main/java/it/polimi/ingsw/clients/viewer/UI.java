@@ -17,4 +17,8 @@ public interface UI extends PropertyChangeListener{
     void reChooseNickname();
 
     void clientSetup();
+
+    void showError(String message);
+
+    void chooseNickname();
 }

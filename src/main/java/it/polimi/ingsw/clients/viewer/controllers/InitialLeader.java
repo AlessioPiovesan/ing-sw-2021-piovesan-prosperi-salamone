@@ -65,10 +65,6 @@ public class InitialLeader implements GUIController{
     }
 
     public void confirmCards(){
-        var cards = new CardLeader[2];
-        var i=0;
-        for (var card : selected)
-            cards[i++] = card;
-        if(selected.size() == 2) gui.chooseInitialLeaders(cards);
+        if(selected.size() == 2) gui.chooseInitialLeaders(selected.toArray(new CardLeader[2]));
     }
 }

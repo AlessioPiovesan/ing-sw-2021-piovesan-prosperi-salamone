@@ -2,8 +2,8 @@ package it.polimi.ingsw.clients.viewer;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
-import it.polimi.ingsw.clients.utils.ConsoleColors;
-import it.polimi.ingsw.clients.utils.Utils;
+import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
+import it.polimi.ingsw.clients.viewer.utils.Utils;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Constants;
 import it.polimi.ingsw.server.accessories.Pick;
@@ -41,8 +41,8 @@ public class CLI implements Runnable, UI{
 
     public void run(){
         chooseNickname();
-        client.asyncWriteToSocket("nickname::" + nickname);
-        client.asyncWriteToSocket("nplayers::" + client.getNPlayers());
+        client.asyncSend("nickname::" + nickname);
+        client.asyncSend("nplayers::" + client.getNPlayers());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class CLI implements Runnable, UI{
                 case "costCardDev" -> payForCardDev(Utils.castList(Pick.class, (Collection<?>)evt.getNewValue()));
 
                 case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
-                default -> output.println(evt.getPropertyName() + " is not handled");
+                default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
             }
         });
     }
@@ -408,6 +408,25 @@ public class CLI implements Runnable, UI{
         client.setPort(askPort());
     }
 
+    @Override
+    public void showError(String message){
+        output.println("Fatal Error: " + message);
+    }
+
+    public void chooseNickname(){
+        output.print(">\tChoose a nickname\n>\t");
+        output.flush();
+        var name = input.next();
+        output.print("Your nickname will be:\t" + name + "\nDo you confirm? [y/n]\n>\t");
+        output.flush();
+        var s = input.next();
+        if(s.charAt(0) == 'y') client.asyncSend("checkNickname::" + name);
+        else{
+            output.println("Ok, try again");
+            chooseNickname();
+        }
+    }
+
     public String askIP(){
         var ip = "";
         output.print(">\tInsert the server IP address\n>\t");
@@ -440,20 +459,6 @@ public class CLI implements Runnable, UI{
             players = input.nextInt();
         }
         return players;
-    }
-
-    private void chooseNickname(){
-        output.print(">\tChoose a nickname\n>\t");
-        output.flush();
-        var name = input.next();
-        output.print("Your nickname will be:\t" + name + "\nDo you confirm? [y/n]");
-        output.flush();
-        var s = input.next();
-        if(s.charAt(0) == 'y') client.asyncWriteToSocket("checkNickname::" + name);
-        else{
-            output.println("Ok, try again");
-            chooseNickname();
-        }
     }
 
     private void showMarket(){
