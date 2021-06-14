@@ -16,8 +16,9 @@ import java.util.Map;
 /**
  * After the server has been created, this class Server is used to handle multiple Socket Connections
  * from different clients.
- * @see Runnable
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @see Runnable
  */
 
 public class Server implements Runnable{
@@ -55,8 +56,9 @@ public class Server implements Runnable{
     /**
      * Class Lobby is used to create a virtual room where players wait to join a game.
      * The first player who starts the server will be the Host of the game, others can join the same match by using a Game ID provided by the Host.
-     * @param c of type SocketServerToClient - Socket that represents the connection with a Client
-     * @param name of type String - Player's nickname
+     *
+     * @param c       of type SocketServerToClient - Socket that represents the connection with a Client
+     * @param name    of type String - Player's nickname
      * @param players of type Int - Number of Players
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -94,6 +96,7 @@ public class Server implements Runnable{
 
     /**
      * Method used in case a Player decides to leave the game.
+     *
      * @param c of type SocketServerToClient - Socket that represents the connection with a Client
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -118,7 +121,8 @@ public class Server implements Runnable{
 
     /**
      * Method checkExistNickname checks wether a new Nickname already exists inside the server.
-     * @param s of type String - Player's Nickname
+     *
+     * @param s      of type String - Player's Nickname
      * @param socket of type SocketServerToClient - Socket that represents the connection with a client.
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */

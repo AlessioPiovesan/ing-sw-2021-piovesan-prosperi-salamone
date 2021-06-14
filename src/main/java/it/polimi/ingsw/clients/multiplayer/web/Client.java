@@ -74,9 +74,11 @@ public class Client implements Runnable{
     private void readingFromServer() throws IOException{
         try(var socketIn = new ObjectInputStream(socket.getInputStream())){
             while(isActive()){
-                var inputObject = socketIn.readObject();
-                if(inputObject instanceof String) interpreter((String)inputObject);
-                else throw new IllegalArgumentException();
+                synchronized(this){
+                    var inputObject = socketIn.readObject();
+                    if(inputObject instanceof String) interpreter((String)inputObject);
+                    else throw new IllegalArgumentException();
+                }
             }
         } catch(NoSuchElementException|ClassNotFoundException|IllegalArgumentException e){
             System.err.println(e.getMessage());

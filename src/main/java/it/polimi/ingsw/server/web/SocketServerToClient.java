@@ -7,11 +7,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Class SocketServerToClient is the class used to create a connection between the Server and the clients.
- * @see Runnable
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @see Runnable
  */
 public class SocketServerToClient implements Runnable{
 
@@ -20,6 +23,7 @@ public class SocketServerToClient implements Runnable{
     private final RemoteView remoteView;
     private final ObjectOutputStream socketOut;
     private final ObjectInputStream socketIn;
+    private final ExecutorService executor;
     private boolean newSocket;
     private boolean active;
 
@@ -31,6 +35,7 @@ public class SocketServerToClient implements Runnable{
         this.newSocket = true;
         socketIn = new ObjectInputStream(socket.getInputStream());
         socketOut = new ObjectOutputStream(socket.getOutputStream());
+        executor = Executors.newCachedThreadPool();
     }
 
     public RemoteView getRemoteView(){
@@ -43,19 +48,32 @@ public class SocketServerToClient implements Runnable{
             newSocket = false;
             asyncSend("askNickname");
         }
-        new Thread(this::readFromClient);
+        readFromClient();
+    }
+
+    /**
+     * method asyncSend creates a new independent Thread to handle messages sent from the Server.
+     *
+     * @param message of Type String
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
+    public void asyncSend(final String message){
+        new Thread(() -> send(message)).start();
     }
 
     /**
      * Method readFromClient is the method used to read any inputs from the client's side.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void readFromClient(){
         try{
             while(isActive()){
-                var inputObject = socketIn.readObject();
-                if(inputObject instanceof String) interpreter((String)inputObject);
-                else throw new IllegalArgumentException();
+                synchronized(this){
+                    var inputObject = socketIn.readObject();
+                    if(inputObject instanceof String) interpreter((String)inputObject);
+                    else throw new IllegalArgumentException();
+                }
             }
         } catch(NoSuchElementException|ClassNotFoundException|IllegalArgumentException e){
             System.err.println(e.getMessage());
@@ -70,42 +88,8 @@ public class SocketServerToClient implements Runnable{
     }
 
     /**
-     * method asyncSend creates a new independent Thread to handle messages sent from the Server.
-     * @param message of Type String
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
-     */
-    public void asyncSend(final String message){
-        new Thread(() -> send(message)).start();
-    }
-
-    private synchronized boolean isActive(){
-        return active;
-    }
-
-    /**
-     * method interpreter is used to interpretate messages from Clients.
-     * @param input of type String
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
-     */
-    private void interpreter(String input){
-        var string = input.split("::");
-        switch(string[0]){
-            case "nickname" -> remoteView.setNickname(string[1]);
-            case "nplayers" -> remoteView.setNPlayers(Integer.parseInt(string[1]));
-            case "checkNickname" -> server.checkExistNickname(string[1], this);
-            default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
-        }
-    }
-
-    private void close(){
-        closeConnection();
-        System.out.println("Deregistering client...");
-        server.deregisterConnection(this);
-        System.out.println("Done!");
-    }
-
-    /**
      * This send method is synchronized and is used to handle messages from the Server side.
+     *
      * @param message of type Object
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -116,6 +100,33 @@ public class SocketServerToClient implements Runnable{
         } catch(IOException e){
             e.printStackTrace();
         }
+    }
+
+    private synchronized boolean isActive(){
+        return active;
+    }
+
+    /**
+     * method interpreter is used to interpretate messages from Clients.
+     *
+     * @param input of type String
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
+    private void interpreter(String input){
+        var string = input.split("::");
+        switch(string[0]){
+            case "nickname" -> executor.execute(() -> remoteView.setNickname(string[1]));
+            case "nplayers" -> executor.execute(() -> remoteView.setNPlayers(Integer.parseInt(string[1])));
+            case "checkNickname" -> executor.execute(() -> server.checkExistNickname(string[1], this));
+            default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
+        }
+    }
+
+    private void close(){
+        closeConnection();
+        System.out.println("Deregistering client...");
+        server.deregisterConnection(this);
+        System.out.println("Done!");
     }
 
     public synchronized void closeConnection(){

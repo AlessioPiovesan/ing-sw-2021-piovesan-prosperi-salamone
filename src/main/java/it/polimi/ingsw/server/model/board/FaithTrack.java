@@ -6,6 +6,7 @@ import java.util.Arrays;
 /**
  * class FaithTrack is a representation of the Faith Track on a player's board.
  * It is composed by 25 tiles and reaching the end of the Track is one way to end the game.
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
 public class FaithTrack{
@@ -26,6 +27,7 @@ public class FaithTrack{
 
     /**
      * method moveForward is used to move the pawn by one tile forward.
+     *
      * @param step of type int - step forward
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -35,6 +37,7 @@ public class FaithTrack{
 
     /**
      * method getWinPnt is used to calculate the points needed to win a Game.
+     *
      * @return win of type int - win points
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -46,6 +49,7 @@ public class FaithTrack{
 
     /**
      * method getWinPntPosition indicates the win points given out to Players based on their position on the track
+     *
      * @return int - win points
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -66,6 +70,7 @@ public class FaithTrack{
 
     /**
      * method getWinPntCard is used to show win points given to players when they reach the Pope Favor tiles.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected void getWinPntCard(){

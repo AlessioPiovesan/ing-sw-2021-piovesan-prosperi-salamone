@@ -11,6 +11,7 @@ import java.util.Random;
 
 /**
  * Class Game provides a Model for the Game.
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
 
@@ -82,6 +83,7 @@ public class Game{
 
     /**
      * method myLeaderCardsHandler is the method used to deal the 4 initial Leader Cards which 2 of them can be later chosen by the Player.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void myLeaderCardsHandler(){
@@ -91,6 +93,7 @@ public class Game{
 
     /**
      * Method giveCardLead randomly draws 4 Leader Cards from the deck of all the Leader Cards.
+     *
      * @return List of CardLeader
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -104,6 +107,7 @@ public class Game{
 
     /**
      * method selectNextPlayableLeaderCards is the method used for the randomization of the Leader Cards
+     *
      * @return CardLeader
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -127,6 +131,7 @@ public class Game{
 
     /**
      * method pickStartingResources is the method for the choices of Inital Resources from selected players.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void pickStartingResources(){
@@ -150,6 +155,7 @@ public class Game{
 
     /**
      * method checkNext is only used to check if the next Board usable is the first one in the array.
+     *
      * @return PlayingPlayer of type int - Next player in queue
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -160,6 +166,7 @@ public class Game{
 
     /**
      * Method countWinPntPerBoard is used to calculate the Points needed to determine the winner of the Game.
+     *
      * @return pntWin of type int - points needed to win the game.
      */
     public int[] countWinPntPerBoard(){

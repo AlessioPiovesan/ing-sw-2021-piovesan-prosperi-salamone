@@ -150,27 +150,25 @@ public class CLI implements Runnable, UI{
         var trackCen = new StringBuilder();
         var trackN = new StringBuilder();
         for(var i = 0; i < 25; i++){
-            if(i < 9) trackN.append("██").append(i).append("\t");
-            else trackN.append("█").append(i).append("\t");
+            drawFTBoxNumber(trackN, i);
             if(isPopeFavor(i)){
-                trackTop.append(ConsoleColors.YELLOW_BOLD_BRIGHT);
-                trackCen.append(ConsoleColors.YELLOW_BOLD_BRIGHT);
+                drawFTBox(trackTop, ConsoleColors.YELLOW_BOLD_BRIGHT, trackCen);
             }
-            if(i == pos){
-                trackTop.append(top).append("\t");
-                trackCen.append(central).append("\t");
-            }
+            if(i == pos){drawFTBox(trackTop.append(top), "\t", trackCen.append(central));}
             else{
-                trackTop.append(normal).append("\t");
-                trackCen.append(normal).append("\t");
+                drawFTBox(trackTop.append(normal), "\t", trackCen.append(normal));
             }
-            trackTop.append(ConsoleColors.RESET);
-            trackCen.append(ConsoleColors.RESET);
+            drawFTBox(trackTop, ConsoleColors.RESET, trackCen);
         }
         output.println(trackN);
         output.println(trackTop);
         output.println(trackCen);
         output.println(trackTop);
+    }
+
+    private void drawFTBox(StringBuilder append, String s, StringBuilder append2){
+        append.append(s);
+        append2.append(s);
     }
 
     private void showFaithTrackSingle(){
@@ -185,49 +183,57 @@ public class CLI implements Runnable, UI{
         var trackCen = new StringBuilder();
         var trackN = new StringBuilder();
         for(var i = 0; i < 25; i++){
-            if(i < 9) trackN.append("██").append(i).append("\t");
-            else trackN.append("█").append(i).append("\t");
+            drawFTBoxNumber(trackN, i);
             if(isPopeFavor(i)){
-                trackTop.append(ConsoleColors.YELLOW_BOLD_BRIGHT);
-                trackCen.append(ConsoleColors.YELLOW_BOLD_BRIGHT);
+                drawFTBox(trackTop, ConsoleColors.YELLOW_BOLD_BRIGHT, trackCen);
             }
             if(i == pos){
-                if(pos == posL){
-                    if(isPopeFavor(i)){
-                        trackTop.append("█" + ConsoleColors.RED_BOLD + "X" + ConsoleColors.YELLOW_BOLD_BRIGHT + "█").append("\t");
-                    }
-                    else{
-                        trackTop.append("█" + ConsoleColors.RED_BOLD + "X" + ConsoleColors.RESET + "█").append("\t");
-                    }
-                    trackCen.append(ConsoleColors.RED_BOLD + "XXX" + ConsoleColors.RESET).append("\t");
-                }
+                if(pos == posL) drawYouAndLorenzoBoxFT(trackTop, trackCen, i);
                 else{
-                    trackTop.append(top).append("\t");
-                    trackCen.append(central).append("\t");
+                    drawFTBox(trackTop.append(top), "\t", trackCen.append(central));
                 }
             }
-            else if(i == posL){
-                if(isPopeFavor(i)){
-                    trackTop.append("█" + ConsoleColors.BLACK_BOLD + "X" + ConsoleColors.YELLOW_BOLD_BRIGHT + "█").append("\t");
-                }
-                else{
-                    trackTop.append(topL).append("\t");
-                }
-                trackCen.append(centralL).append("\t");
-            }
+            else if(i == posL) drawYourBoxFTSingle(centralL, topL, trackTop, trackCen, i);
             else{
-                trackTop.append(normal).append("\t");
-                trackCen.append(normal).append("\t");
+                drawFTBox(trackTop.append(normal), "\t", trackCen.append(normal));
             }
             if(isPopeFavor(i)){
-                trackTop.append(ConsoleColors.RESET);
-                trackCen.append(ConsoleColors.RESET);
+                drawFTBox(trackTop, ConsoleColors.RESET, trackCen);
             }
         }
         output.println(trackN);
         output.println(trackTop);
         output.println(trackCen);
         output.println(trackTop);
+    }
+
+    private void drawYourBoxFTSingle(String centralL, String topL, StringBuilder trackTop, StringBuilder trackCen, int i){
+        if(isPopeFavor(i)){
+            drawSpecialBoxFTSingle(trackTop, ConsoleColors.BLACK_BOLD, ConsoleColors.YELLOW_BOLD_BRIGHT);
+        }
+        else{
+            trackTop.append(topL).append("\t");
+        }
+        trackCen.append(centralL).append("\t");
+    }
+
+    private void drawYouAndLorenzoBoxFT(StringBuilder trackTop, StringBuilder trackCen, int i){
+        if(isPopeFavor(i)){
+            drawSpecialBoxFTSingle(trackTop, ConsoleColors.RED_BOLD, ConsoleColors.YELLOW_BOLD_BRIGHT);
+        }
+        else{
+            drawSpecialBoxFTSingle(trackTop, ConsoleColors.RED_BOLD, ConsoleColors.RESET);
+        }
+        trackCen.append(ConsoleColors.RED_BOLD + "XXX" + ConsoleColors.RESET).append("\t");
+    }
+
+    private void drawSpecialBoxFTSingle(StringBuilder trackTop, String redBold, String yellowBoldBright){
+        trackTop.append("█").append(redBold).append("X").append(yellowBoldBright).append("█").append("\t");
+    }
+
+    private void drawFTBoxNumber(StringBuilder trackN, int i){
+        if(i < 9) trackN.append("██").append(i).append("\t");
+        else trackN.append("█").append(i).append("\t");
     }
 
     private boolean isPopeFavor(int i){
@@ -262,11 +268,11 @@ public class CLI implements Runnable, UI{
                 action = input.nextInt();
             }
             switch(action){
-                case 1 -> startProd();
-                case 2 -> marketMove();
-                case 3 -> chooseCardDev();
-                case 4 -> wakeALeader();
-                case 5 -> showStatus();
+                case 1 -> executor.execute(this::startProd);
+                case 2 -> executor.execute(this::marketMove);
+                case 3 -> executor.execute(this::chooseCardDev);
+                case 4 -> executor.execute(this::wakeALeader);
+                case 5 -> executor.execute(this::showStatus);
                 default -> output.println("Not Possible");
             }
         } catch(InputMismatchException e){
@@ -290,7 +296,7 @@ public class CLI implements Runnable, UI{
                     output.println(card);
                     output.println("[y/n]");
                     var r = input.next();
-                    if(Objects.equals(r, "y")) executor.execute(() -> activateProdCard(card));
+                    if(Objects.equals(r, "y")) activateProdCard(card);
                     else output.println("You refused");
                 }
                 else output.println("You don't have the resources to activate any development card");
@@ -473,7 +479,8 @@ public class CLI implements Runnable, UI{
             }
             print.append("\n");
         }
-        output.println(print);
+        output.print(print);
+        output.flush();
         printLine();
     }
 
@@ -588,7 +595,7 @@ public class CLI implements Runnable, UI{
     }
 
     private boolean isAddable(CardDev card, int slot){
-        var slotCards = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus().get(slot);
+        var slotCards = LocalGameController.getInstance().getBoardController().getPlayer().checkLibraryStatus().get(slot - 1);
         if(slotCards.isEmpty()) return card.getLvl() == 1;
         else return switch(card.getLvl()){
             case 2 -> slotCards.get(slotCards.size() - 1).getLvl() != 1;
@@ -678,45 +685,56 @@ public class CLI implements Runnable, UI{
             var lvl = getShelfLvl();
             var bc = LocalGameController.getInstance().getBoardController();
             while(!bc.getPlayer().checkWarehouseAdd(newPick, lvl)){
-                output.println("You can not add that resource on this shelf, try something else...");
-                output.print("""
-                             Choose how to proceed?
-                             1) Discard the resource
-                             2) Rearrange the warehouse
-                             3) Put on an other shelf
-                             >\040\040""");
-                output.flush();
-                response = input.nextInt();
-                while(response < 1 || response > 3){
-                    output.println("Not a valid command\n>\t");
-                    response = input.nextInt();
-                }
-                switch(response){
-                    case 1 -> LocalGameController.getInstance().addFaithPnt(Collections.singletonList(colour));
-                    case 2 -> {
-                        output.println("Starting shelf?");
-                        var first = getShelfLvl();
-                        var firstQnt = bc.getPlayer().checkWarehouseStatus().get(first).getQnt();
-                        output.println("Destination?");
-                        var second = getShelfLvl();
-                        var secondQnt = bc.getPlayer().checkWarehouseStatus().get(second).getQnt();
-                        if(first + 1 >= secondQnt && second + 1 >= firstQnt) bc.rearrangeWarehouse(first, second);
-                        else output.println("You can't do that");
-                        showWarehouse();
-                    }
-                    case 3 -> {
-                        showWarehouse();
-                        output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
-                        output.flush();
-                        lvl = getShelfLvl();
-                    }
-                    default -> output.println("Not possible");
-                }
+                response = getResponse();
+                lvl = actOnResponse(colour, response, lvl, bc);
                 if(response == 1) break;
             }
             if(response != 1)
                 LocalGameController.getInstance().getBoardController().warehouseResHandler(colour, qnt, lvl);
         }
+    }
+
+    private int actOnResponse(Colours colour, int response, int lvl, it.polimi.ingsw.clients.singleplayer.controller.LocalBoardController bc){
+        switch(response){
+            case 1 -> LocalGameController.getInstance().addFaithPnt(Collections.singletonList(colour));
+            case 2 -> {
+                output.println("Starting shelf?");
+                var first = getShelfLvl();
+                var firstQnt = bc.getPlayer().checkWarehouseStatus().get(first).getQnt();
+                output.println("Destination?");
+                var second = getShelfLvl();
+                var secondQnt = bc.getPlayer().checkWarehouseStatus().get(second).getQnt();
+                if(first + 1 >= secondQnt && second + 1 >= firstQnt) bc.rearrangeWarehouse(first, second);
+                else output.println("You can't do that");
+                showWarehouse();
+            }
+            case 3 -> {
+                showWarehouse();
+                output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
+                output.flush();
+                lvl = getShelfLvl();
+            }
+            default -> output.println("Not possible");
+        }
+        return lvl;
+    }
+
+    private int getResponse(){
+        int response;
+        output.println("You can not add that resource on this shelf, try something else...");
+        output.print("""
+                     Choose how to proceed?
+                     1) Discard the resource
+                     2) Rearrange the warehouse
+                     3) Put on an other shelf
+                     >\040\040""");
+        output.flush();
+        response = input.nextInt();
+        while(response < 1 || response > 3){
+            output.println("Not a valid command\n>\t");
+            response = input.nextInt();
+        }
+        return response;
     }
 
     private int getShelfLvl(){

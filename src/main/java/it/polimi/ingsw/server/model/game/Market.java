@@ -12,6 +12,7 @@ import java.util.stream.IntStream;
 /**
  * class Market is used to represent and describe the Market system in the game.
  * Meaning the market formed by a matrix of 3 rows and 4 columns which can move based on the user's action.
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
 
@@ -36,6 +37,7 @@ public class Market{
 
     /**
      * method fillMarket fills the Market with random marbles (described with Colours) at the start of the game.
+     *
      * @param marbles of type LinkedList - the marbles used inside the Market
      * @return m of type bi-dimensional Array - returns the filled Market at the start of the game
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
@@ -53,12 +55,13 @@ public class Market{
     /**
      * method fillColumns serves as support for fillMarket.
      * This method uses findNextMarble to fill the Market with a chosen Marble that hasn't been placed before.
+     *
      * @param marbles of type LinkedList of Colours
-     * @param list of LinkedList of Integer - list of indexes of LikendList Marbles that have already been used.
-     * @param x of type int - rows of Market
-     * @param y of type int - columns of Market
-     * @param m of type bi-dimensional Array - Market
-     * @param j of type j - column being filled by the method
+     * @param list    of LinkedList of Integer - list of indexes of LikendList Marbles that have already been used.
+     * @param x       of type int - rows of Market
+     * @param y       of type int - columns of Market
+     * @param m       of type bi-dimensional Array - Market
+     * @param j       of type j - column being filled by the method
      */
     private void fillColumns(LinkedList<Colours> marbles, LinkedList<Integer> list, int x, int y, Colours[][] m, int j){
         for(var i = 0; i < x; i++){
@@ -70,8 +73,9 @@ public class Market{
 
     /**
      * method findFirstExternal places a random marble as the external of the matrix that is later used to move the market.
+     *
      * @param marbles of type LinkedList - Marbles
-     * @param list of type LinkedList
+     * @param list    of type LinkedList
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void findFirstExternal(LinkedList<Colours> marbles, LinkedList<Integer> list){
@@ -83,9 +87,10 @@ public class Market{
 
     /**
      * method findNextMarble finds a Marble that hasn't been used before.
+     *
      * @param list of type LinkedList - used to know which marbles have already been placed
-     * @param x of type int - row of Market
-     * @param y of type int - column of Market
+     * @param x    of type int - row of Market
+     * @param y    of type int - column of Market
      * @return int - index of the marble that hasn't been placed
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -109,6 +114,7 @@ public class Market{
 
     /**
      * method moveMarbles takes resources from the Market based on the player's choice and uses the method move to move the Market
+     *
      * @param choice of type int - is the choice made by the user of either row or column
      * @return List of resources from the Market
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
@@ -122,6 +128,7 @@ public class Market{
 
     /**
      * method getRes gets the Resources from the market based on the player's choice
+     *
      * @param choice of type int - Player's choice
      * @return LinkedList - returns a list of resources from the market
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
@@ -141,8 +148,9 @@ public class Market{
 
     /**
      * method move moves the Market
+     *
      * @param choice of type int - Player's choice
-     * @param r1 of type Colours - external Marble
+     * @param r1     of type Colours - external Marble
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void move(int choice, Colours r1){
@@ -160,6 +168,7 @@ public class Market{
 
     /**
      * method getResX gets resources from row x
+     *
      * @param x of type int - row of market
      * @return LinkedList
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
@@ -170,6 +179,7 @@ public class Market{
 
     /**
      * method getResY gets resources from column y
+     *
      * @param y of type int - column of Market
      * @return LinkedList
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
@@ -182,8 +192,9 @@ public class Market{
 
     /**
      * method operationMoveX saves the new external marble and then uses the method moveX
+     *
      * @param r1 of type Colours - old external marble
-     * @param x of type int - row
+     * @param x  of type int - row
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void operationMoveX(Colours r1, int x){
@@ -193,8 +204,9 @@ public class Market{
 
     /**
      * method operationMoveY saves the new external marble and then uses the method moveY
+     *
      * @param r1 of type Colours - old external marble
-     * @param y of type int - column
+     * @param y  of type int - column
      */
     private void operationMoveY(Colours r1, int y){
         external = tray[0][Constants.YMARKET.getVal() - y];
@@ -203,8 +215,9 @@ public class Market{
 
     /**
      * method moveX moves row x
+     *
      * @param r1 of type Colours - old external marble
-     * @param x of type int - row
+     * @param x  of type int - row
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void moveX(Colours r1, int x){
@@ -218,8 +231,9 @@ public class Market{
 
     /**
      * method moveY moves column Y
+     *
      * @param r1 of type Colours - old external marble
-     * @param y of type int - column
+     * @param y  of type int - column
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void moveY(Colours r1, int y){
