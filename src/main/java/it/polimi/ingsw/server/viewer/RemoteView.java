@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.web.SocketServerToClient;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class RemoteView implements PropertyChangeListener{
@@ -154,7 +155,7 @@ public class RemoteView implements PropertyChangeListener{
     }*/
 
     public void setMyLeaderCards(CardLeader[] myLeaderCards){
-        socketServerToClient.send(myLeaderCards);
+        socketServerToClient.send(Arrays.toString(myLeaderCards));
     }
 
     @Override

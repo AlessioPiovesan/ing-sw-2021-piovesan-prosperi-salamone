@@ -13,35 +13,23 @@ public class SocketServerToClient implements Runnable{
     private final Socket socket;
     private final Server server;
     private final RemoteView remoteView;
+    private final ObjectOutputStream socketOut;
+    private final ObjectInputStream socketIn;
     private boolean newSocket;
     private boolean active;
 
-    public SocketServerToClient(Socket newSocket, Server server){
+    public SocketServerToClient(Socket newSocket, Server server) throws IOException{
         this.socket = newSocket;
         this.server = server;
         remoteView = new RemoteView(this);
         active = true;
         this.newSocket = true;
+        socketIn = new ObjectInputStream(socket.getInputStream());
+        socketOut = new ObjectOutputStream(socket.getOutputStream());
     }
 
     public RemoteView getRemoteView(){
         return remoteView;
-    }
-
-    public void asyncSend(final Object message){
-        new Thread(() -> send(message)).start();
-    }
-
-    public synchronized void send(Object message){
-        try{
-            var socketOut = new ObjectOutputStream(socket.getOutputStream());
-            socketOut.reset();
-            socketOut.writeObject(message);
-            socketOut.flush();
-        } catch(IOException e){
-            asyncSend("Error in sending message: " + e.getMessage());
-            System.err.println(e.getMessage());
-        }
     }
 
     @Override
@@ -50,7 +38,11 @@ public class SocketServerToClient implements Runnable{
             newSocket = false;
             asyncSend("askNickname");
         }
-        try(var socketIn = new ObjectInputStream(socket.getInputStream())){
+        new Thread(this::readFromClient);
+    }
+
+    private void readFromClient(){
+        try{
             while(isActive()){
                 var inputObject = socketIn.readObject();
                 if(inputObject instanceof String) interpreter((String)inputObject);
@@ -68,8 +60,8 @@ public class SocketServerToClient implements Runnable{
         }
     }
 
-    public void sendInLobby(){
-        server.lobby(this, remoteView.getNickname(), remoteView.getnPlayers());
+    public void asyncSend(final String message){
+        new Thread(() -> send(message)).start();
     }
 
     private synchronized boolean isActive(){
@@ -93,6 +85,15 @@ public class SocketServerToClient implements Runnable{
         System.out.println("Done!");
     }
 
+    public synchronized void send(Object message){
+        try{
+            socketOut.writeObject(message);
+            socketOut.flush();
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+
     public synchronized void closeConnection(){
         try{
             socket.close();
@@ -101,5 +102,9 @@ public class SocketServerToClient implements Runnable{
         }
         asyncSend("Connection closed!");
         active = false;
+    }
+
+    public void sendInLobby(){
+        server.lobby(this, remoteView.getNickname(), remoteView.getnPlayers());
     }
 }

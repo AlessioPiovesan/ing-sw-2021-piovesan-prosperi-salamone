@@ -33,7 +33,7 @@ public class ServerApp{
             var scanner = new Scanner(System.in);
             port = scanner.nextInt();
             while(port < 1023 || port > 65535){
-                System.out.println("Server port is not valid");
+                System.out.println("Server port is not valid\n>\t");
                 port = scanner.nextInt();
             }
         } catch(InputMismatchException e){

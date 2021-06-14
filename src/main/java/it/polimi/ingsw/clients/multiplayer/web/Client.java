@@ -11,7 +11,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 
-public class Client{
+public class Client implements Runnable{
 
     private final UI ui;
     private String ip;
@@ -19,7 +19,6 @@ public class Client{
     private boolean active;
     private int nPlayers;
     private Socket socket;
-    private ObjectInputStream socketIn;
     private ObjectOutputStream socketOut;
     private ModelView modelView;
 
@@ -46,21 +45,15 @@ public class Client{
         setup();
         connect();
         try{
-            while(isActive()){
-                var inputObject = socketIn.readObject();
-                if(inputObject instanceof String) interpreter((String)inputObject);
-                else{
-                    throw new IllegalArgumentException();
-                }
-            }
-        } catch(IOException|NoSuchElementException|ClassNotFoundException e){
+            readingFromServer();
+        } catch(IOException e){
             ui.showError(e.getMessage());
-            new Thread(new Runnable(){
-                @Override
-                public void run(){
-                    run();
-                }
-            });
+            try{
+                socket.close();
+            } catch(IOException ioException){
+                ioException.printStackTrace();
+            }
+
         }
     }
 
@@ -71,17 +64,38 @@ public class Client{
     private void connect(){
         try{
             socket = new Socket(ip, port);
-            System.out.println("Connection established");
-            socketIn = new ObjectInputStream(socket.getInputStream());
             socketOut = new ObjectOutputStream(socket.getOutputStream());
         } catch(IOException e){
-            System.out.println("Connection closed from the client side");
+            System.out.println("Connection server from the client side");
             Thread.currentThread().interrupt();
+        }
+    }
+
+    private void readingFromServer() throws IOException{
+        try(var socketIn = new ObjectInputStream(socket.getInputStream())){
+            while(isActive()){
+                var inputObject = socketIn.readObject();
+                if(inputObject instanceof String) interpreter((String)inputObject);
+                else throw new IllegalArgumentException();
+            }
+        } catch(NoSuchElementException|ClassNotFoundException|IllegalArgumentException e){
+            System.err.println(e.getMessage());
+            asyncSend("Error! " + e.getMessage());
+            new Thread(this::run);
+        } catch(IOException ex){
+            System.err.println(ex.getMessage());
+            active = false;
+        } finally{
+            socket.close();
         }
     }
 
     public boolean isActive(){
         return active;
+    }
+
+    public void setActive(boolean active){
+        this.active = active;
     }
 
     private void interpreter(String input){
@@ -95,11 +109,6 @@ public class Client{
         }
     }
 
-
-    public void setActive(boolean active){
-        this.active = active;
-    }
-
     public void setPort(int port){
         this.port = port;
     }
@@ -108,18 +117,15 @@ public class Client{
         this.ip = ip;
     }
 
-    public synchronized void send(Object message){
-        try{
-            socketOut.reset();
-            socketOut.writeObject(message);
-            socketOut.flush();
-        } catch(IOException e){
-            asyncSend("Error in sending message: " + e.getMessage());
-            ui.showError(e.getMessage());
-        }
+    public void asyncSend(final String message){
+        new Thread(() -> send(message)).start();
     }
 
-    public void asyncSend(final Object message){
-        new Thread(() -> send(message)).start();
+    public synchronized void send(String message){
+        try{
+            socketOut.writeObject(message);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
     }
 }

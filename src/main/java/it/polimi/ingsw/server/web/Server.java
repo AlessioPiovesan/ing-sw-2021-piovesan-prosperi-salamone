@@ -35,6 +35,7 @@ public class Server implements Runnable{
             try{
                 var newSocket = serverSocket.accept();
                 var socketConnection = new SocketServerToClient(newSocket, this);
+                System.out.println("New connection established");
                 new Thread(socketConnection).start();
             } catch(IOException e){
                 System.err.println("Connection Error!");
