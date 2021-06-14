@@ -1,6 +1,6 @@
 package it.polimi.ingsw.server.accessories;
 
-import it.polimi.ingsw.clients.utils.ConsoleColors;
+import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 
 public enum ColoursCards{
 

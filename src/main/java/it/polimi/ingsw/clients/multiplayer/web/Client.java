@@ -7,7 +7,7 @@ import it.polimi.ingsw.clients.viewer.UI;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.PrintWriter;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 
@@ -19,6 +19,8 @@ public class Client{
     private boolean active;
     private int nPlayers;
     private Socket socket;
+    private ObjectInputStream socketIn;
+    private ObjectOutputStream socketOut;
     private ModelView modelView;
 
     public Client(int i){
@@ -43,7 +45,7 @@ public class Client{
     public void run(){
         setup();
         connect();
-        try(var socketIn = new ObjectInputStream(socket.getInputStream())){
+        try{
             while(isActive()){
                 var inputObject = socketIn.readObject();
                 if(inputObject instanceof String) interpreter((String)inputObject);
@@ -52,7 +54,13 @@ public class Client{
                 }
             }
         } catch(IOException|NoSuchElementException|ClassNotFoundException e){
-            System.err.println("Error!" + e.getMessage());
+            ui.showError(e.getMessage());
+            new Thread(new Runnable(){
+                @Override
+                public void run(){
+                    run();
+                }
+            });
         }
     }
 
@@ -64,8 +72,8 @@ public class Client{
         try{
             socket = new Socket(ip, port);
             System.out.println("Connection established");
-            var socketIn = new ObjectInputStream(socket.getInputStream());
-            asyncReadFromSocket(socketIn);
+            socketIn = new ObjectInputStream(socket.getInputStream());
+            socketOut = new ObjectOutputStream(socket.getOutputStream());
         } catch(IOException e){
             System.out.println("Connection closed from the client side");
             Thread.currentThread().interrupt();
@@ -82,32 +90,11 @@ public class Client{
             case "Your game's ID is" -> modelView.setGameID(Integer.parseInt(string[1]));
             case "nicknameNo" -> ui.reChooseNickname();
             case "nicknameYes" -> ui.setNickname(string[1]);
-            default -> System.out.println(string[0] + " is not handled");
+            case "askNickname" -> ui.chooseNickname();
+            default -> System.out.println(string[0] + " is not handled (CLIENT)");
         }
     }
 
-    public Thread asyncReadFromSocket(final ObjectInputStream socketIn){
-        var t = new Thread(() -> {
-            try{
-                while(isActive()){
-                    var inputObject = socketIn.readObject();
-                    if(inputObject instanceof String){
-                        System.out.println((String)inputObject);
-                    }
-					/*else if(inputObject instanceof Board){
-						((Board)inputObject).print();
-					}*/ /*ALTRE COSE CHE PUO' RICEVERE*/
-                    else{
-                        throw new IllegalArgumentException();
-                    }
-                }
-            } catch(Exception e){
-                setActive(false);
-            }
-        });
-        t.start();
-        return t;
-    }
 
     public void setActive(boolean active){
         this.active = active;
@@ -121,18 +108,18 @@ public class Client{
         this.ip = ip;
     }
 
-    public Thread asyncWriteToSocket(String command){
-        var t = new Thread(() -> {
-            try{
-                var output = new PrintWriter(socket.getOutputStream(), true);
-                while(isActive()){
-                    output.write(command);
-                }
-            } catch(Exception e){
-                setActive(false);
-            }
-        });
-        t.start();
-        return t;
+    public synchronized void send(Object message){
+        try{
+            socketOut.reset();
+            socketOut.writeObject(message);
+            socketOut.flush();
+        } catch(IOException e){
+            asyncSend("Error in sending message: " + e.getMessage());
+            ui.showError(e.getMessage());
+        }
+    }
+
+    public void asyncSend(final Object message){
+        new Thread(() -> send(message)).start();
     }
 }

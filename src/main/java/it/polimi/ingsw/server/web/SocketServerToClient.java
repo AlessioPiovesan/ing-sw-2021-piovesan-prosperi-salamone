@@ -39,6 +39,7 @@ public class SocketServerToClient implements Runnable{
             socketOut.writeObject(message);
             socketOut.flush();
         } catch(IOException e){
+            asyncSend("Error in sending message: " + e.getMessage());
             System.err.println(e.getMessage());
         }
     }
@@ -46,9 +47,8 @@ public class SocketServerToClient implements Runnable{
     @Override
     public void run(){
         if(newSocket){
-            newSocket= false;
+            newSocket = false;
             asyncSend("askNickname");
-            sendInLobby();
         }
         try(var socketIn = new ObjectInputStream(socket.getInputStream())){
             while(isActive()){
@@ -56,15 +56,19 @@ public class SocketServerToClient implements Runnable{
                 if(inputObject instanceof String) interpreter((String)inputObject);
                 else throw new IllegalArgumentException();
             }
-        } catch(IOException|NoSuchElementException|ClassNotFoundException|IllegalArgumentException e){
+        } catch(NoSuchElementException|ClassNotFoundException|IllegalArgumentException e){
+            System.err.println(e.getMessage());
             asyncSend("Error! " + e.getMessage());
-            new Thread(this::run);
+            new Thread(this);
+        } catch(IOException ex){
+            System.err.println(ex.getMessage());
+            active = false;
         } finally{
             close();
         }
     }
 
-    private void sendInLobby(){
+    public void sendInLobby(){
         server.lobby(this, remoteView.getNickname(), remoteView.getnPlayers());
     }
 
@@ -78,7 +82,7 @@ public class SocketServerToClient implements Runnable{
             case "nickname" -> remoteView.setNickname(string[1]);
             case "nplayers" -> remoteView.setNPlayers(Integer.parseInt(string[1]));
             case "checkNickname" -> server.checkExistNickname(string[1], this);
-            default -> System.err.println(string[0] + " is not handled");
+            default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
         }
     }
 

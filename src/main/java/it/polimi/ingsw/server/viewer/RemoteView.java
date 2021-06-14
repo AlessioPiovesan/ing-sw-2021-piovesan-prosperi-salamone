@@ -38,6 +38,7 @@ public class RemoteView implements PropertyChangeListener{
 
     public void setNickname(String nickname){
         this.nickname = nickname;
+        socketServerToClient.sendInLobby();
     }
 
     public void getRisorsaPreferita(){
