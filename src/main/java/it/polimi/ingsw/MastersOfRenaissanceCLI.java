@@ -6,6 +6,11 @@ import it.polimi.ingsw.server.ServerApp;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Class MasterOfRenaissanceCLI starts Command Line Interface in case the player decides to play with it.
+ * The Player can decide wether to launch a server (for Multiplayer purposes) or to play offline Single Player Mode.
+ * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone
+ */
 public class MastersOfRenaissanceCLI{
 
     public static void main(String[] args){

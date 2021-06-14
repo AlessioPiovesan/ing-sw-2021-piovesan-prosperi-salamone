@@ -13,6 +13,13 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+/**
+ * After the server has been created, this class Server is used to handle multiple Socket Connections
+ * from different clients.
+ * @see Runnable
+ * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ */
+
 public class Server implements Runnable{
 
     private final ServerSocket serverSocket;
@@ -44,6 +51,15 @@ public class Server implements Runnable{
     }
 
     //Wait for the another players
+
+    /**
+     * Class Lobby is used to create a virtual room where players wait to join a game.
+     * The first player who starts the server will be the Host of the game, others can join the same match by using a Game ID provided by the Host.
+     * @param c of type SocketServerToClient - Socket that represents the connection with a Client
+     * @param name of type String - Player's nickname
+     * @param players of type Int - Number of Players
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     public synchronized void lobby(SocketServerToClient c, String name, int players){
         waitingForConnection.put(name, c);
         c.send("Hi " + name + " you are in the lobby, please wait.");
@@ -75,6 +91,12 @@ public class Server implements Runnable{
     }
 
     //Deregister connection
+
+    /**
+     * Method used in case a Player decides to leave the game.
+     * @param c of type SocketServerToClient - Socket that represents the connection with a Client
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     public synchronized void deregisterConnection(SocketServerToClient c){
         var opponent = playingConnection.get(c);
         while(opponent != null){
@@ -94,6 +116,12 @@ public class Server implements Runnable{
         players.remove(name);
     }
 
+    /**
+     * Method checkExistNickname checks wether a new Nickname already exists inside the server.
+     * @param s of type String - Player's Nickname
+     * @param socket of type SocketServerToClient - Socket that represents the connection with a client.
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     public void checkExistNickname(String s, SocketServerToClient socket){
         if(players.contains(s)) socket.send("nicknameNo::");
         else socket.send("nicknameYes::" + s);

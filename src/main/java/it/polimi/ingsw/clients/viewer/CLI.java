@@ -471,6 +471,7 @@ public class CLI implements Runnable, UI{
             for(var j = 0; j < Constants.YMARKET.getVal(); j++){
                 print.append(drawMarket(market[i][j])).append("\t");
             }
+            print.append("\n");
         }
         output.println(print);
         printLine();

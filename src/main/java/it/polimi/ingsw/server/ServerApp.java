@@ -6,6 +6,11 @@ import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Class ServerApp is used to create a Server, asking for the Port from which the Server will listen on.
+ * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ */
+
 public class ServerApp{
 
     private static int port;

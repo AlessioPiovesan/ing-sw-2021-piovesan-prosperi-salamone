@@ -2,6 +2,12 @@ package it.polimi.ingsw.server.model.board;
 
 import java.util.Arrays;
 
+
+/**
+ * class FaithTrack is a representation of the Faith Track on a player's board.
+ * It is composed by 25 tiles and reaching the end of the Track is one way to end the game.
+ * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ */
 public class FaithTrack{
 
     private final boolean[] popeFavor = new boolean[3];
@@ -18,16 +24,31 @@ public class FaithTrack{
         return popeFavorWinPnt;
     }
 
+    /**
+     * method moveForward is used to move the pawn by one tile forward.
+     * @param step of type int - step forward
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     protected void moveForward(int step){
         position += step;
     }
 
+    /**
+     * method getWinPnt is used to calculate the points needed to win a Game.
+     * @return win of type int - win points
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     protected int getWinPnt(){
         var win = popeFavorWinPnt;
         win += getWinPntPosition();
         return win;
     }
 
+    /**
+     * method getWinPntPosition indicates the win points given out to Players based on their position on the track
+     * @return int - win points
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     protected int getWinPntPosition(){
         return switch(position){
             case 0, 1, 2 -> 0;
@@ -43,6 +64,10 @@ public class FaithTrack{
         };
     }
 
+    /**
+     * method getWinPntCard is used to show win points given to players when they reach the Pope Favor tiles.
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     protected void getWinPntCard(){
         switch(position){
             case 5, 6, 7, 8:
