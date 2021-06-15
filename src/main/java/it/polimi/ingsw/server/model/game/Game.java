@@ -18,7 +18,7 @@ import java.util.Random;
 public class Game{
 
     private static int nGamers = 4;
-    private final Board[] boards = new Board[4]; /* c'è DA IMPLEMENTARE l'associazione con i socket dei vari player*/
+    private final Board[] boards = new Board[4];
     private final Random random = new Random();
     private final ArrayList<CardDev> cardDevDeck;
     private final ArrayList<CardLeader> cardLeaderDeck;
@@ -82,7 +82,7 @@ public class Game{
     }
 
     /**
-     * method myLeaderCardsHandler is the method used to deal the 4 initial Leader Cards which 2 of them can be later chosen by the Player.
+     * Method myLeaderCardsHandler is the method used to deal the 4 initial Leader Cards which 2 of them can be later chosen by the Player.
      *
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -106,7 +106,7 @@ public class Game{
     }
 
     /**
-     * method selectNextPlayableLeaderCards is the method used for the randomization of the Leader Cards
+     * Method selectNextPlayableLeaderCards is the method used for the randomization of the Leader Cards
      *
      * @return CardLeader
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
@@ -130,7 +130,7 @@ public class Game{
     }
 
     /**
-     * method pickStartingResources is the method for the choices of Inital Resources from selected players.
+     * Method pickStartingResources is the method for the choices of initial resources from selected players.
      *
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -154,7 +154,7 @@ public class Game{
     }
 
     /**
-     * method checkNext is only used to check if the next Board usable is the first one in the array.
+     * Method checkNext is only used to check if the next Board usable is the first one in the array.
      *
      * @return PlayingPlayer of type int - Next player in queue
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
@@ -175,10 +175,5 @@ public class Game{
             pntWin[i] = boards[i].countWinPnt();
         }
         return pntWin;
-    }
-
-    public void nextAction(){
-        /*chiede alla viewer l'azione da fare
-         * GameController riceve qualcosa e fa partire .action(...)*/
     }
 }

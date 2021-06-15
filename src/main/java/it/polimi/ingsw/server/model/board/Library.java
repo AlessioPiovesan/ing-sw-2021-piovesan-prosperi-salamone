@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * class Library is where a player can store his Development Cards.
+ * Class Library is where a player can store his Development Cards.
  * Level three cards can only be placed on top of level two cards which can only be placed on top of level one cards.
  * There are a total of three slots for Development Cards in the Library
  *
@@ -27,7 +27,7 @@ public class Library{
     }
 
     /**
-     * method checkAddableCard checks if a card can be stored in the selected slot in the card.
+     * Method checkAddableCard checks if a card can be stored in the selected slot in the card.
      *
      * @param n    of type int - slot for the card
      * @param card of type CardDev - the type of card that the player wants to store
@@ -38,7 +38,7 @@ public class Library{
     }
 
     /**
-     * method getCardOnTop returns visible card from the selected slot
+     * Method getCardOnTop returns visible card from the selected slot
      *
      * @param n of type int - selected slot
      * @return CardDev - returns the CardDev on top
@@ -53,7 +53,7 @@ public class Library{
     }
 
     /**
-     * method addCard adds a card into the slot
+     * Method addCard adds a card into the slot
      *
      * @param n    of type int - selected slot
      * @param card of type CardDev - card that is going to be added
@@ -64,7 +64,7 @@ public class Library{
     }
 
     /**
-     * method getWinPntCardDev returns sum of all the win points from Development Cards
+     * Method getWinPntCardDev returns sum of all the win points from Development Cards
      *
      * @return win of type int - returns the sum of win points from Development Cards
      */
@@ -83,7 +83,7 @@ public class Library{
     }
 
     /**
-     * method visibleCards creates a list of all the visible cards on the board
+     * Method visibleCards creates a list of all the visible cards on the board
      *
      * @return List - a list of all the visible cards on the board
      */

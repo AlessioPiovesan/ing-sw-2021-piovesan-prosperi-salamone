@@ -57,20 +57,20 @@ public class Server implements Runnable{
      * Class Lobby is used to create a virtual room where players wait to join a game.
      * The first player who starts the server will be the Host of the game, others can join the same match by using a Game ID provided by the Host.
      *
-     * @param c       of type SocketServerToClient - Socket that represents the connection with a Client
-     * @param name    of type String - Player's nickname
-     * @param players of type Int - Number of Players
+     * @param socketToClient of type SocketServerToClient - Socket that represents the connection with a Client
+     * @param name           of type String - Player's nickname
+     * @param players        of type Int - Number of Players
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
-    public synchronized void lobby(SocketServerToClient c, String name, int players){
-        waitingForConnection.put(name, c);
-        c.send("Hi " + name + " you are in the lobby, please wait.");
+    public synchronized void lobby(SocketServerToClient socketToClient, String name, int players){
+        waitingForConnection.put(name, socketToClient);
+        socketToClient.send("Hi " + name + " you are in the lobby, please wait.");
         if(waitingForConnection.size() == 1){
             var game = new Game(Mod.newID(), players, new Market());
             var gameControllerID = Controller.newID();
             new GameController(gameControllerID, 4, game);
             waitingForConnection.get(name).send("Your game's ID is:: " + gameControllerID);
-            waitingForTheGameToStart.put(c, gameControllerID);
+            waitingForTheGameToStart.put(socketToClient, gameControllerID);
         }
         if(waitingForConnection.size() == players){
             var keys = new ArrayList<>(waitingForConnection.keySet());
@@ -89,7 +89,7 @@ public class Server implements Runnable{
             for(var i = 0; i < players; i++)
                 waitingForConnection.remove(keys.get(i));
         }
-        else c.send(players - waitingForConnection.size() + " slots left");
+        else socketToClient.send(players - waitingForConnection.size() + " slots left");
     }
 
     //Deregister connection
@@ -97,17 +97,17 @@ public class Server implements Runnable{
     /**
      * Method used in case a Player decides to leave the game.
      *
-     * @param c of type SocketServerToClient - Socket that represents the connection with a Client
+     * @param socketToClient of type SocketServerToClient - Socket that represents the connection with a Client
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
-    public synchronized void deregisterConnection(SocketServerToClient c){
-        var opponent = playingConnection.get(c);
+    public synchronized void deregisterConnection(SocketServerToClient socketToClient){
+        var opponent = playingConnection.get(socketToClient);
         while(opponent != null){
             opponent.closeConnection();
-            playingConnection.remove(c);
+            playingConnection.remove(socketToClient);
             playingConnection.remove(opponent);
-            waitingForConnection.keySet().removeIf(s -> waitingForConnection.get(s) == c);
-            opponent = playingConnection.get(c);
+            waitingForConnection.keySet().removeIf(s -> waitingForConnection.get(s) == socketToClient);
+            opponent = playingConnection.get(socketToClient);
         }
     }
 
@@ -120,14 +120,15 @@ public class Server implements Runnable{
     }
 
     /**
-     * Method checkExistNickname checks wether a new Nickname already exists inside the server.
+     * Method checkExistNickname checks whether a new Nickname already exists inside the server.
      *
-     * @param s      of type String - Player's Nickname
+     * @param name   of type String - Player's Nickname
      * @param socket of type SocketServerToClient - Socket that represents the connection with a client.
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
-    public void checkExistNickname(String s, SocketServerToClient socket){
-        if(players.contains(s)) socket.send("nicknameNo::");
-        else socket.send("nicknameYes::" + s);
+    public void checkExistNickname(String name, SocketServerToClient socket){
+        if(players.contains(name)) socket.send("nicknameNo::");
+        else socket.send("nicknameYes::" + name);
+
     }
 }

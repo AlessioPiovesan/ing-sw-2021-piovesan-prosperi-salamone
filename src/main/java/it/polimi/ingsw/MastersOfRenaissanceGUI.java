@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 /**
- * Class MastersofRenaissanceGUI starts Graphical User Interface and prompts the Main Menu
- * to the User who they can choose between Single Player, Multi Player or exiting the game.
+ * Class MastersOfRenaissanceGUI starts Graphical User Interface and prompts the Main Menu
+ * to the User who can choose between Single Player, Multi Player or exiting the game.
  *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone
  * @see Application
@@ -31,18 +31,24 @@ public class MastersOfRenaissanceGUI extends Application{
         return currentScene;
     }
 
-    @Override
     /**
      * Method start starts the scene of the Main Menu and shows it to the User.
-     */ public void start(Stage stage) throws Exception{
+     */
+
+    @Override
+    public void start(Stage stage) throws Exception{
         var root = (Parent)FXMLLoader.load(Objects.requireNonNull(getClass().getResource(MENU)));
         Font.loadFont(getClass().getResourceAsStream("/font/Academy Engraved LET Fonts.ttf"), 25);
-        currentScene = new Scene(root);
+        newScene(root);
         stage.setTitle("Masters Of Renaissance");
         stage.setScene(currentScene);
         stage.show();
         var resize = new ResizeHandler((AnchorPane)currentScene.lookup("#mainPane"));
         currentScene.widthProperty().addListener(resize.getWidthListener());
         currentScene.heightProperty().addListener(resize.getHeightListener());
+    }
+
+    private static void newScene(Parent root){
+        currentScene = new Scene(root);
     }
 }

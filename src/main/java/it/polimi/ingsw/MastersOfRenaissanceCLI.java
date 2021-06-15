@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 /**
  * Class MasterOfRenaissanceCLI starts Command Line Interface in case the player decides to play with it.
- * The Player can decide wether to launch a server (for multiplayer purposes) or to play offline in Single Player Mode.
+ * The Player can decide whether to launch a server (for multiplayer purposes) or to play offline in Single Player Mode.
  *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone
  */
@@ -16,6 +16,8 @@ public class MastersOfRenaissanceCLI{
 
     public static void main(String[] args){
 
+        var scanner = new Scanner(System.in);
+        var input = 0;
         var exit = true;
         while(exit){
             exit = false;
@@ -29,8 +31,6 @@ public class MastersOfRenaissanceCLI{
                              2. CLIENT MULTIPLAYER
                              > Type the number of the desired option!
                              >>\040\040""");
-            var scanner = new Scanner(System.in);
-            var input = 0;
             try{
                 input = scanner.nextInt();
             } catch(InputMismatchException e){

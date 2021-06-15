@@ -5,7 +5,7 @@ import it.polimi.ingsw.server.model.game.Game;
 import java.util.HashMap;
 
 /**
- * class Mod is a class that contains every single game's Model.
+ * Class Mod is a class that contains every single game's Model.
  */
 
 public class Mod{
@@ -24,7 +24,7 @@ public class Mod{
     }
 
     /**
-     * method newID returns the Game's ID.
+     * Method newID returns the Game's ID.
      *
      * @return Game ID of type int
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
@@ -34,7 +34,7 @@ public class Mod{
     }
 
     /**
-     * method addGame serves as a list of all active Games
+     * Method addGame serves as a list of all active Games
      *
      * @param id   of type int - Game's ID
      * @param game of type Game

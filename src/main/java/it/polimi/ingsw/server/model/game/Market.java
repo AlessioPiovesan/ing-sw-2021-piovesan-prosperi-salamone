@@ -10,7 +10,7 @@ import java.util.Random;
 import java.util.stream.IntStream;
 
 /**
- * class Market is used to represent and describe the Market system in the game.
+ * Class Market is used to represent and describe the Market system in the game.
  * Meaning the market formed by a matrix of 3 rows and 4 columns which can move based on the user's action.
  *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
@@ -24,25 +24,25 @@ public class Market{
     private Colours external;
 
     public Market(){
-        /*creo le biglie*/
+        /*instantiation of the marbles*/
         IntStream.range(this.marbles.size(), Constants.MAXMARBLESB.getVal() + this.marbles.size()).forEach(i -> this.marbles.add(Colours.BLUE));
         IntStream.range(this.marbles.size(), Constants.MAXMARBLESG.getVal() + this.marbles.size()).forEach(i -> this.marbles.add(Colours.GREY));
         IntStream.range(this.marbles.size(), Constants.MAXMARBLESP.getVal() + this.marbles.size()).forEach(i -> this.marbles.add(Colours.PURPLE));
         IntStream.range(this.marbles.size(), Constants.MAXMARBLESR.getVal() + this.marbles.size()).forEach(i -> this.marbles.add(Colours.RED));
         IntStream.range(this.marbles.size(), Constants.MAXMARBLESW.getVal() + this.marbles.size()).forEach(i -> this.marbles.add(Colours.WHITE));
         IntStream.range(this.marbles.size(), Constants.MAXMARBLESY.getVal() + this.marbles.size()).forEach(i -> this.marbles.add(Colours.YELLOW));
-        /*metto le biglie nel mercato*/
+        /*putting the marbles in the market tray*/
         tray = fillMarket(marbles);
     }
 
     /**
-     * method fillMarket fills the Market with random marbles (described with Colours) at the start of the game.
+     * Method fillMarket fills the Market with random marbles (described with Colours) at the start of the game.
      *
-     * @param marbles of type LinkedList - the marbles used inside the Market
+     * @param marbles of type List - the marbles used inside the Market
      * @return m of type bi-dimensional Array - returns the filled Market at the start of the game
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
-    private Colours[][] fillMarket(LinkedList<Colours> marbles){
+    private Colours[][] fillMarket(List<Colours> marbles){
         var list = new LinkedList<Integer>();
         var m = new Colours[Constants.XMARKET.getVal()][Constants.YMARKET.getVal()];
         for(var j = 0; j < Constants.YMARKET.getVal(); j++){
@@ -53,17 +53,17 @@ public class Market{
     }
 
     /**
-     * method fillColumns serves as support for fillMarket.
+     * Method fillColumns serves as support for fillMarket.
      * This method uses findNextMarble to fill the Market with a chosen Marble that hasn't been placed before.
      *
-     * @param marbles of type LinkedList of Colours
-     * @param list    of LinkedList of Integer - list of indexes of LikendList Marbles that have already been used.
+     * @param marbles of type List of Colours
+     * @param list    of List of Integer - list of indexes of List Marbles that have already been used.
      * @param x       of type int - rows of Market
      * @param y       of type int - columns of Market
      * @param m       of type bi-dimensional Array - Market
      * @param j       of type j - column being filled by the method
      */
-    private void fillColumns(LinkedList<Colours> marbles, LinkedList<Integer> list, int x, int y, Colours[][] m, int j){
+    private void fillColumns(List<Colours> marbles, List<Integer> list, int x, int y, Colours[][] m, int j){
         for(var i = 0; i < x; i++){
             int r = findNextMarble(list, x, y);
             list.add(r);
@@ -72,29 +72,27 @@ public class Market{
     }
 
     /**
-     * method findFirstExternal places a random marble as the external of the matrix that is later used to move the market.
+     * Method findFirstExternal places a random marble as the external of the matrix that is later used to move the market.
      *
-     * @param marbles of type LinkedList - Marbles
-     * @param list    of type LinkedList
+     * @param marbles of type List - Marbles
+     * @param list    of type List
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
-    private void findFirstExternal(LinkedList<Colours> marbles, LinkedList<Integer> list){
+    private void findFirstExternal(List<Colours> marbles, List<Integer> list){
         for(var i = 0; i < (Constants.XMARKET.getVal() * Constants.YMARKET.getVal()) + 1; i++)
             if(!list.contains(i)) external = marbles.get(i);
     }
 
-    //trova una biglia che non è stata già inserita da nessun'altra parte
-
     /**
-     * method findNextMarble finds a Marble that hasn't been used before.
+     * Method findNextMarble finds a Marble that hasn't been used before.
      *
-     * @param list of type LinkedList - used to know which marbles have already been placed
+     * @param list of type List - used to know which marbles have already been placed
      * @param x    of type int - row of Market
      * @param y    of type int - column of Market
      * @return int - index of the marble that hasn't been placed
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
-    private int findNextMarble(LinkedList<Integer> list, int x, int y){
+    private int findNextMarble(List<Integer> list, int x, int y){
         var r = random.nextInt((x * y) + 1);
         if(list.contains(r)) while(list.contains(r)) r = random.nextInt((x * y) + 1);
         return r;
@@ -113,7 +111,7 @@ public class Market{
     }
 
     /**
-     * method moveMarbles takes resources from the Market based on the player's choice and uses the method move to move the Market
+     * Method moveMarbles takes resources from the Market based on the player's choice and uses the method move to move the Market
      *
      * @param choice of type int - is the choice made by the user of either row or column
      * @return List of resources from the Market
@@ -127,11 +125,12 @@ public class Market{
     }
 
     /**
-     * method getRes gets the Resources from the market based on the player's choice
+     * Method getRes gets the Resources from the market based on the player's choice
      *
      * @param choice of type int - Player's choice
      * @return LinkedList - returns a list of resources from the market
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Market#moveMarbles(int)
      */
     private LinkedList<Colours> getRes(int choice){
         return switch(choice){
@@ -147,11 +146,12 @@ public class Market{
     }
 
     /**
-     * method move moves the Market
+     * Method move moves the Market
      *
      * @param choice of type int - Player's choice
      * @param r1     of type Colours - external Marble
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Market#moveMarbles(int)
      */
     private void move(int choice, Colours r1){
         switch(choice){
@@ -167,22 +167,24 @@ public class Market{
     }
 
     /**
-     * method getResX gets resources from row x
+     * Method getResX gets resources from row x
      *
      * @param x of type int - row of market
      * @return LinkedList
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Market#getRes(int)
      */
     private LinkedList<Colours> getResX(int x){
         return new LinkedList<>(Arrays.asList(tray[x]).subList(0, Constants.YMARKET.getVal()));
     }
 
     /**
-     * method getResY gets resources from column y
+     * Method getResY gets resources from column y
      *
      * @param y of type int - column of Market
      * @return LinkedList
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Market#getRes(int)
      */
     private LinkedList<Colours> getResY(int y){
         LinkedList<Colours> res = new LinkedList<>();
@@ -191,11 +193,12 @@ public class Market{
     }
 
     /**
-     * method operationMoveX saves the new external marble and then uses the method moveX
+     * Method operationMoveX saves the new external marble and then uses the method moveX
      *
      * @param r1 of type Colours - old external marble
      * @param x  of type int - row
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Market#move(int, Colours)
      */
     private void operationMoveX(Colours r1, int x){
         external = tray[Constants.XMARKET.getVal() - x][0];
@@ -203,10 +206,11 @@ public class Market{
     }
 
     /**
-     * method operationMoveY saves the new external marble and then uses the method moveY
+     * Method operationMoveY saves the new external marble and then uses the method moveY
      *
      * @param r1 of type Colours - old external marble
      * @param y  of type int - column
+     * @see Market#move(int, Colours)
      */
     private void operationMoveY(Colours r1, int y){
         external = tray[0][Constants.YMARKET.getVal() - y];
@@ -214,11 +218,12 @@ public class Market{
     }
 
     /**
-     * method moveX moves row x
+     * Method moveX moves row x
      *
      * @param r1 of type Colours - old external marble
      * @param x  of type int - row
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Market#operationMoveX(Colours, int)
      */
     private void moveX(Colours r1, int x){
         Colours r2;
@@ -230,11 +235,12 @@ public class Market{
     }
 
     /**
-     * method moveY moves column Y
+     * Method moveY moves column Y
      *
      * @param r1 of type Colours - old external marble
      * @param y  of type int - column
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Market#operationMoveY(Colours, int)
      */
     private void moveY(Colours r1, int y){
         Colours r2;

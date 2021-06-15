@@ -16,9 +16,11 @@ public class ServerApp{
 
     private static int port;
 
-    private ServerApp(){
-    }
+    private ServerApp(){}
 
+    /**
+     * Method start set the port for the TCP connections to the clients and starts the Server
+     */
     public static void start(){
         setPort();
         Server server = null;

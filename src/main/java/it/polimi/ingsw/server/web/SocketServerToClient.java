@@ -38,9 +38,7 @@ public class SocketServerToClient implements Runnable{
         executor = Executors.newCachedThreadPool();
     }
 
-    public RemoteView getRemoteView(){
-        return remoteView;
-    }
+    public RemoteView getRemoteView(){return remoteView;}
 
     @Override
     public void run(){
@@ -52,7 +50,7 @@ public class SocketServerToClient implements Runnable{
     }
 
     /**
-     * method asyncSend creates a new independent Thread to handle messages sent from the Server.
+     * Method asyncSend creates a new independent Thread to handle messages sent from the Server.
      *
      * @param message of Type String
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
@@ -107,7 +105,7 @@ public class SocketServerToClient implements Runnable{
     }
 
     /**
-     * method interpreter is used to interpretate messages from Clients.
+     * Method interpreter is used to interpreter messages from Clients.
      *
      * @param input of type String
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
