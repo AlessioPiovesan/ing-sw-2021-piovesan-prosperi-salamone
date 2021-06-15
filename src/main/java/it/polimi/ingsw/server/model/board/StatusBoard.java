@@ -11,12 +11,8 @@ import java.util.Map;
  * class StatusBoard is a data structure that records a board's status for client's usage.
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
-public record StatusBoard(List<CardDev> myDevCards, Colours[][] warehouse, int faithTrack,
-        Map<Colours, Integer> strongBox, CardDev[] library, Map<Colours, Integer> resAll, CardLeader[] myLeaderCards){
-
-    public List<CardDev> getMyDevCards(){
-        return myDevCards;
-    }
+public record StatusBoard(Colours[][] warehouse, int faithTrack, Map<Colours, Integer> strongBox, List<CardDev> library,
+        Map<Colours, Integer> resAll, CardLeader[] myLeaderCards){
 
     public Colours[][] getWarehouse(){
         return warehouse;
@@ -30,7 +26,7 @@ public record StatusBoard(List<CardDev> myDevCards, Colours[][] warehouse, int f
         return strongBox;
     }
 
-    public CardDev[] getLibrary(){
+    public List<CardDev> getLibrary(){
         return library;
     }
 

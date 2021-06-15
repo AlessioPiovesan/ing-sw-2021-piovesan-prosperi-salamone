@@ -82,7 +82,8 @@ public class Warehouse{
      */
     protected int isThereThatRes(Colours color){
         for(var i = 0; i < wareContent.size(); i++){
-            if(wareContent.get(i).getResource() == color) return i;
+            var pick = wareContent.get(i);
+            if(pick.getResource() == color) return i;
         }
         return -1;
     }
@@ -95,7 +96,7 @@ public class Warehouse{
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected Pick checkLvlStatus(int lvl){
-        return new Pick(wareContent.get(lvl).getResource(), wareContent.get(lvl).getQnt());
+        return wareContent.get(lvl);
     }
 
     /**

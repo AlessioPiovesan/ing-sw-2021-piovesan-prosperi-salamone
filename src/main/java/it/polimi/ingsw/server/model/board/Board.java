@@ -251,9 +251,7 @@ public class Board{
         pcs.addPropertyChangeListener(listener);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener listener){
-        pcs.removePropertyChangeListener(listener);
-    }
+    public void removePropertyChangeListener(PropertyChangeListener listener){pcs.removePropertyChangeListener(listener);}
 
     /**
      * method createStatus creates the status of the board.
@@ -261,17 +259,18 @@ public class Board{
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void createStatus(){
-        var w = new Colours[3][3];
+        var pseudoWarehouse = new Colours[3][3];
         var list = warehouse.checkStatus();
         for(var i = 0; i < 3; i++){
             for(var j = 0; j < 3; j++){
                 if(j < list.get(i).getQnt()){
-                    w[i][j] = list.get(i).getResource();
+                    var thisDepotPick = list.get(i);
+                    pseudoWarehouse[i][j] = thisDepotPick.getResource();
                 }
-                w[i][j] = null;
+                pseudoWarehouse[i][j] = null;
             }
         }
-        var status = new StatusBoard(myDevCards, w, faithTrack.getPosition(), strongBox.getStrongContent(), library.visibleCards().toArray(new CardDev[0]), resAll, myLeaderCards);
+        var status = new StatusBoard(pseudoWarehouse, faithTrack.getPosition(), strongBox.getStrongContent(), library.visibleCards(), resAll, myLeaderCards);
         pcs.firePropertyChange("boardStatus", "", status);
     }
 
@@ -391,14 +390,16 @@ public class Board{
         var w = warehouse.getWareContent();
         var s = strongBox.getStrongContent();
         var map = new EnumMap<Colours, Integer>(Colours.class);
+        var sKeys = s.keySet();
+        var resAllKeys = resAll.keySet();
         map.put(Colours.BLUE, 0);
         map.put(Colours.PURPLE, 0);
         map.put(Colours.GREY, 0);
         map.put(Colours.YELLOW, 0);
         for(var pick : w)
             if(pick.getResource() != Colours.WHITE) map.put(pick.getResource(), pick.getQnt());
-        s.keySet().forEach(key -> map.put(key, s.get(key) + map.get(key)));
-        resAll.keySet().forEach(key -> resAll.put(key, map.get(key)));
+        sKeys.forEach(key -> map.put(key, s.get(key) + map.get(key)));
+        resAllKeys.forEach(key -> resAll.put(key, map.get(key)));
     }
 
     public int checkFT(){return faithTrack.getPosition();}

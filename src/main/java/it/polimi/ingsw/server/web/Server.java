@@ -51,8 +51,6 @@ public class Server implements Runnable{
         }
     }
 
-    //Wait for the another players
-
     /**
      * Class Lobby is used to create a virtual room where players wait to join a game.
      * The first player who starts the server will be the Host of the game, others can join the same match by using a Game ID provided by the Host.
@@ -62,6 +60,7 @@ public class Server implements Runnable{
      * @param players        of type Int - Number of Players
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
+
     public synchronized void lobby(SocketServerToClient socketToClient, String name, int players){
         waitingForConnection.put(name, socketToClient);
         socketToClient.send("Hi " + name + " you are in the lobby, please wait.");
@@ -92,14 +91,13 @@ public class Server implements Runnable{
         else socketToClient.send(players - waitingForConnection.size() + " slots left");
     }
 
-    //Deregister connection
-
     /**
      * Method used in case a Player decides to leave the game.
      *
      * @param socketToClient of type SocketServerToClient - Socket that represents the connection with a Client
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
+
     public synchronized void deregisterConnection(SocketServerToClient socketToClient){
         var opponent = playingConnection.get(socketToClient);
         while(opponent != null){
@@ -126,6 +124,7 @@ public class Server implements Runnable{
      * @param socket of type SocketServerToClient - Socket that represents the connection with a client.
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
+
     public void checkExistNickname(String name, SocketServerToClient socket){
         if(players.contains(name)) socket.send("nicknameNo::");
         else socket.send("nicknameYes::" + name);

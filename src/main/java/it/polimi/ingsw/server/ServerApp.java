@@ -21,6 +21,7 @@ public class ServerApp{
     /**
      * Method start set the port for the TCP connections to the clients and starts the Server
      */
+
     public static void start(){
         setPort();
         Server server = null;
@@ -38,6 +39,7 @@ public class ServerApp{
     /**
      * Method setPort set the port for the TCP connections to the clients
      */
+
     private static void setPort(){
         try{
             System.out.print("Port?\n>\t");
