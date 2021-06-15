@@ -7,6 +7,10 @@ import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * class StatusBoard is a data structure that records a board's status for client's usage.
+ * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ */
 public record StatusBoard(List<CardDev> myDevCards, Colours[][] warehouse, int faithTrack,
         Map<Colours, Integer> strongBox, CardDev[] library, Map<Colours, Integer> resAll, CardLeader[] myLeaderCards){
 

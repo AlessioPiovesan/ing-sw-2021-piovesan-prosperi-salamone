@@ -10,6 +10,10 @@ import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * class BoardController represents the controller of a player's board
+ * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ */
 public class BoardController implements PropertyChangeListener{
 
     private final Board player;

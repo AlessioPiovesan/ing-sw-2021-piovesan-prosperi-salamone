@@ -5,6 +5,12 @@ public interface Requirements{
     @Override
     String toString();
 
+    /**
+     * class RequirementsCard handles Card Leader's requirements (Development Cards)
+     * @see Requirements
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
+
     class RequirementsCard implements Requirements{
 
         private final ColoursCards type;
@@ -29,6 +35,11 @@ public interface Requirements{
         }
     }
 
+    /**
+     * class RequirementsResources handles Cards' requirements (resources)
+     * @see Requirements
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     class RequirementsResources implements Requirements{
 
         private Colours type;

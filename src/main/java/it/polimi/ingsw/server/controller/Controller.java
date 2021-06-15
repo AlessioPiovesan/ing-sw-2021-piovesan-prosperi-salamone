@@ -3,6 +3,10 @@ package it.polimi.ingsw.server.controller;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * class Controller is a class that contains every single game's controller.
+ * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ */
 public class Controller{
 
     private static int idGame = 0;
@@ -18,6 +22,12 @@ public class Controller{
         return singleInstance;
     }
 
+    /**
+     * Method newID returns the Game's controller ID.
+     *
+     * @return Game ID of type int
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     public static int newID(){
         return idGame++;
     }

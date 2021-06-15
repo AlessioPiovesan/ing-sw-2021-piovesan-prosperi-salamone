@@ -10,6 +10,11 @@ import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * class GameController is the controller that handles one game.
+ * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ */
+
 public class GameController{
 
     private final BoardController[] boardController;
@@ -27,12 +32,25 @@ public class GameController{
         boardController = new BoardController[gamers];
     }
 
+    /**
+     * method setBoardController creates boards based on the number of players.
+     * links a board to his board controller.
+     * @see Game#getNGamers()
+     * @see Game#getSingleB(int)
+     */
     public void setBoardController(){
         for(var i = 0; i < game.getNGamers(); i++){
             boardController[i] = new BoardController(game.getSingleB(i));
         }
     }
 
+    /**
+     * method addFaithPnt gives Faith Points to the players not playing if the current player decides
+     * to discard some resources.
+     * @see Board#moveFT(int)
+     * @param waste of type Colours
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     public void addFaithPnt(List<Colours> waste){
         int a = waste.size();
         for(var j = 0; j < game.getNGamers(); j++){
@@ -83,12 +101,21 @@ public class GameController{
         }
     }
 
+    /**
+     * method startGame is used to start a Game
+     * @see Game#checkNext()
+     * @see #leaderCardsHandler()
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     */
     public void startGame(){
         out.println("Operazioni iniziali"); /*DA CANCELLARE*/
         game.checkNext();
         leaderCardsHandler();
     }
 
+    /**
+     * @see Game#myLeaderCardsHandler()
+     */
     public void leaderCardsHandler(){
         game.myLeaderCardsHandler();
     }
