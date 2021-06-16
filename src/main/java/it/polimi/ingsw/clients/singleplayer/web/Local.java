@@ -17,10 +17,7 @@ public class Local extends Client{
         setSingle();
     }
 
-    private void setSingle(){
-        ui.setSingle(true);
-    }
-
+    @Override
     public void run(){
         var gameController = LocalGameController.getInstance();
         var game = gameController.getGame();

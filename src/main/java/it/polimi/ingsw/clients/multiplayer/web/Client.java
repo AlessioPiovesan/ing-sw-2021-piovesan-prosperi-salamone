@@ -29,7 +29,7 @@ public class Client implements Runnable{
         active = true;
     }
 
-    private void setSingle(){
+    protected void setSingle(){
         ui.setSingle(false);
     }
 

@@ -6,7 +6,6 @@ import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.game.Game;
 
-import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,12 +19,10 @@ public class GameController{
     private final BoardController[] boardController;
     private final int id;
     private final Game game;
-    private final PrintWriter out;
     private final int[] win;
 
 
     public GameController(int newID, int gamers, Game game){
-        out = new PrintWriter(System.out);
         id = newID;
         this.game = game;
         win = new int[game.getNGamers()];

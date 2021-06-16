@@ -55,11 +55,10 @@ public enum SoloAction{
         shuffle();
     }
 
-    public static List<SoloAction> pickSoloAction(List<SoloAction> list){
+    public static void pickSoloAction(List<SoloAction> list){
         var sa = list.get(0);
         list.remove(sa);
         list.add(sa);
-        return list;
     }
 
     private void printSA(SoloAction sa){
