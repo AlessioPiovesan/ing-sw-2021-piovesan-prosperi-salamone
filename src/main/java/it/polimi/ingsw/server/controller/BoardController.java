@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * class BoardController represents the controller of a player's board
+ * Class BoardController represents the controller of a player's board
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
 public class BoardController implements PropertyChangeListener{
@@ -31,10 +32,10 @@ public class BoardController implements PropertyChangeListener{
     }
 
     public void marketResHandler(List<Colours> keep, List<Colours> loose){
-        /*manda le keep in warehouse*/
+        /*sends keep in warehouse*/
         for(Colours colour : keep)
             player.resHandler(colour);
-        /*manda le loose in descarded*/
+        /*sends loose in discarded*/
     }
 
     public void warehouseResHandler(Colours colour, int qnt, int lvl){
@@ -42,7 +43,7 @@ public class BoardController implements PropertyChangeListener{
     }
 
     public void strongboxResHandler(Colours colour, int qnt){
-        player.storeSB(new Pick[]{new Pick(colour, 1)});
+        player.storeInStrongBox(new Pick[]{new Pick(colour, 1)});
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){

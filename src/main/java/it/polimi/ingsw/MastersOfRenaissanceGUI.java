@@ -34,7 +34,6 @@ public class MastersOfRenaissanceGUI extends Application{
     /**
      * Method start starts the scene of the Main Menu and shows it to the User.
      */
-
     @Override
     public void start(Stage stage) throws Exception{
         var root = (Parent)FXMLLoader.load(Objects.requireNonNull(getClass().getResource(MENU)));

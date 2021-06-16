@@ -11,7 +11,6 @@ import java.util.Scanner;
  *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
-
 public class ServerApp{
 
     private static int port;
@@ -21,7 +20,6 @@ public class ServerApp{
     /**
      * Method start set the port for the TCP connections to the clients and starts the Server
      */
-
     public static void start(){
         setPort();
         Server server = null;
@@ -39,7 +37,6 @@ public class ServerApp{
     /**
      * Method setPort set the port for the TCP connections to the clients
      */
-
     private static void setPort(){
         try{
             System.out.print("Port?\n>\t");

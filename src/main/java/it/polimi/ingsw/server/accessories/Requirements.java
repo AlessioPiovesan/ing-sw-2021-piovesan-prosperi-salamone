@@ -6,9 +6,10 @@ public interface Requirements{
     String toString();
 
     /**
-     * class RequirementsCard handles Card Leader's requirements (Development Cards)
-     * @see Requirements
+     * Class RequirementsCard handles Card Leader's requirements (Development Cards)
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Requirements
      */
 
     class RequirementsCard implements Requirements{
@@ -36,9 +37,10 @@ public interface Requirements{
     }
 
     /**
-     * class RequirementsResources handles Cards' requirements (resources)
-     * @see Requirements
+     * Class RequirementsResources handles Cards' requirements (resources)
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Requirements
      */
     class RequirementsResources implements Requirements{
 

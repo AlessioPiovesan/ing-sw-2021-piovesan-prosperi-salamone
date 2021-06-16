@@ -10,7 +10,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.*;
 
 /**
- * class Board describes a player's personal Board.
+ * Class Board describes a player's personal Board.
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
 public class Board{
@@ -72,8 +73,9 @@ public class Board{
     }
 
     /**
-     * method setDiscount is a consquence of one of the Leader Card's powers.
+     * Method setDiscount is a consequence of one of the Leader Card's powers.
      * Discounts a chosen resource.
+     *
      * @param color of type Colours - resource to be discounted
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -87,8 +89,9 @@ public class Board{
     }
 
     /**
-     * method setMarketAlt is a consequence of one of the Leader Card's powers.
+     * Method setMarketAlt is a consequence of one of the Leader Card's powers.
      * Transforms a white marble into a coloured one.
+     *
      * @param color of type Colours - resource
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -105,8 +108,9 @@ public class Board{
     }
 
     /**
-     * method setProductAlt is a consequence of one of the Leader Card's powers.
+     * Method setProductAlt is a consequence of one of the Leader Card's powers.
      * Adds a production activity by turning a resource into a preferred one and a Faith Point.
+     *
      * @param color of type Colours - resource
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -121,7 +125,8 @@ public class Board{
     }
 
     /**
-     * method setMyLeaderCards saves the two chosen Leader Cards.
+     * Method setMyLeaderCards saves the two chosen Leader Cards.
+     *
      * @param cards of type CardLeader - Leader Cards
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -129,10 +134,10 @@ public class Board{
         myLeaderCards = cards;
         pcs.firePropertyChange("firstOp", "", 0);
     }
-//scelta di due tra quattro
 
     /**
-     * method setTemporaryLeaderCards is the method that chooses tow of the 4 leader cards presented to the user.
+     * Method setTemporaryLeaderCards is the method that chooses tow of the 4 leader cards presented to the user.
+     *
      * @param leaders of type CardLeader - Leader cards
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -153,7 +158,8 @@ public class Board{
     }
 
     /**
-     * method countWinPnt counts the Points to win a game.
+     * Method countWinPnt counts the Points to win a game.
+     *
      * @return win of type int - win points
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -166,7 +172,8 @@ public class Board{
     }
 
     /**
-     * method getWinPntCardLeader counts win points from Leader Cards
+     * Method getWinPntCardLeader counts win points from Leader Cards
+     *
      * @return win of type int - win points
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -179,11 +186,12 @@ public class Board{
     }
 
     /**
-     * method buyCardDev is the method used to buy Development Cards using resources
-     * @see #checkIfEndGame()
+     * Method buyCardDev is the method used to buy Development Cards using resources.
+     *
      * @param card of type CardDev - Development card that the player wants to buy
      * @param slot of type int - slot where the user wants to place the card
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see #checkIfEndGame()
      */
     public void buyCardDev(CardDev card, int slot){
         var costCardDev = new LinkedList<Pick>();
@@ -197,9 +205,10 @@ public class Board{
     }
 
     /**
-     * method checkIfEndGame is the method that checks if a game has come to an end.
+     * Method checkIfEndGame is the method that checks if a game has come to an end.
      * a game can end by either a player reaching the end of the Faith Track
      * or if a player buys their seventh Development Card.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void checkIfEndGame(){
@@ -209,10 +218,11 @@ public class Board{
     }
 
     /**
-     * method marketResHandler transforms the marbles into resources whenever it has to.
-     * @see #setBufferMarket(List)
+     * Method marketResHandler transforms the marbles into resources whenever it has to.
+     *
      * @param res of type Colours - resources
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see #setBufferMarket(List)
      */
     public void marketResHandler(List<Colours> res){
         for(Colours colour : res)
@@ -224,7 +234,8 @@ public class Board{
     }
 
     /**
-     * method setBufferMarket are the resources ready to be placed in the Warehouse
+     * Method setBufferMarket are the resources ready to be placed in the Warehouse
+     *
      * @param res of type Colours - resources
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
@@ -234,7 +245,7 @@ public class Board{
     }
 
     public void resHandler(Colours res){
-        /*attiva un pezzo di viewer che chiede a che lvl di warehouse infilare quelle risorsa*/
+        pcs.firePropertyChange("resNeedsHandling", "", res);
     }
 
     public void setPreference(){
@@ -254,9 +265,10 @@ public class Board{
     public void removePropertyChangeListener(PropertyChangeListener listener){pcs.removePropertyChangeListener(listener);}
 
     /**
-     * method createStatus creates the status of the board.
-     * @see StatusBoard
+     * Method createStatus creates the status of the board.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see StatusBoard
      */
     public void createStatus(){
         var pseudoWarehouse = new Colours[3][3];
@@ -275,11 +287,12 @@ public class Board{
     }
 
     /**
-     * method moveFT moves the pawn on the Faith Track
-     * @see FaithTrack #moveForward
-     * @see #checkIfEndGame()
+     * Method moveFT moves the pawn on the Faith Track
+     *
      * @param move of type int
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see FaithTrack #moveForward
+     * @see #checkIfEndGame()
      */
     public void moveFT(int move){
         faithTrack.moveForward(move);
@@ -288,77 +301,78 @@ public class Board{
     }
 
     /**
-     * @see Warehouse#addLeaderSpace(Colours)
-     * @param special
+     * @param special resource type that you can add in the extra space
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Warehouse#addLeaderSpace(Colours)
      */
     public void addLeaderSpace(Colours special){
         warehouse.addLeaderSpace(special);
     }
 
     /**
-     * @see FaithTrack#getPosition
      * @return position
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see FaithTrack#getPosition
      */
     public int getPositionFT(){
         return faithTrack.getPosition();
     }
 
     /**
-     * @see Warehouse#lvlExchange
-     * @param first of type int
+     * @param first  of type int
      * @param second of type int
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Warehouse#lvlExchange
      */
     public void rearrangeWarehouse(int first, int second){
         warehouse.lvlExchange(first, second);
     }
 
     /**
-     * @see Warehouse#getWareContent()
      * @return Pick
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Warehouse#getWareContent()
      */
     public List<Pick> checkWarehouseStatus(){
         return warehouse.getWareContent();
     }
 
     /**
-     * @see Warehouse#checkAdd(int, Pick)
      * @param pick of type Pick
-     * @param lvl of type int
+     * @param lvl  of type int
      * @return boolean
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Warehouse#checkAdd(int, Pick)
      */
     public boolean checkWarehouseAdd(Pick pick, int lvl){
         return warehouse.checkAdd(lvl, pick);
     }
 
     /**
-     * @see Library#getSlot()
      * @return CardDev
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Library#getSlot()
      */
     public List<ArrayList<CardDev>> checkLibraryStatus(){
         return library.getSlot();
     }
 
     /**
-     * @see StrongBox#getStrongContent()
      * @return Map
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see StrongBox#getStrongContent()
      */
     public Map<Colours, Integer> checkStrongBoxStatus(){
         return strongBox.getStrongContent();
     }
 
     /**
-     * method takeFromWarehouse takes resources from warehouse
-     * @see #storeW(int, Pick[])
-     * @see Warehouse#isThereThatRes(Colours)
+     * Method takeFromWarehouse takes resources from warehouse
+     *
      * @param colour of type Colours
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see #storeW(int, Pick[])
+     * @see Warehouse#isThereThatRes(Colours)
      */
     public void takeFromWarehouse(Colours colour){
         var lvl = warehouse.isThereThatRes(colour);
@@ -366,12 +380,13 @@ public class Board{
     }
 
     /**
-     * method storeW stores Resources in the Warehouse
-     * @see #updateResAll()
-     * @see Warehouse#moveResources(int, Pick)
-     * @param lvl of type int - Warehouse's depot
+     * Method storeW stores Resources in the Warehouse
+     *
+     * @param lvl   of type int - Warehouse's shelf
      * @param start of type Pick
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see #updateResAll()
+     * @see Warehouse#moveResources(int, Pick)
      */
     public void storeW(int lvl, Pick[] start){
         for(var pick : start){
@@ -381,10 +396,11 @@ public class Board{
     }
 
     /**
-     * method updateResAll updates all of the resources in the board
+     * Method updateResAll updates all of the resources in the board
+     *
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Warehouse#getWareContent()
      * @see StrongBox#getStrongContent()
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void updateResAll(){
         var w = warehouse.getWareContent();
@@ -405,22 +421,23 @@ public class Board{
     public int checkFT(){return faithTrack.getPosition();}
 
     /**
-     * method takeFromStrongBox takes resources from the strongbox
+     * Method takeFromStrongBox takes resources from the strongbox
+     *
      * @param colour of type Colours
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void takeFromStrongBox(Colours colour){
-        storeSB(new Pick[]{new Pick(colour, -1)});
+        storeInStrongBox(new Pick[]{new Pick(colour, -1)});
     }
 
     /**
-     * method storeSB stores production result into StrongBox
-     * @see StrongBox#moveResources(Pick)
-     * @see #updateResAll()
+     * Method storeInStrongBox stores production result into StrongBox
+     *
      * @param start of type Pick
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see #updateResAll()
      */
-    public void storeSB(Pick[] start){
+    public void storeInStrongBox(Pick[] start){
         for(Pick pick : start){
             strongBox.moveResources(pick);
         }
@@ -428,7 +445,7 @@ public class Board{
     }
 
     public void produce(CardDev card){
-        storeSB(card.getResTo());
+        storeInStrongBox(card.getResTo());
     }
 
     public void checkVaticanReport(){

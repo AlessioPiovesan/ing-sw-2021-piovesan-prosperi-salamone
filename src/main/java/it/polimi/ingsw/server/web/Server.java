@@ -20,7 +20,6 @@ import java.util.Map;
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  * @see Runnable
  */
-
 public class Server implements Runnable{
 
     private final ServerSocket serverSocket;
@@ -60,7 +59,6 @@ public class Server implements Runnable{
      * @param players        of type Int - Number of Players
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
-
     public synchronized void lobby(SocketServerToClient socketToClient, String name, int players){
         waitingForConnection.put(name, socketToClient);
         socketToClient.send("Hi " + name + " you are in the lobby, please wait.");
@@ -97,7 +95,6 @@ public class Server implements Runnable{
      * @param socketToClient of type SocketServerToClient - Socket that represents the connection with a Client
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
-
     public synchronized void deregisterConnection(SocketServerToClient socketToClient){
         var opponent = playingConnection.get(socketToClient);
         while(opponent != null){
@@ -124,7 +121,6 @@ public class Server implements Runnable{
      * @param socket of type SocketServerToClient - Socket that represents the connection with a client.
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
-
     public void checkExistNickname(String name, SocketServerToClient socket){
         if(players.contains(name)) socket.send("nicknameNo::");
         else socket.send("nicknameYes::" + name);

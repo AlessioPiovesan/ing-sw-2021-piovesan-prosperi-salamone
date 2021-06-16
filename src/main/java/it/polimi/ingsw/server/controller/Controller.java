@@ -4,7 +4,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * class Controller is a class that contains every single game's controller.
+ * Class Controller is a class that contains every single game's controller.
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
 public class Controller{

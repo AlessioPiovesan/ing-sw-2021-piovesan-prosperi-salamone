@@ -378,7 +378,7 @@ public class CLI implements Runnable, UI{
                 var qntTaken = -pick.getQnt();
                 switch(j){
                     case 0 -> prepareResForWarehouse(resourceTaken, qntTaken);
-                    case 1 -> player.storeSB(new Pick[]{new Pick(resourceTaken, qntTaken)});
+                    case 1 -> player.storeInStrongBox(new Pick[]{new Pick(resourceTaken, qntTaken)});
                     default -> output.println("Not possible");
                 }
             }

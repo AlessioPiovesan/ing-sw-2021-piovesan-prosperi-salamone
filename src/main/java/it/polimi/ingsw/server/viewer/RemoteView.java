@@ -16,7 +16,6 @@ import java.util.Scanner;
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  * @see PropertyChangeListener
  */
-
 public class RemoteView implements PropertyChangeListener{
 
     private final SocketServerToClient socketServerToClient;
@@ -59,7 +58,7 @@ public class RemoteView implements PropertyChangeListener{
         var input = new Scanner(System.in);
         var k = Integer.parseInt(input.nextLine());
         var risposta = Colours.valid().get(k);
-        System.out.println("Which depot? (1, 2, 3)");
+        System.out.println("Which shelf? [1-3]");
         var j = Integer.parseInt(input.nextLine());
         mettiRisorseNelMagazzino(0, risposta, 1, j);
 

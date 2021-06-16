@@ -15,7 +15,6 @@ import java.util.stream.IntStream;
  *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
-
 public class Market{
 
     private final LinkedList<Colours> marbles = new LinkedList<>();

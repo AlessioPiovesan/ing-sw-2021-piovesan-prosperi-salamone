@@ -7,7 +7,6 @@ import java.util.HashMap;
 /**
  * Class Mod is a class that contains every single game's Model.
  */
-
 public class Mod{
 
     private static int idGame = 0;

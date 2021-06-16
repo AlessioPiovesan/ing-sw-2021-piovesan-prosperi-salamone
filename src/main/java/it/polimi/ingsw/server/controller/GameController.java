@@ -11,10 +11,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * class GameController is the controller that handles one game.
+ * Class GameController is the controller that handles one game.
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
-
 public class GameController{
 
     private final BoardController[] boardController;
@@ -33,8 +33,9 @@ public class GameController{
     }
 
     /**
-     * method setBoardController creates boards based on the number of players.
+     * Method setBoardController creates boards based on the number of players.
      * links a board to his board controller.
+     *
      * @see Game#getNGamers()
      * @see Game#getSingleB(int)
      */
@@ -45,11 +46,12 @@ public class GameController{
     }
 
     /**
-     * method addFaithPnt gives Faith Points to the players not playing if the current player decides
+     * Method addFaithPnt gives Faith Points to the players not playing if the current player decides
      * to discard some resources.
-     * @see Board#moveFT(int)
+     *
      * @param waste of type Colours
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @see Board#moveFT(int)
      */
     public void addFaithPnt(List<Colours> waste){
         int a = waste.size();
@@ -60,22 +62,19 @@ public class GameController{
         }
     }
 
-    public void cardDevAction(CardDev cardToBeBought){
+    public void cardDevAction(CardDev cardToBeBought, int slot){
         Board b = game.getSingleB(game.getPlayingPlayer());
         game.getCardDevDeck().remove(cardToBeBought);
-        /*manca da chiedere lo slot*/
-        //b.buyCardDev(cardToBeBought, slot);
+        b.buyCardDev(cardToBeBought, slot);
     }
 
     public void nextPlayer(){
-        /*Riceve le scelte del giocatore e manda avanti la partita*/
         game.setPlayingPlayer(game.checkNext());
     }
 
     public BoardController[] getBoardController(){return boardController;}
 
     public void cardLeadAction(CardLeader cardToBeActivated){
-        /*attiva quella carta leader*/
         switch(cardToBeActivated){
             case CARDLEAD01, CARDLEAD02, CARDLEAD03, CARDLEAD04:{
                 Board b = game.getSingleB(game.getPlayingPlayer());
@@ -102,13 +101,13 @@ public class GameController{
     }
 
     /**
-     * method startGame is used to start a Game
+     * Method startGame is used to start a Game
+     *
+     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Game#checkNext()
      * @see #leaderCardsHandler()
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void startGame(){
-        out.println("Operazioni iniziali"); /*DA CANCELLARE*/
         game.checkNext();
         leaderCardsHandler();
     }
@@ -129,31 +128,16 @@ public class GameController{
         }
     }
 
-    public synchronized void initialResourcesHandler(){
+    public void initialResourcesHandler(){
         game.pickStartingResources();
     }
 
     public void marketAction(int moveMarket){
         var b = game.getSingleB(game.getPlayingPlayer());
         var m = game.getMarket();
-        /*sposta le biglie nel mercato*/
         LinkedList<Colours> res = (LinkedList<Colours>)m.moveMarbles(moveMarket);
-        /*mando nella funzione che manda a far scegliere al giocatore che fare di queste risorse*/
         b.marketResHandler(res);
     }
-
-    //    public void prodAction(){
-    //        var b = game.getSingleB(game.getPlayingPlayer());
-    //        /*parte la produzione di tutto quello che c'è sulla plancia*/
-    //        b.productionAll();
-    //        update();
-    //    }
-    //
-    //    public void prodAction(Colours colour){
-    //        Board b = game.getSingleB(game.getPlayingPlayer());
-    //        /*parte la produzione di tutto quello che c'è sulla plancia*/
-    //        b.productionExtra(colour);
-    //    }
 
     public void resolveLeaderConflictInMarket(boolean i){
         var b = game.getSingleB(game.getPlayingPlayer());

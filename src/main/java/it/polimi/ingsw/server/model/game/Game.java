@@ -14,7 +14,6 @@ import java.util.Random;
  *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
-
 public class Game{
 
     private static int nGamers = 4;

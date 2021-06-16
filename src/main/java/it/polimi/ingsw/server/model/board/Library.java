@@ -12,7 +12,6 @@ import java.util.List;
  *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
-
 public class Library{
 
     /* Creation CardDev slot for each board */
