@@ -42,7 +42,8 @@ public class MastersOfRenaissanceGUI extends Application{
         stage.setTitle("Masters Of Renaissance");
         stage.setScene(currentScene);
         stage.show();
-        var resize = new ResizeHandler((AnchorPane)currentScene.lookup("#mainPane"));
+        var pane = (AnchorPane)currentScene.lookup("#mainPane");
+        var resize = new ResizeHandler(pane);
         currentScene.widthProperty().addListener(resize.getWidthListener());
         currentScene.heightProperty().addListener(resize.getHeightListener());
     }

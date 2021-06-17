@@ -30,9 +30,9 @@ public class ResizeHandler{
      * @param pane of type Pane
      */
     public ResizeHandler(Pane pane){
-        calculateResize(pane, pane);
         nodes = new ArrayList<>();
         properties = new ArrayList<>();
+        calculateResize(pane, pane);
     }
 
     /**
@@ -72,7 +72,14 @@ public class ResizeHandler{
             fontSize = getFontSize(pane, (TextField)node);
         }
         properties.add((ArrayList<Double>)getNewParameters(pane, fontSize, node, bounds));
-        if(node instanceof Pane && !(node instanceof GridPane)) calculateResize(pane, (Pane)node);
+        if(isAPaneNotAGridPane(node)){
+            assert node instanceof Pane;
+            calculateResize(pane, (Pane)node);
+        }
+    }
+
+    private boolean isAPaneNotAGridPane(Node node){
+        return node instanceof Pane && !(node instanceof GridPane);
     }
 
     private void resizeHeight(Number newSceneHeight, int i){
@@ -97,9 +104,7 @@ public class ResizeHandler{
             ((ImageView)nodes.get(i)).setFitWidth(properties.get(i).get(0) * newSceneWidth.intValue());
             nodes.get(i).setLayoutX(properties.get(i).get(2) * newSceneWidth.intValue());
         }
-        else if(nodes.get(i) instanceof AnchorPane &&
-                nodes.get(i).getId() != null &&
-                nodes.get(i).getId().equalsIgnoreCase("#gridPane")){
+        else if(nodes.get(i) instanceof AnchorPane && nodes.get(i).getId() != null && nodes.get(i).getId().equalsIgnoreCase("#gridPane")){
             double offset;
             nodes.get(i).setScaleX(newSceneWidth.doubleValue() / rootWidth);
             offset = ((nodes.get(i).getScaleX() - 1) / 2) * properties.get(i).get(0) * newSceneWidth.doubleValue();
