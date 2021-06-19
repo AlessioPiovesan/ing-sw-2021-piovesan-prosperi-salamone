@@ -5,13 +5,4 @@ package it.polimi.ingsw.server.accessories;
  *
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
-public record Pick(Colours resource, int qnt){
-
-    public Colours getResource(){
-        return resource;
-    }
-
-    public int getQnt(){
-        return qnt;
-    }
-}
+public record Pick(Colours resource, int qnt){}

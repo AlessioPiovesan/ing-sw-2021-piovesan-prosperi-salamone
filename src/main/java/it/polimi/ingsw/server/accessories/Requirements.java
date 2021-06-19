@@ -49,8 +49,8 @@ public interface Requirements{
 
         public RequirementsResources(Pick[] picks){
             for(Pick pick : picks){
-                this.type = pick.getResource();
-                this.qnt = pick.getQnt();
+                this.type = pick.resource();
+                this.qnt = pick.qnt();
             }
         }
 

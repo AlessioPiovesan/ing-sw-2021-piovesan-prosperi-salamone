@@ -138,6 +138,6 @@ public class GUI extends Application implements UI{
     }
 
     public void chooseInitialLeaders(CardLeader[] selected){
-        if(single) LocalGameController.getInstance().getBoardController().getPlayer().setMyLeaderCards(selected);
+        if(single) LocalGameController.getInstance().getBoardController().player().setMyLeaderCards(selected);
     }
 }

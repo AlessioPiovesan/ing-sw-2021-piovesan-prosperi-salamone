@@ -22,7 +22,7 @@ public class Board{
     private final StrongBox strongBox;
     private final Library library;
     private final EnumMap<Colours, Integer> resAll;
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private final PropertyChangeSupport pcs;
     private final int idD;
     private final Colours[] discount;
     private final Colours[] marketAlt;
@@ -53,6 +53,7 @@ public class Board{
         marketAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
         productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
         ready = false;
+        pcs = new PropertyChangeSupport(this);
     }
 
     public void somethingIsWrong(String s){
@@ -275,9 +276,9 @@ public class Board{
         var list = warehouse.checkStatus();
         for(var i = 0; i < 3; i++){
             for(var j = 0; j < 3; j++){
-                if(j < list.get(i).getQnt()){
+                if(j < list.get(i).qnt()){
                     var thisDepotPick = list.get(i);
-                    pseudoWarehouse[i][j] = thisDepotPick.getResource();
+                    pseudoWarehouse[i][j] = thisDepotPick.resource();
                 }
                 pseudoWarehouse[i][j] = null;
             }
@@ -413,7 +414,7 @@ public class Board{
         map.put(Colours.GREY, 0);
         map.put(Colours.YELLOW, 0);
         for(var pick : w)
-            if(pick.getResource() != Colours.WHITE) map.put(pick.getResource(), pick.getQnt());
+            if(pick.resource() != Colours.WHITE) map.put(pick.resource(), pick.qnt());
         sKeys.forEach(key -> map.put(key, s.get(key) + map.get(key)));
         resAllKeys.forEach(key -> resAll.put(key, map.get(key)));
     }

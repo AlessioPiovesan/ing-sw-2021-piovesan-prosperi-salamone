@@ -7,14 +7,6 @@ import it.polimi.ingsw.server.model.board.Board;
 
 public record LocalBoardController(Board player, Lorenzo lorenzo){
 
-    public Lorenzo getLorenzo(){
-        return lorenzo;
-    }
-
-    public Board getPlayer(){
-        return player;
-    }
-
     public void warehouseResHandler(Colours colour, int qnt, int lvl){
         player.storeW(lvl, new Pick[]{new Pick(colour, qnt)});
     }

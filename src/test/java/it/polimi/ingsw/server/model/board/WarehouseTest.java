@@ -39,8 +39,8 @@ class WarehouseTest{
         w.moveResources(0, new Pick(Colours.BLUE, 1));
         w.moveResources(2, new Pick(Colours.YELLOW, 1));
         w.lvlExchange(0, 2);
-        assertEquals(Colours.YELLOW, w.getWareContent().get(0).getResource());
-        assertEquals(Colours.BLUE, w.getWareContent().get(2).getResource());
+        assertEquals(Colours.YELLOW, w.getWareContent().get(0).resource());
+        assertEquals(Colours.BLUE, w.getWareContent().get(2).resource());
     }
 
     @Test
@@ -49,8 +49,8 @@ class WarehouseTest{
         var list = w.checkStatus();
         assertEquals(3, list.size());
         IntStream.range(0, 3).mapToObj(list::get).forEachOrdered(pick -> {
-            assertEquals(Colours.WHITE, pick.getResource());
-            assertEquals(0, pick.getQnt());
+            assertEquals(Colours.WHITE, pick.resource());
+            assertEquals(0, pick.qnt());
         });
     }
 
@@ -58,8 +58,8 @@ class WarehouseTest{
     void checkLvlStatusTest(){
         var w = new Warehouse();
         IntStream.range(0, 3).mapToObj(w::checkLvlStatus).forEachOrdered(pick -> {
-            assertEquals(Colours.WHITE, pick.getResource());
-            assertEquals(0, pick.getQnt());
+            assertEquals(Colours.WHITE, pick.resource());
+            assertEquals(0, pick.qnt());
         });
     }
 

@@ -35,9 +35,9 @@ public class StrongBox{
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected void moveResources(Pick res){
-        var color = res.getResource();
+        var color = res.resource();
         int old = strongContent.get(color);
-        var add = res.getQnt();
+        var add = res.qnt();
         strongContent.put(color, old + add);
     }
 

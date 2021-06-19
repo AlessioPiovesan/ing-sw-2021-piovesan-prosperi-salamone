@@ -11,7 +11,7 @@ class PickTest{
         var color = Colours.BLUE;
         var qnt = 3;
         var pick = new Pick(color, qnt);
-        assertEquals(color, pick.getResource());
-        assertEquals(qnt, pick.getQnt());
+        assertEquals(color, pick.resource());
+        assertEquals(qnt, pick.qnt());
     }
 }

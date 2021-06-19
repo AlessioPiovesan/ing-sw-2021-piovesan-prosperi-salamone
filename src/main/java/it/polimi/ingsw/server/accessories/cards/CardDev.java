@@ -120,7 +120,7 @@ public enum CardDev implements Card{
     private String showPick(Pick[] picks){
         var string = new StringBuilder();
         for(var pick : picks)
-            string.append(pick.getQnt()).append(" - ").append(pick.getResource().getType()).append("\t");
+            string.append(pick.qnt()).append(" - ").append(pick.resource().getType()).append("\t");
         return String.valueOf(string);
     }
 

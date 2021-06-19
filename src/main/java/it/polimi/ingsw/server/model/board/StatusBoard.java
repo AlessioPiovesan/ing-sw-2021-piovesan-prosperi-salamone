@@ -13,29 +13,4 @@ import java.util.Map;
  * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
  */
 public record StatusBoard(Colours[][] warehouse, int faithTrack, Map<Colours, Integer> strongBox, List<CardDev> library,
-        Map<Colours, Integer> resAll, CardLeader[] myLeaderCards){
-
-    public Colours[][] getWarehouse(){
-        return warehouse;
-    }
-
-    public int getFaithTrack(){
-        return faithTrack;
-    }
-
-    public Map<Colours, Integer> getStrongBox(){
-        return strongBox;
-    }
-
-    public List<CardDev> getLibrary(){
-        return library;
-    }
-
-    public Map<Colours, Integer> getResAll(){
-        return resAll;
-    }
-
-    public CardLeader[] getMyLeaderCards(){
-        return myLeaderCards;
-    }
-}
+        Map<Colours, Integer> resAll, CardLeader[] myLeaderCards){}

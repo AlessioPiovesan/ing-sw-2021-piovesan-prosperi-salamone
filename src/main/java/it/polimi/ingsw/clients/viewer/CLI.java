@@ -63,14 +63,14 @@ public class CLI implements Runnable, UI{
                     if(single) getGameController().nextPlayer();
                     else Controller.getInstance().getGameControllerById(0);
                 }
-                case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
+                case "LorenzoActionPrint" -> output.println(evt.getNewValue());
                 case "redCrossMove" -> getGameController().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
                 case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Utils.castList(Colours.class, (Collection<?>)evt.getNewValue()));
                 case "productionBuffer" -> resourcesHandler(Utils.castList(Pick.class, (Collection<?>)evt.getNewValue()));
                 case "costCardDev" -> payForCardDev(Utils.castList(Pick.class, (Collection<?>)evt.getNewValue()));
-
                 case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
+                case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
                 default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
             }
         });
@@ -80,8 +80,8 @@ public class CLI implements Runnable, UI{
         showWarehouse();
         showStrongBox();
         for(var pick : cost){
-            var color = pick.getResource();
-            for(var i = 0; i < pick.getQnt(); i++){
+            var color = pick.resource();
+            for(var i = 0; i < pick.qnt(); i++){
                 output.println("The resource that needs handling is:");
                 var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1) StrongBox\n>\t", "Wrong option");
                 if(j == 0) getGameController().getBoardController().takeFromWarehouse(color);
@@ -109,7 +109,7 @@ public class CLI implements Runnable, UI{
         if(single){
             var game = getGameController();
             var boardController = game.getBoardController();
-            var player = boardController.getPlayer();
+            var player = boardController.player();
             player.setMyLeaderCards(finale);
         }
     }
@@ -124,7 +124,8 @@ public class CLI implements Runnable, UI{
                              2) Show Strongbox
                              3) Show card on board
                              4) Show Faith Track
-                             5) Main menu
+                             5) Show your Leader Cards
+                             6) Main menu
                              >\040\040""");
                 output.flush();
                 s = input.nextInt();
@@ -136,11 +137,12 @@ public class CLI implements Runnable, UI{
                     case 1 -> showWarehouse();
                     case 2 -> showStrongBox();
                     case 3 -> showLibrary();
-                    case 4 -> {
+                    case 4 -> showMyCardLeader();
+                    case 5 -> {
                         if(single) showFaithTrackSingle();
                         else showFaithTrack();
                     }
-                    case 5 -> output.println("Ok");
+                    case 6 -> output.println("Ok");
                     default -> output.print("There's no way you were able to that... I think...");
                 }
             } while(s != 5);
@@ -149,6 +151,15 @@ public class CLI implements Runnable, UI{
             output.println("Not a number");
             showStatus();
         }
+    }
+
+    private void showMyCardLeader(){
+        printLine();
+        output.println("These are your leader cards:");
+        var boardController = getGameController().getBoardController();
+        var cards = boardController.player().getMyLeaderCards();
+        for(var singleCard : cards) output.println(singleCard);
+        printLine();
     }
 
     private void showFaithTrack(){
@@ -182,8 +193,8 @@ public class CLI implements Runnable, UI{
     }
 
     private void showFaithTrackSingle(){
-        final var pos = getGameController().getBoardController().getPlayer().checkFT();
-        final var posL = getGameController().getBoardController().getLorenzo().checkFT();
+        final var pos = getGameController().getBoardController().player().checkFT();
+        final var posL = getGameController().getBoardController().lorenzo().checkFT();
         var normal = "███";
         var central = ConsoleColors.RED_BOLD + "███" + ConsoleColors.RESET;
         var top = "█" + ConsoleColors.RED_BOLD + "█" + ConsoleColors.RESET + "█";
@@ -286,14 +297,14 @@ public class CLI implements Runnable, UI{
                 default -> output.println("Not Possible");
             }
         } catch(InputMismatchException e){
-            output.println("Not even a number");
+            output.println("Not even a number\nRetry:\n>\t");
             nextAction();
         }
     }
 
     private synchronized void startProd(){
         var boardController = getGameController().getBoardController();
-        var player = boardController.getPlayer();
+        var player = boardController.player();
         var library = player.checkLibraryStatus();
         for(var librarySlot : library){
             if(librarySlot.isEmpty()){
@@ -303,12 +314,12 @@ public class CLI implements Runnable, UI{
             else{
                 librarySlot = (ArrayList<CardDev>)Utils.castList(CardDev.class, canUseAnyCardDev(librarySlot));
                 if(!librarySlot.isEmpty()){
-                    var activableCard = librarySlot.get(librarySlot.size() - 1);
+                    var actionableCard = librarySlot.get(librarySlot.size() - 1);
                     output.println("Do you want to activate");
-                    output.println(activableCard);
+                    output.println(actionableCard);
                     output.println("[y/n]");
                     var r = input.next();
-                    if(Objects.equals(r, "y")) activateProdCard(activableCard);
+                    if(Objects.equals(r, "y")) activateProdCard(actionableCard);
                     else output.println("You refused");
                 }
                 else output.println("You don't have the resources to activate any development card");
@@ -320,12 +331,12 @@ public class CLI implements Runnable, UI{
         var boardController = getGameController().getBoardController();
         var resFrom = card.getResFrom();
         for(var pick : resFrom){
-            var color = pick.getResource();
+            var color = pick.resource();
             var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t", "Wrong option");
             if(j == 0) boardController.takeFromWarehouse(color);
             else boardController.takeFromStrongbox(color);
         }
-        var player = boardController.getPlayer();
+        var player = boardController.player();
         player.produce(card);
     }
 
@@ -371,7 +382,7 @@ public class CLI implements Runnable, UI{
         output.println("Where do you want to pick them from?");
         try{
             for(Pick pick : bufferProd){
-                var color = pick.getResource();
+                var color = pick.resource();
                 output.println(color.getType());
                 output.println("0)Warehouse o 0)StrongBox?");
                 var j = input.nextInt();
@@ -380,9 +391,9 @@ public class CLI implements Runnable, UI{
                     j = input.nextInt();
                 }
                 var boardController = getGameController().getBoardController();
-                var player = boardController.getPlayer();
-                var resourceTaken = pick.getResource();
-                var qntTaken = -pick.getQnt();
+                var player = boardController.player();
+                var resourceTaken = pick.resource();
+                var qntTaken = -pick.qnt();
                 switch(j){
                     case 0 -> prepareResForWarehouse(resourceTaken, qntTaken);
                     case 1 -> player.storeInStrongBox(new Pick[]{new Pick(resourceTaken, qntTaken)});
@@ -447,7 +458,7 @@ public class CLI implements Runnable, UI{
         var s = input.next();
         if(s.charAt(0) == 'y') client.asyncSend("checkNickname::" + name);
         else{
-            output.println("Ok, try again");
+            output.println("Ok, try again\n>\t");
             chooseNickname();
         }
     }
@@ -614,7 +625,7 @@ public class CLI implements Runnable, UI{
     }
 
     private boolean isAddable(CardDev card, int slot){
-        var slotCards = getGameController().getBoardController().getPlayer().checkLibraryStatus().get(slot - 1);
+        var slotCards = getGameController().getBoardController().player().checkLibraryStatus().get(slot - 1);
         if(slotCards.isEmpty()) return card.getLvl() == 1;
         else return switch(card.getLvl()){
             case 2 -> slotCards.get(slotCards.size() - 1).getLvl() != 1;
@@ -625,14 +636,14 @@ public class CLI implements Runnable, UI{
 
     private List<Card> canBuyAnyCardDev(List<CardDev> cards){
         var boardController = getGameController().getBoardController();
-        var player = boardController.getPlayer();
+        var player = boardController.player();
         var resAll = player.getResAll();
         var list = new LinkedList<Card>();
         for(var card : cards){
             var i = 0;
             for(var cost : card.getCost()){
-                var costColor = cost.getResource();
-                var costQnt = cost.getQnt();
+                var costColor = cost.resource();
+                var costQnt = cost.qnt();
                 var availability = resAll.get(costColor);
                 if(costQnt <= availability) i++;
             }
@@ -643,13 +654,13 @@ public class CLI implements Runnable, UI{
 
     private List<Card> canUseAnyCardDev(List<CardDev> cards){
         var boardController = getGameController().getBoardController();
-        var player = boardController.getPlayer();
+        var player = boardController.player();
         var resAll = player.getResAll();
         var list = new LinkedList<Card>();
         for(var card : cards){
             var i = 0;
             for(var cost : card.getResFrom())
-                if(cost.getQnt() <= resAll.get(cost.getResource())) i++;
+                if(cost.qnt() <= resAll.get(cost.resource())) i++;
             if(i == card.getResFrom().length) list.add(card);
         }
         return list;
@@ -657,7 +668,7 @@ public class CLI implements Runnable, UI{
 
     private List<Card> canUseAnyCardLeader(CardLeader[] cards){
         var boardController = getGameController().getBoardController();
-        var player = boardController.getPlayer();
+        var player = boardController.player();
         var resAll = player.getResAll();
         var slots = player.checkLibraryStatus();
         var list = new LinkedList<Card>();
@@ -699,7 +710,7 @@ public class CLI implements Runnable, UI{
 
     private synchronized void wakeALeader(){
         var boardController = getGameController().getBoardController();
-        var player = boardController.getPlayer();
+        var player = boardController.player();
         var actual = canUseAnyCardLeader(player.getMyLeaderCards());
         if(actual.isEmpty()){
             output.println("You can not activate any leader at the moment");
@@ -726,7 +737,7 @@ public class CLI implements Runnable, UI{
             output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
             output.flush();
             var lvl = getWarehouseShelfLvl();
-            var player = bc.getPlayer();
+            var player = bc.player();
             while(!player.checkWarehouseAdd(newPick, lvl)){
                 response = getResponse();
                 lvl = actOnResponse(colour, response, lvl, getGameController());
@@ -741,14 +752,14 @@ public class CLI implements Runnable, UI{
         switch(response){
             case 1 -> getGameController().addFaithPnt(Collections.singletonList(colour));
             case 2 -> {
-                var player = boardController.getPlayer();
+                var player = boardController.player();
                 var content = player.checkWarehouseStatus();
                 output.println("Starting shelf?");
                 var first = getWarehouseShelfLvl();
-                var firstQnt = content.get(first).getQnt();
+                var firstQnt = content.get(first).qnt();
                 output.println("Destination?");
                 var second = getWarehouseShelfLvl();
-                var secondQnt = content.get(second).getQnt();
+                var secondQnt = content.get(second).qnt();
                 if(first + 1 >= secondQnt && second + 1 >= firstQnt) boardController.rearrangeWarehouse(first, second);
                 else output.println("You can't do that");
                 showWarehouse();
@@ -759,6 +770,7 @@ public class CLI implements Runnable, UI{
                 output.flush();
                 lvl = getWarehouseShelfLvl();
             }
+            case 4 -> nextAction();
             default -> output.println("Not possible");
         }
         return lvl;
@@ -772,10 +784,11 @@ public class CLI implements Runnable, UI{
                      1) Discard the resource
                      2) Rearrange the warehouse
                      3) Put on an other shelf
+                     4) Previous menu
                      >\040\040""");
         output.flush();
         response = input.nextInt();
-        while(response < 1 || response > 3){
+        while(response < 1 || response > 4){
             output.println("Not a valid command\n>\t");
             response = input.nextInt();
         }
@@ -795,16 +808,16 @@ public class CLI implements Runnable, UI{
         printLine();
         output.println("At the moment the situation with the warehouse is this:");
         var boardController = getGameController().getBoardController();
-        var content = boardController.getPlayer().checkWarehouseStatus();
+        var content = boardController.player().checkWarehouseStatus();
         var i = 0;
         for(var pick : content)
-            if(pick.getResource() == Colours.WHITE){
+            if(pick.resource() == Colours.WHITE){
                 output.println("This shelf is empty");
                 i++;
             }
             else{
-                var color = pick.getResource();
-                var qnt = pick.getQnt();
+                var color = pick.resource();
+                var qnt = pick.qnt();
                 output.println("On shelf #" + ++i + " there are " + qnt + " " + color.getType() + " resources");
             }
         printLine();
@@ -814,7 +827,7 @@ public class CLI implements Runnable, UI{
         printLine();
         output.println("These are your board slots:");
         var boardController = getGameController().getBoardController();
-        var slots = boardController.getPlayer().checkLibraryStatus();
+        var slots = boardController.player().checkLibraryStatus();
         var i = 0;
         for(var thisSlot : slots)
             if(thisSlot.isEmpty()){
@@ -833,7 +846,7 @@ public class CLI implements Runnable, UI{
         printLine();
         output.println("This is what's in your StrongBox:");
         var boardController = getGameController().getBoardController();
-        var player = boardController.getPlayer();
+        var player = boardController.player();
         var map = player.checkStrongBoxStatus();
         map.keySet().stream().map(color -> color.getType() + " -> " + map.get(color)).forEach(output::println);
         printLine();

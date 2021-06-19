@@ -42,8 +42,8 @@ public class Warehouse{
      * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected void moveResources(int lvl, Pick add){
-        int qntNow = wareContent.get(lvl).getQnt();
-        wareContent.set(lvl, new Pick(add.getResource(), add.getQnt() + qntNow));
+        int qntNow = wareContent.get(lvl).qnt();
+        wareContent.set(lvl, new Pick(add.resource(), add.qnt() + qntNow));
         checkIfEmptied();
     }
 
@@ -55,7 +55,7 @@ public class Warehouse{
      */
     private void checkIfEmptied(){
         for(var i = 0; i < 3; i++)
-            if(wareContent.get(i).getQnt() == 0) wareContent.set(i, new Pick(Colours.WHITE, 0));
+            if(wareContent.get(i).qnt() == 0) wareContent.set(i, new Pick(Colours.WHITE, 0));
     }
 
     /**
@@ -67,9 +67,9 @@ public class Warehouse{
      * @see #isThereThatRes(Colours)
      */
     protected boolean checkAdd(Pick add){
-        if(add.getQnt() < 4){
-            int lvl = isThereThatRes(add.getResource());
-            if(lvl > 0) return ((checkLvlStatus(lvl).getQnt() + add.getQnt()) <= lvl + 1);
+        if(add.qnt() < 4){
+            int lvl = isThereThatRes(add.resource());
+            if(lvl > 0) return ((checkLvlStatus(lvl).qnt() + add.qnt()) <= lvl + 1);
             return isThereThatRes(Colours.WHITE) >= 0;
         }
         return false;
@@ -86,7 +86,7 @@ public class Warehouse{
     protected int isThereThatRes(Colours color){
         for(var i = 0; i < wareContent.size(); i++){
             var pick = wareContent.get(i);
-            if(pick.getResource() == color) return i;
+            if(pick.resource() == color) return i;
         }
         return -1;
     }
@@ -114,12 +114,12 @@ public class Warehouse{
      * @see #checkLvlStatus(int)
      */
     protected boolean checkAdd(int lvl, Pick add){
-        if(add.getQnt() < 4){
-            var i = isThereThatRes(add.getResource());
+        if(add.qnt() < 4){
+            var i = isThereThatRes(add.resource());
             var j = checkLvlStatus(lvl);
-            if(lvl == i) return ((j.getQnt() + add.getQnt()) <= (lvl + 1));
+            if(lvl == i) return ((j.qnt() + add.qnt()) <= (lvl + 1));
             else if(i > -1) return false;
-            else return j.getResource() == Colours.WHITE;
+            else return j.resource() == Colours.WHITE;
         }
         return false;
     }

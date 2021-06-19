@@ -16,30 +16,16 @@ public enum SoloAction{
     private static final Random random = new Random();
 
     public static void action(SoloAction sa){
-        sa.printSA(sa);
         switch(sa){
             case AS1 -> LocalGameController.getInstance().tossCardDev(ColoursCards.GREEN);
             case AS2 -> LocalGameController.getInstance().tossCardDev(ColoursCards.YELLOW);
             case AS3 -> LocalGameController.getInstance().tossCardDev(ColoursCards.CYAN);
             case AS4 -> LocalGameController.getInstance().tossCardDev(ColoursCards.VIOLET);
-            case AS5, AS6 -> LocalGameController.getInstance().getBoardController().getLorenzo().moveFT(2);
+            case AS5, AS6 -> LocalGameController.getInstance().getBoardController().lorenzo().moveFT(2);
             case AS7 -> {
-                LocalGameController.getInstance().getBoardController().getLorenzo().moveFT(1);
+                LocalGameController.getInstance().getBoardController().lorenzo().moveFT(1);
                 shuffle();
             }
-            default -> doNothing();
-        }
-    }
-
-    private void printSA(SoloAction sa){
-        switch(sa){
-            case AS1 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 GREEN Development Cards" + ConsoleColors.RESET);
-            case AS2 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 YELLOW Development Cards" + ConsoleColors.RESET);
-            case AS3 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 CYAN Development Cards" + ConsoleColors.RESET);
-            case AS4 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 VIOLET Development Cards" + ConsoleColors.RESET);
-            case AS5, AS6 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo's Black Cross token goes 2 spaces forward" + ConsoleColors.RESET);
-            case AS7 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo's Black Cross token goes 1 spaces forward and a new stack of the Solo Actions is created" + ConsoleColors.RESET);
-            default -> doNothing();
         }
     }
 
@@ -63,8 +49,19 @@ public enum SoloAction{
         return heap;
     }
 
-    private static void doNothing(){
-        System.out.println("Something is not handled...");
+    public static String printSASingle(SoloAction sa){
+        return ConsoleColors.BLACK_BACKGROUND_BRIGHT + printSAString(sa) + ConsoleColors.RESET;
+    }
+
+    public static String printSAString(SoloAction sa){
+        return switch(sa){
+            case AS1 -> "Lorenzo take 2 GREEN Development Cards";
+            case AS2 -> "Lorenzo take 2 YELLOW Development Cards";
+            case AS3 -> "Lorenzo take 2 CYAN Development Cards";
+            case AS4 -> "Lorenzo take 2 VIOLET Development Cards";
+            case AS5, AS6 -> "Lorenzo's Black Cross token goes 2 spaces forward";
+            case AS7 -> "Lorenzo's Black Cross token goes 1 spaces forward and a new stack of the Solo Actions is created";
+        };
     }
 
     public static void pickSoloAction(List<SoloAction> list){

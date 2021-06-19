@@ -48,7 +48,7 @@ public class LocalGame{
         boards[0].setTemporaryLeaderCards(giveCardLead().toArray(CardLeader[]::new));
     }
 
-    public List<CardLeader> giveCardLead(){
+    private List<CardLeader> giveCardLead(){
         var cardPlayer = new ArrayList<CardLeader>();
         while(cardPlayer.size() < 4){
             cardPlayer.add(selectNextPlayableLeaderCards());

@@ -34,7 +34,10 @@ public class LocalGameController{
     }
 
     public void moveLorenzo(){
-        SoloAction.action(listSoloAction.get(0));
+        var sa = listSoloAction.get(0);
+        var message = SoloAction.printSASingle(sa);
+        boardController.lorenzo().printAction(message);
+        SoloAction.action(sa);
         SoloAction.pickSoloAction(listSoloAction);
         nextPlayer();
     }
@@ -62,7 +65,7 @@ public class LocalGameController{
     }
 
     public void marketAction(int moveMarket){
-        var b = boardController.getPlayer();
+        var b = boardController.player();
         var m = game.getMarket();
         /*move the marbles of the market*/
         LinkedList<Colours> res = (LinkedList<Colours>)m.moveMarbles(moveMarket);
@@ -72,7 +75,7 @@ public class LocalGameController{
 
     public void addFaithPnt(List<Colours> waste){
         int a = waste.size();
-        boardController.getLorenzo().moveFT(a);
+        boardController.lorenzo().moveFT(a);
     }
 
     public synchronized void cardLeadAction(CardLeader cardToBeActivated){
@@ -81,12 +84,12 @@ public class LocalGameController{
             case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08 -> game.getBoard(false).addLeaderSpace(cardToBeActivated.getSpecial());
             case CARDLEAD09, CARDLEAD10, CARDLEAD11, CARDLEAD12 -> game.getBoard(false).setMarketAlt(cardToBeActivated.getSpecial());
             case CARDLEAD13, CARDLEAD14, CARDLEAD15, CARDLEAD16 -> game.getBoard(false).setProductAlt(cardToBeActivated.getSpecial());
-            default -> boardController.getPlayer().somethingIsWrong("This card should not exist");
+            default -> boardController.player().somethingIsWrong("This card should not exist");
         }
     }
 
     public void cardDevAction(CardDev cardToBeBought, int slot){
-        var b = boardController.getPlayer();
+        var b = boardController.player();
         game.getCardDevDeck().remove(cardToBeBought);
         b.buyCardDev(cardToBeBought, slot);
     }
@@ -100,12 +103,14 @@ public class LocalGameController{
                     found = cardDev;
                     break;
                 }
-        if(found == null) endGame(false);
+        if(found == null){
+            endGame(false);
+        }
     }
 
     public String endGame(boolean winner){
         if(winner){
-            var win = boardController.getPlayer().countWinPnt();
+            var win = boardController.player().countWinPnt();
             return "YOU WON!\nYour record is " + win + " points!";
         }
         else return "YOU LOSE";
