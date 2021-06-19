@@ -6,9 +6,6 @@ import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.clients.viewer.GUI;
 import it.polimi.ingsw.clients.viewer.UI;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Local extends Client{
 
     private final UI ui;
@@ -20,6 +17,10 @@ public class Local extends Client{
         setSingle();
     }
 
+    private void setSingle(){
+        ui.setSingle(true);
+    }
+
     @Override
     public void run(){
         var gameController = LocalGameController.getInstance();
@@ -29,10 +30,6 @@ public class Local extends Client{
         var player = game.getBoard(false);
         player.addPropertyChangeListener(ui);
         gameController.startGame();
-    }
-
-    private void setSingle(){
-        ui.setSingle(true);
     }
 
 }

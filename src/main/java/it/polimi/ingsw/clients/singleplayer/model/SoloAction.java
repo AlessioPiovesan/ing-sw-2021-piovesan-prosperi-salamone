@@ -31,6 +31,18 @@ public enum SoloAction{
         }
     }
 
+    private void printSA(SoloAction sa){
+        switch(sa){
+            case AS1 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 GREEN Development Cards" + ConsoleColors.RESET);
+            case AS2 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 YELLOW Development Cards" + ConsoleColors.RESET);
+            case AS3 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 CYAN Development Cards" + ConsoleColors.RESET);
+            case AS4 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 VIOLET Development Cards" + ConsoleColors.RESET);
+            case AS5, AS6 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo's Black Cross token goes 2 spaces forward" + ConsoleColors.RESET);
+            case AS7 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo's Black Cross token goes 1 spaces forward and a new stack of the Solo Actions is created" + ConsoleColors.RESET);
+            default -> doNothing();
+        }
+    }
+
     public static List<SoloAction> shuffle(){
         var remain = new ArrayList<Integer>();
         var start = new ArrayList<>(Arrays.asList(SoloAction.values()));
@@ -59,17 +71,5 @@ public enum SoloAction{
         var sa = list.get(0);
         list.remove(sa);
         list.add(sa);
-    }
-
-    private void printSA(SoloAction sa){
-        switch(sa){
-            case AS1 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 GREEN Development Cards" + ConsoleColors.RESET);
-            case AS2 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 YELLOW Development Cards" + ConsoleColors.RESET);
-            case AS3 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 CYAN Development Cards" + ConsoleColors.RESET);
-            case AS4 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo take 2 VIOLET Development Cards" + ConsoleColors.RESET);
-            case AS5, AS6 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo's Black Cross token goes 2 spaces forward" + ConsoleColors.RESET);
-            case AS7 -> System.out.println(ConsoleColors.BLACK_BACKGROUND_BRIGHT + "Lorenzo's Black Cross token goes 1 spaces forward and a new stack of the Solo Actions is created" + ConsoleColors.RESET);
-            default -> doNothing();
-        }
     }
 }

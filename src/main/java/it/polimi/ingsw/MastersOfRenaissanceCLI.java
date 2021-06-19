@@ -23,10 +23,10 @@ public class MastersOfRenaissanceCLI{
         while(exit){
             exit = false;
             System.out.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
-            System.out.println("by\n"+ ConsoleColors.BLUE +"Alessio Piovesan\n"+ConsoleColors.GREEN +"Pier Giorgio Prosperi\n"+ ConsoleColors.YELLOW +"Matteo Salamone\n"+ConsoleColors.RESET);
+            System.out.println("by\n" + ConsoleColors.BLUE + "Alessio Piovesan\n" + ConsoleColors.GREEN + "Pier Giorgio Prosperi\n" + ConsoleColors.YELLOW + "Matteo Salamone\n" + ConsoleColors.RESET);
             System.out.print("""
                              Hi! Welcome to Masters of Renaissance!
-                             
+                                                          
                              What do you want to launch?
                              0. SERVER
                              1. CLIENT SINGLE PLAYER
