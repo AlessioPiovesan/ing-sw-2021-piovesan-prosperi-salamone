@@ -34,6 +34,7 @@ public class CLI implements Runnable, UI{
     private Client client;
 
     public CLI(){
+        single = false;
         input = new Scanner(System.in);
         output = new PrintWriter(System.out, true);
         executor = new ThreadPoolExecutor(0, 8, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
@@ -46,7 +47,7 @@ public class CLI implements Runnable, UI{
     }
 
     private LocalGameController getGameController(){
-        return getGameController();
+        return LocalGameController.getInstance();
     }
 
     @Override
@@ -105,7 +106,12 @@ public class CLI implements Runnable, UI{
             }
             else output.println("Something went wrong");
         }
-        if(single) getGameController().getBoardController().getPlayer().setMyLeaderCards(finale);
+        if(single){
+            var game = getGameController();
+            var boardController = game.getBoardController();
+            var player = boardController.getPlayer();
+            player.setMyLeaderCards(finale);
+        }
     }
 
     private synchronized void showStatus(){
@@ -245,6 +251,7 @@ public class CLI implements Runnable, UI{
     }
 
     private synchronized void nextAction(){
+        var game = getGameController();
         var menu = """
                    What is your next action?
                    1) Activate production
@@ -254,7 +261,7 @@ public class CLI implements Runnable, UI{
                    5) Show status
                    >\040\040""";
         executor.execute(() -> {
-            if(single && getGameController().isLorenzoPlaying()) getGameController().moveLorenzo();
+            if(single && game.isLorenzoPlaying()) game.moveLorenzo();
             else{
                 chooseAction(menu);
             }

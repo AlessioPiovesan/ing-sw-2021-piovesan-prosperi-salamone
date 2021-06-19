@@ -1,6 +1,7 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.clients.ClientApp;
+import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.server.ServerApp;
 
 import java.util.InputMismatchException;
@@ -22,9 +23,10 @@ public class MastersOfRenaissanceCLI{
         while(exit){
             exit = false;
             System.out.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
-            System.out.println("by\n\u001B[34mAlessio Piovesan\u001B[0m,\n\u001B[32mPier Giorgio Prosperi\u001B[0m,\n\u001B[33mMatteo Salamone\u001B[0m,\n");
+            System.out.println("by\n"+ ConsoleColors.BLUE +"Alessio Piovesan\n"+ConsoleColors.GREEN +"Pier Giorgio Prosperi\n"+ ConsoleColors.YELLOW +"Matteo Salamone\n"+ConsoleColors.RESET);
             System.out.print("""
                              Hi! Welcome to Masters of Renaissance!
+                             
                              What do you want to launch?
                              0. SERVER
                              1. CLIENT SINGLE PLAYER

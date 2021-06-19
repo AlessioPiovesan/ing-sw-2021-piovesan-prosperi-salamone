@@ -52,7 +52,7 @@ public enum SoloAction{
     }
 
     private static void doNothing(){
-        shuffle();
+        System.out.println("Something is not handled...");
     }
 
     public static void pickSoloAction(List<SoloAction> list){

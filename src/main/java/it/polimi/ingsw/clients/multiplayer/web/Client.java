@@ -25,12 +25,7 @@ public class Client implements Runnable{
     public Client(int i){
         if(i == 0) ui = new CLI();
         else ui = new GUI();
-        setSingle();
         active = true;
-    }
-
-    protected void setSingle(){
-        ui.setSingle(false);
     }
 
     public int getNPlayers(){
