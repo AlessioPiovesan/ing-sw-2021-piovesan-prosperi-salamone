@@ -17,7 +17,9 @@ import java.util.Map;
  * After the server has been created, this class Server is used to handle multiple Socket Connections
  * from different clients.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  * @see Runnable
  */
 public class Server implements Runnable{
@@ -57,7 +59,6 @@ public class Server implements Runnable{
      * @param socketToClient of type SocketServerToClient - Socket that represents the connection with a Client
      * @param name           of type String - Player's nickname
      * @param players        of type Int - Number of Players
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public synchronized void lobby(SocketServerToClient socketToClient, String name, int players){
         waitingForConnection.put(name, socketToClient);
@@ -93,7 +94,6 @@ public class Server implements Runnable{
      * Method used in case a Player decides to leave the game.
      *
      * @param socketToClient of type SocketServerToClient - Socket that represents the connection with a Client
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public synchronized void deregisterConnection(SocketServerToClient socketToClient){
         var opponent = playingConnection.get(socketToClient);
@@ -119,7 +119,6 @@ public class Server implements Runnable{
      *
      * @param name   of type String - Player's Nickname
      * @param socket of type SocketServerToClient - Socket that represents the connection with a client.
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void checkExistNickname(String name, SocketServerToClient socket){
         if(players.contains(name)) socket.send("nicknameNo::");

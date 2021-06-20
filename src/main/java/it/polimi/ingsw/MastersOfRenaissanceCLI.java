@@ -11,7 +11,9 @@ import java.util.Scanner;
  * Class MasterOfRenaissanceCLI starts Command Line Interface in case the player decides to play with it.
  * The Player can decide whether to launch a server (for multiplayer purposes) or to play offline in Single Player Mode.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class MastersOfRenaissanceCLI{
 

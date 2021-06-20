@@ -6,7 +6,9 @@ import java.util.List;
 /**
  * Class Controller is a class that contains every single game's controller.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class Controller{
 
@@ -27,7 +29,9 @@ public class Controller{
      * Method newID returns the Game's controller ID.
      *
      * @return Game ID of type int
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @author Alessio Piovesan
+     * @author Pier Giorgio Prosperi
+     * @author Matteo Salamone
      */
     public static int newID(){
         return idGame++;

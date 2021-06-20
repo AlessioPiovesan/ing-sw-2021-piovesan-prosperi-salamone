@@ -9,7 +9,9 @@ import java.util.Scanner;
 /**
  * Class ServerApp is used to create a Server, asking for the Port from which the Server will listen on.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class ServerApp{
 

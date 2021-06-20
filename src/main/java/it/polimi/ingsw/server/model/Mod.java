@@ -6,6 +6,10 @@ import java.util.HashMap;
 
 /**
  * Class Mod is a class that contains every single game's Model.
+ *
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class Mod{
 
@@ -26,7 +30,6 @@ public class Mod{
      * Method newID returns the Game's ID.
      *
      * @return Game ID of type int
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public static int newID(){
         return idGame++;
@@ -37,7 +40,6 @@ public class Mod{
      *
      * @param id   of type int - Game's ID
      * @param game of type Game
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void addGame(int id, Game game){
         gameList.put(id, game);

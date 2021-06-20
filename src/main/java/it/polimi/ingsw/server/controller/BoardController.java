@@ -13,7 +13,9 @@ import java.util.Map;
 /**
  * Class BoardController represents the controller of a player's board
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class BoardController implements PropertyChangeListener{
 

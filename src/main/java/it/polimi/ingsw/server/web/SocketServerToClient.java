@@ -13,7 +13,9 @@ import java.util.concurrent.Executors;
 /**
  * Class SocketServerToClient is the class used to create a connection between the Server and the clients.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  * @see Runnable
  */
 public class SocketServerToClient implements Runnable{
@@ -53,7 +55,6 @@ public class SocketServerToClient implements Runnable{
      * Method asyncSend creates a new independent Thread to handle messages sent from the Server.
      *
      * @param message of Type String
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void asyncSend(final String message){
         new Thread(() -> send(message)).start();
@@ -61,8 +62,6 @@ public class SocketServerToClient implements Runnable{
 
     /**
      * Method readFromClient is the method used to read any inputs from the client's side.
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void readFromClient(){
         try{
@@ -89,7 +88,6 @@ public class SocketServerToClient implements Runnable{
      * This send method is synchronized and is used to handle messages from the Server side.
      *
      * @param message of type Object
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public synchronized void send(Object message){
         try{
@@ -108,7 +106,6 @@ public class SocketServerToClient implements Runnable{
      * Method interpreter is used to interpreter messages from Clients.
      *
      * @param input of type String
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void interpreter(String input){
         var string = input.split("::");

@@ -12,7 +12,9 @@ import java.util.Random;
 /**
  * Class Game provides a Model for the Game.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class Game{
 
@@ -82,8 +84,6 @@ public class Game{
 
     /**
      * Method myLeaderCardsHandler is the method used to deal the 4 initial Leader Cards which 2 of them can be later chosen by the Player.
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void myLeaderCardsHandler(){
         for(var i = 0; i < nGamers; i++)
@@ -94,7 +94,6 @@ public class Game{
      * Method giveCardLead randomly draws 4 Leader Cards from the deck of all the Leader Cards.
      *
      * @return List of CardLeader
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public List<CardLeader> giveCardLead(){
         var cardPlayer = new ArrayList<CardLeader>();
@@ -108,7 +107,6 @@ public class Game{
      * Method selectNextPlayableLeaderCards is the method used for the randomization of the Leader Cards
      *
      * @return CardLeader
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private CardLeader selectNextPlayableLeaderCards(){
         while(true){
@@ -130,8 +128,6 @@ public class Game{
 
     /**
      * Method pickStartingResources is the method for the choices of initial resources from selected players.
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void pickStartingResources(){
         int next = playingPlayer;
@@ -156,7 +152,6 @@ public class Game{
      * Method checkNext is only used to check if the next Board usable is the first one in the array.
      *
      * @return PlayingPlayer of type int - Next player in queue
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public int checkNext(){
         if(playingPlayer++ >= nGamers - 1) return 0;

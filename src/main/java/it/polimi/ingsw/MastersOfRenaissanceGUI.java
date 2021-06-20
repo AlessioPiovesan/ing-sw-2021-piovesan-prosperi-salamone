@@ -12,10 +12,12 @@ import javafx.stage.Stage;
 import java.util.Objects;
 
 /**
- * Class MastersOfRenaissanceGUI starts Graphical User Interface and prompts the Main Menu
- * to the User who can choose between Single Player, Multi Player or exiting the game.
+ * This class handles the main menu when it's chosen to play with the Graphical User Interface and allows
+ * the User to choose between Single Player, Multi Player or exiting the game.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  * @see Application
  */
 public class MastersOfRenaissanceGUI extends Application{

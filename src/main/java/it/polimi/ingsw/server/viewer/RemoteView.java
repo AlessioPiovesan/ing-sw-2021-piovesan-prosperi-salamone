@@ -13,7 +13,9 @@ import java.util.Scanner;
 /**
  * Class RemoteView is used as a Listener for the model on the Server Side and makes messages ready for the Client.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  * @see PropertyChangeListener
  */
 public class RemoteView implements PropertyChangeListener{

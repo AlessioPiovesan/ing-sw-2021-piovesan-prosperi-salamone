@@ -9,7 +9,9 @@ import java.util.Map;
 /**
  * Class Strongbox describes a player's Strongbox, a container that can store an infinite amount of resources
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class StrongBox{
 
@@ -17,8 +19,6 @@ public class StrongBox{
 
     /**
      * Constructor StrongBox sets default quantity of every resource to zero
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public StrongBox(){
         strongContent = new EnumMap<>(Colours.class);
@@ -32,7 +32,6 @@ public class StrongBox{
      * Method moveResources adds resources to the Strongbox
      *
      * @param res of type pick - Resource
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected void moveResources(Pick res){
         var color = res.resource();

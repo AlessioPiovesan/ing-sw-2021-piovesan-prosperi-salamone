@@ -12,7 +12,9 @@ import java.util.*;
 /**
  * Class Board describes a player's personal Board.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class Board{
 
@@ -78,7 +80,6 @@ public class Board{
      * Discounts a chosen resource.
      *
      * @param color of type Colours - resource to be discounted
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void setDiscount(Colours color){
         if(discount[0] == Colours.WHITE) discount[0] = color;
@@ -94,7 +95,6 @@ public class Board{
      * Transforms a white marble into a coloured one.
      *
      * @param color of type Colours - resource
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void setMarketAlt(Colours color){
         if(marketAlt[0] == Colours.WHITE) marketAlt[0] = color;
@@ -113,7 +113,6 @@ public class Board{
      * Adds a production activity by turning a resource into a preferred one and a Faith Point.
      *
      * @param color of type Colours - resource
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
 
     public void setProductAlt(Colours color){
@@ -129,7 +128,6 @@ public class Board{
      * Method setMyLeaderCards saves the two chosen Leader Cards.
      *
      * @param cards of type CardLeader - Leader Cards
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void setMyLeaderCards(CardLeader[] cards){
         myLeaderCards = cards;
@@ -140,7 +138,6 @@ public class Board{
      * Method setTemporaryLeaderCards is the method that chooses tow of the 4 leader cards presented to the user.
      *
      * @param leaders of type CardLeader - Leader cards
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void setTemporaryLeaderCards(CardLeader[] leaders){
         pcs.firePropertyChange("temporaryLeaderCards", "", leaders);
@@ -162,7 +159,6 @@ public class Board{
      * Method countWinPnt counts the Points to win a game.
      *
      * @return win of type int - win points
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public int countWinPnt(){
         var win = 0;
@@ -176,7 +172,6 @@ public class Board{
      * Method getWinPntCardLeader counts win points from Leader Cards
      *
      * @return win of type int - win points
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private int getWinPntCardLeader(){
         var win = 0;
@@ -191,7 +186,6 @@ public class Board{
      *
      * @param card of type CardDev - Development card that the player wants to buy
      * @param slot of type int - slot where the user wants to place the card
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see #checkIfEndGame()
      */
     public void buyCardDev(CardDev card, int slot){
@@ -209,8 +203,6 @@ public class Board{
      * Method checkIfEndGame is the method that checks if a game has come to an end.
      * a game can end by either a player reaching the end of the Faith Track
      * or if a player buys their seventh Development Card.
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void checkIfEndGame(){
         if(myDevCards.size() == 7) endGame = true;
@@ -222,7 +214,6 @@ public class Board{
      * Method marketResHandler transforms the marbles into resources whenever it has to.
      *
      * @param res of type Colours - resources
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see #setBufferMarket(List)
      */
     public void marketResHandler(List<Colours> res){
@@ -238,7 +229,6 @@ public class Board{
      * Method setBufferMarket are the resources ready to be placed in the Warehouse
      *
      * @param res of type Colours - resources
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void setBufferMarket(List<Colours> res){
         var bufferMarket = (LinkedList<Colours>)res;
@@ -268,7 +258,6 @@ public class Board{
     /**
      * Method createStatus creates the status of the board.
      *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see StatusBoard
      */
     public void createStatus(){
@@ -291,7 +280,6 @@ public class Board{
      * Method moveFT moves the pawn on the Faith Track
      *
      * @param move of type int
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see FaithTrack #moveForward
      * @see #checkIfEndGame()
      */
@@ -303,7 +291,6 @@ public class Board{
 
     /**
      * @param special resource type that you can add in the extra space
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Warehouse#addLeaderSpace(Colours)
      */
     public void addLeaderSpace(Colours special){
@@ -312,7 +299,6 @@ public class Board{
 
     /**
      * @return position
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see FaithTrack#getPosition
      */
     public int getPositionFT(){
@@ -320,9 +306,11 @@ public class Board{
     }
 
     /**
+     * Passes the call to the Warehouse class and allows the exchange between
+     * two shelves of that player's warehouse
+     *
      * @param first  of type int
      * @param second of type int
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Warehouse#lvlExchange
      */
     public void rearrangeWarehouse(int first, int second){
@@ -330,8 +318,9 @@ public class Board{
     }
 
     /**
+     * Returns a list that contains the content of the Warehouse
+     *
      * @return Pick
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Warehouse#getWareContent()
      */
     public List<Pick> checkWarehouseStatus(){
@@ -342,7 +331,6 @@ public class Board{
      * @param pick of type Pick
      * @param lvl  of type int
      * @return boolean
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Warehouse#checkAdd(int, Pick)
      */
     public boolean checkWarehouseAdd(Pick pick, int lvl){
@@ -350,8 +338,9 @@ public class Board{
     }
 
     /**
+     * Returns a list that contains the cards that are visible on the board of a player
+     *
      * @return CardDev
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Library#getSlot()
      */
     public List<ArrayList<CardDev>> checkLibraryStatus(){
@@ -359,8 +348,9 @@ public class Board{
     }
 
     /**
+     * Returns a map of the content of the Strongbox
+     *
      * @return Map
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see StrongBox#getStrongContent()
      */
     public Map<Colours, Integer> checkStrongBoxStatus(){
@@ -371,7 +361,6 @@ public class Board{
      * Method takeFromWarehouse takes resources from warehouse
      *
      * @param colour of type Colours
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see #storeW(int, Pick[])
      * @see Warehouse#isThereThatRes(Colours)
      */
@@ -385,7 +374,6 @@ public class Board{
      *
      * @param lvl   of type int - Warehouse's shelf
      * @param start of type Pick
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see #updateResAll()
      * @see Warehouse#moveResources(int, Pick)
      */
@@ -399,7 +387,6 @@ public class Board{
     /**
      * Method updateResAll updates all of the resources in the board
      *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Warehouse#getWareContent()
      * @see StrongBox#getStrongContent()
      */
@@ -425,7 +412,6 @@ public class Board{
      * Method takeFromStrongBox takes resources from the strongbox
      *
      * @param colour of type Colours
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public void takeFromStrongBox(Colours colour){
         storeInStrongBox(new Pick[]{new Pick(colour, -1)});
@@ -435,7 +421,6 @@ public class Board{
      * Method storeInStrongBox stores production result into StrongBox
      *
      * @param start of type Pick
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see #updateResAll()
      */
     public void storeInStrongBox(Pick[] start){

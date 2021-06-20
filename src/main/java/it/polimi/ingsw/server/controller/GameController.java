@@ -12,7 +12,9 @@ import java.util.List;
 /**
  * Class GameController is the controller that handles one game.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class GameController{
 
@@ -47,7 +49,6 @@ public class GameController{
      * to discard some resources.
      *
      * @param waste of type Colours
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Board#moveFT(int)
      */
     public void addFaithPnt(List<Colours> waste){
@@ -100,7 +101,6 @@ public class GameController{
     /**
      * Method startGame is used to start a Game
      *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Game#checkNext()
      * @see #leaderCardsHandler()
      */

@@ -10,7 +10,9 @@ import java.util.List;
  * Level three cards can only be placed on top of level two cards which can only be placed on top of level one cards.
  * There are a total of three slots for Development Cards in the Library
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class Library{
 
@@ -41,7 +43,6 @@ public class Library{
      *
      * @param n of type int - selected slot
      * @return CardDev - returns the CardDev on top
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected CardDev getCardOnTop(int n){
         return slot.get(n).get(slot.get(n).size() - 1);
@@ -56,7 +57,6 @@ public class Library{
      *
      * @param n    of type int - selected slot
      * @param card of type CardDev - card that is going to be added
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected void addCard(int n, CardDev card){
         slot.get(n).add(card);

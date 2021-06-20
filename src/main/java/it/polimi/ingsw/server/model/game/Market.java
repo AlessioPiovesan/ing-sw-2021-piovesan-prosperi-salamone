@@ -13,7 +13,9 @@ import java.util.stream.IntStream;
  * Class Market is used to represent and describe the Market system in the game.
  * Meaning the market formed by a matrix of 3 rows and 4 columns which can move based on the user's action.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class Market{
 
@@ -39,7 +41,6 @@ public class Market{
      *
      * @param marbles of type List - the marbles used inside the Market
      * @return m of type bi-dimensional Array - returns the filled Market at the start of the game
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private Colours[][] fillMarket(List<Colours> marbles){
         var list = new LinkedList<Integer>();
@@ -75,7 +76,6 @@ public class Market{
      *
      * @param marbles of type List - Marbles
      * @param list    of type List
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void findFirstExternal(List<Colours> marbles, List<Integer> list){
         for(var i = 0; i < (Constants.XMARKET.getVal() * Constants.YMARKET.getVal()) + 1; i++)
@@ -89,7 +89,6 @@ public class Market{
      * @param x    of type int - row of Market
      * @param y    of type int - column of Market
      * @return int - index of the marble that hasn't been placed
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private int findNextMarble(List<Integer> list, int x, int y){
         var r = random.nextInt((x * y) + 1);
@@ -114,7 +113,6 @@ public class Market{
      *
      * @param choice of type int - is the choice made by the user of either row or column
      * @return List of resources from the Market
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public List<Colours> moveMarbles(int choice){
         LinkedList<Colours> res;
@@ -128,7 +126,6 @@ public class Market{
      *
      * @param choice of type int - Player's choice
      * @return LinkedList - returns a list of resources from the market
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Market#moveMarbles(int)
      */
     private LinkedList<Colours> getRes(int choice){
@@ -149,7 +146,6 @@ public class Market{
      *
      * @param choice of type int - Player's choice
      * @param r1     of type Colours - external Marble
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Market#moveMarbles(int)
      */
     private void move(int choice, Colours r1){
@@ -170,7 +166,6 @@ public class Market{
      *
      * @param x of type int - row of market
      * @return LinkedList
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Market#getRes(int)
      */
     private LinkedList<Colours> getResX(int x){
@@ -182,7 +177,6 @@ public class Market{
      *
      * @param y of type int - column of Market
      * @return LinkedList
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Market#getRes(int)
      */
     private LinkedList<Colours> getResY(int y){
@@ -196,7 +190,6 @@ public class Market{
      *
      * @param r1 of type Colours - old external marble
      * @param x  of type int - row
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Market#move(int, Colours)
      */
     private void operationMoveX(Colours r1, int x){
@@ -221,7 +214,6 @@ public class Market{
      *
      * @param r1 of type Colours - old external marble
      * @param x  of type int - row
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Market#operationMoveX(Colours, int)
      */
     private void moveX(Colours r1, int x){
@@ -238,7 +230,6 @@ public class Market{
      *
      * @param r1 of type Colours - old external marble
      * @param y  of type int - column
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Market#operationMoveY(Colours, int)
      */
     private void moveY(Colours r1, int y){

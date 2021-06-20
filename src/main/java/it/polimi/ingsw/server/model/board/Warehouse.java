@@ -12,7 +12,9 @@ import java.util.List;
  * the second shelf has to have two resources of the same type
  * and the third one contains three resources of the same type.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class Warehouse{
 
@@ -20,8 +22,6 @@ public class Warehouse{
 
     /**
      * Constructor Warehouse sets every shelf's values to default value which is colour: WHITE and quantity: 0
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     public Warehouse(){
         wareContent = new ArrayList<>();
@@ -39,7 +39,6 @@ public class Warehouse{
      *
      * @param lvl of type int - indicates the shelf where the resource is going to be stored
      * @param add of type Pick - the resource being added
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected void moveResources(int lvl, Pick add){
         int qntNow = wareContent.get(lvl).qnt();
@@ -50,8 +49,6 @@ public class Warehouse{
     /**
      * Method checkIfEmptied is used to check if the shelf is empty.
      * If it is empty our default "empty" value is colour: WHITE and quantity: 0
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     private void checkIfEmptied(){
         for(var i = 0; i < 3; i++)
@@ -63,7 +60,6 @@ public class Warehouse{
      *
      * @param add of type Pick - resource
      * @return boolean
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see #isThereThatRes(Colours)
      */
     protected boolean checkAdd(Pick add){
@@ -81,7 +77,6 @@ public class Warehouse{
      *
      * @param color of type Colours
      * @return i of type int - shelf or "-1" if the resource is not in the warehouse
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected int isThereThatRes(Colours color){
         for(var i = 0; i < wareContent.size(); i++){
@@ -96,7 +91,6 @@ public class Warehouse{
      *
      * @param lvl of type int - shelf
      * @return of type Pick - resources on the shelf
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see Pick#Pick(Colours, int)
      */
     protected Pick checkLvlStatus(int lvl){
@@ -109,7 +103,6 @@ public class Warehouse{
      * @param lvl of type int - number of shelf where you want to store the resource
      * @param add of type Pick - colour and quantity
      * @return boolean
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      * @see #isThereThatRes(Colours)
      * @see #checkLvlStatus(int)
      */
@@ -129,7 +122,6 @@ public class Warehouse{
      *
      * @param first  of type int - first shelf
      * @param second of type int - second shelf
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected void lvlExchange(int first, int second){
         var buffer = wareContent.get(first);
@@ -152,7 +144,6 @@ public class Warehouse{
      * Method checkStatus returns the status of the Warehouse
      *
      * @return status of the Warehouse
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
      */
     protected List<Pick> checkStatus(){
         var status = new ArrayList<Pick>();

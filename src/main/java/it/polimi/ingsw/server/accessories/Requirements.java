@@ -1,5 +1,12 @@
 package it.polimi.ingsw.server.accessories;
 
+/**
+ * Interface Requirements handles Card Leader's requirements
+ *
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
+ */
 public interface Requirements{
 
     @Override
@@ -8,7 +15,9 @@ public interface Requirements{
     /**
      * Class RequirementsCard handles Card Leader's requirements (Development Cards)
      *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @author Alessio Piovesan
+     * @author Pier Giorgio Prosperi
+     * @author Matteo Salamone
      * @see Requirements
      */
 
@@ -37,9 +46,11 @@ public interface Requirements{
     }
 
     /**
-     * Class RequirementsResources handles Cards' requirements (resources)
+     * Class RequirementsResources handles Cards' requirements (Resources)
      *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi and Matteo Salamone.
+     * @author Alessio Piovesan
+     * @author Pier Giorgio Prosperi
+     * @author Matteo Salamone
      * @see Requirements
      */
     class RequirementsResources implements Requirements{
