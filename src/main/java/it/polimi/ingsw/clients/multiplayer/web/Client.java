@@ -77,7 +77,7 @@ public class Client implements Runnable{
             }
         } catch(NoSuchElementException|ClassNotFoundException|IllegalArgumentException e){
             System.err.println(e.getMessage());
-            asyncSend("Error! " + e.getMessage());
+            send("Error! " + e.getMessage());
             new Thread(this::run);
         } catch(IOException ex){
             System.err.println(ex.getMessage());
@@ -99,11 +99,19 @@ public class Client implements Runnable{
         var string = input.split("::");
         switch(string[0]){
             case "Your game's ID is" -> modelView.setGameID(Integer.parseInt(string[1]));
-            case "nicknameNo" -> ui.reChooseNickname();
-            case "nicknameYes" -> ui.setNickname(string[1]);
+            case "nicknameExist" -> ui.reChooseNickname(Integer.parseInt(string[1]));
+            case "nicknameYes" -> setupGame(string[1]);
             case "askNickname" -> ui.chooseNickname();
-            default -> System.out.println(string[0] + " is not handled (CLIENT)");
+            case "askId" -> ui.askId();
+            default -> ui.printMessage(string[0] + " is just a message from -> (CLIENT)");
         }
+    }
+
+    private void setupGame(String name){
+        ui.printMessage("Your nickname is confirmed");
+        ui.setNickname(name);
+        send("nickname::" + name);
+        ui.askNPlayers();
     }
 
     public void setPort(int port){
@@ -114,15 +122,11 @@ public class Client implements Runnable{
         this.ip = ip;
     }
 
-    public void asyncSend(final String message){
-        new Thread(() -> send(message)).start();
-    }
-
     public synchronized void send(String message){
         try{
             socketOut.writeObject(message);
         } catch(IOException e){
-            e.printStackTrace();
+            ui.showError(e.getMessage());
         }
     }
 }

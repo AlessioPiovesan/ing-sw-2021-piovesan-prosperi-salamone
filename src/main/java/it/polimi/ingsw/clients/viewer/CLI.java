@@ -22,8 +22,6 @@ import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-/*CONTROLLA CHE SIA TUTTO SCRITTO IN INGLESE*/
-
 public class CLI implements Runnable, UI{
 
     private final Scanner input;
@@ -42,8 +40,8 @@ public class CLI implements Runnable, UI{
 
     public void run(){
         chooseNickname();
-        client.asyncSend("nickname::" + nickname);
-        client.asyncSend("nplayers::" + client.getNPlayers());
+        client.send("nickname::" + nickname);
+        client.send("nplayers::" + client.getNPlayers());
     }
 
     private LocalGameController getGameController(){
@@ -69,7 +67,7 @@ public class CLI implements Runnable, UI{
                 case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Utils.castList(Colours.class, (Collection<?>)evt.getNewValue()));
                 case "productionBuffer" -> resourcesHandler(Utils.castList(Pick.class, (Collection<?>)evt.getNewValue()));
                 case "costCardDev" -> payForCardDev(Utils.castList(Pick.class, (Collection<?>)evt.getNewValue()));
-                case "gameID" -> output.println("Game ID: " + evt.getNewValue() + "\nWait for the other players");
+                case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
                 case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
                 default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
             }
@@ -433,8 +431,8 @@ public class CLI implements Runnable, UI{
         nickname = name;
     }
 
-    public void reChooseNickname(){
-        output.println("This nickname is already taken");
+    public void reChooseNickname(int id){
+        output.println("This nickname is already taken\nThis player is playing a game with id: " + id);
         chooseNickname();
     }
 
@@ -456,11 +454,44 @@ public class CLI implements Runnable, UI{
         output.print("Your nickname will be:\t" + name + "\nDo you confirm? [y/n]\n>\t");
         output.flush();
         var s = input.next();
-        if(s.charAt(0) == 'y') client.asyncSend("checkNickname::" + name);
+        if(s.charAt(0) == 'y') client.send("checkNickname::" + name);
         else{
             output.println("Ok, try again\n>\t");
             chooseNickname();
         }
+    }
+
+    @Override
+    public void askNPlayers(){
+        output.print(">\tInsert the the number of players you want for this match [2-4]\n>\t");
+        output.flush();
+        var players = input.nextInt();
+        while(players <= 1 || players >= 5){
+            System.err.println("We can not support that number of players");
+            players = input.nextInt();
+        }
+        client.send("nplayers::" + players);
+    }
+
+    @Override
+    public void printMessage(String message){
+        output.println(message);
+    }
+
+    @Override
+    public void askId(){
+        var id = 0;
+        output.print("Do you already have the id of a match you can join? [y/n]\n>\t");
+        output.flush();
+        var r = input.next();
+        if(r.charAt(0) == 'y'){
+            output.print(">\tIf you already have the id of a game you can join please indicate it below:\n>\t");
+            output.flush();
+            id = input.nextInt();
+        }
+        else output.println("You will be assigned one as soon as the game is ready");
+        client.send("id::" + id);
+
     }
 
     public String askIP(){
@@ -484,17 +515,6 @@ public class CLI implements Runnable, UI{
             port = Integer.parseInt(input.nextLine());
         }
         return port;
-    }
-
-    private int askNPlayers(){
-        output.print(">\tInsert the the number of players you want for this match [2-4]\n>\t");
-        output.flush();
-        var players = input.nextInt();
-        while(players <= 1 || players >= 5){
-            System.err.println("We can not support that number of players");
-            players = input.nextInt();
-        }
-        return players;
     }
 
     private void showMarket(){

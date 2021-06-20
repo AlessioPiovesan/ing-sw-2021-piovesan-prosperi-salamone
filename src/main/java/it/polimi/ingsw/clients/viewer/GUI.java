@@ -86,7 +86,7 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public void reChooseNickname(){
+    public void reChooseNickname(int id){
 
     }
 
@@ -102,6 +102,21 @@ public class GUI extends Application implements UI{
 
     @Override
     public void chooseNickname(){
+
+    }
+
+    @Override
+    public void askNPlayers(){
+
+    }
+
+    @Override
+    public void printMessage(String message){
+
+    }
+
+    @Override
+    public void askId(){
 
     }
 

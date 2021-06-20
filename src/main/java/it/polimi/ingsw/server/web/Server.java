@@ -8,9 +8,9 @@ import it.polimi.ingsw.server.model.game.Market;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,17 +25,23 @@ import java.util.Map;
 public class Server implements Runnable{
 
     private final ServerSocket serverSocket;
-    private final LinkedList<String> players;
-    private final Map<String, SocketServerToClient> waitingForConnection;
+    private final Map<String, Integer> players;
     private final Map<SocketServerToClient, SocketServerToClient> playingConnection;
-    private final Map<SocketServerToClient, Integer> waitingForTheGameToStart;
+    private final Map<Integer, Map<Integer, List<String>>> waitingFor1Game;
+    private final Mod model;
+    private final Controller controller;
 
     public Server(int port) throws IOException{
         this.serverSocket = new ServerSocket(port);
-        waitingForConnection = new HashMap<>();
+        waitingFor1Game = new HashMap<>();
         playingConnection = new HashMap<>();
-        waitingForTheGameToStart = new HashMap<>();
-        players = new LinkedList<>();
+        var forPlayers = new HashMap<Integer, List<String>>();
+        waitingFor1Game.put(2, forPlayers);
+        waitingFor1Game.put(3, forPlayers);
+        waitingFor1Game.put(4, forPlayers);
+        players = new HashMap<>();
+        model = Mod.getInstance();
+        controller = Controller.getInstance();
     }
 
     @Override
@@ -56,38 +62,79 @@ public class Server implements Runnable{
      * Class Lobby is used to create a virtual room where players wait to join a game.
      * The first player who starts the server will be the Host of the game, others can join the same match by using a Game ID provided by the Host.
      *
-     * @param socketToClient of type SocketServerToClient - Socket that represents the connection with a Client
-     * @param name           of type String - Player's nickname
-     * @param players        of type Int - Number of Players
+     * @param socketToClient  of type SocketServerToClient - Socket that represents the connection with a Client
+     * @param name            of type String - Player's nickname
+     * @param playersRequired of type Int - Number of Players
+     * @param id
      */
-    public synchronized void lobby(SocketServerToClient socketToClient, String name, int players){
-        waitingForConnection.put(name, socketToClient);
-        socketToClient.send("Hi " + name + " you are in the lobby, please wait.");
-        if(waitingForConnection.size() == 1){
-            var game = new Game(Mod.newID(), players, new Market());
-            var gameControllerID = Controller.newID();
-            new GameController(gameControllerID, 4, game);
-            waitingForConnection.get(name).send("Your game's ID is:: " + gameControllerID);
-            waitingForTheGameToStart.put(socketToClient, gameControllerID);
+    public synchronized void lobby(SocketServerToClient socketToClient, String name, int playersRequired, Integer id){
+        socketToClient.send("Hi " + name + " you are in the lobby\nPlease wait for the other players to join");
+        if(id == null) createNewGame(socketToClient, name, playersRequired);
+        else joinNewGame(socketToClient, name, playersRequired, id);
+
+        //        if(playersRequired == 3) waitingFor3Players.add(name);
+        //        if(playersRequired == 4) waitingFor4Players.add(name);
+        //        if(waitingForConnection.size() == 1){
+        //            var game = new Game(model.newID(), playersRequired, new Market());
+        //            var gameControllerID = controller.newID();
+        //            new GameController(gameControllerID, playersRequired, game);
+        //            waitingForConnection.get(name).send("Your game's ID is:: " + gameControllerID);
+        //            waitingForTheGameToStart.put(socketToClient, gameControllerID);
+        //        }
+        //        if(waitingForConnection.size() == playersRequired){
+        //            var keys = new ArrayList<>(waitingForConnection.keySet());
+        //            var game = new Game(model.newID(), playersRequired, new Market());
+        //            var gameController = new GameController(controller.newID(), playersRequired, game);
+        //            gameController.setBoardController();
+        //            for(var i = 0; i < playersRequired; i++)
+        //                waitingForConnection.get(keys.get(i)).getRemoteView().setPlayer(gameController.getGame().getSingleB(i));
+        //            for(var i = 0; i < playersRequired; i++){
+        //                gameController.getBoardController()[i].sendStatus();
+        //            }
+        //            for(var i = 0; i < playersRequired; i++){
+        //                for(var j = 0; j < playersRequired; j++)
+        //                    playingConnection.put(waitingForConnection.get(keys.get(i)), waitingForConnection.get(keys.get(j)));
+        //            }
+        //            for(var i = 0; i < playersRequired; i++)
+        //                waitingForConnection.remove(keys.get(i));
+        //        }
+        //        else socketToClient.send(playersRequired - waitingForConnection.size() + " slots left");
+    }
+
+    private void joinNewGame(SocketServerToClient socketToClient, String name, int playersRequired, Integer id){
+        var thisGame = controller.getGameById(id);
+        if(thisGame == null){
+            socketToClient.send("There is no game with this id\nYou will be redirected to a new game. ");
+            lobby(socketToClient, name, playersRequired, null);
         }
-        if(waitingForConnection.size() == players){
-            var keys = new ArrayList<>(waitingForConnection.keySet());
-            var game = new Game(Mod.newID(), players, new Market());
-            var gameController = new GameController(Controller.newID(), 4, game);
-            gameController.setBoardController();
-            for(var i = 0; i < players; i++)
-                waitingForConnection.get(keys.get(i)).getRemoteView().setPlayer(gameController.getGame().getSingleB(i));
-            for(var i = 0; i < players; i++){
-                gameController.getBoardController()[i].sendStatus();
+        else{
+            var list = waitingFor1Game.get(playersRequired).get(id);
+            if(list != null) list.add(name);
+            else{
+                socketToClient.send("There is no game with this id and that number of players\nYou will be redirected to a new game. ");
+                lobby(socketToClient, name, playersRequired, null);
             }
-            for(var i = 0; i < players; i++){
-                for(var j = 0; j < players; j++)
-                    playingConnection.put(waitingForConnection.get(keys.get(i)), waitingForConnection.get(keys.get(j)));
-            }
-            for(var i = 0; i < players; i++)
-                waitingForConnection.remove(keys.get(i));
+            socketToClient.send("You joined the game with id: " + id);
         }
-        else socketToClient.send(players - waitingForConnection.size() + " slots left");
+        if(waitingFor1Game.get(playersRequired).get(id).size() == playersRequired) startGame(playersRequired, id);
+    }
+
+    private void startGame(int playersRequired, int id){
+        var playersForThisGame = waitingFor1Game.get(playersRequired).get(id);
+        for(var name : playersForThisGame)
+            addPlayer(name, id);
+        controller.getGameControllerById(id).startGame();
+    }
+
+    private void createNewGame(SocketServerToClient socketToClient, String name, int playersRequired){
+        var game = new Game(model.newID(), playersRequired, new Market());
+        var gameControllerID = controller.newID();
+        new GameController(gameControllerID, playersRequired, game);
+        socketToClient.send("Your game's ID is:: " + gameControllerID);
+        var map = waitingFor1Game.get(playersRequired);
+        var list = new LinkedList<String>();
+        list.add(name);
+        map.put(gameControllerID, list);
     }
 
     /**
@@ -101,13 +148,12 @@ public class Server implements Runnable{
             opponent.closeConnection();
             playingConnection.remove(socketToClient);
             playingConnection.remove(opponent);
-            waitingForConnection.keySet().removeIf(s -> waitingForConnection.get(s) == socketToClient);
             opponent = playingConnection.get(socketToClient);
         }
     }
 
-    private void addPlayer(String name){
-        players.add(name);
+    private void addPlayer(String name, int id){
+        players.put(name, id);
     }
 
     private void removePlayer(String name){
@@ -121,8 +167,11 @@ public class Server implements Runnable{
      * @param socket of type SocketServerToClient - Socket that represents the connection with a client.
      */
     public void checkExistNickname(String name, SocketServerToClient socket){
-        if(players.contains(name)) socket.send("nicknameNo::");
+        if(players.containsKey(name)){
+            socket.send("nicknameExist::" + players.get(name));
+        }
         else socket.send("nicknameYes::" + name);
+
 
     }
 }

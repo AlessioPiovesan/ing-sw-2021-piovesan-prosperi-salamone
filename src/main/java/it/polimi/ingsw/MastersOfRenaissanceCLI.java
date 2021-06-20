@@ -42,8 +42,18 @@ public class MastersOfRenaissanceCLI{
                 System.exit(-1);
             } finally{
                 switch(input){
-                    case 0 -> ServerApp.start();
-                    case 1, 2 -> ClientApp.start(input);
+                    case 0 -> {
+                        System.out.println("Server will be ready in a sec");
+                        ServerApp.start();
+                    }
+                    case 1 -> {
+                        System.out.println("Your single player experience is about to begin");
+                        ClientApp.start(input);
+                    }
+                    case 2 -> {
+                        System.out.println("Your multiplayer experience is about to begin");
+                        ClientApp.start(input);
+                    }
                     default -> {
                         exit = true;
                         System.err.println("Invalid argument, please run the executable again with a viable options");

@@ -33,7 +33,7 @@ public class Controller{
      * @author Pier Giorgio Prosperi
      * @author Matteo Salamone
      */
-    public static int newID(){
+    public int newID(){
         return idGame++;
     }
 
@@ -46,6 +46,10 @@ public class Controller{
     }
 
     public GameController getGameControllerById(int id){
+        return gameControllerList.get(id);
+    }
+
+    public GameController getGameById(int id){
         return gameControllerList.get(id);
     }
 }

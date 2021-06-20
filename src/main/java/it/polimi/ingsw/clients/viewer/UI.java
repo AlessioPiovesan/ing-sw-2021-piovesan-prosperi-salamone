@@ -14,11 +14,17 @@ public interface UI extends PropertyChangeListener{
 
     void setNickname(String name);
 
-    void reChooseNickname();
+    void reChooseNickname(int id);
 
     void clientSetup();
 
     void showError(String message);
 
     void chooseNickname();
+
+    void askNPlayers();
+
+    void printMessage(String message);
+
+    void askId();
 }

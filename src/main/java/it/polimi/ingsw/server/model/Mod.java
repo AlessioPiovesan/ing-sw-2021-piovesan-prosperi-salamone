@@ -31,7 +31,7 @@ public class Mod{
      *
      * @return Game ID of type int
      */
-    public static int newID(){
+    public int newID(){
         return idGame++;
     }
 
@@ -43,5 +43,9 @@ public class Mod{
      */
     public void addGame(int id, Game game){
         gameList.put(id, game);
+    }
+
+    public Game getGameById(int id){
+        return gameList.get(id);
     }
 }
