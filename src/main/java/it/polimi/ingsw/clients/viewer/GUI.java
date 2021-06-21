@@ -22,6 +22,7 @@ import java.util.Objects;
 
 /**
  * method GUI is used to create the Graphical User Interface of the game.
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
  */
 
@@ -53,6 +54,7 @@ public class GUI extends Application implements UI{
      * - LOADER: the game loader.
      * - GUI: the effective game GUI.
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void setup() throws IOException{
@@ -129,9 +131,10 @@ public class GUI extends Application implements UI{
     /**
      * method propertyChange is part of the Observer Pattern that can react to Model's changes.
      * TEMPORARYLEADERCARDS : starts the GUI and calls for changeStage.
-     * @see #changeStage(String) 
-     * @see #start(Stage)
+     *
      * @param evt
+     * @see #changeStage(String)
+     * @see #start(Stage)
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt){
@@ -147,7 +150,8 @@ public class GUI extends Application implements UI{
     }
 
     /**
-     * method start creates the first stage where the scenes are going to be changed 
+     * method start creates the first stage where the scenes are going to be changed
+     *
      * @param primaryStage of type Stage
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -161,6 +165,7 @@ public class GUI extends Application implements UI{
 
     /**
      * method changeStage is used to update the current scene shown to the player
+     *
      * @param newScene of type String
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -177,6 +182,7 @@ public class GUI extends Application implements UI{
 
     /**
      * method chooseInitialLeaders is used to record the inital Leader Card choice of the player
+     *
      * @param selected of type CardLeader - player's selection
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */

@@ -2,8 +2,8 @@ package it.polimi.ingsw.clients.viewer;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
+import it.polimi.ingsw.clients.viewer.utils.Checker;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
-import it.polimi.ingsw.clients.viewer.utils.Utils;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Constants;
 import it.polimi.ingsw.server.accessories.Pick;
@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * class CLI creates the Command Line Interface which is on of the two ways to play the game
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
  */
 public class CLI implements Runnable, UI{
@@ -65,12 +66,13 @@ public class CLI implements Runnable, UI{
      * COSTCARDDEV: resources needed to buy a Development Card
      * GAMEID: prints the game's id
      * WRONG: used in case of a wrong input from the player
+     *
+     * @param evt of type PropertyChangeEvent
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #nextAction()
      * @see #resourcesHandlerMarket(List)
      * @see #resourcesHandler(List)
      * @see #payForCardDev(List)
-     * @param evt of type PropertyChangeEvent
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     @Override
     public void propertyChange(PropertyChangeEvent evt){
@@ -88,9 +90,9 @@ public class CLI implements Runnable, UI{
                 case "LorenzoActionPrint" -> output.println(evt.getNewValue());
                 case "redCrossMove" -> getGameController().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
-                case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Utils.castList(Colours.class, (Collection<?>)evt.getNewValue()));
-                case "productionBuffer" -> resourcesHandler(Utils.castList(Pick.class, (Collection<?>)evt.getNewValue()));
-                case "costCardDev" -> payForCardDev(Utils.castList(Pick.class, (Collection<?>)evt.getNewValue()));
+                case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Checker.castList(Colours.class, (Collection<?>)evt.getNewValue()));
+                case "productionBuffer" -> resourcesHandler(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
+                case "costCardDev" -> payForCardDev(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
                 case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
                 case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
                 default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
@@ -100,10 +102,11 @@ public class CLI implements Runnable, UI{
 
     /**
      * method payForCardDev is used to handle the payment of a Development Card.
-     * @see #showWarehouse()
-     * @see #showStrongBox()
+     *
      * @param cost of type List of Pick
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     * @see #showWarehouse()
+     * @see #showStrongBox()
      */
     private synchronized void payForCardDev(List<Pick> cost){
         showWarehouse();
@@ -122,6 +125,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method chooseInitialLeaders is used to record the player's choice at the start of the game for his Leader Cards
+     *
      * @param cards of type Array of CardLeader
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -156,12 +160,13 @@ public class CLI implements Runnable, UI{
      * 4: shows his Leader Cards
      * 5: shows the faith track
      * 6: back to choosing action
+     *
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #showWarehouse()
      * @see #showStrongBox()
      * @see #showLibrary()
      * @see #showMyCardLeader()
      * @see #showFaithTrackSingle()
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private synchronized void showStatus(){
         try{
@@ -204,6 +209,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showMyCardLeader shows all of the Leader Cards owned by one player
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showMyCardLeader(){
@@ -217,6 +223,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showFaithTrack builds and prints the updated faith track of the game
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showFaithTrack(){
@@ -252,6 +259,7 @@ public class CLI implements Runnable, UI{
     /**
      * method showFaithTrackSingle is used in case the game is in single player mode.
      * On the faith track there will be Lorenzo's pawn too.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showFaithTrackSingle(){
@@ -292,6 +300,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method drayYourBoxFTSingle draws a red single player's box for his pawn
+     *
      * @param centralL
      * @param topL
      * @param trackTop
@@ -311,6 +320,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method drawYouAndLorenzoBoxFT handles the moment the player and Lorenzo are on the same tile
+     *
      * @param trackTop
      * @param trackCen
      * @param i
@@ -328,6 +338,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method drawSpecialBoxFTSingle handles the moment a player is in a Pope's Favor Tile
+     *
      * @param trackTop
      * @param redBold
      * @param yellowBoldBright
@@ -339,6 +350,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method srawFTBoxNumer is used to indicate the number of the tile.
+     *
      * @param trackN
      * @param i
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
@@ -354,8 +366,9 @@ public class CLI implements Runnable, UI{
 
     /**
      * method nextAction asks the player what is next action is going to be
-     * @see #chooseAction(String)
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     * @see #chooseAction(String)
      */
     private synchronized void nextAction(){
         var game = getGameController();
@@ -382,13 +395,14 @@ public class CLI implements Runnable, UI{
      * 3: Buy a dev Card
      * 4: Activate a Leader Card
      * 5: Show Status
+     *
+     * @param menu
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #startProd()
      * @see #marketMove()
      * @see #chooseCardDev()
      * @see #wakeALeader()
      * @see #showStatus()
-     * @param menu
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void chooseAction(String menu){
         try{
@@ -415,6 +429,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method startProd is used to activate the production of a player's board
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private synchronized void startProd(){
@@ -427,7 +442,7 @@ public class CLI implements Runnable, UI{
                 nextAction();
             }
             else{
-                librarySlot = (ArrayList<CardDev>)Utils.castList(CardDev.class, canUseAnyCardDev(librarySlot));
+                librarySlot = (ArrayList<CardDev>)Checker.castList(CardDev.class, canUseAnyCardDev(librarySlot));
                 if(!librarySlot.isEmpty()){
                     var actionableCard = librarySlot.get(librarySlot.size() - 1);
                     output.println("Do you want to activate");
@@ -444,6 +459,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method activateProdCard is used after startProd has been triggered and activates the production of Development Cards
+     *
      * @param card
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -464,9 +480,10 @@ public class CLI implements Runnable, UI{
      * method resourcesHandlerMarket is the method used to handle resources that have been chosen from the market.
      * Resources can be discarded or stored in the warehouse.
      * For every discarded resource other players get an additional Faith point which moves them further on the faith track
-     * @see #resourcesDestination(Colours, String, String)
+     *
      * @param bufferMarket
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     * @see #resourcesDestination(Colours, String, String)
      */
     private synchronized void resourcesHandlerMarket(List<Colours> bufferMarket){
         var keep = new ArrayList<Colours>();
@@ -492,6 +509,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method resourcesDestination lets the player decide the destination of a resource
+     *
      * @param colour
      * @param s
      * @param s2
@@ -519,10 +537,11 @@ public class CLI implements Runnable, UI{
      * The method asks the player if he wants to take them from the warehouse or the strongbox
      * 1: From Warehouse
      * 2: From Strongbox
+     *
      * @param bufferProd
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #prepareResForWarehouse(Colours, int)
      * @see it.polimi.ingsw.server.model.board.Board#storeInStrongBox(Pick[])
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private synchronized void resourcesHandler(List<Pick> bufferProd){
         output.println("Where do you want to pick them from?");
@@ -555,6 +574,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showCard shows a card;
+     *
      * @param card
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -586,6 +606,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method reChooseNickname is used in case a player chooses a nickname already taken
+     *
      * @param id
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -596,6 +617,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method clientSetup is used to ask for IP and Port of the server
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     @Override
@@ -606,18 +628,19 @@ public class CLI implements Runnable, UI{
 
     @Override
     public void showError(String message){
-        output.println("Fatal Error: " + message);
+        output.println(ConsoleColors.RED + "Fatal Error: " + message + ConsoleColors.RESET);
     }
 
     /**
      * method chooseNickname is used to record a player's nickname
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void chooseNickname(){
         output.print(">\tChoose a nickname\n>\t");
         output.flush();
         var name = input.next();
-        output.print("Your nickname will be:\t" + name + "\nDo you confirm? [y/n]\n>\t");
+        output.print("Your nickname will be:\t" + ConsoleColors.BLUE_BACKGROUND_BRIGHT + " " + name + " " + ConsoleColors.RESET + "\nDo you confirm? [y/n]\n>\t");
         output.flush();
         var s = input.next();
         if(s.charAt(0) == 'y') client.send("checkNickname::" + name);
@@ -629,6 +652,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method askNPlayers asks a player how many players are going to play the game
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     @Override
@@ -640,6 +664,7 @@ public class CLI implements Runnable, UI{
             System.err.println("We can not support that number of players");
             players = input.nextInt();
         }
+        client.setNPlayers(players);
         client.send("nplayers::" + players);
     }
 
@@ -652,6 +677,7 @@ public class CLI implements Runnable, UI{
      * method askId asks the player if he already has a game to join by requesting the game ID previously provided
      * by another player who created the match.
      * In case the player does not have a game ID and wants to create a new match, an ID will be provided to him.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     @Override
@@ -664,14 +690,15 @@ public class CLI implements Runnable, UI{
             output.print(">\tIf you already have the id of a game you can join please indicate it below:\n>\t");
             output.flush();
             id = input.nextInt();
+            output.println(">\tYou are about to join the game with id:\n>\t" + ConsoleColors.BLUE_BACKGROUND_BRIGHT + id + ConsoleColors.RESET);
         }
         else output.println("You will be assigned one as soon as the game is ready");
         client.send("id::" + id);
-
     }
 
     /**
      * method askIP asks the player for the server's IP address
+     *
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -689,6 +716,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method askPort asks the player for the Server's port
+     *
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -705,6 +733,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showMarket is used to create and print the market in order for the player to visualize it
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showMarket(){
@@ -726,6 +755,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method pickCard lets the player pick his Leader Card using a two digit code
+     *
      * @param clazz
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
@@ -747,6 +777,7 @@ public class CLI implements Runnable, UI{
      * method marketMove is the one responsible for:
      * -handling the resources on a row or a column to the player based on his choice.
      * -moving the market as a consequence of the choice
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private synchronized void marketMove(){
@@ -799,8 +830,9 @@ public class CLI implements Runnable, UI{
     /**
      * method chooseCardDev is the method used whenever a player wants to buy a Development Card with his resources.
      * Whenever the player cannot buy any Dev Card, this method will warn him.
-     * @see #canBuyAnyCardDev(List)
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     * @see #canBuyAnyCardDev(List)
      */
     private synchronized void chooseCardDev(){
         var game = getGameController().getGame();
@@ -835,6 +867,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method pickSlot is used to ask the player where he wants to store his most recently bought Dev Card in the library.
+     *
      * @param card
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
@@ -861,6 +894,7 @@ public class CLI implements Runnable, UI{
     /**
      * The method isAddable checks if the player can actually store the card since you cannot store a level 2 or level three card
      * if there is not an inferior level card already on the slot
+     *
      * @param card
      * @param slot
      * @return
@@ -878,6 +912,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method canBuyAnyCardDev checks if a player can buy a Development Card
+     *
      * @param cards
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
@@ -902,6 +937,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method canUSeAnyCardDev checks if a player can use a Development Card in the production
+     *
      * @param cards
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
@@ -922,6 +958,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method canUseAnyCardLeader checks if a player can activate a Leader's power
+     *
      * @param cards
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
@@ -944,6 +981,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method checkOnRequiredCard checks if a player matches Card's Requirements
+     *
      * @param slots
      * @param list
      * @param card
@@ -971,6 +1009,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method checkOnRequiredRes is another check on required Resources
+     *
      * @param resAll
      * @param list
      * @param card
@@ -986,6 +1025,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method wakeALeader is the method used to activate a Leader's power
+     *
      * @see #canUseAnyCardLeader(CardLeader[])
      */
     private synchronized void wakeALeader(){
@@ -1010,6 +1050,7 @@ public class CLI implements Runnable, UI{
     /**
      * method prepareResForWarehouse is the method used to place resources in the warehouse.
      * The same method is used whenever a resource is taken from the warehouse by subtracting the value instead of adding it
+     *
      * @param colour
      * @param qnt
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
@@ -1037,6 +1078,7 @@ public class CLI implements Runnable, UI{
     /**
      * method actOnResponse is the method used to handle the warehouse whenever a resource cannot be added and the player wants to rearrange the warehouse.
      * The method asks for the starting shelf and for the destination of a resource so it can move it.
+     *
      * @param colour
      * @param response
      * @param lvl
@@ -1080,6 +1122,7 @@ public class CLI implements Runnable, UI{
      * 2: rearrange the warehouse by using actOnResponse
      * 3: lets the player choose another shelf
      * 4: goes back
+     *
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -1114,6 +1157,7 @@ public class CLI implements Runnable, UI{
     /**
      * method showWarehouse is used to print out a reminder of the situation of the warehouse in case the player
      * needs it to make his decision.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showWarehouse(){
@@ -1137,6 +1181,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showLibrary prints the situation of the Library
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showLibrary(){
@@ -1160,6 +1205,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showStrongbox prints the situation of the Strongbox
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showStrongBox(){
@@ -1174,6 +1220,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method getCorrectLeaderCardCode is used to check if the two digit code typed by the user for the leader cards is correct.
+     *
      * @param response
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
@@ -1208,6 +1255,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method getCorrectDevCardCode is used to check if the code typed by the user for the Dev Card is correct.
+     *
      * @param response
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
@@ -1222,6 +1270,7 @@ public class CLI implements Runnable, UI{
 
     /**
      * method drawMarket prints the market graphically on the Command Line Interface
+     *
      * @param colours
      * @return
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone

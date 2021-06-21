@@ -22,7 +22,6 @@ public class RemoteView implements PropertyChangeListener{
     private Board player;
     private String nickname;
     private int nPlayers;
-    private int id;
     private Integer gameId;
 
     public RemoteView(SocketServerToClient socketServerToClient){
@@ -70,9 +69,8 @@ public class RemoteView implements PropertyChangeListener{
         return gameId;
     }
 
-    public void setGameId(int gameId){
-        if(gameId == 0) this.gameId = null;
-        else this.gameId = gameId;
+    public void setGameId(Integer gameId){
+        this.gameId = gameId;
         socketServerToClient.send("Setup complete");
         socketServerToClient.sendInLobby();
     }

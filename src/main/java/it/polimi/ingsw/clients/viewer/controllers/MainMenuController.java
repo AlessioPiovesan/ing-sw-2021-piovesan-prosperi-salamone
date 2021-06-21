@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 /**
  * MainMenuController is the controller class for the scene Main Menu in the Graphical User Interface.
  * It uses FXML files for JavaFX
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
  */
 public class MainMenuController implements GUIController{
@@ -25,6 +26,7 @@ public class MainMenuController implements GUIController{
 
     /**
      * method quit quits the game if a player wants to
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void quit(){
@@ -34,6 +36,7 @@ public class MainMenuController implements GUIController{
 
     /**
      * method startSingleGame starts a single player game if the player decides to
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void startSingleGame(){
@@ -47,6 +50,7 @@ public class MainMenuController implements GUIController{
 
     /**
      * method startMultiGame starts a multiplayer game if the player decides to.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void startMultiGame(){

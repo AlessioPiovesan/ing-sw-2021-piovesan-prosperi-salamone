@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.accessories.Requirements;
 
 /**
  * Class enumeration for Leader Cards
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
  */
 public enum CardLeader implements Card{
@@ -83,6 +84,7 @@ public enum CardLeader implements Card{
 
     /**
      * Method showReq show requirements needed to activate a Leader Card
+     *
      * @param requirements of type Array of Requirements
      * @return String
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone

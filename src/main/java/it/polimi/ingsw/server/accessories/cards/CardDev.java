@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 
 /**
  * Enumeration class used to list Development Cards
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
  */
 public enum CardDev implements Card{
@@ -123,6 +124,7 @@ public enum CardDev implements Card{
 
     /**
      * method showPick is used to visualize resources and it is used in the toString method
+     *
      * @param picks of type Array of Picks
      * @return String
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone

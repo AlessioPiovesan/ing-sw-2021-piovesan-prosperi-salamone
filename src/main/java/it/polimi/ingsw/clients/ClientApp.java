@@ -5,6 +5,7 @@ import it.polimi.ingsw.clients.singleplayer.web.Local;
 
 /**
  * Class ClientApp instantiates and starts the client
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
  */
 public class ClientApp{
@@ -13,6 +14,7 @@ public class ClientApp{
 
     /**
      * method start starts the client
+     *
      * @param input of type int
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */

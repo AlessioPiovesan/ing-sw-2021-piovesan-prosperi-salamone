@@ -1,7 +1,7 @@
 package it.polimi.ingsw.server.controller;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class Controller is a class that contains every single game's controller.
@@ -14,10 +14,10 @@ public class Controller{
 
     private static int idGame = 0;
     private static Controller singleInstance;
-    private final List<GameController> gameControllerList;
+    private final Map<Integer, GameController> gameControllerMap;
 
     private Controller(){
-        gameControllerList = new LinkedList<>();
+        gameControllerMap = new HashMap<>();
     }
 
     public static Controller getInstance(){
@@ -33,23 +33,15 @@ public class Controller{
      * @author Pier Giorgio Prosperi
      * @author Matteo Salamone
      */
-    public int newID(){
-        return idGame++;
+    public static int newID(){
+        return ++idGame;
     }
 
-    public void setGamers(int id, int gamers){
-        gameControllerList.get(id).setGamers(gamers);
-    }
-
-    public void addGame(GameController gameController){
-        gameControllerList.add(gameController);
+    public void addGame(int id, GameController gameController){
+        gameControllerMap.put(id, gameController);
     }
 
     public GameController getGameControllerById(int id){
-        return gameControllerList.get(id);
-    }
-
-    public GameController getGameById(int id){
-        return gameControllerList.get(id);
+        return gameControllerMap.get(id);
     }
 }

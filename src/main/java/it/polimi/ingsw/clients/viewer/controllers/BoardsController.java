@@ -17,6 +17,7 @@ import java.util.Objects;
 /**
  * class BoardsController is the GUI controller of every player's board.
  * It uses FXML files for JavaFX
+ *
  * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
  */
 public class BoardsController implements GUIController{
@@ -39,6 +40,7 @@ public class BoardsController implements GUIController{
 
     /**
      * method openStrongBox graphically shows the content of the strongbox whenever a player clicks on it.
+     *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void openStrongBox(){

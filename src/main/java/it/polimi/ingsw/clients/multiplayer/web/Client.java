@@ -4,6 +4,7 @@ import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.clients.viewer.GUI;
 import it.polimi.ingsw.clients.viewer.UI;
+import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,6 +31,15 @@ public class Client implements Runnable{
 
     public int getNPlayers(){
         return nPlayers;
+    }
+
+    public void setNPlayers(int n){
+        nPlayers = n;
+        setModelView();
+    }
+
+    private void setModelView(){
+        modelView = new ModelView(nPlayers, ui);
     }
 
     public UI getUi(){
@@ -61,7 +71,7 @@ public class Client implements Runnable{
             socket = new Socket(ip, port);
             socketOut = new ObjectOutputStream(socket.getOutputStream());
         } catch(IOException e){
-            System.out.println("Connection server from the client side");
+            ui.printMessage("Connection server from the client side");
             Thread.currentThread().interrupt();
         }
     }
@@ -76,11 +86,11 @@ public class Client implements Runnable{
                 }
             }
         } catch(NoSuchElementException|ClassNotFoundException|IllegalArgumentException e){
-            System.err.println(e.getMessage());
+            ui.printMessage(e.getMessage());
             send("Error! " + e.getMessage());
-            new Thread(this::run);
+            new Thread(this);
         } catch(IOException ex){
-            System.err.println(ex.getMessage());
+            ui.showError(ex.getMessage());
             active = false;
         } finally{
             socket.close();
@@ -91,19 +101,30 @@ public class Client implements Runnable{
         return active;
     }
 
-    public void setActive(boolean active){
-        this.active = active;
-    }
-
     private void interpreter(String input){
         var string = input.split("::");
         switch(string[0]){
-            case "Your game's ID is" -> modelView.setGameID(Integer.parseInt(string[1]));
+            case "Your game's ID is" -> {
+                ui.printMessage(string[0] + " " + ConsoleColors.BLUE_BACKGROUND_BRIGHT + " " + string[1] + " " + ConsoleColors.RESET);
+                modelView.setGameID(Integer.parseInt(string[1]));
+            }
+            case "You joined the game with id" -> {
+                ui.printMessage("Sei entrato in id: " + string[1]);
+                modelView.setGameID(Integer.parseInt(string[1]));
+            }
             case "nicknameExist" -> ui.reChooseNickname(Integer.parseInt(string[1]));
             case "nicknameYes" -> setupGame(string[1]);
             case "askNickname" -> ui.chooseNickname();
             case "askId" -> ui.askId();
             default -> ui.printMessage(string[0] + " is just a message from -> (CLIENT)");
+        }
+    }
+
+    public synchronized void send(String message){
+        try{
+            socketOut.writeObject(message);
+        } catch(IOException e){
+            ui.showError(e.getMessage());
         }
     }
 
@@ -120,13 +141,5 @@ public class Client implements Runnable{
 
     public void setIP(String ip){
         this.ip = ip;
-    }
-
-    public synchronized void send(String message){
-        try{
-            socketOut.writeObject(message);
-        } catch(IOException e){
-            ui.showError(e.getMessage());
-        }
     }
 }

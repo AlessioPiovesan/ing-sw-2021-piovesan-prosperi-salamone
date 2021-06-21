@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.web;
 
 import it.polimi.ingsw.server.viewer.RemoteView;
 
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -77,6 +78,8 @@ public class SocketServerToClient implements Runnable{
             System.err.println(e.getMessage());
             send("Error! " + e.getMessage());
             new Thread(this);
+        } catch(EOFException eof){
+            readFromClient();
         } catch(IOException ex){
             System.err.println(ex.getMessage());
             active = false;
@@ -99,7 +102,10 @@ public class SocketServerToClient implements Runnable{
         switch(string[0]){
             case "nickname" -> remoteView.setNickname(string[1]);
             case "nplayers" -> remoteView.setNPlayers(Integer.parseInt(string[1]));
-            case "id" -> remoteView.setGameId(Integer.parseInt(string[1]));
+            case "id" -> {
+                if(string[1].equals("0")) remoteView.setGameId(null);
+                else remoteView.setGameId(Integer.parseInt(string[1]));
+            }
             case "checkNickname" -> server.checkExistNickname(string[1], this);
             default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
         }

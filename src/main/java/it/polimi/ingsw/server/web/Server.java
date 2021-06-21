@@ -50,7 +50,7 @@ public class Server implements Runnable{
             try{
                 var newSocket = serverSocket.accept();
                 var socketConnection = new SocketServerToClient(newSocket, this);
-                System.out.println("New connection established");
+                System.out.println("New connection established -> " + newSocket.getLocalSocketAddress());
                 new Thread(socketConnection).start();
             } catch(IOException e){
                 System.err.println("Connection Error!");
@@ -102,7 +102,7 @@ public class Server implements Runnable{
     }
 
     private void joinNewGame(SocketServerToClient socketToClient, String name, int playersRequired, Integer id){
-        var thisGame = controller.getGameById(id);
+        var thisGame = controller.getGameControllerById(id);
         if(thisGame == null){
             socketToClient.send("There is no game with this id\nYou will be redirected to a new game. ");
             lobby(socketToClient, name, playersRequired, null);
@@ -114,27 +114,30 @@ public class Server implements Runnable{
                 socketToClient.send("There is no game with this id and that number of players\nYou will be redirected to a new game. ");
                 lobby(socketToClient, name, playersRequired, null);
             }
-            socketToClient.send("You joined the game with id: " + id);
+            socketToClient.send("You joined the game with id::" + id);
         }
         if(waitingFor1Game.get(playersRequired).get(id).size() == playersRequired) startGame(playersRequired, id);
     }
 
     private void startGame(int playersRequired, int id){
-        var playersForThisGame = waitingFor1Game.get(playersRequired).get(id);
+        var mapGameForThisNPlayers = waitingFor1Game.get(playersRequired);
+        var playersForThisGame = mapGameForThisNPlayers.get(id);
         for(var name : playersForThisGame)
             addPlayer(name, id);
         controller.getGameControllerById(id).startGame();
     }
 
     private void createNewGame(SocketServerToClient socketToClient, String name, int playersRequired){
-        var game = new Game(model.newID(), playersRequired, new Market());
-        var gameControllerID = controller.newID();
-        new GameController(gameControllerID, playersRequired, game);
-        socketToClient.send("Your game's ID is:: " + gameControllerID);
+        var game = new Game(Mod.newID(), playersRequired, new Market());
+        var gameControllerID = Controller.newID();
+        var gameController = new GameController(gameControllerID, playersRequired, game);
+        socketToClient.send("Your game's ID is::" + gameControllerID);
+        controller.addGame(gameControllerID, gameController);
         var map = waitingFor1Game.get(playersRequired);
         var list = new LinkedList<String>();
         list.add(name);
         map.put(gameControllerID, list);
+        waitingFor1Game.put(playersRequired, map);
     }
 
     /**

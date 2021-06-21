@@ -31,8 +31,8 @@ public class Mod{
      *
      * @return Game ID of type int
      */
-    public int newID(){
-        return idGame++;
+    public static int newID(){
+        return ++idGame;
     }
 
     /**
