@@ -55,14 +55,7 @@ public class RemoteView implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent evt){
-
-        switch(evt.getPropertyName()){
-            case "active" -> {
-                /*deve distribuire le risorse*/
-            }
-            case "boardStatus" -> System.err.println("WE'RE HERE");
-            default -> System.err.println(" is not handled (REMOTEVIEW)");
-        }
+        socketServerToClient.send("pce::" + evt.getPropertyName() + "::" + evt.getNewValue());
     }
 
     public Integer getId(){

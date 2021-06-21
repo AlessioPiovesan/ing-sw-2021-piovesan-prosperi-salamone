@@ -6,6 +6,7 @@ import it.polimi.ingsw.clients.viewer.GUI;
 import it.polimi.ingsw.clients.viewer.UI;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -116,6 +117,7 @@ public class Client implements Runnable{
             case "nicknameYes" -> setupGame(string[1]);
             case "askNickname" -> ui.chooseNickname();
             case "askId" -> ui.askId();
+            case "pce" -> ui.propertyChange(new PropertyChangeEvent(this, string[1], "", string[2]));
             default -> ui.printMessage(string[0] + " is just a message from -> (CLIENT)");
         }
     }

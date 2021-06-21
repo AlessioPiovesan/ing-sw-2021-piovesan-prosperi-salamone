@@ -4,6 +4,7 @@ import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.clients.viewer.utils.Checker;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
+import it.polimi.ingsw.clients.viewer.utils.DrawerCLI;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Constants;
 import it.polimi.ingsw.server.accessories.Pick;
@@ -32,12 +33,16 @@ public class CLI implements Runnable, UI{
     private final Scanner input;
     private final PrintWriter output;
     private final ExecutorService executor;
+    private final Checker checker;
+    private final DrawerCLI drawer;
     private String nickname;
     private boolean single;
     private Client client;
 
     public CLI(){
         single = false;
+        checker = new Checker(this);
+        drawer = new DrawerCLI();
         input = new Scanner(System.in);
         output = new PrintWriter(System.out, true);
         executor = new ThreadPoolExecutor(0, 8, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
@@ -49,7 +54,7 @@ public class CLI implements Runnable, UI{
         client.send("nplayers::" + client.getNPlayers());
     }
 
-    private LocalGameController getGameController(){
+    private LocalGameController getLocalGameController(){
         return LocalGameController.getInstance();
     }
 
@@ -80,15 +85,15 @@ public class CLI implements Runnable, UI{
             switch(evt.getPropertyName()){
                 case "temporaryLeaderCards" -> chooseInitialLeaders((CardLeader[])evt.getNewValue());
                 case "firstOp" -> {
-                    if(single) getGameController().nextPlayer();
+                    if(single) getLocalGameController().nextPlayer();
                     else Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
                 }
                 case "nextPlayer" -> {
-                    if(single) getGameController().nextPlayer();
+                    if(single) getLocalGameController().nextPlayer();
                     else Controller.getInstance().getGameControllerById(0);
                 }
                 case "LorenzoActionPrint" -> output.println(evt.getNewValue());
-                case "redCrossMove" -> getGameController().getBoardController().checkVaticanReport();
+                case "redCrossMove" -> getLocalGameController().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
                 case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Checker.castList(Colours.class, (Collection<?>)evt.getNewValue()));
                 case "productionBuffer" -> resourcesHandler(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
@@ -116,11 +121,11 @@ public class CLI implements Runnable, UI{
             for(var i = 0; i < pick.qnt(); i++){
                 output.println("The resource that needs handling is:");
                 var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1) StrongBox\n>\t", "Wrong option");
-                if(j == 0) getGameController().getBoardController().takeFromWarehouse(color);
-                else getGameController().getBoardController().takeFromStrongbox(color);
+                if(j == 0) getLocalGameController().getBoardController().takeFromWarehouse(color);
+                else getLocalGameController().getBoardController().takeFromStrongbox(color);
             }
         }
-        getGameController().nextPlayer();
+        getLocalGameController().nextPlayer();
     }
 
     /**
@@ -145,7 +150,7 @@ public class CLI implements Runnable, UI{
             else output.println("Something went wrong");
         }
         if(single){
-            var game = getGameController();
+            var game = getLocalGameController();
             var boardController = game.getBoardController();
             var player = boardController.player();
             player.setMyLeaderCards(finale);
@@ -215,7 +220,7 @@ public class CLI implements Runnable, UI{
     private void showMyCardLeader(){
         printLine();
         output.println("These are your leader cards:");
-        var boardController = getGameController().getBoardController();
+        var boardController = getLocalGameController().getBoardController();
         var cards = boardController.player().getMyLeaderCards();
         for(var singleCard : cards) output.println(singleCard);
         printLine();
@@ -235,15 +240,15 @@ public class CLI implements Runnable, UI{
         var trackCen = new StringBuilder();
         var trackN = new StringBuilder();
         for(var i = 0; i < 25; i++){
-            drawFTBoxNumber(trackN, i);
-            if(isPopeFavor(i)){
-                drawFTBox(trackTop, ConsoleColors.YELLOW_BOLD_BRIGHT, trackCen);
+            drawer.drawFTBoxNumber(trackN, i);
+            if(checker.isPopeFavor(i)){
+                drawer.drawFTBox(trackTop, ConsoleColors.YELLOW_BOLD_BRIGHT, trackCen);
             }
-            if(i == pos){drawFTBox(trackTop.append(top), "\t", trackCen.append(central));}
+            if(i == pos){drawer.drawFTBox(trackTop.append(top), "\t", trackCen.append(central));}
             else{
-                drawFTBox(trackTop.append(normal), "\t", trackCen.append(normal));
+                drawer.drawFTBox(trackTop.append(normal), "\t", trackCen.append(normal));
             }
-            drawFTBox(trackTop, ConsoleColors.RESET, trackCen);
+            drawer.drawFTBox(trackTop, ConsoleColors.RESET, trackCen);
         }
         output.println(trackN);
         output.println(trackTop);
@@ -251,10 +256,6 @@ public class CLI implements Runnable, UI{
         output.println(trackTop);
     }
 
-    private void drawFTBox(StringBuilder append, String s, StringBuilder append2){
-        append.append(s);
-        append2.append(s);
-    }
 
     /**
      * method showFaithTrackSingle is used in case the game is in single player mode.
@@ -263,8 +264,8 @@ public class CLI implements Runnable, UI{
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showFaithTrackSingle(){
-        final var pos = getGameController().getBoardController().player().checkFT();
-        final var posL = getGameController().getBoardController().lorenzo().checkFT();
+        final var pos = getLocalGameController().getBoardController().player().checkFT();
+        final var posL = getLocalGameController().getBoardController().lorenzo().checkFT();
         var normal = "███";
         var central = ConsoleColors.RED_BOLD + "███" + ConsoleColors.RESET;
         var top = "█" + ConsoleColors.RED_BOLD + "█" + ConsoleColors.RESET + "█";
@@ -274,22 +275,22 @@ public class CLI implements Runnable, UI{
         var trackCen = new StringBuilder();
         var trackN = new StringBuilder();
         for(var i = 0; i < 25; i++){
-            drawFTBoxNumber(trackN, i);
-            if(isPopeFavor(i)){
-                drawFTBox(trackTop, ConsoleColors.YELLOW_BOLD_BRIGHT, trackCen);
+            drawer.drawFTBoxNumber(trackN, i);
+            if(checker.isPopeFavor(i)){
+                drawer.drawFTBox(trackTop, ConsoleColors.YELLOW_BOLD_BRIGHT, trackCen);
             }
             if(i == pos){
-                if(pos == posL) drawYouAndLorenzoBoxFT(trackTop, trackCen, i);
+                if(pos == posL) drawer.drawYouAndLorenzoBoxFT(checker.isPopeFavor(i), trackTop, trackCen);
                 else{
-                    drawFTBox(trackTop.append(top), "\t", trackCen.append(central));
+                    drawer.drawFTBox(trackTop.append(top), "\t", trackCen.append(central));
                 }
             }
-            else if(i == posL) drawYourBoxFTSingle(centralL, topL, trackTop, trackCen, i);
+            else if(i == posL) drawer.drawYourBoxFTSingle(checker.isPopeFavor(i), centralL, topL, trackTop, trackCen);
             else{
-                drawFTBox(trackTop.append(normal), "\t", trackCen.append(normal));
+                drawer.drawFTBox(trackTop.append(normal), "\t", trackCen.append(normal));
             }
-            if(isPopeFavor(i)){
-                drawFTBox(trackTop, ConsoleColors.RESET, trackCen);
+            if(checker.isPopeFavor(i)){
+                drawer.drawFTBox(trackTop, ConsoleColors.RESET, trackCen);
             }
         }
         output.println(trackN);
@@ -298,71 +299,6 @@ public class CLI implements Runnable, UI{
         output.println(trackTop);
     }
 
-    /**
-     * method drayYourBoxFTSingle draws a red single player's box for his pawn
-     *
-     * @param centralL
-     * @param topL
-     * @param trackTop
-     * @param trackCen
-     * @param i
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
-     */
-    private void drawYourBoxFTSingle(String centralL, String topL, StringBuilder trackTop, StringBuilder trackCen, int i){
-        if(isPopeFavor(i)){
-            drawSpecialBoxFTSingle(trackTop, ConsoleColors.BLACK_BOLD, ConsoleColors.YELLOW_BOLD_BRIGHT);
-        }
-        else{
-            trackTop.append(topL).append("\t");
-        }
-        trackCen.append(centralL).append("\t");
-    }
-
-    /**
-     * method drawYouAndLorenzoBoxFT handles the moment the player and Lorenzo are on the same tile
-     *
-     * @param trackTop
-     * @param trackCen
-     * @param i
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
-     */
-    private void drawYouAndLorenzoBoxFT(StringBuilder trackTop, StringBuilder trackCen, int i){
-        if(isPopeFavor(i)){
-            drawSpecialBoxFTSingle(trackTop, ConsoleColors.RED_BOLD, ConsoleColors.YELLOW_BOLD_BRIGHT);
-        }
-        else{
-            drawSpecialBoxFTSingle(trackTop, ConsoleColors.RED_BOLD, ConsoleColors.RESET);
-        }
-        trackCen.append(ConsoleColors.RED_BOLD + "XXX" + ConsoleColors.RESET).append("\t");
-    }
-
-    /**
-     * method drawSpecialBoxFTSingle handles the moment a player is in a Pope's Favor Tile
-     *
-     * @param trackTop
-     * @param redBold
-     * @param yellowBoldBright
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
-     */
-    private void drawSpecialBoxFTSingle(StringBuilder trackTop, String redBold, String yellowBoldBright){
-        trackTop.append("█").append(redBold).append("X").append(yellowBoldBright).append("█").append("\t");
-    }
-
-    /**
-     * method srawFTBoxNumer is used to indicate the number of the tile.
-     *
-     * @param trackN
-     * @param i
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
-     */
-    private void drawFTBoxNumber(StringBuilder trackN, int i){
-        if(i < 9) trackN.append("██").append(i).append("\t");
-        else trackN.append("█").append(i).append("\t");
-    }
-
-    private boolean isPopeFavor(int i){
-        return i == 5 || i == 6 || i == 7 || i == 8 || i == 12 || i == 13 || i == 14 || i == 15 || i == 16 || i == 19 || i == 20 || i == 21 || i == 22 || i == 23 || i == 24;
-    }
 
     /**
      * method nextAction asks the player what is next action is going to be
@@ -371,7 +307,7 @@ public class CLI implements Runnable, UI{
      * @see #chooseAction(String)
      */
     private synchronized void nextAction(){
-        var game = getGameController();
+        var game = getLocalGameController();
         var menu = """
                    What is your next action?
                    1) Activate production
@@ -433,7 +369,7 @@ public class CLI implements Runnable, UI{
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private synchronized void startProd(){
-        var boardController = getGameController().getBoardController();
+        var boardController = getLocalGameController().getBoardController();
         var player = boardController.player();
         var library = player.checkLibraryStatus();
         for(var librarySlot : library){
@@ -464,7 +400,7 @@ public class CLI implements Runnable, UI{
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private synchronized void activateProdCard(CardDev card){
-        var boardController = getGameController().getBoardController();
+        var boardController = getLocalGameController().getBoardController();
         var resFrom = card.getResFrom();
         for(var pick : resFrom){
             var color = pick.resource();
@@ -496,7 +432,7 @@ public class CLI implements Runnable, UI{
                 else keep.add(colour);
             }
         }
-        getGameController().addFaithPnt(loose);
+        getLocalGameController().addFaithPnt(loose);
         output.println("This resources need handling:");
         var colors = new StringBuilder();
         for(Colours colour : keep) colors.append(colour.getType()).append("\t");
@@ -504,7 +440,7 @@ public class CLI implements Runnable, UI{
         for(Colours colours : keep)
             prepareResForWarehouse(colours, 1);
         showWarehouse();
-        getGameController().nextPlayer();
+        getLocalGameController().nextPlayer();
     }
 
     /**
@@ -555,7 +491,7 @@ public class CLI implements Runnable, UI{
                     output.println("Command not valid, unknown");
                     j = input.nextInt();
                 }
-                var boardController = getGameController().getBoardController();
+                var boardController = getLocalGameController().getBoardController();
                 var player = boardController.player();
                 var resourceTaken = pick.resource();
                 var qntTaken = -pick.qnt();
@@ -569,7 +505,7 @@ public class CLI implements Runnable, UI{
             resourcesHandler(bufferProd);
         }
         showWarehouse();
-        getGameController().nextPlayer();
+        getLocalGameController().nextPlayer();
     }
 
     /**
@@ -738,13 +674,13 @@ public class CLI implements Runnable, UI{
      */
     private void showMarket(){
         printLine();
-        var marketTray = getGameController().getGame().getMarket().getTray();
-        var externalMarble = getGameController().getGame().getMarket().getExternal();
+        var marketTray = getLocalGameController().getGame().getMarket().getTray();
+        var externalMarble = getLocalGameController().getGame().getMarket().getExternal();
         var print = new StringBuilder();
-        print.append(ConsoleColors.BLACK + "   \t   \t   \t" + ConsoleColors.RESET).append(drawMarket(externalMarble)).append("\n");
+        print.append(ConsoleColors.BLACK + "   \t   \t   \t" + ConsoleColors.RESET).append(drawer.drawMarket(externalMarble)).append("\n");
         for(var i = 0; i < Constants.XMARKET.getVal(); i++){
             for(var j = 0; j < Constants.YMARKET.getVal(); j++){
-                print.append(drawMarket(marketTray[i][j])).append("\t");
+                print.append(drawer.drawMarket(marketTray[i][j])).append("\t");
             }
             print.append("\n");
         }
@@ -765,8 +701,8 @@ public class CLI implements Runnable, UI{
         try{
             output.println("Code? (last digits)");
             var code = input.next();
-            if(clazz == CardLeader.class) card = getCorrectLeaderCardCode(code);
-            if(clazz == CardDev.class) card = getCorrectDevCardCode(code.toUpperCase());
+            if(clazz == CardLeader.class) card = checker.getCorrectLeaderCardCode(code);
+            if(clazz == CardDev.class) card = checker.getCorrectDevCardCode(code.toUpperCase());
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -821,7 +757,7 @@ public class CLI implements Runnable, UI{
                 output.println("Impossible move");
                 nextAction();
             }
-            else getGameController().marketAction(move);
+            else getLocalGameController().marketAction(move);
         } catch(NumberFormatException e){
             marketMove();
         }
@@ -835,7 +771,7 @@ public class CLI implements Runnable, UI{
      * @see #canBuyAnyCardDev(List)
      */
     private synchronized void chooseCardDev(){
-        var game = getGameController().getGame();
+        var game = getLocalGameController().getGame();
         var actual = canBuyAnyCardDev(game.getCardDevDeck());
         if(actual.isEmpty()){
             output.println("You can not buy any card");
@@ -848,7 +784,7 @@ public class CLI implements Runnable, UI{
             if(actual.contains(card)){
                 try{
                     var slot = pickSlot(card);
-                    if(slot >= 0) getGameController().cardDevAction(card, slot);
+                    if(slot >= 0) getLocalGameController().cardDevAction(card, slot);
                     else{
                         output.println("You don't have a slot for this card");
                         nextAction();
@@ -887,28 +823,10 @@ public class CLI implements Runnable, UI{
             output.println("This slot doesn't exist\nTry again...");
             pickSlot(card);
         }
-        if(!isAddable(card, slot)) slot = -1;
+        if(!checker.isAddable(getLocalGameController(), card, slot)) slot = -1;
         return slot - 1;
     }
 
-    /**
-     * The method isAddable checks if the player can actually store the card since you cannot store a level 2 or level three card
-     * if there is not an inferior level card already on the slot
-     *
-     * @param card
-     * @param slot
-     * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
-     */
-    private boolean isAddable(CardDev card, int slot){
-        var slotCards = getGameController().getBoardController().player().checkLibraryStatus().get(slot - 1);
-        if(slotCards.isEmpty()) return card.getLvl() == 1;
-        else return switch(card.getLvl()){
-            case 2 -> slotCards.get(slotCards.size() - 1).getLvl() != 1;
-            case 3 -> slotCards.get(slotCards.size() - 1).getLvl() != 2;
-            default -> false;
-        };
-    }
 
     /**
      * method canBuyAnyCardDev checks if a player can buy a Development Card
@@ -918,7 +836,7 @@ public class CLI implements Runnable, UI{
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private List<Card> canBuyAnyCardDev(List<CardDev> cards){
-        var boardController = getGameController().getBoardController();
+        var boardController = getLocalGameController().getBoardController();
         var player = boardController.player();
         var resAll = player.getResAll();
         var list = new LinkedList<Card>();
@@ -943,7 +861,7 @@ public class CLI implements Runnable, UI{
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private List<Card> canUseAnyCardDev(List<CardDev> cards){
-        var boardController = getGameController().getBoardController();
+        var boardController = getLocalGameController().getBoardController();
         var player = boardController.player();
         var resAll = player.getResAll();
         var list = new LinkedList<Card>();
@@ -964,7 +882,7 @@ public class CLI implements Runnable, UI{
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private List<Card> canUseAnyCardLeader(CardLeader[] cards){
-        var boardController = getGameController().getBoardController();
+        var boardController = getLocalGameController().getBoardController();
         var player = boardController.player();
         var resAll = player.getResAll();
         var slots = player.checkLibraryStatus();
@@ -1029,7 +947,7 @@ public class CLI implements Runnable, UI{
      * @see #canUseAnyCardLeader(CardLeader[])
      */
     private synchronized void wakeALeader(){
-        var boardController = getGameController().getBoardController();
+        var boardController = getLocalGameController().getBoardController();
         var player = boardController.player();
         var actual = canUseAnyCardLeader(player.getMyLeaderCards());
         if(actual.isEmpty()){
@@ -1039,7 +957,7 @@ public class CLI implements Runnable, UI{
             for(var card : actual)
                 showCard(card);
             var card = (CardLeader)pickCard(CardLeader.class);
-            if(actual.contains(card)) executor.execute(() -> getGameController().cardLeadAction(card));
+            if(actual.contains(card)) executor.execute(() -> getLocalGameController().cardLeadAction(card));
             else{
                 output.println("You don't have this Leader");
             }
@@ -1058,7 +976,7 @@ public class CLI implements Runnable, UI{
     private void prepareResForWarehouse(Colours colour, int qnt){
         var newPick = new Pick(colour, qnt);
         var response = 0;
-        var bc = getGameController().getBoardController();
+        var bc = getLocalGameController().getBoardController();
         if(colour == Colours.RED) bc.moveFT(1);
         else{
             showWarehouse();
@@ -1068,7 +986,7 @@ public class CLI implements Runnable, UI{
             var player = bc.player();
             while(!player.checkWarehouseAdd(newPick, lvl)){
                 response = getResponse();
-                lvl = actOnResponse(colour, response, lvl, getGameController());
+                lvl = actOnResponse(colour, response, lvl, getLocalGameController());
                 if(response == 1) break;
             }
             if(response != 1) bc.warehouseResHandler(colour, qnt, lvl);
@@ -1089,7 +1007,7 @@ public class CLI implements Runnable, UI{
     private int actOnResponse(Colours colour, int response, int lvl, LocalGameController gameController){
         var boardController = gameController.getBoardController();
         switch(response){
-            case 1 -> getGameController().addFaithPnt(Collections.singletonList(colour));
+            case 1 -> getLocalGameController().addFaithPnt(Collections.singletonList(colour));
             case 2 -> {
                 var player = boardController.player();
                 var content = player.checkWarehouseStatus();
@@ -1163,7 +1081,7 @@ public class CLI implements Runnable, UI{
     private void showWarehouse(){
         printLine();
         output.println("At the moment the situation with the warehouse is this:");
-        var boardController = getGameController().getBoardController();
+        var boardController = getLocalGameController().getBoardController();
         var content = boardController.player().checkWarehouseStatus();
         var i = 0;
         for(var pick : content)
@@ -1187,7 +1105,7 @@ public class CLI implements Runnable, UI{
     private void showLibrary(){
         printLine();
         output.println("These are your board slots:");
-        var boardController = getGameController().getBoardController();
+        var boardController = getLocalGameController().getBoardController();
         var slots = boardController.player().checkLibraryStatus();
         var i = 0;
         for(var thisSlot : slots)
@@ -1211,78 +1129,10 @@ public class CLI implements Runnable, UI{
     private void showStrongBox(){
         printLine();
         output.println("This is what's in your StrongBox:");
-        var boardController = getGameController().getBoardController();
+        var boardController = getLocalGameController().getBoardController();
         var player = boardController.player();
         var map = player.checkStrongBoxStatus();
         map.keySet().stream().map(color -> color.getType() + " -> " + map.get(color)).forEach(output::println);
         printLine();
-    }
-
-    /**
-     * method getCorrectLeaderCardCode is used to check if the two digit code typed by the user for the leader cards is correct.
-     *
-     * @param response
-     * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
-     */
-    private Card getCorrectLeaderCardCode(String response){
-        try{
-            var code = Integer.parseInt(response);
-            while(code < 1 || code > 16){
-                output.println("Not a correct code");
-                response = input.next().toUpperCase();
-                code = Integer.parseInt(response);
-            }
-        } catch(NumberFormatException e){
-            output.println("Not even a number");
-            response = input.next().toUpperCase();
-            getCorrectDevCardCode(response);
-        }
-        return CardLeader.getSpecificCard(response);
-    }
-
-    private boolean isFirstCharOk(String response){
-        return response.charAt(0) == '1' || response.charAt(0) == '2' || response.charAt(0) == '3' || response.charAt(0) == '4';
-    }
-
-    private boolean isSecondCharOk(String response){
-        return response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y';
-    }
-
-    private boolean isThirdCharOk(String response){
-        return response.charAt(2) == '1' || response.charAt(2) == '2' || response.charAt(2) == '3';
-    }
-
-    /**
-     * method getCorrectDevCardCode is used to check if the code typed by the user for the Dev Card is correct.
-     *
-     * @param response
-     * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
-     */
-    private Card getCorrectDevCardCode(String response){
-        while(!(response.length() == 3 && isFirstCharOk(response) && isSecondCharOk(response) && isThirdCharOk(response))){
-            output.println("Not a correct code\nTry again");
-            response = input.next().toUpperCase();
-        }
-        return CardDev.getSpecificCard(response);
-    }
-
-    /**
-     * method drawMarket prints the market graphically on the Command Line Interface
-     *
-     * @param colours
-     * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
-     */
-    private String drawMarket(Colours colours){
-        return switch(colours){
-            case RED -> ConsoleColors.RED + "███" + ConsoleColors.RESET;
-            case BLUE -> ConsoleColors.BLUE + "███" + ConsoleColors.RESET;
-            case GREY -> ConsoleColors.BLACK_BRIGHT + "███" + ConsoleColors.RESET;
-            case WHITE -> ConsoleColors.WHITE + "███" + ConsoleColors.RESET;
-            case YELLOW -> ConsoleColors.YELLOW + "███" + ConsoleColors.RESET;
-            case PURPLE -> ConsoleColors.PURPLE + "███" + ConsoleColors.RESET;
-        };
     }
 }
