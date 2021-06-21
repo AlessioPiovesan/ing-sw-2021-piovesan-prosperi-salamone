@@ -20,6 +20,11 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ * method GUI is used to create the Graphical User Interface of the game.
+ * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ */
+
 public class GUI extends Application implements UI{
 
     private static final String BOARDS = "boards.fxml";
@@ -43,11 +48,12 @@ public class GUI extends Application implements UI{
 
     /**
      * Method setup creates all the stage phases which will be updated in other methods, in particular:
-     * - MENU: the game's main menu with Play and Quit buttons;
+     * - MENU: the game's main menu with Single Player, Multi Player and Quit.
      * - SETUP: small windows containing player's inserted nickname, the server IP and port;
-     * - LOADER: the game loader containing player's chosen color, god power and places their workers;
-     * - GUI: the effective game GUI (island board).
+     * - LOADER: the game loader.
+     * - GUI: the effective game GUI.
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void setup() throws IOException{
         var fxmList = new ArrayList<>(Arrays.asList(INITIALLEADERCARDS, BOARDS, STRONGBOX));
@@ -120,6 +126,13 @@ public class GUI extends Application implements UI{
 
     }
 
+    /**
+     * method propertyChange is part of the Observer Pattern that can react to Model's changes.
+     * TEMPORARYLEADERCARDS : starts the GUI and calls for changeStage.
+     * @see #changeStage(String) 
+     * @see #start(Stage)
+     * @param evt
+     */
     @Override
     public void propertyChange(PropertyChangeEvent evt){
         switch(evt.getPropertyName()){
@@ -133,6 +146,11 @@ public class GUI extends Application implements UI{
         }
     }
 
+    /**
+     * method start creates the first stage where the scenes are going to be changed 
+     * @param primaryStage of type Stage
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     */
     @Override
     public void start(Stage primaryStage){
         primaryStage.setTitle("Masters Of Renaissance");
@@ -141,6 +159,11 @@ public class GUI extends Application implements UI{
         Font.loadFont(getClass().getResourceAsStream("/font/Academy Engraved LET Fonts.ttf"), 25);
     }
 
+    /**
+     * method changeStage is used to update the current scene shown to the player
+     * @param newScene of type String
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     */
     public void changeStage(String newScene){
         currentScene = nameMapScene.get(newScene);
         stage.setScene(currentScene);
@@ -152,6 +175,11 @@ public class GUI extends Application implements UI{
         currentScene.heightProperty().addListener(resize.getHeightListener());
     }
 
+    /**
+     * method chooseInitialLeaders is used to record the inital Leader Card choice of the player
+     * @param selected of type CardLeader - player's selection
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     */
     public void chooseInitialLeaders(CardLeader[] selected){
         if(single) LocalGameController.getInstance().getBoardController().player().setMyLeaderCards(selected);
     }

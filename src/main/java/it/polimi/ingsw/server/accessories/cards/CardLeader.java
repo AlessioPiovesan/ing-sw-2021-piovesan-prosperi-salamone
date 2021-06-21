@@ -6,6 +6,10 @@ import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.Requirements;
 
+/**
+ * Class enumeration for Leader Cards
+ * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ */
 public enum CardLeader implements Card{
 
     CARDLEAD01(new Requirements[]{new Requirements.RequirementsCard(1, ColoursCards.GREEN), new Requirements.RequirementsCard(1, ColoursCards.YELLOW)}, "-1 Servant", Colours.PURPLE, 2),
@@ -77,6 +81,12 @@ public enum CardLeader implements Card{
         return ConsoleColors.PURPLE + name() + ConsoleColors.RESET + "\t->\t" + "this card gives you the ability of\n" + ConsoleColors.RED_UNDERLINED + ability + ConsoleColors.RESET + " and " + winPnt + " points,\n\tto activate this card you need:\n" + showReq(req);
     }
 
+    /**
+     * Method showReq show requirements needed to activate a Leader Card
+     * @param requirements of type Array of Requirements
+     * @return String
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     */
     private String showReq(Requirements[] requirements){
         var stringReq = new StringBuilder();
         for(var requirement : requirements)

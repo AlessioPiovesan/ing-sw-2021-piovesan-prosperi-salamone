@@ -6,6 +6,10 @@ import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.Pick;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Enumeration class used to list Development Cards
+ * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ */
 public enum CardDev implements Card{
 
     CARDDEV_1C1(1, ColoursCards.CYAN, new Pick[]{new Pick(Colours.YELLOW, 2)}, new Pick[]{new Pick(Colours.BLUE, 1)}, new Pick[]{new Pick(Colours.RED, 1)}, 1),
@@ -117,6 +121,12 @@ public enum CardDev implements Card{
         };
     }
 
+    /**
+     * method showPick is used to visualize resources and it is used in the toString method
+     * @param picks of type Array of Picks
+     * @return String
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     */
     private String showPick(Pick[] picks){
         var string = new StringBuilder();
         for(var pick : picks)

@@ -6,6 +6,11 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 
+/**
+ * class StrongBoxController is the Controller for the strongbox later used in the Graphical User Interface.
+ * It has FXML attributes for JavaFX
+ * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ */
 public class StrongBoxController implements GUIController{
 
 

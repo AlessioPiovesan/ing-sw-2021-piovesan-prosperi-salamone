@@ -3,11 +3,19 @@ package it.polimi.ingsw.clients;
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.web.Local;
 
-
+/**
+ * Class ClientApp instantiates and starts the client
+ * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ */
 public class ClientApp{
 
     private ClientApp(){}
 
+    /**
+     * method start starts the client
+     * @param input of type int
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     */
     public static void start(int input){
         Client client;
         if(input == 1) client = new Local(0);
