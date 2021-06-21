@@ -3,7 +3,9 @@ package it.polimi.ingsw.clients.viewer.utils;
 /**
  * class ConsoleColors is the class that contains all the possible colors which might have a use in the Command Line Interface
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class ConsoleColors{
 

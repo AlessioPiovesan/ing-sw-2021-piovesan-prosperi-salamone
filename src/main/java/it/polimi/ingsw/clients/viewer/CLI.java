@@ -26,7 +26,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * class CLI creates the Command Line Interface which is on of the two ways to play the game
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class CLI implements Runnable, UI{
 
@@ -73,7 +75,6 @@ public class CLI implements Runnable, UI{
      * WRONG: used in case of a wrong input from the player
      *
      * @param evt of type PropertyChangeEvent
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #nextAction()
      * @see #resourcesHandlerMarket(List)
      * @see #resourcesHandler(List)
@@ -109,7 +110,6 @@ public class CLI implements Runnable, UI{
      * method payForCardDev is used to handle the payment of a Development Card.
      *
      * @param cost of type List of Pick
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #showWarehouse()
      * @see #showStrongBox()
      */
@@ -132,7 +132,6 @@ public class CLI implements Runnable, UI{
      * method chooseInitialLeaders is used to record the player's choice at the start of the game for his Leader Cards
      *
      * @param cards of type Array of CardLeader
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private synchronized void chooseInitialLeaders(CardLeader[] cards){
         var list = new ArrayList<CardLeader>();
@@ -166,7 +165,6 @@ public class CLI implements Runnable, UI{
      * 5: shows the faith track
      * 6: back to choosing action
      *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #showWarehouse()
      * @see #showStrongBox()
      * @see #showLibrary()
@@ -214,8 +212,6 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showMyCardLeader shows all of the Leader Cards owned by one player
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showMyCardLeader(){
         printLine();
@@ -228,8 +224,6 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showFaithTrack builds and prints the updated faith track of the game
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showFaithTrack(){
         final var pos = 0;
@@ -260,8 +254,6 @@ public class CLI implements Runnable, UI{
     /**
      * method showFaithTrackSingle is used in case the game is in single player mode.
      * On the faith track there will be Lorenzo's pawn too.
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showFaithTrackSingle(){
         final var pos = getLocalGameController().getBoardController().player().checkFT();
@@ -303,7 +295,6 @@ public class CLI implements Runnable, UI{
     /**
      * method nextAction asks the player what is next action is going to be
      *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #chooseAction(String)
      */
     private synchronized void nextAction(){
@@ -333,7 +324,6 @@ public class CLI implements Runnable, UI{
      * 5: Show Status
      *
      * @param menu
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #startProd()
      * @see #marketMove()
      * @see #chooseCardDev()
@@ -365,8 +355,6 @@ public class CLI implements Runnable, UI{
 
     /**
      * method startProd is used to activate the production of a player's board
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private synchronized void startProd(){
         var boardController = getLocalGameController().getBoardController();
@@ -397,7 +385,6 @@ public class CLI implements Runnable, UI{
      * method activateProdCard is used after startProd has been triggered and activates the production of Development Cards
      *
      * @param card
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private synchronized void activateProdCard(CardDev card){
         var boardController = getLocalGameController().getBoardController();
@@ -418,7 +405,6 @@ public class CLI implements Runnable, UI{
      * For every discarded resource other players get an additional Faith point which moves them further on the faith track
      *
      * @param bufferMarket
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #resourcesDestination(Colours, String, String)
      */
     private synchronized void resourcesHandlerMarket(List<Colours> bufferMarket){
@@ -450,7 +436,6 @@ public class CLI implements Runnable, UI{
      * @param s
      * @param s2
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private int resourcesDestination(Colours colour, String s, String s2){
         output.print(colour.getType() + s);
@@ -475,7 +460,6 @@ public class CLI implements Runnable, UI{
      * 2: From Strongbox
      *
      * @param bufferProd
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #prepareResForWarehouse(Colours, int)
      * @see it.polimi.ingsw.server.model.board.Board#storeInStrongBox(Pick[])
      */
@@ -512,7 +496,6 @@ public class CLI implements Runnable, UI{
      * method showCard shows a card;
      *
      * @param card
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showCard(Card card){
         printLine();
@@ -544,7 +527,6 @@ public class CLI implements Runnable, UI{
      * method reChooseNickname is used in case a player chooses a nickname already taken
      *
      * @param id
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void reChooseNickname(int id){
         output.println("This nickname is already taken\nThis player is playing a game with id: " + id);
@@ -553,8 +535,6 @@ public class CLI implements Runnable, UI{
 
     /**
      * method clientSetup is used to ask for IP and Port of the server
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     @Override
     public void clientSetup(){
@@ -569,8 +549,6 @@ public class CLI implements Runnable, UI{
 
     /**
      * method chooseNickname is used to record a player's nickname
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void chooseNickname(){
         output.print(">\tChoose a nickname\n>\t");
@@ -588,8 +566,6 @@ public class CLI implements Runnable, UI{
 
     /**
      * method askNPlayers asks a player how many players are going to play the game
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     @Override
     public void askNPlayers(){
@@ -613,8 +589,6 @@ public class CLI implements Runnable, UI{
      * method askId asks the player if he already has a game to join by requesting the game ID previously provided
      * by another player who created the match.
      * In case the player does not have a game ID and wants to create a new match, an ID will be provided to him.
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     @Override
     public void askId(){
@@ -636,7 +610,6 @@ public class CLI implements Runnable, UI{
      * method askIP asks the player for the server's IP address
      *
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public String askIP(){
         var ip = "";
@@ -654,7 +627,6 @@ public class CLI implements Runnable, UI{
      * method askPort asks the player for the Server's port
      *
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private int askPort(){
         output.print(">\tInsert the server port\n>\t");
@@ -669,8 +641,6 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showMarket is used to create and print the market in order for the player to visualize it
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showMarket(){
         printLine();
@@ -694,7 +664,6 @@ public class CLI implements Runnable, UI{
      *
      * @param clazz
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private Card pickCard(Class<? extends Card> clazz){
         Card card = null;
@@ -714,7 +683,6 @@ public class CLI implements Runnable, UI{
      * -handling the resources on a row or a column to the player based on his choice.
      * -moving the market as a consequence of the choice
      *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private synchronized void marketMove(){
         var move = -1;
@@ -767,7 +735,6 @@ public class CLI implements Runnable, UI{
      * method chooseCardDev is the method used whenever a player wants to buy a Development Card with his resources.
      * Whenever the player cannot buy any Dev Card, this method will warn him.
      *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      * @see #canBuyAnyCardDev(List)
      */
     private synchronized void chooseCardDev(){
@@ -806,7 +773,6 @@ public class CLI implements Runnable, UI{
      *
      * @param card
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private int pickSlot(CardDev card){
         showLibrary();
@@ -833,7 +799,6 @@ public class CLI implements Runnable, UI{
      *
      * @param cards
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private List<Card> canBuyAnyCardDev(List<CardDev> cards){
         var boardController = getLocalGameController().getBoardController();
@@ -858,7 +823,6 @@ public class CLI implements Runnable, UI{
      *
      * @param cards
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private List<Card> canUseAnyCardDev(List<CardDev> cards){
         var boardController = getLocalGameController().getBoardController();
@@ -879,7 +843,6 @@ public class CLI implements Runnable, UI{
      *
      * @param cards
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private List<Card> canUseAnyCardLeader(CardLeader[] cards){
         var boardController = getLocalGameController().getBoardController();
@@ -971,7 +934,6 @@ public class CLI implements Runnable, UI{
      *
      * @param colour
      * @param qnt
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void prepareResForWarehouse(Colours colour, int qnt){
         var newPick = new Pick(colour, qnt);
@@ -1002,7 +964,6 @@ public class CLI implements Runnable, UI{
      * @param lvl
      * @param gameController
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private int actOnResponse(Colours colour, int response, int lvl, LocalGameController gameController){
         var boardController = gameController.getBoardController();
@@ -1042,7 +1003,6 @@ public class CLI implements Runnable, UI{
      * 4: goes back
      *
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private int getResponse(){
         int response;
@@ -1075,8 +1035,6 @@ public class CLI implements Runnable, UI{
     /**
      * method showWarehouse is used to print out a reminder of the situation of the warehouse in case the player
      * needs it to make his decision.
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showWarehouse(){
         printLine();
@@ -1099,8 +1057,6 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showLibrary prints the situation of the Library
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showLibrary(){
         printLine();
@@ -1123,8 +1079,6 @@ public class CLI implements Runnable, UI{
 
     /**
      * method showStrongbox prints the situation of the Strongbox
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     private void showStrongBox(){
         printLine();

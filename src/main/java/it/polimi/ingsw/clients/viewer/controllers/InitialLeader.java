@@ -16,7 +16,9 @@ import java.util.LinkedList;
  * class InitialLeader is the class responsible to show the players the initial Leader Cards that can be chosen in the GUI.
  * It uses FXML files for JavaFX
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class InitialLeader implements GUIController{
 
@@ -48,7 +50,6 @@ public class InitialLeader implements GUIController{
      * method getCards is used to get the Cards' Images
      *
      * @param list
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void getCards(CardLeader[] list){
         Collections.addAll(thisCards, list);
@@ -66,7 +67,6 @@ public class InitialLeader implements GUIController{
      * method addCard adds the Leader Cards based on the player's mouse action
      *
      * @param mouseEvent
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void addCard(MouseEvent mouseEvent){
         var source = (ImageView)mouseEvent.getSource();

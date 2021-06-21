@@ -6,7 +6,9 @@ import javafx.scene.layout.Pane;
 /**
  * class MarketController is the controller for the market used in the Graphical User Interface
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class MarketController implements GUIController{
 

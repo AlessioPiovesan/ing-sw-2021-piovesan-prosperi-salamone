@@ -18,7 +18,9 @@ import java.util.Objects;
  * class BoardsController is the GUI controller of every player's board.
  * It uses FXML files for JavaFX
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public class BoardsController implements GUIController{
 

@@ -9,7 +9,9 @@ import org.jetbrains.annotations.NotNull;
 /**
  * Enumeration class used to list Development Cards
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public enum CardDev implements Card{
 

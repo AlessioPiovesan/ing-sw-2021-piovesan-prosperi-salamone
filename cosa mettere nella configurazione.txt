@@ -1,9 +1,0 @@
-(i nickname di tutti i giocatori di una partita) - è una richiesta per la Persistenza
-stato mercato
-stato plance
-- posizione sul tracciato fede
-- contenuto forziere
-- contenuto magazzino
-
-le costanti di gioco
-(le costanti delle carte di quel gioco nel caso siano madificabili)

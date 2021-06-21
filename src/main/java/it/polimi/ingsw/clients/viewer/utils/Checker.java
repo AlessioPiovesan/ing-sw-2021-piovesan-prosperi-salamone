@@ -40,7 +40,6 @@ public class Checker{
      * @param card
      * @param slot
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public boolean isAddable(LocalGameController gameController, CardDev card, int slot){
         var slotCards = gameController.getBoardController().player().checkLibraryStatus().get(slot - 1);
@@ -57,7 +56,6 @@ public class Checker{
      *
      * @param response
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public Card getCorrectLeaderCardCode(String response){
         try{
@@ -80,7 +78,6 @@ public class Checker{
      *
      * @param response
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public Card getCorrectDevCardCode(String response){
         while(!(response.length() == 3 && isFirstCharOk(response) && isSecondCharOk(response) && isThirdCharOk(response))){

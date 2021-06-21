@@ -23,7 +23,9 @@ import java.util.Objects;
 /**
  * method GUI is used to create the Graphical User Interface of the game.
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 
 public class GUI extends Application implements UI{
@@ -54,8 +56,6 @@ public class GUI extends Application implements UI{
      * - LOADER: the game loader.
      * - GUI: the effective game GUI.
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
-     *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void setup() throws IOException{
         var fxmList = new ArrayList<>(Arrays.asList(INITIALLEADERCARDS, BOARDS, STRONGBOX));
@@ -153,7 +153,6 @@ public class GUI extends Application implements UI{
      * method start creates the first stage where the scenes are going to be changed
      *
      * @param primaryStage of type Stage
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     @Override
     public void start(Stage primaryStage){
@@ -167,7 +166,6 @@ public class GUI extends Application implements UI{
      * method changeStage is used to update the current scene shown to the player
      *
      * @param newScene of type String
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void changeStage(String newScene){
         currentScene = nameMapScene.get(newScene);
@@ -184,7 +182,6 @@ public class GUI extends Application implements UI{
      * method chooseInitialLeaders is used to record the inital Leader Card choice of the player
      *
      * @param selected of type CardLeader - player's selection
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void chooseInitialLeaders(CardLeader[] selected){
         if(single) LocalGameController.getInstance().getBoardController().player().setMyLeaderCards(selected);

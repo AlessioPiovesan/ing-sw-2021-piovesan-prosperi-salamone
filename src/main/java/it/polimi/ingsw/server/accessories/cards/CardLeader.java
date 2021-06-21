@@ -9,7 +9,9 @@ import it.polimi.ingsw.server.accessories.Requirements;
 /**
  * Class enumeration for Leader Cards
  *
- * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
  */
 public enum CardLeader implements Card{
 

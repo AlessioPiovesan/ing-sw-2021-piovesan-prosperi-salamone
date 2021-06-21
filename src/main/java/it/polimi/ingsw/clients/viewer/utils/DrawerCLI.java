@@ -9,7 +9,6 @@ public class DrawerCLI{
      *
      * @param trackN
      * @param i
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void drawFTBoxNumber(StringBuilder trackN, int i){
         if(i < 9) trackN.append("██").append(i).append("\t");
@@ -29,7 +28,6 @@ public class DrawerCLI{
      * @param topL
      * @param trackTop
      * @param trackCen
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void drawYourBoxFTSingle(boolean pf, String centralL, String topL, StringBuilder trackTop, StringBuilder trackCen){
         if(pf){
@@ -47,7 +45,6 @@ public class DrawerCLI{
      * @param trackTop
      * @param redBold
      * @param yellowBoldBright
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void drawSpecialBoxFTSingle(StringBuilder trackTop, String redBold, String yellowBoldBright){
         trackTop.append("█").append(redBold).append("X").append(yellowBoldBright).append("█").append("\t");
@@ -59,7 +56,6 @@ public class DrawerCLI{
      * @param pf
      * @param trackTop
      * @param trackCen
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public void drawYouAndLorenzoBoxFT(boolean pf, StringBuilder trackTop, StringBuilder trackCen){
         if(pf){
@@ -76,7 +72,6 @@ public class DrawerCLI{
      *
      * @param colours
      * @return
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
     public String drawMarket(Colours colours){
         return switch(colours){
