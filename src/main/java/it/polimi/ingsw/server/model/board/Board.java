@@ -277,19 +277,6 @@ public class Board{
     }
 
     /**
-     * Method moveFT moves the pawn on the Faith Track
-     *
-     * @param move of type int
-     * @see FaithTrack #moveForward
-     * @see #checkIfEndGame()
-     */
-    public void moveFT(int move){
-        faithTrack.moveForward(move);
-        checkIfEndGame();
-        pcs.firePropertyChange("redCrossMove", "", faithTrack.getPosition());
-    }
-
-    /**
      * @param special resource type that you can add in the extra space
      * @see Warehouse#addLeaderSpace(Colours)
      */
@@ -425,9 +412,23 @@ public class Board{
      */
     public void storeInStrongBox(Pick[] start){
         for(Pick pick : start){
-            strongBox.moveResources(pick);
+            if(pick.resource() == Colours.RED) moveFT(pick.qnt());
+            else strongBox.moveResources(pick);
         }
         updateResAll();
+    }
+
+    /**
+     * Method moveFT moves the pawn on the Faith Track
+     *
+     * @param move of type int
+     * @see FaithTrack #moveForward
+     * @see #checkIfEndGame()
+     */
+    public void moveFT(int move){
+        faithTrack.moveForward(move);
+        checkIfEndGame();
+        pcs.firePropertyChange("redCrossMove", "", faithTrack.getPosition());
     }
 
     public void produce(CardDev card){

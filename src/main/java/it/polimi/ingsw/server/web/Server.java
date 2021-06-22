@@ -149,7 +149,7 @@ public class Server implements Runnable{
         players.put(name, id);
     }
 
-    private void removePlayer(String name){
+    public void removePlayer(String name){
         players.remove(name);
     }
 

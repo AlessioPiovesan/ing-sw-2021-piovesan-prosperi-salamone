@@ -134,4 +134,8 @@ public class SocketServerToClient implements Runnable{
         var id = remoteView.getId();
         server.lobby(this, name, n, id);
     }
+
+    public void deleteGamer(String nickname){
+        server.removePlayer(nickname);
+    }
 }

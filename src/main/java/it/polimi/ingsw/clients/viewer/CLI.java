@@ -208,7 +208,6 @@ public class CLI implements Runnable, UI{
         }
     }
 
-
     /**
      * method nextAction asks the player what is next action is going to be
      *
@@ -277,12 +276,14 @@ public class CLI implements Runnable, UI{
         var boardController = getLocalGameController().getBoardController();
         var player = boardController.player();
         var library = player.checkLibraryStatus();
+        var i = 0;
         for(var librarySlot : library){
             if(librarySlot.isEmpty()){
-                output.println("You don't have any development card");
+                output.println("You don't have any development card in slot #" + i++);
                 nextAction();
             }
             else{
+                i++;
                 librarySlot = (ArrayList<CardDev>)Checker.castList(CardDev.class, checker.canUseAnyCardDev(librarySlot, getLocalGameController()));
                 if(!librarySlot.isEmpty()){
                     var actionableCard = librarySlot.get(librarySlot.size() - 1);
@@ -408,7 +409,6 @@ public class CLI implements Runnable, UI{
         drawer.showWarehouse();
         getLocalGameController().nextPlayer();
     }
-
 
     @Override
     public void setSingle(boolean single){this.single = single;}

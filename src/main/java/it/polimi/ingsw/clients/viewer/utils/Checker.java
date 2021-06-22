@@ -91,7 +91,7 @@ public class Checker{
     }
 
     private boolean isSecondCharOk(String response){
-        return response.charAt(1) == 'B' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y';
+        return response.charAt(1) == 'C' || response.charAt(1) == 'G' || response.charAt(1) == 'P' || response.charAt(1) == 'Y';
     }
 
     private boolean isThirdCharOk(String response){
@@ -177,7 +177,7 @@ public class Checker{
      * @param req
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
-    public void checkOnRequiredRes(Map<Colours, Integer> resAll, LinkedList<Card> list, CardLeader card, Requirements.RequirementsResources req){
+    private void checkOnRequiredRes(Map<Colours, Integer> resAll, LinkedList<Card> list, CardLeader card, Requirements.RequirementsResources req){
         var colorRequired = req.getColour();
         var qntRequired = req.getQnt();
         var qntAvailable = (int)resAll.get(colorRequired);
@@ -193,7 +193,7 @@ public class Checker{
      * @param req
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
-    public void checkOnRequiredCard(List<ArrayList<CardDev>> slots, LinkedList<Card> list, CardLeader card, Requirements.RequirementsCard req){
+    private void checkOnRequiredCard(List<ArrayList<CardDev>> slots, LinkedList<Card> list, CardLeader card, Requirements.RequirementsCard req){
         var colorRequired = req.getColour();
         var lvlRequired = req.getCardLvl();
         for(var slot : slots){

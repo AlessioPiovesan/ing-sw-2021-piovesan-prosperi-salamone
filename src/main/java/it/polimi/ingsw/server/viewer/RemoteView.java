@@ -55,4 +55,8 @@ public class RemoteView implements PropertyChangeListener{
         socketServerToClient.send("Setup complete");
         socketServerToClient.sendInLobby();
     }
+
+    private void end(){
+        socketServerToClient.deleteGamer(nickname);
+    }
 }
