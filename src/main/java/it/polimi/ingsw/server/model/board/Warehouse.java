@@ -131,6 +131,7 @@ public class Warehouse{
 
     /**
      * method addLeaderSpace is a Leader Card's power that adds a special depot of two additional spaces.
+     *
      * @param color
      */
     protected void addLeaderSpace(Colours color){

@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * class LocalGameController is the controller class for the local single player game.
+ *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone
@@ -42,6 +43,7 @@ public class LocalGameController{
 
     /**
      * method moveLorenzo is the method responsible for any Lorenzo's move.
+     *
      * @see #nextPlayer()
      */
     public void moveLorenzo(){
@@ -83,9 +85,10 @@ public class LocalGameController{
 
     /**
      * method marketAction handles market choices and movements.
+     *
+     * @param moveMarket
      * @see it.polimi.ingsw.server.model.board.Board#marketResHandler(List)
      * @see Market#moveMarbles(int)
-     * @param moveMarket
      */
     public void marketAction(int moveMarket){
         var b = boardController.player();
@@ -98,8 +101,9 @@ public class LocalGameController{
 
     /**
      * method addFaithPnt is used to move forward on the faith track
-     * @see it.polimi.ingsw.server.model.board.Board#moveFT(int)
+     *
      * @param waste
+     * @see it.polimi.ingsw.server.model.board.Board#moveFT(int)
      */
     public void addFaithPnt(List<Colours> waste){
         int a = waste.size();
@@ -112,12 +116,12 @@ public class LocalGameController{
      * 05,06,07,08: Adds a special depot with two additional spaces for resources.
      * 09,10,11,12: White marble becomes the specified resource.
      * 13,14,15,16: Additional production power.
+     *
+     * @param cardToBeActivated
      * @see it.polimi.ingsw.server.model.board.Board#setDiscount(Colours)
      * @see it.polimi.ingsw.server.model.board.Board#addLeaderSpace(Colours)
      * @see it.polimi.ingsw.server.model.board.Board#setMarketAlt(Colours)
      * @see it.polimi.ingsw.server.model.board.Board#setProductAlt(Colours)
-     *
-     * @param cardToBeActivated
      */
     public synchronized void cardLeadAction(CardLeader cardToBeActivated){
         switch(cardToBeActivated){
@@ -131,9 +135,10 @@ public class LocalGameController{
 
     /**
      * cardDevAction is the action the player makes when he buys a dev card.
-     * @see it.polimi.ingsw.server.model.board.Board#buyCardDev(CardDev, int)
+     *
      * @param cardToBeBought
      * @param slot
+     * @see it.polimi.ingsw.server.model.board.Board#buyCardDev(CardDev, int)
      */
     public void cardDevAction(CardDev cardToBeBought, int slot){
         var b = boardController.player();
@@ -157,9 +162,10 @@ public class LocalGameController{
 
     /**
      * method endGame counts winning points for the single player in order to handle personal records
-     * @see Board#countWinPnt()
+     *
      * @param winner
      * @return
+     * @see Board#countWinPnt()
      */
     public String endGame(boolean winner){
         if(winner){

@@ -6,9 +6,7 @@ import it.polimi.ingsw.clients.viewer.utils.Checker;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.clients.viewer.utils.DrawerCLI;
 import it.polimi.ingsw.server.accessories.Colours;
-import it.polimi.ingsw.server.accessories.Constants;
 import it.polimi.ingsw.server.accessories.Pick;
-import it.polimi.ingsw.server.accessories.Requirements;
 import it.polimi.ingsw.server.accessories.cards.Card;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
@@ -44,7 +42,7 @@ public class CLI implements Runnable, UI{
     public CLI(){
         single = false;
         checker = new Checker(this);
-        drawer = new DrawerCLI();
+        drawer = new DrawerCLI(this);
         input = new Scanner(System.in);
         output = new PrintWriter(System.out, true);
         executor = new ThreadPoolExecutor(0, 8, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
@@ -110,12 +108,12 @@ public class CLI implements Runnable, UI{
      * method payForCardDev is used to handle the payment of a Development Card.
      *
      * @param cost of type List of Pick
-     * @see #showWarehouse()
-     * @see #showStrongBox()
+     * @see DrawerCLI#showWarehouse()
+     * @see DrawerCLI#showStrongBox()
      */
     private synchronized void payForCardDev(List<Pick> cost){
-        showWarehouse();
-        showStrongBox();
+        drawer.showWarehouse();
+        drawer.showStrongBox();
         for(var pick : cost){
             var color = pick.resource();
             for(var i = 0; i < pick.qnt(); i++){
@@ -139,7 +137,7 @@ public class CLI implements Runnable, UI{
         Collections.addAll(list, cards);
         var i = 0;
         while(i < 2){
-            for(CardLeader card : list) showCard(card);
+            for(CardLeader card : list) drawer.showCard(card);
             var card = (CardLeader)pickCard(CardLeader.class);
             if(list.contains(card)){
                 list.remove(card);
@@ -165,11 +163,11 @@ public class CLI implements Runnable, UI{
      * 5: shows the faith track
      * 6: back to choosing action
      *
-     * @see #showWarehouse()
-     * @see #showStrongBox()
-     * @see #showLibrary()
-     * @see #showMyCardLeader()
-     * @see #showFaithTrackSingle()
+     * @see DrawerCLI#showWarehouse()
+     * @see DrawerCLI#showStrongBox()
+     * @see DrawerCLI#showLibrary()
+     * @see DrawerCLI#showMyCardLeader()
+     * @see DrawerCLI#showFaithTrackSingle(Checker)
      */
     private synchronized void showStatus(){
         try{
@@ -191,13 +189,13 @@ public class CLI implements Runnable, UI{
                     s = input.nextInt();
                 }
                 switch(s){
-                    case 1 -> showWarehouse();
-                    case 2 -> showStrongBox();
-                    case 3 -> showLibrary();
-                    case 4 -> showMyCardLeader();
+                    case 1 -> drawer.showWarehouse();
+                    case 2 -> drawer.showStrongBox();
+                    case 3 -> drawer.showLibrary();
+                    case 4 -> drawer.showMyCardLeader();
                     case 5 -> {
-                        if(single) showFaithTrackSingle();
-                        else showFaithTrack();
+                        if(single) drawer.showFaithTrackSingle(checker);
+                        else drawer.showFaithTrack(checker);
                     }
                     case 6 -> output.println("Ok");
                     default -> output.print("There's no way you were able to that... I think...");
@@ -208,87 +206,6 @@ public class CLI implements Runnable, UI{
             output.println("Not a number");
             showStatus();
         }
-    }
-
-    /**
-     * method showMyCardLeader shows all of the Leader Cards owned by one player
-     */
-    private void showMyCardLeader(){
-        printLine();
-        output.println("These are your leader cards:");
-        var boardController = getLocalGameController().getBoardController();
-        var cards = boardController.player().getMyLeaderCards();
-        for(var singleCard : cards) output.println(singleCard);
-        printLine();
-    }
-
-    /**
-     * method showFaithTrack builds and prints the updated faith track of the game
-     */
-    private void showFaithTrack(){
-        final var pos = 0;
-        var normal = "███";
-        var central = ConsoleColors.RED_BOLD + "███" + ConsoleColors.RESET;
-        var top = "█" + ConsoleColors.RED_BOLD + "█" + ConsoleColors.RESET + "█";
-        var trackTop = new StringBuilder();
-        var trackCen = new StringBuilder();
-        var trackN = new StringBuilder();
-        for(var i = 0; i < 25; i++){
-            drawer.drawFTBoxNumber(trackN, i);
-            if(checker.isPopeFavor(i)){
-                drawer.drawFTBox(trackTop, ConsoleColors.YELLOW_BOLD_BRIGHT, trackCen);
-            }
-            if(i == pos){drawer.drawFTBox(trackTop.append(top), "\t", trackCen.append(central));}
-            else{
-                drawer.drawFTBox(trackTop.append(normal), "\t", trackCen.append(normal));
-            }
-            drawer.drawFTBox(trackTop, ConsoleColors.RESET, trackCen);
-        }
-        output.println(trackN);
-        output.println(trackTop);
-        output.println(trackCen);
-        output.println(trackTop);
-    }
-
-
-    /**
-     * method showFaithTrackSingle is used in case the game is in single player mode.
-     * On the faith track there will be Lorenzo's pawn too.
-     */
-    private void showFaithTrackSingle(){
-        final var pos = getLocalGameController().getBoardController().player().checkFT();
-        final var posL = getLocalGameController().getBoardController().lorenzo().checkFT();
-        var normal = "███";
-        var central = ConsoleColors.RED_BOLD + "███" + ConsoleColors.RESET;
-        var top = "█" + ConsoleColors.RED_BOLD + "█" + ConsoleColors.RESET + "█";
-        var centralL = ConsoleColors.BLACK_BOLD + "XXX" + ConsoleColors.RESET;
-        var topL = "█" + ConsoleColors.BLACK_BOLD + "X" + ConsoleColors.RESET + "█";
-        var trackTop = new StringBuilder();
-        var trackCen = new StringBuilder();
-        var trackN = new StringBuilder();
-        for(var i = 0; i < 25; i++){
-            drawer.drawFTBoxNumber(trackN, i);
-            if(checker.isPopeFavor(i)){
-                drawer.drawFTBox(trackTop, ConsoleColors.YELLOW_BOLD_BRIGHT, trackCen);
-            }
-            if(i == pos){
-                if(pos == posL) drawer.drawYouAndLorenzoBoxFT(checker.isPopeFavor(i), trackTop, trackCen);
-                else{
-                    drawer.drawFTBox(trackTop.append(top), "\t", trackCen.append(central));
-                }
-            }
-            else if(i == posL) drawer.drawYourBoxFTSingle(checker.isPopeFavor(i), centralL, topL, trackTop, trackCen);
-            else{
-                drawer.drawFTBox(trackTop.append(normal), "\t", trackCen.append(normal));
-            }
-            if(checker.isPopeFavor(i)){
-                drawer.drawFTBox(trackTop, ConsoleColors.RESET, trackCen);
-            }
-        }
-        output.println(trackN);
-        output.println(trackTop);
-        output.println(trackCen);
-        output.println(trackTop);
     }
 
 
@@ -366,7 +283,7 @@ public class CLI implements Runnable, UI{
                 nextAction();
             }
             else{
-                librarySlot = (ArrayList<CardDev>)Checker.castList(CardDev.class, canUseAnyCardDev(librarySlot));
+                librarySlot = (ArrayList<CardDev>)Checker.castList(CardDev.class, checker.canUseAnyCardDev(librarySlot, getLocalGameController()));
                 if(!librarySlot.isEmpty()){
                     var actionableCard = librarySlot.get(librarySlot.size() - 1);
                     output.println("Do you want to activate");
@@ -425,7 +342,7 @@ public class CLI implements Runnable, UI{
         output.println(colors);
         for(Colours colours : keep)
             prepareResForWarehouse(colours, 1);
-        showWarehouse();
+        drawer.showWarehouse();
         getLocalGameController().nextPlayer();
     }
 
@@ -488,24 +405,10 @@ public class CLI implements Runnable, UI{
         } catch(NumberFormatException e){
             resourcesHandler(bufferProd);
         }
-        showWarehouse();
+        drawer.showWarehouse();
         getLocalGameController().nextPlayer();
     }
 
-    /**
-     * method showCard shows a card;
-     *
-     * @param card
-     */
-    private void showCard(Card card){
-        printLine();
-        output.println(card.toString());
-        printLine();
-    }
-
-    private void printLine(){
-        output.println("_________________________________________________");
-    }
 
     @Override
     public void setSingle(boolean single){this.single = single;}
@@ -640,26 +543,6 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method showMarket is used to create and print the market in order for the player to visualize it
-     */
-    private void showMarket(){
-        printLine();
-        var marketTray = getLocalGameController().getGame().getMarket().getTray();
-        var externalMarble = getLocalGameController().getGame().getMarket().getExternal();
-        var print = new StringBuilder();
-        print.append(ConsoleColors.BLACK + "   \t   \t   \t" + ConsoleColors.RESET).append(drawer.drawMarket(externalMarble)).append("\n");
-        for(var i = 0; i < Constants.XMARKET.getVal(); i++){
-            for(var j = 0; j < Constants.YMARKET.getVal(); j++){
-                print.append(drawer.drawMarket(marketTray[i][j])).append("\t");
-            }
-            print.append("\n");
-        }
-        output.print(print);
-        output.flush();
-        printLine();
-    }
-
-    /**
      * method pickCard lets the player pick his Leader Card using a two digit code
      *
      * @param clazz
@@ -682,11 +565,10 @@ public class CLI implements Runnable, UI{
      * method marketMove is the one responsible for:
      * -handling the resources on a row or a column to the player based on his choice.
      * -moving the market as a consequence of the choice
-     *
      */
     private synchronized void marketMove(){
         var move = -1;
-        showMarket();
+        drawer.showMarket();
         output.println("\n0 ) Row\n1 ) Column");
         var j = -2;
         try{
@@ -735,18 +617,18 @@ public class CLI implements Runnable, UI{
      * method chooseCardDev is the method used whenever a player wants to buy a Development Card with his resources.
      * Whenever the player cannot buy any Dev Card, this method will warn him.
      *
-     * @see #canBuyAnyCardDev(List)
+     * @see Checker#canBuyAnyCardDev(List, LocalGameController)
      */
     private synchronized void chooseCardDev(){
         var game = getLocalGameController().getGame();
-        var actual = canBuyAnyCardDev(game.getCardDevDeck());
+        var actual = checker.canBuyAnyCardDev(game.getCardDevDeck(), getLocalGameController());
         if(actual.isEmpty()){
             output.println("You can not buy any card");
             nextAction();
         }
         else{
             for(var card : actual)
-                showCard(card);
+                drawer.showCard(card);
             var card = (CardDev)pickCard(CardDev.class);
             if(actual.contains(card)){
                 try{
@@ -775,7 +657,7 @@ public class CLI implements Runnable, UI{
      * @return
      */
     private int pickSlot(CardDev card){
-        showLibrary();
+        drawer.showLibrary();
         output.print("Slot for " + card.name() + "? [1-3]\n>\t");
         output.flush();
         var slot = -1;
@@ -793,132 +675,21 @@ public class CLI implements Runnable, UI{
         return slot - 1;
     }
 
-
-    /**
-     * method canBuyAnyCardDev checks if a player can buy a Development Card
-     *
-     * @param cards
-     * @return
-     */
-    private List<Card> canBuyAnyCardDev(List<CardDev> cards){
-        var boardController = getLocalGameController().getBoardController();
-        var player = boardController.player();
-        var resAll = player.getResAll();
-        var list = new LinkedList<Card>();
-        for(var card : cards){
-            var i = 0;
-            for(var cost : card.getCost()){
-                var costColor = cost.resource();
-                var costQnt = cost.qnt();
-                var availability = resAll.get(costColor);
-                if(costQnt <= availability) i++;
-            }
-            if(i == card.getCost().length) list.add(card);
-        }
-        return list;
-    }
-
-    /**
-     * method canUSeAnyCardDev checks if a player can use a Development Card in the production
-     *
-     * @param cards
-     * @return
-     */
-    private List<Card> canUseAnyCardDev(List<CardDev> cards){
-        var boardController = getLocalGameController().getBoardController();
-        var player = boardController.player();
-        var resAll = player.getResAll();
-        var list = new LinkedList<Card>();
-        for(var card : cards){
-            var i = 0;
-            for(var cost : card.getResFrom())
-                if(cost.qnt() <= resAll.get(cost.resource())) i++;
-            if(i == card.getResFrom().length) list.add(card);
-        }
-        return list;
-    }
-
-    /**
-     * method canUseAnyCardLeader checks if a player can activate a Leader's power
-     *
-     * @param cards
-     * @return
-     */
-    private List<Card> canUseAnyCardLeader(CardLeader[] cards){
-        var boardController = getLocalGameController().getBoardController();
-        var player = boardController.player();
-        var resAll = player.getResAll();
-        var slots = player.checkLibraryStatus();
-        var list = new LinkedList<Card>();
-        for(var card : cards)
-            for(var req : card.getReq()){
-                if(req.getClass() == Requirements.RequirementsResources.class)
-                    checkOnRequiredRes(resAll, list, card, (Requirements.RequirementsResources)req);
-                if(req.getClass() == Requirements.RequirementsCard.class)
-                    checkOnRequiredCard(slots, list, card, (Requirements.RequirementsCard)req);
-            }
-        return list;
-    }
-
-    /**
-     * method checkOnRequiredCard checks if a player matches Card's Requirements
-     *
-     * @param slots
-     * @param list
-     * @param card
-     * @param req
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
-     */
-    private void checkOnRequiredCard(List<ArrayList<CardDev>> slots, LinkedList<Card> list, CardLeader card, Requirements.RequirementsCard req){
-        var colorRequired = req.getColour();
-        var lvlRequired = req.getCardLvl();
-        for(var slot : slots){
-            for(var thisCard : slot){
-                if(thisCard != null){
-                    var colorCard = thisCard.getColour();
-                    var lvlCard = thisCard.getLvl();
-                    if(colorCard == colorRequired && lvlCard <= lvlRequired){
-                        list.add(card);
-                        break;
-                    }
-                }
-            }
-
-            if(list.contains(card)) break;
-        }
-    }
-
-    /**
-     * method checkOnRequiredRes is another check on required Resources
-     *
-     * @param resAll
-     * @param list
-     * @param card
-     * @param req
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
-     */
-    private void checkOnRequiredRes(Map<Colours, Integer> resAll, LinkedList<Card> list, CardLeader card, Requirements.RequirementsResources req){
-        var colorRequired = req.getColour();
-        var qntRequired = req.getQnt();
-        var qntAvailable = (int)resAll.get(colorRequired);
-        if(qntRequired <= qntAvailable) list.add(card);
-    }
-
     /**
      * method wakeALeader is the method used to activate a Leader's power
      *
-     * @see #canUseAnyCardLeader(CardLeader[])
+     * @see Checker#canUseAnyCardLeader(CardLeader[], LocalGameController)
      */
     private synchronized void wakeALeader(){
         var boardController = getLocalGameController().getBoardController();
         var player = boardController.player();
-        var actual = canUseAnyCardLeader(player.getMyLeaderCards());
+        var actual = checker.canUseAnyCardLeader(player.getMyLeaderCards(), getLocalGameController());
         if(actual.isEmpty()){
             output.println("You can not activate any leader at the moment");
         }
         else{
             for(var card : actual)
-                showCard(card);
+                drawer.showCard(card);
             var card = (CardLeader)pickCard(CardLeader.class);
             if(actual.contains(card)) executor.execute(() -> getLocalGameController().cardLeadAction(card));
             else{
@@ -941,7 +712,7 @@ public class CLI implements Runnable, UI{
         var bc = getLocalGameController().getBoardController();
         if(colour == Colours.RED) bc.moveFT(1);
         else{
-            showWarehouse();
+            drawer.showWarehouse();
             output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
             output.flush();
             var lvl = getWarehouseShelfLvl();
@@ -980,10 +751,10 @@ public class CLI implements Runnable, UI{
                 var secondQnt = content.get(second).qnt();
                 if(first + 1 >= secondQnt && second + 1 >= firstQnt) boardController.rearrangeWarehouse(first, second);
                 else output.println("You can't do that");
-                showWarehouse();
+                drawer.showWarehouse();
             }
             case 3 -> {
-                showWarehouse();
+                drawer.showWarehouse();
                 output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
                 output.flush();
                 lvl = getWarehouseShelfLvl();
@@ -1032,61 +803,4 @@ public class CLI implements Runnable, UI{
         return lvl - 1;
     }
 
-    /**
-     * method showWarehouse is used to print out a reminder of the situation of the warehouse in case the player
-     * needs it to make his decision.
-     */
-    private void showWarehouse(){
-        printLine();
-        output.println("At the moment the situation with the warehouse is this:");
-        var boardController = getLocalGameController().getBoardController();
-        var content = boardController.player().checkWarehouseStatus();
-        var i = 0;
-        for(var pick : content)
-            if(pick.resource() == Colours.WHITE){
-                output.println("This shelf is empty");
-                i++;
-            }
-            else{
-                var color = pick.resource();
-                var qnt = pick.qnt();
-                output.println("On shelf #" + ++i + " there are " + qnt + " " + color.getType() + " resources");
-            }
-        printLine();
-    }
-
-    /**
-     * method showLibrary prints the situation of the Library
-     */
-    private void showLibrary(){
-        printLine();
-        output.println("These are your board slots:");
-        var boardController = getLocalGameController().getBoardController();
-        var slots = boardController.player().checkLibraryStatus();
-        var i = 0;
-        for(var thisSlot : slots)
-            if(thisSlot.isEmpty()){
-                output.println("This slot is empty");
-                i++;
-            }
-            else{
-                output.println("On slot #" + ++i + " there are this cards:");
-                for(var card : thisSlot)
-                    showCard(card);
-            }
-        printLine();
-    }
-
-    /**
-     * method showStrongbox prints the situation of the Strongbox
-     */
-    private void showStrongBox(){
-        printLine();
-        output.println("This is what's in your StrongBox:");
-        var boardController = getLocalGameController().getBoardController();
-        var player = boardController.player();
-        var map = player.checkStrongBoxStatus();
-        map.keySet().stream().map(color -> color.getType() + " -> " + map.get(color)).forEach(output::println);
-        printLine();
-    }
 }

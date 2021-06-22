@@ -7,6 +7,7 @@ import java.beans.PropertyChangeSupport;
 
 /**
  * class Lorenzo is the model for Lorenzo who is a pleyer's opponent whenever he decides to play local single player.
+ *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone

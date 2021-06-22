@@ -26,21 +26,21 @@ public class Server implements Runnable{
 
     private final ServerSocket serverSocket;
     private final Map<String, Integer> players;
+    private final Map<String, SocketServerToClient> playingPlayers;
     private final Map<SocketServerToClient, SocketServerToClient> playingConnection;
     private final Map<Integer, Map<Integer, List<String>>> waitingFor1Game;
-    private final Mod model;
     private final Controller controller;
 
     public Server(int port) throws IOException{
         this.serverSocket = new ServerSocket(port);
         waitingFor1Game = new HashMap<>();
         playingConnection = new HashMap<>();
+        playingPlayers = new HashMap<>();
         var forPlayers = new HashMap<Integer, List<String>>();
         waitingFor1Game.put(2, forPlayers);
         waitingFor1Game.put(3, forPlayers);
         waitingFor1Game.put(4, forPlayers);
         players = new HashMap<>();
-        model = Mod.getInstance();
         controller = Controller.getInstance();
     }
 
@@ -69,36 +69,9 @@ public class Server implements Runnable{
      */
     public synchronized void lobby(SocketServerToClient socketToClient, String name, int playersRequired, Integer id){
         socketToClient.send("Hi " + name + " you are in the lobby\nPlease wait for the other players to join");
+        playingPlayers.put(name, socketToClient);
         if(id == null) createNewGame(socketToClient, name, playersRequired);
         else joinNewGame(socketToClient, name, playersRequired, id);
-
-        //        if(playersRequired == 3) waitingFor3Players.add(name);
-        //        if(playersRequired == 4) waitingFor4Players.add(name);
-        //        if(waitingForConnection.size() == 1){
-        //            var game = new Game(model.newID(), playersRequired, new Market());
-        //            var gameControllerID = controller.newID();
-        //            new GameController(gameControllerID, playersRequired, game);
-        //            waitingForConnection.get(name).send("Your game's ID is:: " + gameControllerID);
-        //            waitingForTheGameToStart.put(socketToClient, gameControllerID);
-        //        }
-        //        if(waitingForConnection.size() == playersRequired){
-        //            var keys = new ArrayList<>(waitingForConnection.keySet());
-        //            var game = new Game(model.newID(), playersRequired, new Market());
-        //            var gameController = new GameController(controller.newID(), playersRequired, game);
-        //            gameController.setBoardController();
-        //            for(var i = 0; i < playersRequired; i++)
-        //                waitingForConnection.get(keys.get(i)).getRemoteView().setPlayer(gameController.getGame().getSingleB(i));
-        //            for(var i = 0; i < playersRequired; i++){
-        //                gameController.getBoardController()[i].sendStatus();
-        //            }
-        //            for(var i = 0; i < playersRequired; i++){
-        //                for(var j = 0; j < playersRequired; j++)
-        //                    playingConnection.put(waitingForConnection.get(keys.get(i)), waitingForConnection.get(keys.get(j)));
-        //            }
-        //            for(var i = 0; i < playersRequired; i++)
-        //                waitingForConnection.remove(keys.get(i));
-        //        }
-        //        else socketToClient.send(playersRequired - waitingForConnection.size() + " slots left");
     }
 
     private void joinNewGame(SocketServerToClient socketToClient, String name, int playersRequired, Integer id){
@@ -122,8 +95,18 @@ public class Server implements Runnable{
     private void startGame(int playersRequired, int id){
         var mapGameForThisNPlayers = waitingFor1Game.get(playersRequired);
         var playersForThisGame = mapGameForThisNPlayers.get(id);
-        for(var name : playersForThisGame)
+        var gameController = controller.getGameControllerById(id);
+        var i = 0;
+        for(var name : playersForThisGame){
+            var thisPlayerSocket = playingPlayers.get(name);
+            registerConnection(thisPlayerSocket, playersForThisGame);
             addPlayer(name, id);
+            var game = gameController.getGame();
+            var board = game.getSingleB(i++);
+            var remoteView = thisPlayerSocket.getRemoteView();
+            remoteView.setGameId(id);
+            board.addPropertyChangeListener(remoteView);
+        }
         controller.getGameControllerById(id).startGame();
     }
 
@@ -138,6 +121,13 @@ public class Server implements Runnable{
         list.add(name);
         map.put(gameControllerID, list);
         waitingFor1Game.put(playersRequired, map);
+    }
+
+    private synchronized void registerConnection(SocketServerToClient thisSocket, List<String> list){
+        for(var name : list){
+            var socket = playingPlayers.get(name);
+            if(thisSocket != socket) playingConnection.put(thisSocket, socket);
+        }
     }
 
     /**

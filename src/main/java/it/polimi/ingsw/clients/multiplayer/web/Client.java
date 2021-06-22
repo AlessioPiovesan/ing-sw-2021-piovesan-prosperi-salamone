@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
 
 /**
  * class Client handles Client side and receives messages from server
+ *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone
@@ -76,7 +77,6 @@ public class Client implements Runnable{
 
     /**
      * method connect establishes a connection from the client side
-     *
      */
     private void connect(){
         try{
@@ -90,6 +90,7 @@ public class Client implements Runnable{
 
     /**
      * method readingFromServer is used to read messages coming from the server side.
+     *
      * @throws IOException
      */
     private void readingFromServer() throws IOException{
@@ -119,17 +120,14 @@ public class Client implements Runnable{
 
     /**
      * method interpreter interprets inputs from the client
+     *
      * @param input
      */
     private void interpreter(String input){
         var string = input.split("::");
         switch(string[0]){
-            case "Your game's ID is" -> {
+            case "Your game's ID is", "You joined the game with id" -> {
                 ui.printMessage(string[0] + " " + ConsoleColors.BLUE_BACKGROUND_BRIGHT + " " + string[1] + " " + ConsoleColors.RESET);
-                modelView.setGameID(Integer.parseInt(string[1]));
-            }
-            case "You joined the game with id" -> {
-                ui.printMessage("Sei entrato in id: " + string[1]);
                 modelView.setGameID(Integer.parseInt(string[1]));
             }
             case "nicknameExist" -> ui.reChooseNickname(Integer.parseInt(string[1]));
@@ -137,12 +135,13 @@ public class Client implements Runnable{
             case "askNickname" -> ui.chooseNickname();
             case "askId" -> ui.askId();
             case "pce" -> ui.propertyChange(new PropertyChangeEvent(this, string[1], "", string[2]));
-            default -> ui.printMessage(string[0] + " is just a message from -> (CLIENT)");
+            default -> ui.printMessage(string[0] + " -> (CLIENT)");
         }
     }
 
     /**
      * method send sends messages.
+     *
      * @param message
      */
     public synchronized void send(String message){
@@ -155,8 +154,9 @@ public class Client implements Runnable{
 
     /**
      * setupGame sets up a game after the player's nickname is confirmed
-     * @see UI#askNPlayers()
+     *
      * @param name
+     * @see UI#askNPlayers()
      */
     private void setupGame(String name){
         ui.printMessage("Your nickname is confirmed");

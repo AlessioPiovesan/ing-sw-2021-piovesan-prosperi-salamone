@@ -11,6 +11,7 @@ import java.util.Random;
 
 /**
  * class enumeration SoloAction handles all of Lorenzo's possible moves whenever the game is in single player mode.
+ *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone
@@ -23,6 +24,7 @@ public enum SoloAction{
 
     /**
      * method action is used to randomly decide which action Lorenzo is going to make.
+     *
      * @param sa
      */
     public static void action(SoloAction sa){
@@ -41,6 +43,7 @@ public enum SoloAction{
 
     /**
      * method shuffle is responsible for the randomization of the actions
+     *
      * @return
      */
     public static List<SoloAction> shuffle(){
@@ -69,6 +72,7 @@ public enum SoloAction{
 
     /**
      * printSAString prints the actions to make them visible to the player.
+     *
      * @param sa
      * @return
      */

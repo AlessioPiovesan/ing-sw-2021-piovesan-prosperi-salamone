@@ -1,12 +1,9 @@
 package it.polimi.ingsw.server.viewer;
 
-import it.polimi.ingsw.server.accessories.cards.CardLeader;
-import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.web.SocketServerToClient;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Arrays;
 
 /**
  * Class RemoteView is used as a Listener for the model on the Server Side and makes messages ready for the Client.
@@ -19,17 +16,12 @@ import java.util.Arrays;
 public class RemoteView implements PropertyChangeListener{
 
     private final SocketServerToClient socketServerToClient;
-    private Board player;
     private String nickname;
     private int nPlayers;
     private Integer gameId;
 
     public RemoteView(SocketServerToClient socketServerToClient){
         this.socketServerToClient = socketServerToClient;
-    }
-
-    public void setPlayer(Board player){
-        this.player = player;
     }
 
     public void setNPlayers(int nPlayers){
@@ -49,13 +41,9 @@ public class RemoteView implements PropertyChangeListener{
         this.nickname = nickname;
     }
 
-    public void setMyLeaderCards(CardLeader[] myLeaderCards){
-        socketServerToClient.send(Arrays.toString(myLeaderCards));
-    }
-
     @Override
     public void propertyChange(PropertyChangeEvent evt){
-        socketServerToClient.send("pce::" + evt.getPropertyName() + "::" + evt.getNewValue());
+        socketServerToClient.send("pce::" + evt.getPropertyName() + "::" + evt.getNewValue() + "::" + evt.getSource());
     }
 
     public Integer getId(){

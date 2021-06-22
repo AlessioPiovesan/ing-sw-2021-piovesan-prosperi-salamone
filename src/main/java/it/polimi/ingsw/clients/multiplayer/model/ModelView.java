@@ -14,6 +14,7 @@ import java.util.Map;
 
 /**
  * class ModelView is the client mirror of the Model on the server side.
+ *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone
@@ -81,6 +82,7 @@ public class ModelView{
 
     /**
      * populateThis populates the playing player's board with dev cards, warehouse, faith track, strongbox, library, resources and leader cards
+     *
      * @param myDevCards
      * @param warehouse
      * @param faithTrack
@@ -101,6 +103,7 @@ public class ModelView{
 
     /**
      * populateThat populates the remaining players' boards that are not playing.
+     *
      * @param name
      * @param warehouse
      * @param faithTrack

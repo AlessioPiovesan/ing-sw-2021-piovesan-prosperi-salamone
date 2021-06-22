@@ -12,6 +12,7 @@ import java.util.Random;
 
 /**
  * class LocalGame is the model for the local single player game without establishing any connections.
+ *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone
@@ -59,6 +60,7 @@ public class LocalGame{
 
     /**
      * methid giveCardLead deals the four leader cards to the player
+     *
      * @return
      */
     private List<CardLeader> giveCardLead(){
@@ -71,6 +73,7 @@ public class LocalGame{
 
     /**
      * method selectNextPlayableLeaderCards is the method that lets the player choose two leader cards out of the four available.
+     *
      * @return
      */
     private CardLeader selectNextPlayableLeaderCards(){
