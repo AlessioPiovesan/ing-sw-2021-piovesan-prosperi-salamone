@@ -129,6 +129,10 @@ public class Warehouse{
         wareContent.set(second, buffer);
     }
 
+    /**
+     * method addLeaderSpace is a Leader Card's power that adds a special depot of two additional spaces.
+     * @param color
+     */
     protected void addLeaderSpace(Colours color){
         switch(color){
             case GREY -> wareContent.add(new Pick(Colours.GREY, 0));

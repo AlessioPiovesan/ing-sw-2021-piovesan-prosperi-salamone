@@ -9,12 +9,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * class enumeration SoloAction handles all of Lorenzo's possible moves whenever the game is in single player mode.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
+ */
 public enum SoloAction{
 
     AS1, AS2, AS3, AS4, AS5, AS6, AS7;
 
     private static final Random random = new Random();
 
+    /**
+     * method action is used to randomly decide which action Lorenzo is going to make.
+     * @param sa
+     */
     public static void action(SoloAction sa){
         switch(sa){
             case AS1 -> LocalGameController.getInstance().tossCardDev(ColoursCards.GREEN);
@@ -29,6 +39,10 @@ public enum SoloAction{
         }
     }
 
+    /**
+     * method shuffle is responsible for the randomization of the actions
+     * @return
+     */
     public static List<SoloAction> shuffle(){
         var remain = new ArrayList<Integer>();
         var start = new ArrayList<>(Arrays.asList(SoloAction.values()));
@@ -53,6 +67,11 @@ public enum SoloAction{
         return ConsoleColors.BLACK_BACKGROUND_BRIGHT + printSAString(sa) + ConsoleColors.RESET;
     }
 
+    /**
+     * printSAString prints the actions to make them visible to the player.
+     * @param sa
+     * @return
+     */
     public static String printSAString(SoloAction sa){
         return switch(sa){
             case AS1 -> "Lorenzo take 2 GREEN Development Cards";

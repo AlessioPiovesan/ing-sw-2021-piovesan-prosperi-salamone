@@ -9,6 +9,12 @@ import java.beans.PropertyChangeSupport;
 import java.util.EnumMap;
 import java.util.Map;
 
+/**
+ * class OtherBoard is the class describing all the other players' boards.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
+ */
 public class OtherBoard{
 
     private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);

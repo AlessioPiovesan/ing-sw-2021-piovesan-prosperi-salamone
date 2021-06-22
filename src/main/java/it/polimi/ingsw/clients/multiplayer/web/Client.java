@@ -13,6 +13,13 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
 
+/**
+ * class Client handles Client side and receives messages from server
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
+ */
+
 public class Client implements Runnable{
 
     private final UI ui;
@@ -67,6 +74,10 @@ public class Client implements Runnable{
         ui.clientSetup();
     }
 
+    /**
+     * method connect establishes a connection from the client side
+     *
+     */
     private void connect(){
         try{
             socket = new Socket(ip, port);
@@ -77,6 +88,10 @@ public class Client implements Runnable{
         }
     }
 
+    /**
+     * method readingFromServer is used to read messages coming from the server side.
+     * @throws IOException
+     */
     private void readingFromServer() throws IOException{
         try(var socketIn = new ObjectInputStream(socket.getInputStream())){
             while(isActive()){
@@ -102,6 +117,10 @@ public class Client implements Runnable{
         return active;
     }
 
+    /**
+     * method interpreter interprets inputs from the client
+     * @param input
+     */
     private void interpreter(String input){
         var string = input.split("::");
         switch(string[0]){
@@ -122,6 +141,10 @@ public class Client implements Runnable{
         }
     }
 
+    /**
+     * method send sends messages.
+     * @param message
+     */
     public synchronized void send(String message){
         try{
             socketOut.writeObject(message);
@@ -130,6 +153,11 @@ public class Client implements Runnable{
         }
     }
 
+    /**
+     * setupGame sets up a game after the player's nickname is confirmed
+     * @see UI#askNPlayers()
+     * @param name
+     */
     private void setupGame(String name){
         ui.printMessage("Your nickname is confirmed");
         ui.setNickname(name);

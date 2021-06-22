@@ -7,11 +7,18 @@ import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.ColoursCards;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
+import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.game.Market;
 
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * class LocalGameController is the controller class for the local single player game.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
+ */
 public class LocalGameController{
 
     private static LocalGameController singleInstance;
@@ -33,6 +40,10 @@ public class LocalGameController{
         return singleInstance;
     }
 
+    /**
+     * method moveLorenzo is the method responsible for any Lorenzo's move.
+     * @see #nextPlayer()
+     */
     public void moveLorenzo(){
         var sa = listSoloAction.get(0);
         var message = SoloAction.printSASingle(sa);
@@ -42,6 +53,9 @@ public class LocalGameController{
         nextPlayer();
     }
 
+    /**
+     * method nextPlayer changes the playing user from Lorenzo to the active user.
+     */
     public synchronized void nextPlayer(){
         playingPlayer = !playingPlayer;
         boardController.active();
@@ -55,6 +69,9 @@ public class LocalGameController{
         return boardController;
     }
 
+    /**
+     * method startGame starts the game.
+     */
     public void startGame(){
         playingPlayer = false;
         game.myLeaderCardsHandler();
@@ -64,6 +81,12 @@ public class LocalGameController{
         return playingPlayer;
     }
 
+    /**
+     * method marketAction handles market choices and movements.
+     * @see it.polimi.ingsw.server.model.board.Board#marketResHandler(List)
+     * @see Market#moveMarbles(int)
+     * @param moveMarket
+     */
     public void marketAction(int moveMarket){
         var b = boardController.player();
         var m = game.getMarket();
@@ -73,11 +96,29 @@ public class LocalGameController{
         b.marketResHandler(res);
     }
 
+    /**
+     * method addFaithPnt is used to move forward on the faith track
+     * @see it.polimi.ingsw.server.model.board.Board#moveFT(int)
+     * @param waste
+     */
     public void addFaithPnt(List<Colours> waste){
         int a = waste.size();
         boardController.lorenzo().moveFT(a);
     }
 
+    /**
+     * cardLeadAction handles all of the Leader Cards' powers.
+     * 01,02,03,04: Resource discount
+     * 05,06,07,08: Adds a special depot with two additional spaces for resources.
+     * 09,10,11,12: White marble becomes the specified resource.
+     * 13,14,15,16: Additional production power.
+     * @see it.polimi.ingsw.server.model.board.Board#setDiscount(Colours)
+     * @see it.polimi.ingsw.server.model.board.Board#addLeaderSpace(Colours)
+     * @see it.polimi.ingsw.server.model.board.Board#setMarketAlt(Colours)
+     * @see it.polimi.ingsw.server.model.board.Board#setProductAlt(Colours)
+     *
+     * @param cardToBeActivated
+     */
     public synchronized void cardLeadAction(CardLeader cardToBeActivated){
         switch(cardToBeActivated){
             case CARDLEAD01, CARDLEAD02, CARDLEAD03, CARDLEAD04 -> game.getBoard(false).setDiscount(cardToBeActivated.getSpecial());
@@ -88,6 +129,12 @@ public class LocalGameController{
         }
     }
 
+    /**
+     * cardDevAction is the action the player makes when he buys a dev card.
+     * @see it.polimi.ingsw.server.model.board.Board#buyCardDev(CardDev, int)
+     * @param cardToBeBought
+     * @param slot
+     */
     public void cardDevAction(CardDev cardToBeBought, int slot){
         var b = boardController.player();
         game.getCardDevDeck().remove(cardToBeBought);
@@ -108,6 +155,12 @@ public class LocalGameController{
         }
     }
 
+    /**
+     * method endGame counts winning points for the single player in order to handle personal records
+     * @see Board#countWinPnt()
+     * @param winner
+     * @return
+     */
     public String endGame(boolean winner){
         if(winner){
             var win = boardController.player().countWinPnt();

@@ -391,7 +391,7 @@ public class CLI implements Runnable, UI{
         var resFrom = card.getResFrom();
         for(var pick : resFrom){
             var color = pick.resource();
-            var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1)StrongBox\n>\t", "Wrong option");
+            var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1) StrongBox\n>\t", "Wrong option");
             if(j == 0) boardController.takeFromWarehouse(color);
             else boardController.takeFromStrongbox(color);
         }

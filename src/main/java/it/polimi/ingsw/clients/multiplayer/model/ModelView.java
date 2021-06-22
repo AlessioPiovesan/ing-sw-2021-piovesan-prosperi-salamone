@@ -12,6 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * class ModelView is the client mirror of the Model on the server side.
+ * @author Alessio Piovesan
+ * @author Pier Giorgio Prosperi
+ * @author Matteo Salamone
+ */
 public class ModelView{
 
     private final OtherBoard[] theirBoards;
@@ -73,6 +79,16 @@ public class ModelView{
         this.market = market;
     }
 
+    /**
+     * populateThis populates the playing player's board with dev cards, warehouse, faith track, strongbox, library, resources and leader cards
+     * @param myDevCards
+     * @param warehouse
+     * @param faithTrack
+     * @param strongBox
+     * @param library
+     * @param resAll
+     * @param myLeaderCards
+     */
     public void populateThis(List<CardDev> myDevCards, Colours[][] warehouse, int faithTrack, Map<Colours, Integer> strongBox, CardDev[] library, Map<Colours, Integer> resAll, CardLeader[] myLeaderCards){
         myBoard.setMyDevCards(myDevCards);
         myBoard.setWarehouse(warehouse);
@@ -83,6 +99,15 @@ public class ModelView{
         myBoard.setMyLeaderCards(myLeaderCards);
     }
 
+    /**
+     * populateThat populates the remaining players' boards that are not playing.
+     * @param name
+     * @param warehouse
+     * @param faithTrack
+     * @param library
+     * @param resAll
+     * @param myLeaderCards
+     */
     public void populateThat(String name, Colours[][] warehouse, int faithTrack, CardDev[] library, Map<Colours, Integer> resAll, CardLeader[] myLeaderCards){
         var board = boardMap.get(name);
         board.setWarehouse(warehouse);
