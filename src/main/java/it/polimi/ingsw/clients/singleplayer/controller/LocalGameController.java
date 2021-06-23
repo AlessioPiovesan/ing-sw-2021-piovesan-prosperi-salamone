@@ -49,7 +49,7 @@ public class LocalGameController{
     public void moveLorenzo(){
         var sa = listSoloAction.get(0);
         var message = SoloAction.printSASingle(sa);
-        boardController.lorenzo().printAction(message);
+        boardController.lorenzo().print(message);
         SoloAction.action(sa);
         SoloAction.pickSoloAction(listSoloAction);
         nextPlayer();

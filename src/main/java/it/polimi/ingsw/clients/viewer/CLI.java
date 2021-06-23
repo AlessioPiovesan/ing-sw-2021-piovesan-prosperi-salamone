@@ -91,7 +91,6 @@ public class CLI implements Runnable, UI{
                     if(single) getLocalGameController().nextPlayer();
                     else Controller.getInstance().getGameControllerById(0);
                 }
-                case "LorenzoActionPrint" -> output.println(evt.getNewValue());
                 case "redCrossMove" -> getLocalGameController().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
                 case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Checker.castList(Colours.class, (Collection<?>)evt.getNewValue()));

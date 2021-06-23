@@ -128,6 +128,10 @@ public class GUI extends Application implements UI{
 
     }
 
+    private LocalGameController getLocalGameController(){
+        return LocalGameController.getInstance();
+    }
+
     /**
      * method propertyChange is part of the Observer Pattern that can react to Model's changes.
      * TEMPORARYLEADERCARDS : starts the GUI and calls for changeStage.
@@ -145,6 +149,7 @@ public class GUI extends Application implements UI{
                 var controller = (InitialLeader)nameMapController.get(INITIALLEADERCARDS);
                 controller.getCards((CardLeader[])evt.getNewValue());
             }
+            case "firstOp" -> getLocalGameController().nextPlayer();
             default -> System.out.println(evt.getPropertyName() + " is not handled (GUI)");
         }
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.clients.singleplayer.model;
 
+import it.polimi.ingsw.clients.viewer.UI;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.FaithTrack;
 
@@ -14,14 +15,17 @@ import java.beans.PropertyChangeSupport;
  */
 public class Lorenzo extends Board{
 
-    private final PropertyChangeSupport pcs;
+    private UI ui;
 
     Lorenzo(int id, FaithTrack faithTrack){
         super(id, null, null, faithTrack, null);
-        pcs = new PropertyChangeSupport(this);
     }
 
-    public void printAction(String action){
-        pcs.firePropertyChange("LorenzoActionPrint", "", action);
+    public void setUi(UI ui){
+        this.ui = ui;
+    }
+
+    public void print(String action){
+        ui.printMessage(action);
     }
 }
