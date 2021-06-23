@@ -31,6 +31,7 @@ import java.util.Objects;
 public class GUI extends Application implements UI{
 
     private static final String BOARDS = "boards.fxml";
+    private static final String SINGLEBOARD = "singlePlayerBoards.fxml";
     private static final String INITIALLEADERCARDS = "initialLeaderCards.fxml";
     private static final String STRONGBOX = "strongBoxPane.fxml";
     private final HashMap<String, Scene> nameMapScene;
@@ -58,7 +59,7 @@ public class GUI extends Application implements UI{
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
      */
     public void setup() throws IOException{
-        var fxmList = new ArrayList<>(Arrays.asList(INITIALLEADERCARDS, BOARDS, STRONGBOX));
+        var fxmList = new ArrayList<>(Arrays.asList(INITIALLEADERCARDS, BOARDS, SINGLEBOARD));
         for(String path : fxmList){
             var thisPath = "/fxml/" + path;
             var loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource(thisPath)));
@@ -128,10 +129,6 @@ public class GUI extends Application implements UI{
 
     }
 
-    private LocalGameController getLocalGameController(){
-        return LocalGameController.getInstance();
-    }
-
     /**
      * method propertyChange is part of the Observer Pattern that can react to Model's changes.
      * TEMPORARYLEADERCARDS : starts the GUI and calls for changeStage.
@@ -149,7 +146,11 @@ public class GUI extends Application implements UI{
                 var controller = (InitialLeader)nameMapController.get(INITIALLEADERCARDS);
                 controller.getCards((CardLeader[])evt.getNewValue());
             }
-            case "firstOp" -> getLocalGameController().nextPlayer();
+            case "firstOp" -> {
+                if(single) changeStage(SINGLEBOARD);
+                else changeStage(BOARDS);
+                getLocalGameController().nextPlayer();
+            }
             default -> System.out.println(evt.getPropertyName() + " is not handled (GUI)");
         }
     }
@@ -183,8 +184,12 @@ public class GUI extends Application implements UI{
         currentScene.heightProperty().addListener(resize.getHeightListener());
     }
 
+    private LocalGameController getLocalGameController(){
+        return LocalGameController.getInstance();
+    }
+
     /**
-     * method chooseInitialLeaders is used to record the inital Leader Card choice of the player
+     * method chooseInitialLeaders is used to record the initial Leader Card choice of the player
      *
      * @param selected of type CardLeader - player's selection
      */

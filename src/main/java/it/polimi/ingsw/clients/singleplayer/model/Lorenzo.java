@@ -4,8 +4,6 @@ import it.polimi.ingsw.clients.viewer.UI;
 import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.board.FaithTrack;
 
-import java.beans.PropertyChangeSupport;
-
 /**
  * class Lorenzo is the model for Lorenzo who is a pleyer's opponent whenever he decides to play local single player.
  *
