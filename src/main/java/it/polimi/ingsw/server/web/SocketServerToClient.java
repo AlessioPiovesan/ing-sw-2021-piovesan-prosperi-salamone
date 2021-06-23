@@ -53,12 +53,14 @@ public class SocketServerToClient implements Runnable{
      *
      * @param message of type Object
      */
-    public synchronized void send(Object message){
-        try{
-            socketOut.writeObject(message);
-            socketOut.flush();
-        } catch(IOException e){
-            e.printStackTrace();
+    public void send(Object message){
+        synchronized(socketOut){
+            try{
+                socketOut.writeObject(message);
+                socketOut.flush();
+            } catch(IOException e){
+                e.printStackTrace();
+            }
         }
     }
 
@@ -68,7 +70,7 @@ public class SocketServerToClient implements Runnable{
     private void readFromClient(){
         try{
             while(isActive()){
-                synchronized(this){
+                synchronized(socketIn){
                     var inputObject = socketIn.readObject();
                     if(inputObject instanceof String) interpreter((String)inputObject);
                     else throw new IllegalArgumentException();
@@ -105,6 +107,8 @@ public class SocketServerToClient implements Runnable{
             case "id" -> {
                 if(string[1].equals("0")) remoteView.setGameId(null);
                 else remoteView.setGameId(Integer.parseInt(string[1]));
+                send("Setup complete");
+                sendInLobby();
             }
             case "checkNickname" -> server.checkExistNickname(string[1], this);
             default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");

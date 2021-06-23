@@ -43,7 +43,7 @@ public class RemoteView implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent evt){
-        socketServerToClient.send("pce::" + evt.getPropertyName() + "::" + evt.getNewValue() + "::" + evt.getSource());
+        new Thread(() -> socketServerToClient.send("pce::" + evt.getPropertyName() + "::" + evt.getNewValue() + "::" + evt.getSource()));
     }
 
     public Integer getId(){
@@ -52,8 +52,6 @@ public class RemoteView implements PropertyChangeListener{
 
     public void setGameId(Integer gameId){
         this.gameId = gameId;
-        socketServerToClient.send("Setup complete");
-        socketServerToClient.sendInLobby();
     }
 
     private void end(){

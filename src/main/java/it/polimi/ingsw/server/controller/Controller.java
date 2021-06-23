@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public class Controller{
 
-    private static int idGame = 0;
+    private static int idGame = 1000;
     private static Controller singleInstance;
     private final Map<Integer, GameController> gameControllerMap;
 

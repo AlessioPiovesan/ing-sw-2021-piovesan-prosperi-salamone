@@ -8,5 +8,5 @@
 
 .firstLeader:pressed {
     -fx-border-color: yellow;
-    -fx-border-radius: 5px;
+    -fx-border-radius: 25px;
 }

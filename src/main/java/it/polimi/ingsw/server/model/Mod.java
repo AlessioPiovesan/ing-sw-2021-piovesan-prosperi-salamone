@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class Mod{
 
-    private static int idGame = 0;
+    private static int idGame = 1000;
     private static Mod singleInstance;
     private final HashMap<Integer, Game> gameList;
 
