@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * class ModelView is the client mirror of the Model on the server side.
+ * Class ModelView is the client mirror of the Model on the server side.
  *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
@@ -39,33 +39,6 @@ public class ModelView{
         }
         this.addPropertyChangeListener(ui);
     }
-
-    //	@Override
-    //	public void propertyChange(PropertyChangeEvent evt){
-    //		System.out.println(evt);
-    //		switch(evt.getPropertyName()){
-    //			case "myLeaderCards" -> {
-    //				if(model)
-    //					LocalGameController.getInstance().getGame().getBoard(false).setMyLeaderCards((CardLeader[])evt.getNewValue());
-    //				else remoteView.setMyLeaderCards((CardLeader[])evt.getNewValue());
-    //			}
-    //			case "remoteView" -> setRemoteView((RemoteView)evt.getNewValue());
-    //			case "model" -> model = (boolean)evt.getNewValue();
-    //			case "firstOp" -> {
-    //				var a = 1;/*Qui dà le risorse nel partita multipleyer*/
-    //			}
-    //			default -> doNothing();
-    //		}
-    //	}
-    //
-    //	private void doNothing(){
-    //		try{
-    //			wait(10);
-    //		} catch(InterruptedException e){
-    //			e.printStackTrace();
-    //			Thread.currentThread().interrupt();
-    //		}
-    //	}
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
         myBoard.getPcs().addPropertyChangeListener(listener);
