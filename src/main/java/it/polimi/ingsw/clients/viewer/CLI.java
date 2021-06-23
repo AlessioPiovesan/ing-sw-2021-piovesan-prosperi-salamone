@@ -279,11 +279,11 @@ public class CLI implements Runnable, UI{
         var i = 0;
         for(var librarySlot : library){
             if(librarySlot.isEmpty()){
-                output.println("You don't have any development card in slot #" + i++);
+                output.println("You don't have any development card in slot #" + ++i);
                 nextAction();
             }
             else{
-                i++;
+                ++i;
                 librarySlot = (ArrayList<CardDev>)Checker.castList(CardDev.class, checker.canUseAnyCardDev(librarySlot, getLocalGameController()));
                 if(!librarySlot.isEmpty()){
                     var actionableCard = librarySlot.get(librarySlot.size() - 1);
@@ -294,7 +294,7 @@ public class CLI implements Runnable, UI{
                     if(Objects.equals(r, "y")) activateProdCard(actionableCard);
                     else output.println("You refused");
                 }
-                else output.println("You don't have the resources to activate any development card");
+                else output.println("You don't have the resources to activate this development card");
             }
         }
     }
@@ -304,14 +304,14 @@ public class CLI implements Runnable, UI{
      *
      * @param card
      */
-    private synchronized void activateProdCard(CardDev card){
+    private void activateProdCard(CardDev card){
         var boardController = getLocalGameController().getBoardController();
         var resFrom = card.getResFrom();
         for(var pick : resFrom){
             var color = pick.resource();
             var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1) StrongBox\n>\t", "Wrong option");
-            if(j == 0) boardController.takeFromWarehouse(color);
-            else boardController.takeFromStrongbox(color);
+            if(j == 0) executor.execute(() -> boardController.takeFromWarehouse(color));
+            else executor.execute(() -> boardController.takeFromStrongbox(color));
         }
         var player = boardController.player();
         player.produce(card);

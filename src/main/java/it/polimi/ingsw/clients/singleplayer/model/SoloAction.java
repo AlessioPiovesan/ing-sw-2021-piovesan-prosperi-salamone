@@ -38,6 +38,7 @@ public enum SoloAction{
                 LocalGameController.getInstance().getBoardController().lorenzo().moveFT(1);
                 shuffle();
             }
+            default -> shuffle();
         }
     }
 
