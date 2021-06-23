@@ -1,0 +1,12 @@
+.firstLeader {
+    -fx-background-color: transparent;
+}
+
+.firstLeader:hover{
+    -fx-opacity: 0.9;
+}
+
+.firstLeader:pressed{
+    -fx-border-color: yellow;
+    -fx-border-radius: 5px;
+}
