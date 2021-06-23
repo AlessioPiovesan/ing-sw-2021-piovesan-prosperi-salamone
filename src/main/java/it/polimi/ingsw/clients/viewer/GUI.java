@@ -2,6 +2,7 @@ package it.polimi.ingsw.clients.viewer;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
+import it.polimi.ingsw.clients.viewer.controllers.BoardsController;
 import it.polimi.ingsw.clients.viewer.controllers.GUIController;
 import it.polimi.ingsw.clients.viewer.controllers.InitialLeader;
 import it.polimi.ingsw.clients.viewer.controllers.ResizeHandler;
@@ -147,10 +148,17 @@ public class GUI extends Application implements UI{
                 controller.getCards((CardLeader[])evt.getNewValue());
             }
             case "firstOp" -> {
-                if(single) changeStage(SINGLEBOARD);
-                else changeStage(BOARDS);
+                var newSceneName = "";
+                if(single) newSceneName = (SINGLEBOARD);
+                else newSceneName = (BOARDS);
+                var controller = (BoardsController)nameMapController.get(newSceneName);
+                var tray = getLocalGameController().getGame().getMarket().getTray();
+                var extern = getLocalGameController().getGame().getMarket().getExternal();
+                controller.colorMarket(tray, extern);
                 getLocalGameController().nextPlayer();
+                changeStage(newSceneName);
             }
+            case "nextAction" -> nextAction();
             default -> System.out.println(evt.getPropertyName() + " is not handled (GUI)");
         }
     }
@@ -188,6 +196,9 @@ public class GUI extends Application implements UI{
         return LocalGameController.getInstance();
     }
 
+    private void nextAction(){
+    }
+
     /**
      * method chooseInitialLeaders is used to record the initial Leader Card choice of the player
      *
@@ -195,5 +206,13 @@ public class GUI extends Application implements UI{
      */
     public void chooseInitialLeaders(CardLeader[] selected){
         if(single) LocalGameController.getInstance().getBoardController().player().setMyLeaderCards(selected);
+    }
+
+    public void moveMarket(int move){
+        if(move == -1){
+            System.out.println("Impossible move");
+            nextAction();
+        }
+        else getLocalGameController().marketAction(move);
     }
 }

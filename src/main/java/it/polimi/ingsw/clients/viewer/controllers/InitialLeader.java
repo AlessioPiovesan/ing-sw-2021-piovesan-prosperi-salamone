@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -71,15 +72,20 @@ public class InitialLeader implements GUIController{
     public void addCard(MouseEvent mouseEvent){
         var source = (ImageView)mouseEvent.getSource();
         var id = source.getId();
-        var thisCard = switch(id){
+        var thisCard = getCardLeader(id);
+        selected.add(thisCard);
+        if(selected.size() > 2) selected.remove(0);
+    }
+
+    @Nullable
+    private CardLeader getCardLeader(String id){
+        return switch(id){
             case "card1" -> thisCards.get(0);
             case "card2" -> thisCards.get(1);
             case "card3" -> thisCards.get(2);
             case "card4" -> thisCards.get(3);
             default -> null;
         };
-        selected.add(thisCard);
-        if(selected.size() > 2) selected.remove(0);
     }
 
     public void confirmCards(){

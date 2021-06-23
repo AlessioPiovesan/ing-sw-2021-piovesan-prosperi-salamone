@@ -5,7 +5,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="899.0" prefWidth="1200.0"
             xmlns="http://javafx.com/javafx/16"
             fx:controller="it.polimi.ingsw.clients.viewer.controllers.BoardsController">
@@ -237,28 +238,35 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                         </rowConstraints>
-                        <Sphere radius="50"/>
-                        <Sphere radius="50" GridPane.columnIndex="1"/>
-                        <Sphere radius="50" GridPane.columnIndex="2"/>
-                        <Sphere radius="50" GridPane.columnIndex="3"/>
-                        <Sphere radius="50" GridPane.rowIndex="1"/>
-                        <Sphere radius="50" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <Sphere radius="50" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                        <Sphere radius="50" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                        <Sphere radius="50" GridPane.rowIndex="2"/>
-                        <Sphere radius="50" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <Sphere radius="50" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-                        <Sphere radius="50" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
+                        <Sphere fx:id="sphere1" radius="50"/>
+                        <Sphere fx:id="sphere2" radius="50" GridPane.columnIndex="1"/>
+                        <Sphere fx:id="sphere3" radius="50" GridPane.columnIndex="2"/>
+                        <Sphere fx:id="sphere4" radius="50" GridPane.columnIndex="3"/>
+                        <Sphere fx:id="sphere5" radius="50" GridPane.rowIndex="1"/>
+                        <Sphere fx:id="sphere6" radius="50" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Sphere fx:id="sphere7" radius="50" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <Sphere fx:id="sphere8" radius="50" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                        <Sphere fx:id="sphere9" radius="50" GridPane.rowIndex="2"/>
+                        <Sphere fx:id="sphere10" radius="50" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Sphere fx:id="sphere11" radius="50" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        <Sphere fx:id="sphere12" radius="50" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
                     </GridPane>
-                    <Sphere layoutX="380.0" layoutY="67.0" radius="50"/>
+                    <Sphere fx:id="sphere0" layoutX="380.0" layoutY="67.0" radius="50"/>
                 </AnchorPane>
-                <Button layoutX="859.0" layoutY="181.0" mnemonicParsing="false" text="Button"/>
-                <Button layoutX="868.0" layoutY="268.0" mnemonicParsing="false" text="Button"/>
-                <Button layoutX="877.0" layoutY="341.0" mnemonicParsing="false" text="Button"/>
-                <Button layoutX="689.0" layoutY="533.0" mnemonicParsing="false" text="Button"/>
-                <Button layoutX="609.0" layoutY="536.0" mnemonicParsing="false" text="Button"/>
-                <Button layoutX="540.0" layoutY="551.0" mnemonicParsing="false" text="Button"/>
-                <Button layoutX="454.0" layoutY="539.0" mnemonicParsing="false" text="Button"/>
+                <Button fx:id="button0" layoutX="859.0" layoutY="181.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button1" layoutX="868.0" layoutY="268.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button2" layoutX="877.0" layoutY="341.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button3" layoutX="689.0" layoutY="533.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button4" layoutX="609.0" layoutY="536.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button5" layoutX="540.0" layoutY="551.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button6" layoutX="454.0" layoutY="539.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
             </AnchorPane>
         </Tab>
     </TabPane>
