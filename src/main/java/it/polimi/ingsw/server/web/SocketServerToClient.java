@@ -134,7 +134,7 @@ public class SocketServerToClient implements Runnable{
 
     public void sendInLobby(){
         var name = remoteView.getNickname();
-        var n = remoteView.getnPlayers();
+        var n = remoteView.getNPlayers();
         var id = remoteView.getId();
         server.lobby(this, name, n, id);
     }

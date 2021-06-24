@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.viewer;
 
+import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.web.SocketServerToClient;
 
 import java.beans.PropertyChangeEvent;
@@ -24,13 +25,13 @@ public class RemoteView implements PropertyChangeListener{
         this.socketServerToClient = socketServerToClient;
     }
 
+    public int getNPlayers(){
+        return nPlayers;
+    }
+
     public void setNPlayers(int nPlayers){
         this.nPlayers = nPlayers;
         socketServerToClient.send("askId::");
-    }
-
-    public int getnPlayers(){
-        return nPlayers;
     }
 
     public String getNickname(){
@@ -43,7 +44,7 @@ public class RemoteView implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent evt){
-        new Thread(() -> socketServerToClient.send("pce::" + evt.getPropertyName() + "::" + evt.getNewValue() + "::" + evt.getSource()));
+        socketServerToClient.send(Json.toJson(evt));
     }
 
     public Integer getId(){

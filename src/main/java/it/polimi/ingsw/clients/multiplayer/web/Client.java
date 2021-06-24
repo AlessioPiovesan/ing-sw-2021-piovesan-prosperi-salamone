@@ -1,10 +1,12 @@
 package it.polimi.ingsw.clients.multiplayer.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.clients.viewer.GUI;
 import it.polimi.ingsw.clients.viewer.UI;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
+import it.polimi.ingsw.server.accessories.Json;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -98,6 +100,8 @@ public class Client implements Runnable{
             while(isActive()){
                 synchronized(this){
                     var inputObject = socketIn.readObject();
+                    if(inputObject instanceof JsonNode)
+                        ui.propertyChange(Json.fromJson((JsonNode)inputObject, PropertyChangeEvent.class));
                     if(inputObject instanceof String) interpreter((String)inputObject);
                     else throw new IllegalArgumentException();
                 }
@@ -134,7 +138,6 @@ public class Client implements Runnable{
             case "nicknameYes" -> setupGame(string[1]);
             case "askNickname" -> ui.chooseNickname();
             case "askId" -> ui.askId();
-            case "pce" -> ui.propertyChange(new PropertyChangeEvent(this, string[1], "", string[2]));
             default -> ui.printMessage(string[0] + " -> (CLIENT)");
         }
     }

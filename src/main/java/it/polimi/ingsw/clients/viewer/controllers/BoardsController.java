@@ -8,6 +8,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -32,6 +34,33 @@ import java.util.Objects;
  */
 public class BoardsController implements GUIController{
 
+    @FXML private ImageView redCrossImg;
+    @FXML private ImageView blackCrossImg;
+    @FXML private Label tile00;
+    @FXML private Label tile01;
+    @FXML private Label tile02;
+    @FXML private Label tile03;
+    @FXML private Label tile04;
+    @FXML private Label tile05;
+    @FXML private Label tile06;
+    @FXML private Label tile07;
+    @FXML private Label tile08;
+    @FXML private Label tile09;
+    @FXML private Label tile10;
+    @FXML private Label tile11;
+    @FXML private Label tile12;
+    @FXML private Label tile13;
+    @FXML private Label tile14;
+    @FXML private Label tile15;
+    @FXML private Label tile16;
+    @FXML private Label tile17;
+    @FXML private Label tile18;
+    @FXML private Label tile19;
+    @FXML private Label tile20;
+    @FXML private Label tile21;
+    @FXML private Label tile22;
+    @FXML private Label tile23;
+    @FXML private Label tile24;
     private ArrayList<Sphere> sphereList;
     @FXML private Sphere sphere0;
     @FXML private Sphere sphere1;
@@ -112,6 +141,10 @@ public class BoardsController implements GUIController{
         };
     }
 
+    public void moveFT(int pos){
+
+    }
+
     public void colorMarket(Colours[][] tray, Colours extern){
         var listColorMarbles = new ArrayList<Color>();
         for(var j = 0; j < Constants.YMARKET.getVal(); j++){
@@ -136,11 +169,13 @@ public class BoardsController implements GUIController{
 
     private void fillMarble(List<Color> listColorMarbles){
         createSphereList();
+        var materialList = new ArrayList<PhongMaterial>();
         var material = new PhongMaterial();
         material.setSpecularColor(Color.BLACK);
         for(var i = 0; i < listColorMarbles.size(); i++){
             material.setDiffuseColor(listColorMarbles.get(i));
-            sphereList.get(i).setMaterial(material);
+            materialList.add(material);
+            sphereList.get(i).setMaterial(materialList.get(i));
         }
     }
 

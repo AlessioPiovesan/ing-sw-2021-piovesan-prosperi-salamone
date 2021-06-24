@@ -54,10 +54,6 @@ public class CLI implements Runnable, UI{
         client.send("nplayers::" + client.getNPlayers());
     }
 
-    private LocalGameController getLocalGameController(){
-        return LocalGameController.getInstance();
-    }
-
     /**
      * method propertyChange is part of the Observer Pattern that can react to Model's changes.
      * TEMPORARYLEADERCARDS: used to choose the two initial leader cards
@@ -123,34 +119,6 @@ public class CLI implements Runnable, UI{
             }
         }
         getLocalGameController().nextPlayer();
-    }
-
-    /**
-     * method chooseInitialLeaders is used to record the player's choice at the start of the game for his Leader Cards
-     *
-     * @param cards of type Array of CardLeader
-     */
-    private synchronized void chooseInitialLeaders(CardLeader[] cards){
-        var list = new ArrayList<CardLeader>();
-        var finale = new CardLeader[2];
-        Collections.addAll(list, cards);
-        var i = 0;
-        while(i < 2){
-            for(CardLeader card : list) drawer.showCard(card);
-            var card = (CardLeader)pickCard(CardLeader.class);
-            if(list.contains(card)){
-                list.remove(card);
-                finale[i] = card;
-                i++;
-            }
-            else output.println("Something went wrong");
-        }
-        if(single){
-            var game = getLocalGameController();
-            var boardController = game.getBoardController();
-            var player = boardController.player();
-            player.setMyLeaderCards(finale);
-        }
     }
 
     /**
@@ -542,6 +510,34 @@ public class CLI implements Runnable, UI{
     }
 
     /**
+     * method chooseInitialLeaders is used to record the player's choice at the start of the game for his Leader Cards
+     *
+     * @param cards of type Array of CardLeader
+     */
+    private synchronized void chooseInitialLeaders(CardLeader[] cards){
+        var list = new ArrayList<CardLeader>();
+        var finale = new CardLeader[2];
+        Collections.addAll(list, cards);
+        var i = 0;
+        while(i < 2){
+            for(CardLeader card : list) drawer.showCard(card);
+            var card = (CardLeader)pickCard(CardLeader.class);
+            if(list.contains(card)){
+                list.remove(card);
+                finale[i] = card;
+                i++;
+            }
+            else output.println("Something went wrong");
+        }
+        if(single){
+            var game = getLocalGameController();
+            var boardController = game.getBoardController();
+            var player = boardController.player();
+            player.setMyLeaderCards(finale);
+        }
+    }
+
+    /**
      * method pickCard lets the player pick his Leader Card using a two digit code
      *
      * @param clazz
@@ -558,6 +554,10 @@ public class CLI implements Runnable, UI{
             e.printStackTrace();
         }
         return card;
+    }
+
+    private LocalGameController getLocalGameController(){
+        return LocalGameController.getInstance();
     }
 
     /**
