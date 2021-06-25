@@ -1,223 +1,224 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Sphere?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="899.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.clients.viewer.controllers.BoardsController">
-    <TabPane layoutX="-1.0" layoutY="-1.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="899.0" prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" prefHeight="899.0" prefWidth="1200.0"
+            xmlns="http://javafx.com/javafx/16"
+            fx:controller="it.polimi.ingsw.clients.viewer.controllers.BoardsController">
+    <TabPane layoutX="-1.0" layoutY="-1.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="899.0"
+             prefWidth="1200.0" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Your Board">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                 <ImageView fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../graphics/board/boardFront.png" />
+                    <Image url="@../graphics/board/boardFront.png"/>
                 </ImageView>
-                <AnchorPane accessibleRole="IMAGE_VIEW" layoutX="39.0" layoutY="65.0" prefHeight="200.0" prefWidth="1203.0">
-                    <Label fx:id="tile00" layoutX="18.0" layoutY="116.0" maxHeight="54.0" maxWidth="54.0" minHeight="54.0" minWidth="54.0" prefHeight="54.0" prefWidth="54.0" text="0">
+                <AnchorPane accessibleRole="IMAGE_VIEW" layoutX="39.0" layoutY="65.0" prefHeight="200.0"
+                            prefWidth="1203.0">
+                    <Label fx:id="tile00" layoutX="18.0" layoutY="116.0" maxHeight="54.0" maxWidth="54.0"
+                           minHeight="54.0" minWidth="54.0" prefHeight="54.0" prefWidth="54.0" text="0">
                         <graphic>
-                            <ImageView fx:id="redCrossImg" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT" pickOnBounds="true" preserveRatio="true">
-                                <Image url="@../graphics/faithTrack/cross.png" />
+                            <ImageView fx:id="redCrossImg" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/faithTrack/cross.png"/>
                             </ImageView>
                         </graphic>
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile01" layoutX="64.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0" text="1">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                  <graphic>
-                     <ImageView fx:id="blackCrossImg" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
-                        <image>
-                           <Image url="@../graphics/faithTrack/croce.png" />
-                        </image>
-                     </ImageView>
-                  </graphic>
+                        <graphic>
+                            <ImageView fx:id="blackCrossImg" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true"
+                                       preserveRatio="true">
+                                <image>
+                                    <Image url="@../graphics/faithTrack/croce.png"/>
+                                </image>
+                            </ImageView>
+                        </graphic>
                     </Label>
                     <Label fx:id="tile02" layoutX="127.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0" text="2">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile03" layoutX="117.0" layoutY="45.0" prefHeight="54.0" prefWidth="54.0" text="3">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile04" layoutX="117.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="4">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile05" layoutX="180.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="5">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile06" layoutX="243.0" layoutY="-28.0" prefHeight="54.0" prefWidth="54.0" text="6">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile07" layoutX="306.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="7">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile08" layoutX="361.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="8">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile09" layoutX="424.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="9">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile10" layoutX="424.0" layoutY="45.0" prefHeight="54.0" prefWidth="54.0" text="10">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile11" layoutX="424.0" layoutY="116.0" prefHeight="54.0" prefWidth="54.0" text="11">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile12" layoutX="487.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0" text="12">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile13" layoutX="537.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0" text="13">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile14" layoutX="600.0" layoutY="116.0" prefHeight="54.0" prefWidth="54.0" text="14">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile15" layoutX="663.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0" text="15">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile16" layoutX="726.0" layoutY="116.0" prefHeight="54.0" prefWidth="54.0" text="16">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile17" layoutX="726.0" layoutY="45.0" prefHeight="54.0" prefWidth="54.0" text="17">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile18" layoutX="716.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="18">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile19" layoutX="779.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="19">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile20" layoutX="830.0" layoutY="-28.0" prefHeight="54.0" prefWidth="54.0" text="20">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile21" layoutX="893.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="21">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile22" layoutX="945.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="22">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile23" layoutX="1008.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="23">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                     <Label fx:id="tile24" layoutX="1073.0" layoutY="-14.0" prefHeight="54.0" prefWidth="65.0" text="24">
                         <padding>
-                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                            <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
                     </Label>
                 </AnchorPane>
-                <Button fx:id="strongBoxButton" blendMode="MULTIPLY" layoutX="25.0" layoutY="632.0" mnemonicParsing="false" onMouseClicked="#openStrongBox" prefHeight="208.0" prefWidth="243.0" />
+                <Button fx:id="strongBoxButton" blendMode="MULTIPLY" layoutX="25.0" layoutY="632.0"
+                        mnemonicParsing="false" onMouseClicked="#openStrongBox" prefHeight="208.0" prefWidth="243.0"/>
                 <AnchorPane layoutX="47.0" layoutY="399.0" prefHeight="200.0" prefWidth="200.0">
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                     </AnchorPane>
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                     </AnchorPane>
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                         </AnchorPane>
                     </AnchorPane>
                 </AnchorPane>
                 <AnchorPane layoutX="466.0" layoutY="366.0" prefHeight="457.0" prefWidth="200.0">
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
                 </AnchorPane>
                 <AnchorPane layoutX="690.0" layoutY="325.0" prefHeight="457.0" prefWidth="200.0">
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
                     <AnchorPane layoutX="29.0" layoutY="190.0" prefHeight="200.0" prefWidth="200.0">
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
                 </AnchorPane>
                 <AnchorPane layoutX="953.0" layoutY="325.0" prefHeight="457.0" prefWidth="200.0">
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
                     <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"/>
                     </AnchorPane>
                 </AnchorPane>
             </AnchorPane>
@@ -225,178 +226,206 @@
         <Tab text="Market">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                 <ImageView fitWidth="1200.0" layoutY="-20.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../graphics/marbles/newMarbleBoard.png" />
+                    <Image url="@../graphics/marbles/newMarbleBoard.png"/>
                 </ImageView>
                 <AnchorPane layoutX="366.0" layoutY="66.0" prefHeight="395.0" prefWidth="445.0">
-                    <ImageView fitHeight="394.0" fitWidth="446.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../graphics/marbles/marbleBoard.png" />
+                    <ImageView fitHeight="394.0" fitWidth="446.0" layoutY="19.0" pickOnBounds="true"
+                               preserveRatio="true">
+                        <Image url="@../graphics/marbles/marbleBoard.png"/>
                     </ImageView>
-                    <GridPane alignment="CENTER" gridLinesVisible="true" layoutX="54.0" layoutY="107.0" prefHeight="208.0" prefWidth="311.0">
+                    <GridPane alignment="CENTER" gridLinesVisible="true" layoutX="54.0" layoutY="107.0"
+                              prefHeight="208.0" prefWidth="311.0">
                         <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
                         </columnConstraints>
                         <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
                         </rowConstraints>
-                        <Sphere fx:id="sphere1" radius="50" />
-                        <Sphere fx:id="sphere2" radius="50" GridPane.columnIndex="1" />
-                        <Sphere fx:id="sphere3" radius="50" GridPane.columnIndex="2" />
-                        <Sphere fx:id="sphere4" radius="50" GridPane.columnIndex="3" />
-                        <Sphere fx:id="sphere5" radius="50" GridPane.rowIndex="1" />
-                        <Sphere fx:id="sphere6" radius="50" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Sphere fx:id="sphere7" radius="50" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <Sphere fx:id="sphere8" radius="50" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <Sphere fx:id="sphere9" radius="50" GridPane.rowIndex="2" />
-                        <Sphere fx:id="sphere10" radius="50" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                        <Sphere fx:id="sphere11" radius="50" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <Sphere fx:id="sphere12" radius="50" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <Sphere fx:id="sphere1" radius="50"/>
+                        <Sphere fx:id="sphere2" radius="50" GridPane.columnIndex="1"/>
+                        <Sphere fx:id="sphere3" radius="50" GridPane.columnIndex="2"/>
+                        <Sphere fx:id="sphere4" radius="50" GridPane.columnIndex="3"/>
+                        <Sphere fx:id="sphere5" radius="50" GridPane.rowIndex="1"/>
+                        <Sphere fx:id="sphere6" radius="50" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                        <Sphere fx:id="sphere7" radius="50" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+                        <Sphere fx:id="sphere8" radius="50" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
+                        <Sphere fx:id="sphere9" radius="50" GridPane.rowIndex="2"/>
+                        <Sphere fx:id="sphere10" radius="50" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                        <Sphere fx:id="sphere11" radius="50" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+                        <Sphere fx:id="sphere12" radius="50" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
                     </GridPane>
-                    <Sphere fx:id="sphere0" layoutX="380.0" layoutY="67.0" radius="50" />
+                    <Sphere fx:id="sphere0" layoutX="380.0" layoutY="67.0" radius="50"/>
                 </AnchorPane>
-                <Button fx:id="button0" layoutX="859.0" layoutY="181.0" mnemonicParsing="false" onMouseClicked="#moveMarket" text="Button" />
-                <Button fx:id="button1" layoutX="868.0" layoutY="268.0" mnemonicParsing="false" onMouseClicked="#moveMarket" text="Button" />
-                <Button fx:id="button2" layoutX="877.0" layoutY="341.0" mnemonicParsing="false" onMouseClicked="#moveMarket" text="Button" />
-                <Button fx:id="button3" layoutX="689.0" layoutY="533.0" mnemonicParsing="false" onMouseClicked="#moveMarket" text="Button" />
-                <Button fx:id="button4" layoutX="609.0" layoutY="536.0" mnemonicParsing="false" onMouseClicked="#moveMarket" text="Button" />
-                <Button fx:id="button5" layoutX="540.0" layoutY="551.0" mnemonicParsing="false" onMouseClicked="#moveMarket" text="Button" />
-                <Button fx:id="button6" layoutX="454.0" layoutY="539.0" mnemonicParsing="false" onMouseClicked="#moveMarket" text="Button" />
+                <Button fx:id="button0" layoutX="859.0" layoutY="181.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button1" layoutX="868.0" layoutY="268.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button2" layoutX="877.0" layoutY="341.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button3" layoutX="689.0" layoutY="533.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button4" layoutX="609.0" layoutY="536.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button5" layoutX="540.0" layoutY="551.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button6" layoutX="454.0" layoutY="539.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" text="Button"/>
             </AnchorPane>
         </Tab>
-      <Tab text="Leader Cards">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="917.0" fitWidth="1517.0" layoutX="-158.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Desktop/PROG%20ING%20SW/Firenze-del-Trecento.jpeg" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="312.0" fitWidth="379.0" layoutX="289.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../graphics/cards/front/lead/CARDLEAD01.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="312.0" fitWidth="379.0" layoutX="692.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../graphics/cards/front/lead/CARDLEAD02.png" />
-                     </image>
-                  </ImageView>
-                  <Button layoutX="338.0" layoutY="647.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="89.0" text="Activate" />
-                  <Button layoutX="751.0" layoutY="647.0" mnemonicParsing="false" prefWidth="89.0" text="Activate" />
-               </children>
-            </AnchorPane>
-        </content>
-      </Tab>
-      <Tab text="Card Shop">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-               <children>
-                  <ImageView fitHeight="917.0" fitWidth="1517.0" layoutX="-158.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../graphics/marbles/Firenze-del-Trecento.jpeg" />
-                     </image>
-                  </ImageView>
-                  <Label layoutX="14.0" layoutY="125.0" text="LEVEL I">
-                     <font>
-                        <Font size="19.0" />
-                     </font>
-                  </Label>
-                  <TabPane layoutX="100.0" layoutY="58.0" prefHeight="200.0" prefWidth="463.0" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                      <Tab text="BLUE">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="169.0" prefWidth="269.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_1C1.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_2C1.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_3C1.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_4C1.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </AnchorPane>
-                        </content>
-                      </Tab>
-                      <Tab text="GREEN">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_1G1.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_2G1.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_3G1.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_4G1.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </AnchorPane>
-                        </content>
-                      </Tab>
-                        <Tab text="PURPLE">
-                          <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                 <children>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_1P1.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_2P1.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_3P1.png" />
-                                       </image>
-                                    </ImageView>
-                                    <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../graphics/cards/front/dev/CARDDEV_4P1.png" />
-                                       </image>
-                                    </ImageView>
-                                 </children>
-                              </AnchorPane>
-                          </content>
-                        </Tab>
-                    </tabs>
-                  </TabPane>
-               </children>
-            </AnchorPane>
-        </content>
-      </Tab>
+        <Tab text="Leader Cards">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <ImageView fitHeight="917.0" fitWidth="1517.0" layoutX="-158.0" opacity="0.7"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../../../Desktop/PROG%20ING%20SW/Firenze-del-Trecento.jpeg"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="312.0" fitWidth="379.0" layoutX="289.0" layoutY="278.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../graphics/cards/front/lead/CARDLEAD01.png"/>
+                            </image>
+                        </ImageView>
+                        <ImageView fitHeight="312.0" fitWidth="379.0" layoutX="692.0" layoutY="278.0"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../graphics/cards/front/lead/CARDLEAD02.png"/>
+                            </image>
+                        </ImageView>
+                        <Button layoutX="338.0" layoutY="647.0" mnemonicParsing="false" prefHeight="26.0"
+                                prefWidth="89.0" text="Activate"/>
+                        <Button layoutX="751.0" layoutY="647.0" mnemonicParsing="false" prefWidth="89.0"
+                                text="Activate"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
+        <Tab text="Card Shop">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <children>
+                        <ImageView fitHeight="917.0" fitWidth="1517.0" layoutX="-158.0" opacity="0.7"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../graphics/marbles/Firenze-del-Trecento.jpeg"/>
+                            </image>
+                        </ImageView>
+                        <Label layoutX="14.0" layoutY="125.0" text="LEVEL I">
+                            <font>
+                                <Font size="19.0"/>
+                            </font>
+                        </Label>
+                        <TabPane layoutX="100.0" layoutY="58.0" prefHeight="200.0" prefWidth="463.0"
+                                 tabClosingPolicy="UNAVAILABLE">
+                            <tabs>
+                                <Tab text="BLUE">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="169.0" prefWidth="269.0">
+                                            <children>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
+                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1C1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
+                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2C1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
+                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3C1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
+                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4C1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab text="GREEN">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
+                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1G1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
+                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2G1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
+                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3G1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
+                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4G1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                                <Tab text="PURPLE">
+                                    <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                            <children>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
+                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1P1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
+                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2P1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
+                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3P1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
+                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                                    <image>
+                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4P1.png"/>
+                                                    </image>
+                                                </ImageView>
+                                            </children>
+                                        </AnchorPane>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                        </TabPane>
+                    </children>
+                </AnchorPane>
+            </content>
+        </Tab>
     </TabPane>
 </AnchorPane>

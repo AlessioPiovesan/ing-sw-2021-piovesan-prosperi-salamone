@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.viewer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.web.SocketServerToClient;
 
@@ -20,6 +21,7 @@ public class RemoteView implements PropertyChangeListener{
     private String nickname;
     private int nPlayers;
     private Integer gameId;
+    private int boardId;
 
     public RemoteView(SocketServerToClient socketServerToClient){
         this.socketServerToClient = socketServerToClient;
@@ -44,15 +46,30 @@ public class RemoteView implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent evt){
-        socketServerToClient.send(Json.toJson(evt));
+        var node = Json.toJson(evt);
+        var string = "";
+        try{
+            string = Json.stringify(node);
+        } catch(JsonProcessingException e){
+            e.printStackTrace();
+        }
+        socketServerToClient.send("pce::" + string);
     }
 
-    public Integer getId(){
+    public Integer getGameId(){
         return gameId;
     }
 
     public void setGameId(Integer gameId){
         this.gameId = gameId;
+    }
+
+    public int getBoardId(){
+        return boardId;
+    }
+
+    public void setBoardId(int boardId){
+        this.boardId = boardId;
     }
 
     private void end(){

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.clients.multiplayer.web;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.clients.viewer.GUI;
@@ -100,8 +99,6 @@ public class Client implements Runnable{
             while(isActive()){
                 synchronized(this){
                     var inputObject = socketIn.readObject();
-                    if(inputObject instanceof JsonNode)
-                        ui.propertyChange(Json.fromJson((JsonNode)inputObject, PropertyChangeEvent.class));
                     if(inputObject instanceof String) interpreter((String)inputObject);
                     else throw new IllegalArgumentException();
                 }
@@ -134,6 +131,10 @@ public class Client implements Runnable{
                 ui.printMessage(string[0] + " " + ConsoleColors.BLUE_BACKGROUND_BRIGHT + " " + string[1] + " " + ConsoleColors.RESET);
                 modelView.setGameID(Integer.parseInt(string[1]));
             }
+            case "pce" -> {
+                var pce = recreatePropertyChangeEvent(string[1]);
+                ui.propertyChangeMulti(pce);
+            }
             case "nicknameExist" -> ui.reChooseNickname(Integer.parseInt(string[1]));
             case "nicknameYes" -> setupGame(string[1]);
             case "askNickname" -> ui.chooseNickname();
@@ -147,12 +148,27 @@ public class Client implements Runnable{
      *
      * @param message
      */
-    public synchronized void send(String message){
+    public void send(String message){
         try{
             socketOut.writeObject(message);
         } catch(IOException e){
             ui.showError(e.getMessage());
         }
+    }
+
+    private PropertyChangeEvent recreatePropertyChangeEvent(String src){
+        PropertyChangeEvent pce = null;
+        try{
+            var node = Json.parse(src);
+            var source = node.get("source");
+            var propertyName = node.get("propertyName").asText();
+            var oldValue = node.get("oldValue");
+            var newValue = node.get("newValue");
+            pce = new PropertyChangeEvent(source, propertyName, oldValue, newValue);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return pce;
     }
 
     /**
