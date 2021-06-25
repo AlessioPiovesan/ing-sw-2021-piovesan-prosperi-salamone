@@ -273,7 +273,7 @@
                <children>
                   <ImageView fitHeight="917.0" fitWidth="1517.0" layoutX="-158.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Desktop/PROG%20ING%20SW/Firenze-del-Trecento.jpeg" />
+                        <Image url="@../graphics/marbles/Firenze-del-Trecento.jpeg" />
                      </image>
                   </ImageView>
                   <ImageView fitHeight="312.0" fitWidth="379.0" layoutX="289.0" layoutY="278.0" pickOnBounds="true" preserveRatio="true">
