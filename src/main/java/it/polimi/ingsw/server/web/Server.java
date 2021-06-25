@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server.web;
 
+import it.polimi.ingsw.server.controller.BoardController;
 import it.polimi.ingsw.server.controller.Controller;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.Mod;
@@ -103,6 +104,8 @@ public class Server implements Runnable{
             addPlayer(name, id);
             var game = gameController.getGame();
             var board = game.getSingleB(i);
+            var boardController = new BoardController(board);
+            gameController.setBoardController(i, boardController);
             var remoteView = thisPlayerSocket.getRemoteView();
             remoteView.setBoardId(i);
             board.addPropertyChangeListener(remoteView);

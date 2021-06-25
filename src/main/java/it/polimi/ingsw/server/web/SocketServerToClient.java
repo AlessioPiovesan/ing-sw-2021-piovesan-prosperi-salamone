@@ -126,7 +126,8 @@ public class SocketServerToClient implements Runnable{
             var gameId = remoteView.getGameId();
             var game = Controller.getInstance().getGameControllerById(gameId);
             var boardId = remoteView.getBoardId();
-            game.getBoardController(boardId).setMyCardLeader(initialLeaders);
+            var board = game.getBoardController(boardId);
+            board.setMyCardLeader(initialLeaders);
         } catch(IOException e){
             e.printStackTrace();
         }

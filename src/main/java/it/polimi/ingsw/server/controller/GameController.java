@@ -38,10 +38,8 @@ public class GameController{
      * @see Game#getNGamers()
      * @see Game#getSingleB(int)
      */
-    public void setBoardController(){
-        for(var i = 0; i < game.getNGamers(); i++){
-            boardController[i] = new BoardController(game.getSingleB(i));
-        }
+    public void setBoardController(int i, BoardController boardController){
+        this.boardController[i] = boardController;
     }
 
     /**
