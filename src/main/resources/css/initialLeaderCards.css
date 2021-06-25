@@ -2,11 +2,11 @@
     -fx-background-color: transparent;
 }
 
-.firstLeader:hover {
+.firstLeader:hover{
     -fx-opacity: 0.9;
 }
 
-.firstLeader:pressed {
+.firstLeader:pressed{
     -fx-border-color: yellow;
-    -fx-border-radius: 25px;
+    -fx-border-radius: 5px;
 }
