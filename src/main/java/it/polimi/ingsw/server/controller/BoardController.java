@@ -5,8 +5,6 @@ import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model.board.Board;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +15,7 @@ import java.util.Map;
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone
  */
-public class BoardController implements PropertyChangeListener{
+public class BoardController{
 
     private final Board player;
 
@@ -46,19 +44,6 @@ public class BoardController implements PropertyChangeListener{
 
     public void strongboxResHandler(Colours colour, int qnt){
         player.storeInStrongBox(new Pick[]{new Pick(colour, 1)});
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener){
-        player.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener){
-        player.removePropertyChangeListener(listener);
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent evt){
-        if(evt.getPropertyName().equals("myLeaderCards")) setMyCardLeader((CardLeader[])evt.getNewValue());
     }
 
     public void setMyCardLeader(CardLeader[] choice){

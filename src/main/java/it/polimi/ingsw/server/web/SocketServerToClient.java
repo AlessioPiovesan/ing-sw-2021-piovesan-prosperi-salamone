@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.web;
 
+import it.polimi.ingsw.server.accessories.Json;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
+import it.polimi.ingsw.server.controller.Controller;
 import it.polimi.ingsw.server.viewer.RemoteView;
 
 import java.io.EOFException;
@@ -111,7 +114,21 @@ public class SocketServerToClient implements Runnable{
                 sendInLobby();
             }
             case "checkNickname" -> server.checkExistNickname(string[1], this);
+            case "initialLeaders" -> prepareInitialLeaders(string[1]);
             default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
+        }
+    }
+
+    private void prepareInitialLeaders(String src){
+        try{
+            var node = Json.parse(src);
+            var initialLeaders = Json.fromJson(node, CardLeader[].class);
+            var gameId = remoteView.getGameId();
+            var game = Controller.getInstance().getGameControllerById(gameId);
+            var boardId = remoteView.getBoardId();
+            game.getBoardController(boardId).setMyCardLeader(initialLeaders);
+        } catch(IOException e){
+            e.printStackTrace();
         }
     }
 
@@ -135,7 +152,7 @@ public class SocketServerToClient implements Runnable{
     public void sendInLobby(){
         var name = remoteView.getNickname();
         var n = remoteView.getNPlayers();
-        var id = remoteView.getId();
+        var id = remoteView.getGameId();
         server.lobby(this, name, n, id);
     }
 

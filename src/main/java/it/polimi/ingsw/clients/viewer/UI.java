@@ -2,6 +2,7 @@ package it.polimi.ingsw.clients.viewer;
 
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public interface UI extends PropertyChangeListener{
@@ -27,4 +28,6 @@ public interface UI extends PropertyChangeListener{
     void printMessage(String message);
 
     void askId();
+
+    void propertyChangeMulti(PropertyChangeEvent pce);
 }

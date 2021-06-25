@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 
 import java.io.IOException;
 
@@ -31,7 +30,7 @@ public class Json{
 
     public static String stringify(JsonNode node) throws JsonProcessingException{
         var objectWriter = objectMapper.writer();
-        objectWriter = objectWriter.with(SerializationFeature.INDENT_OUTPUT);
+        //  objectWriter = objectWriter.with(SerializationFeature.INDENT_OUTPUT);
         return objectWriter.writeValueAsString(node);
     }
 }

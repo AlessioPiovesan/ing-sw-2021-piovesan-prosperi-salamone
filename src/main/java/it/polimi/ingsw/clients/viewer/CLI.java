@@ -1,11 +1,14 @@
 package it.polimi.ingsw.clients.viewer;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.clients.viewer.utils.Checker;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.clients.viewer.utils.DrawerCLI;
 import it.polimi.ingsw.server.accessories.Colours;
+import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.Card;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
@@ -45,7 +48,7 @@ public class CLI implements Runnable, UI{
         drawer = new DrawerCLI(this);
         input = new Scanner(System.in);
         output = new PrintWriter(System.out, true);
-        executor = new ThreadPoolExecutor(0, 8, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
+        executor = new ThreadPoolExecutor(0, 16, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
     }
 
     public void run(){
@@ -79,14 +82,7 @@ public class CLI implements Runnable, UI{
         executor.execute(() -> {
             switch(evt.getPropertyName()){
                 case "temporaryLeaderCards" -> chooseInitialLeaders((CardLeader[])evt.getNewValue());
-                case "firstOp" -> {
-                    if(single) getLocalGameController().nextPlayer();
-                    else Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
-                }
-                case "nextPlayer" -> {
-                    if(single) getLocalGameController().nextPlayer();
-                    else Controller.getInstance().getGameControllerById(0);
-                }
+                case "firstOp", "nextPlayer" -> getLocalGameController().nextPlayer();
                 case "redCrossMove" -> getLocalGameController().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
                 case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Checker.castList(Colours.class, (Collection<?>)evt.getNewValue()));
@@ -476,6 +472,32 @@ public class CLI implements Runnable, UI{
         client.send("id::" + id);
     }
 
+    @Override
+    public void propertyChangeMulti(PropertyChangeEvent evt){
+        executor.execute(() -> {
+            switch(evt.getPropertyName()){
+                case "temporaryLeaderCards" -> {
+                    try{
+                        var initialLeaders = Json.fromJson((JsonNode)evt.getNewValue(), CardLeader[].class);
+                        chooseInitialLeaders(initialLeaders);
+                    } catch(JsonProcessingException e){
+                        e.printStackTrace();
+                    }
+                }
+                case "firstOp" -> Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
+                case "nextPlayer" -> Controller.getInstance().getGameControllerById(0);
+                case "redCrossMove" -> getLocalGameController().getBoardController().checkVaticanReport();
+                case "nextAction" -> nextAction();
+                case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Checker.castList(Colours.class, (Collection<?>)evt.getNewValue()));
+                case "productionBuffer" -> resourcesHandler(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
+                case "costCardDev" -> payForCardDev(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
+                case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
+                case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
+                default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
+            }
+        });
+    }
+
     /**
      * method askIP asks the player for the server's IP address
      *
@@ -534,6 +556,16 @@ public class CLI implements Runnable, UI{
             var boardController = game.getBoardController();
             var player = boardController.player();
             player.setMyLeaderCards(finale);
+        }
+        else{
+            var node = Json.toJson(finale);
+            var string = "";
+            try{
+                string = Json.stringify(node);
+            } catch(JsonProcessingException e){
+                e.printStackTrace();
+            }
+            client.send("initialLeaders::" + string);
         }
     }
 

@@ -102,10 +102,12 @@ public class Server implements Runnable{
             registerConnection(thisPlayerSocket, playersForThisGame);
             addPlayer(name, id);
             var game = gameController.getGame();
-            var board = game.getSingleB(i++);
+            var board = game.getSingleB(i);
             var remoteView = thisPlayerSocket.getRemoteView();
+            remoteView.setBoardId(i);
             board.addPropertyChangeListener(remoteView);
             remoteView.setGameId(id);
+            i++;
         }
         controller.getGameControllerById(id).startGame();
     }

@@ -70,7 +70,7 @@ public class GameController{
         game.setPlayingPlayer(game.checkNext());
     }
 
-    public BoardController[] getBoardController(){return boardController;}
+    public BoardController getBoardController(int id){return boardController[id];}
 
     public void cardLeadAction(CardLeader cardToBeActivated){
         switch(cardToBeActivated){
