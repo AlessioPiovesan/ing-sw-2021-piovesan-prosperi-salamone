@@ -1,15 +1,11 @@
 package it.polimi.ingsw.clients.multiplayer.model;
 
 import it.polimi.ingsw.server.accessories.Colours;
+import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.util.EnumMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * class ThisBoard is the model class for the current playing player's board in a multiplayer game.
@@ -22,36 +18,37 @@ import java.util.Map;
 
 public class ThisBoard{
 
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
-    private LinkedList<CardDev> myDevCards = new LinkedList<>();
+    private final LinkedList<CardDev> myDevCards;
     private String nickname;
-    private Colours[][] warehouse;
+    private List<Pick> warehouse;
     private int faithTrack;
     private EnumMap<Colours, Integer> strongBox;
-    private CardDev[] library;
+    private List<ArrayList<CardDev>> library;
     private EnumMap<Colours, Integer> resAll;
     private boolean[] activeLeader;
     private Colours choosingRes;
     private CardLeader[] myLeaderCards = new CardLeader[2];
 
-    protected ThisBoard(){}
+    protected ThisBoard(){myDevCards = new LinkedList<>();}
 
     public List<CardDev> getMyDevCards(){
         return myDevCards;
     }
 
-    public void setMyDevCards(List<CardDev> myDevCards){
-        var old = this.myDevCards;
-        this.myDevCards = (LinkedList<CardDev>)myDevCards;
-        pcs.firePropertyChange("myDevCards", old, this.myDevCards);
-    }
-
-    public Colours[][] getWarehouse(){
+    public List<Pick> getWarehouse(){
         return warehouse;
     }
 
-    public void setWarehouse(Colours[][] warehouse){
+    public void setWarehouse(List<Pick> warehouse){
         this.warehouse = warehouse;
+    }
+
+    public List<ArrayList<CardDev>> getLibrary(){
+        return library;
+    }
+
+    public void setLibrary(List<ArrayList<CardDev>> library){
+        this.library = library;
     }
 
     public int getFaithTrack(){
@@ -68,14 +65,6 @@ public class ThisBoard{
 
     public void setStrongBox(Map<Colours, Integer> strongBox){
         this.strongBox = (EnumMap<Colours, Integer>)strongBox;
-    }
-
-    public CardDev[] getLibrary(){
-        return library;
-    }
-
-    public void setLibrary(CardDev[] library){
-        this.library = library;
     }
 
     public Map<Colours, Integer> getResAll(){
@@ -116,15 +105,5 @@ public class ThisBoard{
 
     public void setMyLeaderCards(CardLeader[] myLeaderCards){
         this.myLeaderCards = myLeaderCards;
-    }
-
-    protected PropertyChangeSupport getPcs(){return pcs;}
-
-    public void addPropertyChangeListener(PropertyChangeListener listener){
-        pcs.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener){
-        pcs.removePropertyChangeListener(listener);
     }
 }

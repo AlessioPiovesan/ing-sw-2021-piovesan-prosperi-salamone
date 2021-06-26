@@ -38,6 +38,16 @@ public class BoardController{
         /*sends loose in discarded*/
     }
 
+    /**
+     * @param pick of type Pick
+     * @param lvl  of type int
+     * @return boolean
+     * @see Board#checkWarehouseAdd(Pick, int)
+     */
+    public boolean checkWarehouseAdd(Pick pick, int lvl){
+        return player.checkWarehouseAdd(pick, lvl);
+    }
+
     public void warehouseResHandler(Colours colour, int qnt, int lvl){
         player.storeW(lvl, new Pick[]{new Pick(colour, qnt)});
     }

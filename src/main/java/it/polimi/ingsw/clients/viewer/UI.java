@@ -1,5 +1,6 @@
 package it.polimi.ingsw.clients.viewer;
 
+import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 
 import java.beans.PropertyChangeEvent;
@@ -30,4 +31,6 @@ public interface UI extends PropertyChangeListener{
     void askId();
 
     void propertyChangeMulti(PropertyChangeEvent pce);
+
+    void setModelView(ModelView modelView);
 }

@@ -4,25 +4,26 @@ import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Constants;
+import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.Card;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 
-public class DrawerCLI{
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-    private final CLI ui;
-
-    public DrawerCLI(CLI ui){
-        this.ui = ui;
-    }
+public record DrawerCLI(CLI ui){
 
     /**
      * method showWarehouse is used to print out a reminder of the situation of the warehouse in case the player
      * needs it to make his decision.
+     *
+     * @param content
      */
-    public void showWarehouse(){
+    public void showWarehouse(List<Pick> content){
         printLine();
         ui.printMessage("At the moment the situation with the warehouse is this:");
-        var boardController = getLocalGameController().getBoardController();
-        var content = boardController.player().checkWarehouseStatus();
         var i = 0;
         for(var pick : content)
             if(pick.resource() == Colours.WHITE){
@@ -41,18 +42,14 @@ public class DrawerCLI{
         ui.printMessage("_________________________________________________");
     }
 
-    private LocalGameController getLocalGameController(){
-        return LocalGameController.getInstance();
-    }
-
     /**
      * method showLibrary prints the situation of the Library
+     *
+     * @param slots
      */
-    public void showLibrary(){
+    public void showLibrary(List<ArrayList<CardDev>> slots){
         printLine();
         ui.printMessage("These are your board slots:");
-        var boardController = getLocalGameController().getBoardController();
-        var slots = boardController.player().checkLibraryStatus();
         var i = 0;
         for(var thisSlot : slots)
             if(thisSlot.isEmpty()){
@@ -80,25 +77,24 @@ public class DrawerCLI{
 
     /**
      * method showStrongbox prints the situation of the Strongbox
+     *
+     * @param map
      */
-    public void showStrongBox(){
+    public void showStrongBox(Map<Colours, Integer> map){
         printLine();
         ui.printMessage("This is what's in your StrongBox:");
-        var boardController = getLocalGameController().getBoardController();
-        var player = boardController.player();
-        var map = player.checkStrongBoxStatus();
         map.keySet().stream().map(color -> color.getType() + " -> " + map.get(color)).forEach(ui::printMessage);
         printLine();
     }
 
     /**
      * method showMyCardLeader shows all of the Leader Cards owned by one player
+     *
+     * @param cards
      */
-    public void showMyCardLeader(){
+    public void showMyCardLeader(CardLeader[] cards){
         printLine();
         ui.printMessage("These are your leader cards:");
-        var boardController = getLocalGameController().getBoardController();
-        var cards = boardController.player().getMyLeaderCards();
         for(var singleCard : cards) ui.printMessage(singleCard.toString());
         printLine();
     }
@@ -106,8 +102,7 @@ public class DrawerCLI{
     /**
      * method showFaithTrack builds and prints the updated faith track of the game
      */
-    public void showFaithTrack(Checker checker){
-        final var pos = 0;
+    public void showFaithTrack(Checker checker, int pos){
         var normal = "███";
         var central = ConsoleColors.RED_BOLD + "███" + ConsoleColors.RESET;
         var top = "█" + ConsoleColors.RED_BOLD + "█" + ConsoleColors.RESET + "█";
@@ -187,6 +182,10 @@ public class DrawerCLI{
         ui.printMessage(String.valueOf(trackTop));
     }
 
+    private LocalGameController getLocalGameController(){
+        return LocalGameController.getInstance();
+    }
+
     /**
      * method drawYouAndLorenzoBoxFT handles the moment the player and Lorenzo are on the same tile
      *
@@ -236,11 +235,12 @@ public class DrawerCLI{
 
     /**
      * method showMarket is used to create and print the market in order for the player to visualize it
+     *
+     * @param marketTray
+     * @param externalMarble
      */
-    public void showMarket(){
+    public void showMarket(Colours[][] marketTray, Colours externalMarble){
         printLine();
-        var marketTray = getLocalGameController().getGame().getMarket().getTray();
-        var externalMarble = getLocalGameController().getGame().getMarket().getExternal();
         var print = new StringBuilder();
         print.append(ConsoleColors.BLACK + "   \t   \t   \t" + ConsoleColors.RESET).append(drawMarket(externalMarble)).append("\n");
         for(var i = 0; i < Constants.XMARKET.getVal(); i++){
@@ -259,7 +259,7 @@ public class DrawerCLI{
      * @param colours
      * @return
      */
-    public String drawMarket(Colours colours){
+    private String drawMarket(Colours colours){
         return switch(colours){
             case RED -> ConsoleColors.RED + "███" + ConsoleColors.RESET;
             case BLUE -> ConsoleColors.BLUE + "███" + ConsoleColors.RESET;

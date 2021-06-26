@@ -146,6 +146,11 @@ public class Game{
                 }
             }
         }
+        startRealPlay();
+    }
+
+    private void startRealPlay(){
+        boards[playingPlayer].ready();
     }
 
     /**

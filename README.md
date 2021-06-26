@@ -37,12 +37,12 @@ The final version includes:
 | Functionality | Status |
 |:-----------------------|:------------------------------------:|
 | Basic rules | [![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/MODELLO) |
-| Complete rules | [![YELLOW](.github/ffdd00.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/MODELLO) |
-| Socket |[![YELLOW](.github/ffdd00.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/SERVER) |
+| Complete rules | [![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/MODELLO) |
+| Socket |[![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/SERVER) |
 | GUI | [![YELLOW](.github/ffdd00.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/GUI) |
-| CLI |[![YELLOW](.github/ffdd00.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/CLI) |
-| Multiple games | [![YELLOW](.github/ffdd00.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/SERVER)|
-| Single Player | [![YELLOW](.github/ffdd00.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/CLIENTSINGLEPLAYER) |
+| CLI |[![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/CLI) |
+| Multiple games | [![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/SERVER)|
+| Single Player | [![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/CLIENTSINGLEPLAYER) |
 | Resilience to disconnections | [![YELLOW](.github/ffdd00.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/EDITOR) |
 | Editor | [![RED](.github/f03c15.png)]() |
 | Persistence | [![RED](.github/f03c15.png)]() |

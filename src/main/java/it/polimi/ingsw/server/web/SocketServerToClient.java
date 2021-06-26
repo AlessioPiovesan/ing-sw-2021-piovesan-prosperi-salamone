@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server.web;
 
+import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
+import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.controller.Controller;
 import it.polimi.ingsw.server.viewer.RemoteView;
@@ -106,7 +108,7 @@ public class SocketServerToClient implements Runnable{
         var string = input.split("::");
         switch(string[0]){
             case "nickname" -> remoteView.setNickname(string[1]);
-            case "nplayers" -> remoteView.setNPlayers(Integer.parseInt(string[1]));
+            case "NPlayers" -> remoteView.setNPlayers(Integer.parseInt(string[1]));
             case "id" -> {
                 if(string[1].equals("0")) remoteView.setGameId(null);
                 else remoteView.setGameId(Integer.parseInt(string[1]));
@@ -115,6 +117,24 @@ public class SocketServerToClient implements Runnable{
             }
             case "checkNickname" -> server.checkExistNickname(string[1], this);
             case "initialLeaders" -> prepareInitialLeaders(string[1]);
+            case "initialResource" -> server.firstRes(this);
+            case "nextPlayer" -> {
+                var id = remoteView.getGameId();
+                var gameController = Controller.getInstance().getGameControllerById(id);
+                gameController.nextPlayer();
+            }
+            case "warehouseResHandler" -> {
+                var idGame = remoteView.getGameId();
+                var idBoard = remoteView.getGameId();
+                var gameController = Controller.getInstance().getGameControllerById(idGame);
+                var boardController = gameController.getBoardController(idBoard);
+                var color = Colours.fromString(string[1]);
+                var qnt = Integer.parseInt(string[2]);
+                var lvl = Integer.parseInt(string[3]);
+                if(boardController.checkWarehouseAdd(new Pick(color, qnt), lvl))
+                    boardController.warehouseResHandler(color, qnt, lvl);
+                else send("preference::");
+            }
             default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
         }
     }

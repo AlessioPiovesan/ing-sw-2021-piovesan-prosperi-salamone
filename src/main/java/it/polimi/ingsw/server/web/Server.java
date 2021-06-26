@@ -30,12 +30,14 @@ public class Server implements Runnable{
     private final Map<String, SocketServerToClient> playingPlayers;
     private final Map<SocketServerToClient, SocketServerToClient> playingConnection;
     private final Map<Integer, Map<Integer, List<String>>> waitingFor1Game;
+    private final Map<Integer, Integer> firstRes;
     private final Controller controller;
 
     public Server(int port) throws IOException{
         this.serverSocket = new ServerSocket(port);
         waitingFor1Game = new HashMap<>();
         playingConnection = new HashMap<>();
+        firstRes = new HashMap<>();
         playingPlayers = new HashMap<>();
         var forPlayers = new HashMap<Integer, List<String>>();
         waitingFor1Game.put(2, forPlayers);
@@ -169,7 +171,16 @@ public class Server implements Runnable{
             socket.send("nicknameExist::" + players.get(name));
         }
         else socket.send("nicknameYes::" + name);
+    }
 
-
+    public void firstRes(SocketServerToClient socket){
+        var view = socket.getRemoteView();
+        var nPlayers = view.getNPlayers();
+        var id = view.getGameId();
+        firstRes.merge(id, 1, Integer::sum);
+        if(firstRes.get(id) == nPlayers){
+            var gameController = Controller.getInstance().getGameControllerById(id);
+            gameController.initialResourcesHandler();
+        }
     }
 }

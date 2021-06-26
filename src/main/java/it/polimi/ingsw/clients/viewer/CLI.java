@@ -2,6 +2,7 @@ package it.polimi.ingsw.clients.viewer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.clients.viewer.utils.Checker;
@@ -13,7 +14,6 @@ import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.Card;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
-import it.polimi.ingsw.server.controller.Controller;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 import java.beans.PropertyChangeEvent;
@@ -41,6 +41,7 @@ public class CLI implements Runnable, UI{
     private String nickname;
     private boolean single;
     private Client client;
+    private ModelView model;
 
     public CLI(){
         single = false;
@@ -99,12 +100,12 @@ public class CLI implements Runnable, UI{
      * method payForCardDev is used to handle the payment of a Development Card.
      *
      * @param cost of type List of Pick
-     * @see DrawerCLI#showWarehouse()
-     * @see DrawerCLI#showStrongBox()
+     * @see DrawerCLI#showWarehouse(List)
+     * @see DrawerCLI#showStrongBox(Map)
      */
     private synchronized void payForCardDev(List<Pick> cost){
-        drawer.showWarehouse();
-        drawer.showStrongBox();
+        drawer.showWarehouse(cost);
+        drawer.showStrongBox(getStrongBox());
         for(var pick : cost){
             var color = pick.resource();
             for(var i = 0; i < pick.qnt(); i++){
@@ -126,10 +127,10 @@ public class CLI implements Runnable, UI{
      * 5: shows the faith track
      * 6: back to choosing action
      *
-     * @see DrawerCLI#showWarehouse()
-     * @see DrawerCLI#showStrongBox()
-     * @see DrawerCLI#showLibrary()
-     * @see DrawerCLI#showMyCardLeader()
+     * @see DrawerCLI#showWarehouse(List)
+     * @see DrawerCLI#showStrongBox(Map)
+     * @see DrawerCLI#showLibrary(List)
+     * @see DrawerCLI#showMyCardLeader(CardLeader[])
      * @see DrawerCLI#showFaithTrackSingle(Checker)
      */
     private synchronized void showStatus(){
@@ -152,13 +153,13 @@ public class CLI implements Runnable, UI{
                     s = input.nextInt();
                 }
                 switch(s){
-                    case 1 -> drawer.showWarehouse();
-                    case 2 -> drawer.showStrongBox();
-                    case 3 -> drawer.showLibrary();
-                    case 4 -> drawer.showMyCardLeader();
+                    case 1 -> drawer.showWarehouse(getWarehouse());
+                    case 2 -> drawer.showStrongBox(getStrongBox());
+                    case 3 -> drawer.showLibrary(getLibrary());
+                    case 4 -> drawer.showMyCardLeader(getMyCardLeader());
                     case 5 -> {
                         if(single) drawer.showFaithTrackSingle(checker);
-                        else drawer.showFaithTrack(checker);
+                        else drawer.showFaithTrack(checker, model.getMyBoard().getFaithTrack());
                     }
                     case 6 -> output.println("Ok");
                     default -> output.print("There's no way you were able to that... I think...");
@@ -169,6 +170,26 @@ public class CLI implements Runnable, UI{
             output.println("Not a number");
             showStatus();
         }
+    }
+
+    private CardLeader[] getMyCardLeader(){
+        if(single) return getLocalGameController().getBoardController().player().getMyLeaderCards();
+        else return model.getMyBoard().getMyLeaderCards();
+    }
+
+    private List<Pick> getWarehouse(){
+        if(single) return getLocalGameController().getBoardController().player().checkWarehouseStatus();
+        else return model.getMyBoard().getWarehouse();
+    }
+
+    private Map<Colours, Integer> getStrongBox(){
+        if(single) return getLocalGameController().getBoardController().player().checkStrongBoxStatus();
+        else return model.getMyBoard().getStrongBox();
+    }
+
+    private List<ArrayList<CardDev>> getLibrary(){
+        if(single) return getLocalGameController().getBoardController().player().checkLibraryStatus();
+        else return model.getMyBoard().getLibrary();
     }
 
     /**
@@ -195,7 +216,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method chooseAction is used to record and execute player's choise for his next action
+     * method chooseAction is used to record and execute player's choice for his next action
      * 1: Activate Production
      * 2: Pick resources from the market
      * 3: Buy a dev Card
@@ -257,7 +278,7 @@ public class CLI implements Runnable, UI{
                     if(Objects.equals(r, "y")) activateProdCard(actionableCard);
                     else output.println("You refused");
                 }
-                else output.println("You don't have the resources to activate this development card");
+                else output.println("You don't have the resources to activate the development card in slot #" + ++i);
             }
         }
     }
@@ -277,6 +298,7 @@ public class CLI implements Runnable, UI{
             else executor.execute(() -> boardController.takeFromStrongbox(color));
         }
         var player = boardController.player();
+        output.println("Production success");
         player.produce(card);
     }
 
@@ -306,7 +328,7 @@ public class CLI implements Runnable, UI{
         output.println(colors);
         for(Colours colours : keep)
             prepareResForWarehouse(colours, 1);
-        drawer.showWarehouse();
+        drawer.showWarehouse(getWarehouse());
         getLocalGameController().nextPlayer();
     }
 
@@ -369,7 +391,7 @@ public class CLI implements Runnable, UI{
         } catch(NumberFormatException e){
             resourcesHandler(bufferProd);
         }
-        drawer.showWarehouse();
+        drawer.showWarehouse(bufferProd);
         getLocalGameController().nextPlayer();
     }
 
@@ -443,7 +465,7 @@ public class CLI implements Runnable, UI{
             players = input.nextInt();
         }
         client.setNPlayers(players);
-        client.send("nplayers::" + players);
+        client.send("NPlayers::" + players);
     }
 
     @Override
@@ -484,10 +506,11 @@ public class CLI implements Runnable, UI{
                         e.printStackTrace();
                     }
                 }
-                case "firstOp" -> Controller.getInstance().getGameControllerById(0).initialResourcesHandler();
-                case "nextPlayer" -> Controller.getInstance().getGameControllerById(0);
+                case "firstOp" -> client.send("initialResource::");
+                case "nextPlayer" -> client.send("nextPlayer::");
                 case "redCrossMove" -> getLocalGameController().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
+                case "preference" -> chooseRes();
                 case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Checker.castList(Colours.class, (Collection<?>)evt.getNewValue()));
                 case "productionBuffer" -> resourcesHandler(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
                 case "costCardDev" -> payForCardDev(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
@@ -496,6 +519,11 @@ public class CLI implements Runnable, UI{
                 default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
             }
         });
+    }
+
+    @Override
+    public void setModelView(ModelView model){
+        this.model = model;
     }
 
     /**
@@ -529,6 +557,27 @@ public class CLI implements Runnable, UI{
             port = Integer.parseInt(input.nextLine());
         }
         return port;
+    }
+
+    private void chooseRes(){
+        output.println("Select a preferred resource to add to you belongings:");
+        output.println("1)\t" + Colours.BLUE.getType());
+        output.println("2)\t" + Colours.GREY.getType());
+        output.println("3)\t" + Colours.PURPLE.getType());
+        output.println("4)\t" + Colours.YELLOW.getType());
+        var res = input.nextInt();
+        while(res < 0 || res >= 5){
+            output.println("Not valid");
+            res = input.nextInt();
+        }
+        var choice = switch(res){
+            case 1 -> Colours.BLUE;
+            case 2 -> Colours.GREY;
+            case 3 -> Colours.PURPLE;
+            case 4 -> Colours.YELLOW;
+            default -> null;
+        };
+        prepareResForWarehouse(choice, 1);
     }
 
     /**
@@ -599,7 +648,17 @@ public class CLI implements Runnable, UI{
      */
     private synchronized void marketMove(){
         var move = -1;
-        drawer.showMarket();
+        Colours[][] marketTray;
+        Colours externalMarble;
+        if(single){
+            marketTray = getLocalGameController().getGame().getMarket().getTray();
+            externalMarble = getLocalGameController().getGame().getMarket().getExternal();
+        }
+        else{
+            marketTray = model.getMarket();
+            externalMarble = model.getExternalMarble();
+        }
+        drawer.showMarket(marketTray, externalMarble);
         output.println("\n0 ) Row\n1 ) Column");
         var j = -2;
         try{
@@ -688,7 +747,7 @@ public class CLI implements Runnable, UI{
      * @return
      */
     private int pickSlot(CardDev card){
-        drawer.showLibrary();
+        drawer.showLibrary(getLibrary());
         output.print("Slot for " + card.name() + "? [1-3]\n>\t");
         output.flush();
         var slot = -1;
@@ -730,6 +789,22 @@ public class CLI implements Runnable, UI{
         nextAction();
     }
 
+    private void prepareResForWarehouse(Colours colour, int qnt){
+        if(single) prepareResForWarehouseS(colour, qnt);
+        else prepareResForWarehouseM(colour, qnt);
+    }
+
+    private void prepareResForWarehouseM(Colours colour, int qnt){
+        if(colour == Colours.RED) client.send("moveFT::" + 1);
+        else{
+            drawer.showWarehouse(getWarehouse());
+            output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
+            output.flush();
+            var lvl = getWarehouseShelfLvl();
+            client.send("warehouseResHandler::" + colour + "::" + qnt + "::" + lvl);
+        }
+    }
+
     /**
      * method prepareResForWarehouse is the method used to place resources in the warehouse.
      * The same method is used whenever a resource is taken from the warehouse by subtracting the value instead of adding it
@@ -737,13 +812,13 @@ public class CLI implements Runnable, UI{
      * @param colour
      * @param qnt
      */
-    private void prepareResForWarehouse(Colours colour, int qnt){
+    private void prepareResForWarehouseS(Colours colour, int qnt){
         var newPick = new Pick(colour, qnt);
         var response = 0;
         var bc = getLocalGameController().getBoardController();
         if(colour == Colours.RED) bc.moveFT(1);
         else{
-            drawer.showWarehouse();
+            drawer.showWarehouse(getWarehouse());
             output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
             output.flush();
             var lvl = getWarehouseShelfLvl();
@@ -782,10 +857,10 @@ public class CLI implements Runnable, UI{
                 var secondQnt = content.get(second).qnt();
                 if(first + 1 >= secondQnt && second + 1 >= firstQnt) boardController.rearrangeWarehouse(first, second);
                 else output.println("You can't do that");
-                drawer.showWarehouse();
+                drawer.showWarehouse(content);
             }
             case 3 -> {
-                drawer.showWarehouse();
+                drawer.showWarehouse(getWarehouse());
                 output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
                 output.flush();
                 lvl = getWarehouseShelfLvl();
