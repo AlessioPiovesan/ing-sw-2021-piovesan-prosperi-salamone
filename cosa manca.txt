@@ -23,3 +23,5 @@
 - Capire come gestire la dimostrazione il giorno dell'esame e organizzarci di conseguenza
 
 - Mostrare le carte sviluppo in mazzetti giusti divisi per livello e per colore (GUI)
+
+-Restituire un feedback al giocatore quando si attiva la produzione, al momento non ci si accorge se la produzione sia andata a buon fine
