@@ -43,11 +43,11 @@ public class ThisBoard{
     }
 
     protected List<Pick> createWarehouse(){
-        var wareContent = new ArrayList<>();
+        var wareContent = new ArrayList<Pick>();
         wareContent.add(new Pick(Colours.WHITE, 0));
         wareContent.add(new Pick(Colours.WHITE, 0));
         wareContent.add(new Pick(Colours.WHITE, 0));
-        return warehouse;
+        return wareContent;
     }
 
     protected EnumMap<Colours, Integer> createStrongBox(){

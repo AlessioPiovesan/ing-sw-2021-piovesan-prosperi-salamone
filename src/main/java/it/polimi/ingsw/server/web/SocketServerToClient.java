@@ -126,7 +126,7 @@ public class SocketServerToClient implements Runnable{
             case "join" -> server.rejoin(Integer.parseInt(string[1]), string[2], this);
             case "warehouseResHandler" -> {
                 var idGame = remoteView.getGameId();
-                var idBoard = remoteView.getGameId();
+                var idBoard = remoteView.getBoardId();
                 var gameController = Controller.getInstance().getGameControllerById(idGame);
                 var boardController = gameController.getBoardController(idBoard);
                 var color = Colours.fromString(string[1]);

@@ -235,7 +235,7 @@ public class CLI implements Runnable, UI{
             output.print(menu);
             output.flush();
             var action = input.nextInt();
-            while(action < 1 || action > 6){
+            while(action < 0 || action > 6){
                 output.println("Please type a valid number [1-5]");
                 action = input.nextInt();
             }
