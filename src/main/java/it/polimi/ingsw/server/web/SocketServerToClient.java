@@ -95,7 +95,7 @@ public class SocketServerToClient implements Runnable{
         }
     }
 
-    private synchronized boolean isActive(){
+    public synchronized boolean isActive(){
         return active;
     }
 
@@ -123,6 +123,7 @@ public class SocketServerToClient implements Runnable{
                 var gameController = Controller.getInstance().getGameControllerById(id);
                 gameController.nextPlayer();
             }
+            case "join" -> server.rejoin(Integer.parseInt(string[1]), string[2], this);
             case "warehouseResHandler" -> {
                 var idGame = remoteView.getGameId();
                 var idBoard = remoteView.getGameId();

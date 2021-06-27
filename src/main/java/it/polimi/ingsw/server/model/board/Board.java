@@ -29,6 +29,7 @@ public class Board{
     private final Colours[] discount;
     private final Colours[] marketAlt;
     private final Colours[] productAlt;
+    private final Map<Colours, Integer> leaderSpace;
     private boolean endGame;
     private int activeLeader = 0;
     private String nickname;
@@ -54,6 +55,7 @@ public class Board{
         discount = new Colours[]{Colours.WHITE, Colours.WHITE};
         marketAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
         productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
+        leaderSpace = Collections.unmodifiableMap(new HashMap<>());
         ready = false;
         pcs = new PropertyChangeSupport(this);
     }
@@ -235,10 +237,6 @@ public class Board{
         pcs.firePropertyChange("marketBuffer", "", bufferMarket);
     }
 
-    public void resHandler(Colours res){
-        pcs.firePropertyChange("resNeedsHandling", "", res);
-    }
-
     public void setPreference(){
         Colours preference = Colours.WHITE;
         pcs.firePropertyChange("preference", "", preference);
@@ -256,32 +254,10 @@ public class Board{
     public void removePropertyChangeListener(PropertyChangeListener listener){pcs.removePropertyChangeListener(listener);}
 
     /**
-     * Method createStatus creates the status of the board.
-     *
-     * @see StatusBoard
-     */
-    public void createStatus(){
-        var pseudoWarehouse = new Colours[3][3];
-        var list = warehouse.checkStatus();
-        for(var i = 0; i < 3; i++){
-            for(var j = 0; j < 3; j++){
-                if(j < list.get(i).qnt()){
-                    var thisDepotPick = list.get(i);
-                    pseudoWarehouse[i][j] = thisDepotPick.resource();
-                }
-                pseudoWarehouse[i][j] = null;
-            }
-        }
-        var status = new StatusBoard(pseudoWarehouse, faithTrack.getPosition(), strongBox.getStrongContent(), library.visibleCards(), resAll, myLeaderCards);
-        pcs.firePropertyChange("boardStatus", "", status);
-    }
-
-    /**
      * @param special resource type that you can add in the extra space
-     * @see Warehouse#addLeaderSpace(Colours)
      */
     public void addLeaderSpace(Colours special){
-        warehouse.addLeaderSpace(special);
+        leaderSpace.put(special, 0);
     }
 
     /**
@@ -381,6 +357,7 @@ public class Board{
         var w = warehouse.getWareContent();
         var s = strongBox.getStrongContent();
         var map = new EnumMap<Colours, Integer>(Colours.class);
+        var leaderKey = leaderSpace.keySet();
         var sKeys = s.keySet();
         var resAllKeys = resAll.keySet();
         map.put(Colours.BLUE, 0);
@@ -390,7 +367,9 @@ public class Board{
         for(var pick : w)
             if(pick.resource() != Colours.WHITE) map.put(pick.resource(), pick.qnt());
         sKeys.forEach(key -> map.put(key, s.get(key) + map.get(key)));
+        leaderKey.forEach(key->map.put(key, leaderSpace.get(key)+map.get(key)));
         resAllKeys.forEach(key -> resAll.put(key, map.get(key)));
+
     }
 
     public int checkFT(){return faithTrack.getPosition();}

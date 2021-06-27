@@ -130,22 +130,6 @@ public class Warehouse{
     }
 
     /**
-     * method addLeaderSpace is a Leader Card's power that adds a special depot of two additional spaces.
-     *
-     * @param color
-     */
-    protected void addLeaderSpace(Colours color){
-        switch(color){
-            case GREY -> wareContent.add(new Pick(Colours.GREY, 0));
-            case PURPLE -> wareContent.add(new Pick(Colours.PURPLE, 0));
-            case BLUE -> wareContent.add(new Pick(Colours.BLUE, 0));
-            case YELLOW -> wareContent.add(new Pick(Colours.YELLOW, 0));
-            default -> checkStatus();
-
-        }
-    }
-
-    /**
      * Method checkStatus returns the status of the Warehouse
      *
      * @return status of the Warehouse

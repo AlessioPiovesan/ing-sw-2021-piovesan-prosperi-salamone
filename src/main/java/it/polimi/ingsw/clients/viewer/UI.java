@@ -33,4 +33,6 @@ public interface UI extends PropertyChangeListener{
     void propertyChangeMulti(PropertyChangeEvent pce);
 
     void setModelView(ModelView modelView);
+
+    void resilience(int id, String name);
 }

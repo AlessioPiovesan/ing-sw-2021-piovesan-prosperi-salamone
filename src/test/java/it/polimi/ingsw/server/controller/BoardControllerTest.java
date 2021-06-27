@@ -10,7 +10,7 @@ class BoardControllerTest{
     @Test
     void getterTest(){
         var board = new Board(0, null, null, null, null);
-        var boardController = new BoardController(board);
+        var boardController = new BoardController(board, null);
         assertEquals(board, boardController.getPlayer());
     }
 }

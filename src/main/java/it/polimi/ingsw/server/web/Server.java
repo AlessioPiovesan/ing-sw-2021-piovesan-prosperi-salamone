@@ -1,5 +1,8 @@
 package it.polimi.ingsw.server.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import it.polimi.ingsw.server.accessories.Colours;
+import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.controller.BoardController;
 import it.polimi.ingsw.server.controller.Controller;
 import it.polimi.ingsw.server.controller.GameController;
@@ -9,10 +12,7 @@ import it.polimi.ingsw.server.model.game.Market;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * After the server has been created, this class Server is used to handle multiple Socket Connections
@@ -26,8 +26,8 @@ import java.util.Map;
 public class Server implements Runnable{
 
     private final ServerSocket serverSocket;
-    private final Map<String, Integer> players;
-    private final Map<String, SocketServerToClient> playingPlayers;
+    private final Map<String, Integer> playersNameId;
+    private final Map<String, SocketServerToClient> playingPlayersNameSocket;
     private final Map<SocketServerToClient, SocketServerToClient> playingConnection;
     private final Map<Integer, Map<Integer, List<String>>> waitingFor1Game;
     private final Map<Integer, Integer> firstRes;
@@ -38,12 +38,12 @@ public class Server implements Runnable{
         waitingFor1Game = new HashMap<>();
         playingConnection = new HashMap<>();
         firstRes = new HashMap<>();
-        playingPlayers = new HashMap<>();
+        playingPlayersNameSocket = new HashMap<>();
         var forPlayers = new HashMap<Integer, List<String>>();
         waitingFor1Game.put(2, forPlayers);
         waitingFor1Game.put(3, forPlayers);
         waitingFor1Game.put(4, forPlayers);
-        players = new HashMap<>();
+        playersNameId = new HashMap<>();
         controller = Controller.getInstance();
     }
 
@@ -68,11 +68,11 @@ public class Server implements Runnable{
      * @param socketToClient  of type SocketServerToClient - Socket that represents the connection with a Client
      * @param name            of type String - Player's nickname
      * @param playersRequired of type Int - Number of Players
-     * @param id
+     * @param id              of type Integer - id of the Game that is about to start
      */
     public synchronized void lobby(SocketServerToClient socketToClient, String name, int playersRequired, Integer id){
         socketToClient.send("Hi " + name + " you are in the lobby\nPlease wait for the other players to join");
-        playingPlayers.put(name, socketToClient);
+        playingPlayersNameSocket.put(name, socketToClient);
         if(id == null) createNewGame(socketToClient, name, playersRequired);
         else joinNewGame(socketToClient, name, playersRequired, id);
     }
@@ -99,14 +99,23 @@ public class Server implements Runnable{
         var mapGameForThisNPlayers = waitingFor1Game.get(playersRequired);
         var playersForThisGame = mapGameForThisNPlayers.get(id);
         var gameController = controller.getGameControllerById(id);
+        var game = gameController.getGame();
+        var market = game.getMarket().getTray();
+        var extern = game.getMarket().getExternal();
+        var node = Json.toJson(market);
+        var marketString = "";
+        try{
+            marketString = Json.stringify(node);
+        } catch(JsonProcessingException e){
+            e.printStackTrace();
+        }
         var i = 0;
         for(var name : playersForThisGame){
-            var thisPlayerSocket = playingPlayers.get(name);
+            var thisPlayerSocket = playingPlayersNameSocket.get(name);
             registerConnection(thisPlayerSocket, playersForThisGame);
             addPlayer(name, id);
-            var game = gameController.getGame();
             var board = game.getSingleB(i);
-            var boardController = new BoardController(board);
+            var boardController = new BoardController(board, name);
             gameController.setBoardController(i, boardController);
             var remoteView = thisPlayerSocket.getRemoteView();
             remoteView.setBoardId(i);
@@ -114,7 +123,18 @@ public class Server implements Runnable{
             remoteView.setGameId(id);
             i++;
         }
+        sendMarket(extern, marketString, playersRequired, id);
         controller.getGameControllerById(id).startGame();
+    }
+
+    private void sendMarket(Colours extern, String marketString, int n, int id){
+        var mapGameForThisNPlayers = waitingFor1Game.get(n);
+        var playersForThisGame = mapGameForThisNPlayers.get(id);
+        for(var name : playersForThisGame){
+            var socket = playingPlayersNameSocket.get(name);
+            socket.send("external::" + extern);
+            socket.send("tray::" + marketString);
+        }
     }
 
     private void createNewGame(SocketServerToClient socketToClient, String name, int playersRequired){
@@ -128,13 +148,6 @@ public class Server implements Runnable{
         list.add(name);
         map.put(gameControllerID, list);
         waitingFor1Game.put(playersRequired, map);
-    }
-
-    private synchronized void registerConnection(SocketServerToClient thisSocket, List<String> list){
-        for(var name : list){
-            var socket = playingPlayers.get(name);
-            if(thisSocket != socket) playingConnection.put(thisSocket, socket);
-        }
     }
 
     /**
@@ -153,11 +166,11 @@ public class Server implements Runnable{
     }
 
     private void addPlayer(String name, int id){
-        players.put(name, id);
+        playersNameId.put(name, id);
     }
 
     public void removePlayer(String name){
-        players.remove(name);
+        playersNameId.remove(name);
     }
 
     /**
@@ -167,8 +180,10 @@ public class Server implements Runnable{
      * @param socket of type SocketServerToClient - Socket that represents the connection with a client.
      */
     public void checkExistNickname(String name, SocketServerToClient socket){
-        if(players.containsKey(name)){
-            socket.send("nicknameExist::" + players.get(name));
+        if(playersNameId.containsKey(name)){
+            var playerSocket = playingPlayersNameSocket.get(name);
+            if(playerSocket.isActive()) socket.send("nicknameNo::" + playersNameId.get(name));
+            else socket.send("nicknameMaybe::" + playersNameId.get(name) + "::" + name);
         }
         else socket.send("nicknameYes::" + name);
     }
@@ -181,6 +196,33 @@ public class Server implements Runnable{
         if(firstRes.get(id) == nPlayers){
             var gameController = Controller.getInstance().getGameControllerById(id);
             gameController.initialResourcesHandler();
+        }
+    }
+
+    public void rejoin(int id, String name, SocketServerToClient socketServerToClient){
+        playingPlayersNameSocket.put(name, socketServerToClient);
+        List<String> playersForThisGame = null;
+        for(var entry : waitingFor1Game.entrySet()){
+            var thisMap = entry.getValue();
+            if(thisMap.containsKey(id)) playersForThisGame = thisMap.get(id);
+            if(playersForThisGame != null) break;
+        }
+        if(playersForThisGame != null) registerConnection(socketServerToClient, playersForThisGame);
+        var gameController = controller.getGameControllerById(id);
+        var remoteView = socketServerToClient.getRemoteView();
+        var bcs = gameController.getAllBoardController();
+        for(var i = 0; i < bcs.length; i++){
+            if(Objects.equals(bcs[i].getName(), name)) remoteView.setBoardId(i);
+        }
+        var game = gameController.getGame();
+        var board = game.getSingleB(remoteView.getBoardId());
+        board.addPropertyChangeListener(remoteView);
+    }
+
+    private synchronized void registerConnection(SocketServerToClient thisSocket, List<String> list){
+        for(var name : list){
+            var socket = playingPlayersNameSocket.get(name);
+            if(thisSocket != socket) playingConnection.put(thisSocket, socket);
         }
     }
 }

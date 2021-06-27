@@ -158,4 +158,8 @@ public class GameController{
     public void setGamers(int gamers){
         Game.setNGamers(gamers);
     }
+
+    public BoardController[] getAllBoardController(){
+        return boardController;
+    }
 }

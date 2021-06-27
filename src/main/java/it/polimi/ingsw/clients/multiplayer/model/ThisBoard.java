@@ -18,21 +18,53 @@ import java.util.*;
 
 public class ThisBoard{
 
-    private final LinkedList<CardDev> myDevCards;
     private String nickname;
     private List<Pick> warehouse;
-    private int faithTrack;
+    private int faithTrackPos;
     private EnumMap<Colours, Integer> strongBox;
     private List<ArrayList<CardDev>> library;
     private EnumMap<Colours, Integer> resAll;
     private boolean[] activeLeader;
-    private Colours choosingRes;
+    private Colours[] discount;
+    private Colours[] marketAlt;
+    private Colours[] productAlt;
+    private Map<Colours, Integer> leaderSpace;
     private CardLeader[] myLeaderCards = new CardLeader[2];
 
-    protected ThisBoard(){myDevCards = new LinkedList<>();}
+    protected ThisBoard(){
+        warehouse = createWarehouse();
+        strongBox = createStrongBox();
+        faithTrackPos = 0;
+        library = createLibrary();
+        discount = new Colours[]{Colours.WHITE, Colours.WHITE};
+        marketAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
+        productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
+        leaderSpace = Collections.unmodifiableMap(new HashMap<>());
+    }
 
-    public List<CardDev> getMyDevCards(){
-        return myDevCards;
+    protected List<Pick> createWarehouse(){
+        var wareContent = new ArrayList<>();
+        wareContent.add(new Pick(Colours.WHITE, 0));
+        wareContent.add(new Pick(Colours.WHITE, 0));
+        wareContent.add(new Pick(Colours.WHITE, 0));
+        return warehouse;
+    }
+
+    protected EnumMap<Colours, Integer> createStrongBox(){
+        var strongContent = new EnumMap<Colours, Integer>(Colours.class);
+        strongContent.put(Colours.BLUE, 0);
+        strongContent.put(Colours.GREY, 0);
+        strongContent.put(Colours.PURPLE, 0);
+        strongContent.put(Colours.YELLOW, 0);
+        return strongContent;
+    }
+
+    protected List<ArrayList<CardDev>> createLibrary(){
+        var slots = new ArrayList<ArrayList<CardDev>>(3);
+        slots.add(new ArrayList<>());
+        slots.add(new ArrayList<>());
+        slots.add(new ArrayList<>());
+        return slots;
     }
 
     public List<Pick> getWarehouse(){
@@ -52,11 +84,11 @@ public class ThisBoard{
     }
 
     public int getFaithTrack(){
-        return faithTrack;
+        return faithTrackPos;
     }
 
     public void setFaithTrack(int faithTrack){
-        this.faithTrack = faithTrack;
+        this.faithTrackPos = faithTrack;
     }
 
     public Map<Colours, Integer> getStrongBox(){
@@ -89,14 +121,6 @@ public class ThisBoard{
 
     public void setActiveLeader(boolean[] activeLeader){
         this.activeLeader = activeLeader;
-    }
-
-    public Colours getChoosingRes(){
-        return choosingRes;
-    }
-
-    public void setChoosingRes(Colours choosingRes){
-        this.choosingRes = choosingRes;
     }
 
     public CardLeader[] getMyLeaderCards(){

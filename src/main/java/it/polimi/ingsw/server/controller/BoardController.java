@@ -5,9 +5,6 @@ import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model.board.Board;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * Class BoardController represents the controller of a player's board
  *
@@ -18,25 +15,18 @@ import java.util.Map;
 public class BoardController{
 
     private final Board player;
+    private final String name;
 
-    public BoardController(Board player){
+    public BoardController(Board player, String name){
         this.player = player;
+        this.name = name;
     }
 
     public Board getPlayer(){
         return player;
     }
 
-    public Map<Colours, Integer> checkResAllPlayer(){
-        return player.getResAll();
-    }
-
-    public void marketResHandler(List<Colours> keep, List<Colours> loose){
-        /*sends keep in warehouse*/
-        for(Colours colour : keep)
-            player.resHandler(colour);
-        /*sends loose in discarded*/
-    }
+    public String getName(){return name;}
 
     /**
      * @param pick of type Pick
@@ -52,15 +42,7 @@ public class BoardController{
         player.storeW(lvl, new Pick[]{new Pick(colour, qnt)});
     }
 
-    public void strongboxResHandler(Colours colour, int qnt){
-        player.storeInStrongBox(new Pick[]{new Pick(colour, 1)});
-    }
-
     public void setMyCardLeader(CardLeader[] choice){
         player.setMyLeaderCards(choice);
-    }
-
-    public void sendStatus(){
-        player.createStatus();
     }
 }

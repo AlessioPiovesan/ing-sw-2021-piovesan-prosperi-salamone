@@ -62,14 +62,4 @@ class WarehouseTest{
             assertEquals(0, pick.qnt());
         });
     }
-
-    @Test
-    void addLeaderSpaceTest(){
-        var w = new Warehouse();
-        int i = 3;
-        for(CardLeader c : Arrays.asList(CardLeader.CARDLEAD05, CardLeader.CARDLEAD06, CardLeader.CARDLEAD07, CardLeader.CARDLEAD08)){
-            w.addLeaderSpace(c.getSpecial());
-            assertEquals(++i, w.getWareContent().size());
-        }
-    }
 }

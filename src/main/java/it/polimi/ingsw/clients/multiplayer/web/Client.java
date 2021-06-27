@@ -5,6 +5,7 @@ import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.clients.viewer.GUI;
 import it.polimi.ingsw.clients.viewer.UI;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
+import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
 
 import java.beans.PropertyChangeEvent;
@@ -135,10 +136,28 @@ public class Client implements Runnable{
                 var pce = recreatePropertyChangeEvent(string[1]);
                 ui.propertyChangeMulti(pce);
             }
-            case "nicknameExist" -> ui.reChooseNickname(Integer.parseInt(string[1]));
-            case "nicknameYes" -> setupGame(string[1]);
+            case "nicknameNo" -> ui.reChooseNickname(Integer.parseInt(string[1]));
+            case "nicknameMaybe" -> {
+                ui.resilience(Integer.parseInt(string[1]), string[2]);
+                modelView.getMyBoard().setNickname(string[2]);
+            }
+            case "nicknameYes" -> {
+                setupGame(string[1]);
+                modelView.getMyBoard().setNickname(string[2]);
+            }
             case "askNickname" -> ui.chooseNickname();
             case "askId" -> ui.askId();
+            case "external" -> modelView.setExternalMarble(Colours.fromString(string[1]));
+            case "tray" -> {
+                try{
+                    var node = Json.parse(string[1]);
+                    var tray = Json.fromJson(node, Colours[][].class);
+                    modelView.setMarket(tray);
+                } catch(IOException e){
+                    e.printStackTrace();
+                }
+
+            }
             default -> ui.printMessage(string[0] + " -> (CLIENT)");
         }
     }

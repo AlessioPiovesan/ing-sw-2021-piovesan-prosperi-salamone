@@ -141,6 +141,11 @@ public class GUI extends Application implements UI{
 
     }
 
+    @Override
+    public void resilience(int i, String s){
+
+    }
+
     /**
      * method propertyChange is part of the Observer Pattern that can react to Model's changes.
      * TEMPORARYLEADERCARDS : starts the GUI and calls for changeStage.

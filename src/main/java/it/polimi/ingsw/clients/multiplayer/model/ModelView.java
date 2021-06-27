@@ -33,8 +33,16 @@ public class ModelView{
         return externalMarble;
     }
 
+    public void setExternalMarble(Colours externalMarble){
+        this.externalMarble = externalMarble;
+    }
+
     public Colours[][] getMarket(){
         return market;
+    }
+
+    public void setMarket(Colours[][] market){
+        this.market = market;
     }
 
     public ThisBoard getMyBoard(){
