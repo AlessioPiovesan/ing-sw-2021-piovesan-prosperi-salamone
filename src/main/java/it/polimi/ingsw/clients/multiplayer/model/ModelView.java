@@ -14,13 +14,10 @@ public class ModelView{
 
     private final ThisBoard myBoard;
     private final OtherBoard[] theirBoards;
-    private final int nPlayers;
     private Colours[][] market;
     private Colours externalMarble;
-    private int gameID;
 
     public ModelView(int nPlayers, UI ui){
-        this.nPlayers = nPlayers;
         myBoard = new ThisBoard();
         theirBoards = new OtherBoard[nPlayers];
         for(var i = 0; i < nPlayers - 1; i++){
@@ -49,7 +46,7 @@ public class ModelView{
         return myBoard;
     }
 
-    public void setGameID(int gameID){
-        this.gameID = gameID;
+    public OtherBoard getTheirBoards(int i){
+        return theirBoards[i];
     }
 }

@@ -130,4 +130,36 @@ public class ThisBoard{
     public void setMyLeaderCards(CardLeader[] myLeaderCards){
         this.myLeaderCards = myLeaderCards;
     }
+
+    public Colours[] getDiscount(){
+        return discount;
+    }
+
+    public void setDiscount(int i, Colours discount){
+        this.discount[i] = discount;
+    }
+
+    public Colours[] getMarketAlt(){
+        return marketAlt;
+    }
+
+    public void setMarketAlt(int i, Colours marketAlt){
+        this.marketAlt[i] = marketAlt;
+    }
+
+    public Colours[] getProductAlt(){
+        return productAlt;
+    }
+
+    public void setProductAlt(int i, Colours productAlt){
+        this.productAlt[i] = productAlt;
+    }
+
+    public Map<Colours, Integer> getLeaderSpace(){
+        return leaderSpace;
+    }
+
+    public void addLeaderSpace(Colours special){
+        leaderSpace.put(special, 0);
+    }
 }

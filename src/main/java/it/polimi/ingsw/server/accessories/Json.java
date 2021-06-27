@@ -11,6 +11,8 @@ public class Json{
 
     private static final ObjectMapper objectMapper = getObjectMapper();
 
+    private Json(){}
+
     private static ObjectMapper getObjectMapper(){
         var defaultObjectMapper = new ObjectMapper();
         /*configurazione*/
@@ -30,7 +32,6 @@ public class Json{
 
     public static String stringify(JsonNode node) throws JsonProcessingException{
         var objectWriter = objectMapper.writer();
-        //  objectWriter = objectWriter.with(SerializationFeature.INDENT_OUTPUT);
         return objectWriter.writeValueAsString(node);
     }
 }

@@ -17,6 +17,7 @@ import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import org.apache.commons.validator.routines.InetAddressValidator;
 
 import java.beans.PropertyChangeEvent;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -512,15 +513,15 @@ public class CLI implements Runnable, UI{
                 case "nextAction" -> nextAction();
                 case "preference" -> chooseRes();
                 case "marketBuffer" -> {
-                    var node = (JsonNode)evt.getNewValue();
                     var current = new LinkedList<Colours>();
                     try{
-                        var list = Json.fromJson(node, Collection.class);
+                        var node = Json.parse((String)evt.getNewValue());
+                        var list = Json.fromJson(node, List.class);
                         for(var o : list){
-                            var color = Colours.fromString((String)o);
+                            var color = (Colours)o;
                             current.add(color);
                         }
-                    } catch(JsonProcessingException e){
+                    } catch(IOException e){
                         e.printStackTrace();
                     }
                     resourcesHandlerMarket(current);
@@ -667,6 +668,16 @@ public class CLI implements Runnable, UI{
         return LocalGameController.getInstance();
     }
 
+    private Colours[][] getMarketTray(){
+        if(single) return getLocalGameController().getGame().getMarket().getTray();
+        else return model.getMarket();
+    }
+
+    private Colours getExternalMarble(){
+        if(single) return getLocalGameController().getGame().getMarket().getExternal();
+        else return model.getExternalMarble();
+    }
+
     /**
      * method marketMove is the one responsible for:
      * -handling the resources on a row or a column to the player based on his choice.
@@ -676,49 +687,15 @@ public class CLI implements Runnable, UI{
         var move = -1;
         Colours[][] marketTray;
         Colours externalMarble;
-        if(single){
-            marketTray = getLocalGameController().getGame().getMarket().getTray();
-            externalMarble = getLocalGameController().getGame().getMarket().getExternal();
-        }
-        else{
-            marketTray = model.getMarket();
-            externalMarble = model.getExternalMarble();
-        }
+        marketTray = getMarketTray();
+        externalMarble = getExternalMarble();
         drawer.showMarket(marketTray, externalMarble);
         output.println("\n0 ) Row\n1 ) Column");
-        var j = -2;
         try{
             var i = input.nextInt();
             if(!(i == 0 || i == 1)) marketMove();
-            if(i == 0){
-                output.println("Which one? [1-3]");
-                j = input.nextInt();
-                while(!(j > -1 && j < 4)){
-                    output.println("This is not a valid row");
-                    j = input.nextInt();
-                }
-                move = switch(j){
-                    case 1 -> 0;
-                    case 2 -> 1;
-                    case 3 -> 2;
-                    default -> -1;
-                };
-            }
-            if(i == 1){
-                output.println("Which one? [1-4]");
-                j = input.nextInt();
-                while(!(j > -1 && j < 5)){
-                    output.println("This is not a valid column");
-                    j = input.nextInt();
-                }
-                move = switch(j){
-                    case 1 -> 6;
-                    case 2 -> 5;
-                    case 3 -> 4;
-                    case 4 -> 3;
-                    default -> -1;
-                };
-            }
+            if(i == 0) move = getRow();
+            if(i == 1) move = getColumn();
             if(move == -1){
                 output.println("Impossible move");
                 nextAction();
@@ -731,6 +708,38 @@ public class CLI implements Runnable, UI{
             marketMove();
         }
     }
+
+    private int getColumn(){
+        output.println("Which one? [1-4]");
+        var j = input.nextInt();
+        while(!(j > -1 && j < 5)){
+            output.println("This is not a valid column");
+            j = input.nextInt();
+        }
+        return switch(j){
+            case 1 -> 6;
+            case 2 -> 5;
+            case 3 -> 4;
+            case 4 -> 3;
+            default -> -1;
+        };
+    }
+
+    private int getRow(){
+        output.println("Which one? [1-3]");
+        var j = input.nextInt();
+        while(!(j > -1 && j < 4)){
+            output.println("This is not a valid row");
+            j = input.nextInt();
+        }
+        return switch(j){
+            case 1 -> 0;
+            case 2 -> 1;
+            case 3 -> 2;
+            default -> -1;
+        };
+    }
+
 
     /**
      * method chooseCardDev is the method used whenever a player wants to buy a Development Card with his resources.
@@ -827,7 +836,7 @@ public class CLI implements Runnable, UI{
         if(colour == Colours.RED) client.send("moveFT::" + 1);
         else{
             drawer.showWarehouse(getWarehouse());
-            output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
+            output.print("Please choose the shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
             output.flush();
             var lvl = getWarehouseShelfLvl();
             client.send("warehouseResHandler::" + colour + "::" + qnt + "::" + lvl);

@@ -31,6 +31,7 @@ public class Board{
     private final Colours[] marketAlt;
     private final Colours[] productAlt;
     private final Map<Colours, Integer> leaderSpace;
+    private Integer gameID;
     private boolean endGame;
     private int activeLeader = 0;
     private String nickname;
@@ -56,7 +57,7 @@ public class Board{
         discount = new Colours[]{Colours.WHITE, Colours.WHITE};
         marketAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
         productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
-        leaderSpace = Collections.unmodifiableMap(new HashMap<>());
+        leaderSpace = new EnumMap<>(Colours.class);
         ready = false;
         pcs = new PropertyChangeSupport(this);
         listener = new PropertyChangeSupport(this);
@@ -75,6 +76,14 @@ public class Board{
         return idD;
     }
 
+    public Integer getGameID(){
+        return gameID;
+    }
+
+    public void setGameID(Integer gameID){
+        this.gameID = gameID;
+    }
+
     public Colours[] getDiscount(){
         return discount;
     }
@@ -88,6 +97,8 @@ public class Board{
     public void setDiscount(Colours color){
         if(discount[0] == Colours.WHITE) discount[0] = color;
         else discount[1] = color;
+        listener.firePropertyChange("discount0", "", discount[0]);
+        listener.firePropertyChange("discount1", "", discount[1]);
     }
 
     public Colours[] getMarketAlt(){
@@ -102,10 +113,10 @@ public class Board{
      */
     public void setMarketAlt(Colours color){
         if(marketAlt[0] == Colours.WHITE) marketAlt[0] = color;
-        else{
-            marketAlt[1] = color;
-            pcs.firePropertyChange("marketAlt", "", marketAlt[1]);
-        }
+        else marketAlt[1] = color;
+        listener.firePropertyChange("marketAlt0", "", marketAlt[0]);
+        listener.firePropertyChange("marketAlt1", "", marketAlt[1]);
+
     }
 
     public Colours[] getProductAlt(){
@@ -121,6 +132,8 @@ public class Board{
     public void setProductAlt(Colours color){
         if(productAlt[0] == Colours.WHITE) productAlt[0] = color;
         else productAlt[1] = color;
+        listener.firePropertyChange("productAlt0", "", productAlt[0]);
+        listener.firePropertyChange("productAlt1", "", productAlt[1]);
     }
 
     public CardLeader[] getMyLeaderCards(){
@@ -263,6 +276,7 @@ public class Board{
      */
     public void addLeaderSpace(Colours special){
         leaderSpace.put(special, 0);
+        listener.firePropertyChange("leaderSpace", "", special);
     }
 
     /**
@@ -283,6 +297,7 @@ public class Board{
      */
     public void rearrangeWarehouse(int first, int second){
         warehouse.lvlExchange(first, second);
+        listener.firePropertyChange("warehouse", "", warehouse.checkStatus());
     }
 
     /**
@@ -350,6 +365,7 @@ public class Board{
             warehouse.moveResources(lvl, pick);
         }
         updateResAll();
+        listener.firePropertyChange("warehouse", "", warehouse.checkStatus());
     }
 
     /**
@@ -374,7 +390,7 @@ public class Board{
         sKeys.forEach(key -> map.put(key, s.get(key) + map.get(key)));
         leaderKey.forEach(key -> map.put(key, leaderSpace.get(key) + map.get(key)));
         resAllKeys.forEach(key -> resAll.put(key, map.get(key)));
-
+        listener.firePropertyChange("resAll", "", resAll);
     }
 
     public int checkFT(){return faithTrack.getPosition();}
@@ -400,6 +416,7 @@ public class Board{
             else strongBox.moveResources(pick);
         }
         updateResAll();
+        listener.firePropertyChange("strongBox", "", strongBox.getStrongContent());
     }
 
     /**
@@ -413,6 +430,7 @@ public class Board{
         faithTrack.moveForward(move);
         checkIfEndGame();
         pcs.firePropertyChange("redCrossMove", "", faithTrack.getPosition());
+        listener.firePropertyChange("faithTrack", "", faithTrack.getPosition());
     }
 
     public void produce(CardDev card){

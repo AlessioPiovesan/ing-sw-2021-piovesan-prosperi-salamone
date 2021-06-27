@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.controller.BoardController;
 import it.polimi.ingsw.server.controller.Controller;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.model.Mod;
+import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Market;
 
@@ -121,6 +122,8 @@ public class Server implements Runnable, PropertyChangeListener{
             registerConnection(thisPlayerSocket, playersForThisGame);
             addPlayer(name, id);
             var board = game.getSingleB(i);
+            board.setGameID(id);
+            board.setNickname(name);
             board.addListener(this);
             var boardController = new BoardController(board, name);
             gameController.setBoardController(i, boardController);
@@ -229,28 +232,62 @@ public class Server implements Runnable, PropertyChangeListener{
     @Override
     public void propertyChange(PropertyChangeEvent evt){
         switch(evt.getPropertyName()){
-            case "market" -> {
-                var source = (Market)evt.getSource();
-                var n = source.getNPlayers();
-                var id = source.getId();
-                var market = (Colours[][])evt.getNewValue();
-                var node = Json.toJson(market);
-                var marketString = "";
-                try{
-                    marketString = Json.stringify(node);
-                } catch(JsonProcessingException e){
-                    e.printStackTrace();
-                }
-                sendMarket(marketString, n, id);
-            }
-            case "external" -> {
-                var source = (Market)evt.getSource();
-                var n = source.getNPlayers();
-                var id = source.getId();
-                var color = (Colours)evt.getNewValue();
-                sendExternalMarble(color, n, id);
-            }
+            case "market" -> getMarketAndSend(evt);
+            case "external" -> getExternalMarbleAndSend(evt);
+            case "discount0", "marketAlt0", "productAlt0", "discount1", "marketAlt1", "productAlt1", "leaderSpace" -> updateSingleBoard(evt);
+            case "warehouse", "resAll", "strongBox", "faithTrack" -> updateAllBoard(evt);
             default -> System.err.println(evt.getPropertyName() + " is not handled (SERVER)");
+        }
+    }
+
+    private void getMarketAndSend(PropertyChangeEvent evt){
+        var source = (Market)evt.getSource();
+        var n = source.getNPlayers();
+        var id = source.getId();
+        var node = Json.toJson(evt.getNewValue());
+        var marketString = "";
+        try{
+            marketString = Json.stringify(node);
+        } catch(JsonProcessingException e){
+            e.printStackTrace();
+        }
+        sendMarket(marketString, n, id);
+    }
+
+    private void getExternalMarbleAndSend(PropertyChangeEvent evt){
+        var source = (Market)evt.getSource();
+        var n = source.getNPlayers();
+        var id = source.getId();
+        var color = (Colours)evt.getNewValue();
+        sendExternalMarble(color, n, id);
+    }
+
+    private void updateSingleBoard(PropertyChangeEvent evt){
+        var source = (Board)evt.getSource();
+        var name = source.getNickname();
+        var socket = playingPlayersNameSocket.get(name);
+        socket.send(evt.getPropertyName() + "::" + evt.getNewValue());
+    }
+
+    private void updateAllBoard(PropertyChangeEvent evt){
+        var source = (Board)evt.getSource();
+        var gameID = source.getGameID();
+        var boardID = source.getIdD();
+        var n = Controller.getInstance().getGameControllerById(gameID).getAllBoardController().length;
+        var node = Json.toJson(evt.getNewValue());
+        var string = "";
+        try{
+            string = Json.stringify(node);
+        } catch(JsonProcessingException e){
+            e.printStackTrace();
+        }
+        var mapGameForThisNPlayers = waitingFor1Game.get(n);
+        var playersForThisGame = mapGameForThisNPlayers.get(gameID);
+        for(var name : playersForThisGame){
+            var socket = playingPlayersNameSocket.get(name);
+            var i = socket.getRemoteView().getBoardId();
+            if(boardID == i) socket.send("this" + evt.getPropertyName() + "::" + string);
+            else socket.send("that" + evt.getPropertyName() + "::" + string + "::" + i);
         }
     }
 

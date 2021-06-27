@@ -7,13 +7,14 @@ import it.polimi.ingsw.clients.viewer.UI;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
+import it.polimi.ingsw.server.accessories.Pick;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 /**
  * class Client handles Client side and receives messages from server
@@ -128,10 +129,7 @@ public class Client implements Runnable{
     private void interpreter(String input){
         var string = input.split("::");
         switch(string[0]){
-            case "Your game's ID is", "You joined the game with id" -> {
-                ui.printMessage(string[0] + " " + ConsoleColors.BLUE_BACKGROUND_BRIGHT + " " + string[1] + " " + ConsoleColors.RESET);
-                modelView.setGameID(Integer.parseInt(string[1]));
-            }
+            case "Your game's ID is", "You joined the game with id" -> ui.printMessage(string[0] + " " + ConsoleColors.BLUE_BACKGROUND_BRIGHT + " " + string[1] + " " + ConsoleColors.RESET);
             case "pce" -> {
                 var pce = recreatePropertyChangeEvent(string[1]);
                 ui.propertyChangeMulti(pce);
@@ -156,8 +154,40 @@ public class Client implements Runnable{
                 } catch(IOException e){
                     e.printStackTrace();
                 }
-
             }
+            case "discount0" -> modelView.getMyBoard().setDiscount(0, Colours.fromString(string[1]));
+            case "discount1" -> modelView.getMyBoard().setDiscount(1, Colours.fromString(string[1]));
+            case "marketAlt0" -> modelView.getMyBoard().setMarketAlt(0, Colours.fromString(string[1]));
+            case "marketAlt1" -> modelView.getMyBoard().setMarketAlt(1, Colours.fromString(string[1]));
+            case "productAlt0" -> modelView.getMyBoard().setProductAlt(0, Colours.fromString(string[1]));
+            case "productAlt1" -> modelView.getMyBoard().setProductAlt(1, Colours.fromString(string[1]));
+            case "leaderSpace" -> modelView.getMyBoard().addLeaderSpace(Colours.fromString(string[1]));
+            case "thiswarehouse" -> {
+                List<Pick> current = getList(string);
+                modelView.getMyBoard().setWarehouse(current);
+            }
+            case "thisresAll" -> {
+                Map<Colours, Integer> map = getMap(string);
+                modelView.getMyBoard().setResAll(map);
+            }
+            case "thisstrongBox" -> {
+                Map<Colours, Integer> map = getMap(string);
+                modelView.getMyBoard().setStrongBox(map);
+            }
+            case "thisfaithTrack" -> modelView.getMyBoard().setFaithTrack(Integer.parseInt(string[1]));
+            case "thatwarehouse" -> {
+                List<Pick> current = getList(string);
+                modelView.getTheirBoards(Integer.parseInt(string[2])).setWarehouse(current);
+            }
+            case "thatresAll" -> {
+                Map<Colours, Integer> map = getMap(string);
+                modelView.getTheirBoards(Integer.parseInt(string[2])).setResAll(map);
+            }
+            case "thatstrongBox" -> {
+                Map<Colours, Integer> map = getMap(string);
+                modelView.getTheirBoards(Integer.parseInt(string[2])).setStrongBox(map);
+            }
+            case "thatfaithTrack" -> modelView.getTheirBoards(Integer.parseInt(string[2])).setFaithTrack(Integer.parseInt(string[1]));
             default -> ui.printMessage(string[0] + " -> (CLIENT)");
         }
     }
@@ -201,6 +231,40 @@ public class Client implements Runnable{
         ui.setNickname(name);
         send("nickname::" + name);
         ui.askNPlayers();
+    }
+
+    private List<Pick> getList(String[] string){
+        var current = new LinkedList<Pick>();
+        try{
+            var node = Json.parse(string[1]);
+            var list = Json.fromJson(node, List.class);
+            for(var o : list){
+                var thisPick = (Pick)o;
+                var color = thisPick.resource();
+                var qnt = thisPick.qnt();
+                var pick = new Pick(color, qnt);
+                current.add(pick);
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return current;
+    }
+
+    private Map<Colours, Integer> getMap(String[] string){
+        var map = new EnumMap<Colours, Integer>(Colours.class);
+        try{
+            var node = Json.parse(string[1]);
+            var strong = Json.fromJson(node, Map.class);
+            for(var o : strong.keySet()){
+                var color = Colours.fromString((String)o);
+                var qnt = (int)strong.get(o);
+                map.put(color, qnt);
+            }
+        } catch(IOException e){
+            e.printStackTrace();
+        }
+        return map;
     }
 
     public void setPort(int port){
