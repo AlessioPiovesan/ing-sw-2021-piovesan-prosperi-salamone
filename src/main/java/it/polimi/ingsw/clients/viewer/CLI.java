@@ -86,7 +86,7 @@ public class CLI implements Runnable, UI{
                 case "firstOp", "nextPlayer" -> getLocalGameController().nextPlayer();
                 case "redCrossMove" -> getLocalGameController().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
-                case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Checker.castList(Colours.class, (Collection<?>)evt.getNewValue()));
+                case "marketBuffer" -> resourcesHandlerMarket(Checker.castList(Colours.class, (Collection<?>)evt.getNewValue()));
                 case "productionBuffer" -> resourcesHandler(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
                 case "costCardDev" -> payForCardDev(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
                 case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
@@ -511,7 +511,20 @@ public class CLI implements Runnable, UI{
                 case "redCrossMove" -> getLocalGameController().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
                 case "preference" -> chooseRes();
-                case "marketBuffer", "bufferProd" -> resourcesHandlerMarket(Checker.castList(Colours.class, (Collection<?>)evt.getNewValue()));
+                case "marketBuffer" -> {
+                    var node = (JsonNode)evt.getNewValue();
+                    var current = new LinkedList<Colours>();
+                    try{
+                        var list = Json.fromJson(node, Collection.class);
+                        for(var o : list){
+                            var color = Colours.fromString((String)o);
+                            current.add(color);
+                        }
+                    } catch(JsonProcessingException e){
+                        e.printStackTrace();
+                    }
+                    resourcesHandlerMarket(current);
+                }
                 case "productionBuffer" -> resourcesHandler(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
                 case "costCardDev" -> payForCardDev(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
                 case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
@@ -710,7 +723,10 @@ public class CLI implements Runnable, UI{
                 output.println("Impossible move");
                 nextAction();
             }
-            else getLocalGameController().marketAction(move);
+            else{
+                if(single) getLocalGameController().marketAction(move);
+                else client.send("marketAction::" + move);
+            }
         } catch(NumberFormatException e){
             marketMove();
         }

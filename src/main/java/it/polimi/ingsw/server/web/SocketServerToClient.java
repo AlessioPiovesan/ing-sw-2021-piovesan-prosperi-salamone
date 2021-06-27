@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.controller.Controller;
+import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.viewer.RemoteView;
 
 import java.io.EOFException;
@@ -29,6 +30,7 @@ public class SocketServerToClient implements Runnable{
     private final RemoteView remoteView;
     private final ObjectOutputStream socketOut;
     private final ObjectInputStream socketIn;
+    private GameController gameController;
     private boolean newSocket;
     private boolean active;
 
@@ -43,6 +45,10 @@ public class SocketServerToClient implements Runnable{
     }
 
     public RemoteView getRemoteView(){return remoteView;}
+
+    public void setGameController(Integer id){
+        gameController = Controller.getInstance().getGameControllerById(id);
+    }
 
     @Override
     public void run(){
@@ -136,6 +142,7 @@ public class SocketServerToClient implements Runnable{
                     boardController.warehouseResHandler(color, qnt, lvl);
                 else send("preference::");
             }
+            case "marketAction" -> gameController.marketAction(Integer.parseInt(string[1]));
             default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
         }
     }

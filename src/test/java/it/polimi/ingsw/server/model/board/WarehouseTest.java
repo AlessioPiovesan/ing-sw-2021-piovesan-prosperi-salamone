@@ -2,10 +2,8 @@ package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
-import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;

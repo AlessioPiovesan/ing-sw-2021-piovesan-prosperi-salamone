@@ -25,6 +25,7 @@ public class Board{
     private final Library library;
     private final EnumMap<Colours, Integer> resAll;
     private final PropertyChangeSupport pcs;
+    private final PropertyChangeSupport listener;
     private final int idD;
     private final Colours[] discount;
     private final Colours[] marketAlt;
@@ -58,6 +59,7 @@ public class Board{
         leaderSpace = Collections.unmodifiableMap(new HashMap<>());
         ready = false;
         pcs = new PropertyChangeSupport(this);
+        listener = new PropertyChangeSupport(this);
     }
 
     public void somethingIsWrong(String s){
@@ -116,7 +118,6 @@ public class Board{
      *
      * @param color of type Colours - resource
      */
-
     public void setProductAlt(Colours color){
         if(productAlt[0] == Colours.WHITE) productAlt[0] = color;
         else productAlt[1] = color;
@@ -251,6 +252,10 @@ public class Board{
         pcs.addPropertyChangeListener(listener);
     }
 
+    public void addListener(PropertyChangeListener listener){
+        this.listener.addPropertyChangeListener(listener);
+    }
+
     public void removePropertyChangeListener(PropertyChangeListener listener){pcs.removePropertyChangeListener(listener);}
 
     /**
@@ -367,7 +372,7 @@ public class Board{
         for(var pick : w)
             if(pick.resource() != Colours.WHITE) map.put(pick.resource(), pick.qnt());
         sKeys.forEach(key -> map.put(key, s.get(key) + map.get(key)));
-        leaderKey.forEach(key->map.put(key, leaderSpace.get(key)+map.get(key)));
+        leaderKey.forEach(key -> map.put(key, leaderSpace.get(key) + map.get(key)));
         resAllKeys.forEach(key -> resAll.put(key, map.get(key)));
 
     }

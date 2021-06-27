@@ -10,6 +10,8 @@ import it.polimi.ingsw.server.model.Mod;
 import it.polimi.ingsw.server.model.game.Game;
 import it.polimi.ingsw.server.model.game.Market;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.*;
@@ -23,7 +25,7 @@ import java.util.*;
  * @author Matteo Salamone
  * @see Runnable
  */
-public class Server implements Runnable{
+public class Server implements Runnable, PropertyChangeListener{
 
     private final ServerSocket serverSocket;
     private final Map<String, Integer> playersNameId;
@@ -95,14 +97,18 @@ public class Server implements Runnable{
         if(waitingFor1Game.get(playersRequired).get(id).size() == playersRequired) startGame(playersRequired, id);
     }
 
-    private void startGame(int playersRequired, int id){
+    private void startGame(int playersRequired, Integer id){
         var mapGameForThisNPlayers = waitingFor1Game.get(playersRequired);
         var playersForThisGame = mapGameForThisNPlayers.get(id);
         var gameController = controller.getGameControllerById(id);
         var game = gameController.getGame();
-        var market = game.getMarket().getTray();
+        var market = game.getMarket();
+        market.setId(id);
+        market.setNPlayers(playersRequired);
+        market.addPropertyChangeListener(this);
+        var tray = market.getTray();
         var extern = game.getMarket().getExternal();
-        var node = Json.toJson(market);
+        var node = Json.toJson(tray);
         var marketString = "";
         try{
             marketString = Json.stringify(node);
@@ -115,26 +121,19 @@ public class Server implements Runnable{
             registerConnection(thisPlayerSocket, playersForThisGame);
             addPlayer(name, id);
             var board = game.getSingleB(i);
+            board.addListener(this);
             var boardController = new BoardController(board, name);
             gameController.setBoardController(i, boardController);
             var remoteView = thisPlayerSocket.getRemoteView();
+            thisPlayerSocket.setGameController(id);
             remoteView.setBoardId(i);
             board.addPropertyChangeListener(remoteView);
             remoteView.setGameId(id);
             i++;
         }
-        sendMarket(extern, marketString, playersRequired, id);
+        sendMarket(marketString, playersRequired, id);
+        sendExternalMarble(extern, playersRequired, id);
         controller.getGameControllerById(id).startGame();
-    }
-
-    private void sendMarket(Colours extern, String marketString, int n, int id){
-        var mapGameForThisNPlayers = waitingFor1Game.get(n);
-        var playersForThisGame = mapGameForThisNPlayers.get(id);
-        for(var name : playersForThisGame){
-            var socket = playingPlayersNameSocket.get(name);
-            socket.send("external::" + extern);
-            socket.send("tray::" + marketString);
-        }
     }
 
     private void createNewGame(SocketServerToClient socketToClient, String name, int playersRequired){
@@ -210,6 +209,7 @@ public class Server implements Runnable{
         if(playersForThisGame != null) registerConnection(socketServerToClient, playersForThisGame);
         var gameController = controller.getGameControllerById(id);
         var remoteView = socketServerToClient.getRemoteView();
+        socketServerToClient.setGameController(remoteView.getGameId());
         var bcs = gameController.getAllBoardController();
         for(var i = 0; i < bcs.length; i++){
             if(Objects.equals(bcs[i].getName(), name)) remoteView.setBoardId(i);
@@ -223,6 +223,52 @@ public class Server implements Runnable{
         for(var name : list){
             var socket = playingPlayersNameSocket.get(name);
             if(thisSocket != socket) playingConnection.put(thisSocket, socket);
+        }
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt){
+        switch(evt.getPropertyName()){
+            case "market" -> {
+                var source = (Market)evt.getSource();
+                var n = source.getNPlayers();
+                var id = source.getId();
+                var market = (Colours[][])evt.getNewValue();
+                var node = Json.toJson(market);
+                var marketString = "";
+                try{
+                    marketString = Json.stringify(node);
+                } catch(JsonProcessingException e){
+                    e.printStackTrace();
+                }
+                sendMarket(marketString, n, id);
+            }
+            case "external" -> {
+                var source = (Market)evt.getSource();
+                var n = source.getNPlayers();
+                var id = source.getId();
+                var color = (Colours)evt.getNewValue();
+                sendExternalMarble(color, n, id);
+            }
+            default -> System.err.println(evt.getPropertyName() + " is not handled (SERVER)");
+        }
+    }
+
+    private void sendMarket(String marketString, int n, int id){
+        var mapGameForThisNPlayers = waitingFor1Game.get(n);
+        var playersForThisGame = mapGameForThisNPlayers.get(id);
+        for(var name : playersForThisGame){
+            var socket = playingPlayersNameSocket.get(name);
+            socket.send("tray::" + marketString);
+        }
+    }
+
+    private void sendExternalMarble(Colours extern, int n, int id){
+        var mapGameForThisNPlayers = waitingFor1Game.get(n);
+        var playersForThisGame = mapGameForThisNPlayers.get(id);
+        for(var name : playersForThisGame){
+            var socket = playingPlayersNameSocket.get(name);
+            socket.send("external::" + extern);
         }
     }
 }

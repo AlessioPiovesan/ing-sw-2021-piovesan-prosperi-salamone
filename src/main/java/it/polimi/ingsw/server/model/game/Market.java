@@ -3,6 +3,8 @@ package it.polimi.ingsw.server.model.game;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Constants;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,10 +23,14 @@ public class Market{
 
     private final LinkedList<Colours> marbles = new LinkedList<>();
     private final Random random = new Random();
+    private final PropertyChangeSupport pcs;
     protected Colours[][] tray;
     private Colours external;
+    private Integer id;
+    private int nPlayers;
 
     public Market(){
+        pcs = new PropertyChangeSupport(this);
         /*instantiation of the marbles*/
         IntStream.range(this.marbles.size(), Constants.MAXMARBLESB.getVal() + this.marbles.size()).forEach(i -> this.marbles.add(Colours.BLUE));
         IntStream.range(this.marbles.size(), Constants.MAXMARBLESG.getVal() + this.marbles.size()).forEach(i -> this.marbles.add(Colours.GREY));
@@ -96,6 +102,22 @@ public class Market{
         return r;
     }
 
+    public int getNPlayers(){
+        return nPlayers;
+    }
+
+    public void setNPlayers(int nPlayers){
+        this.nPlayers = nPlayers;
+    }
+
+    public Integer getId(){
+        return id;
+    }
+
+    public void setId(Integer id){
+        this.id = id;
+    }
+
     public Colours[][] getTray(){
         return tray;
     }
@@ -159,6 +181,8 @@ public class Market{
             case 6 -> operationMoveY(r1, 4);
             default -> throw new IllegalStateException("Unexpected value: " + choice);
         }
+        pcs.firePropertyChange("market", "", tray);
+        pcs.firePropertyChange("external", "", external);
     }
 
     /**
@@ -239,6 +263,10 @@ public class Market{
             tray[i - 1][Constants.YMARKET.getVal() - y] = r1;
             r1 = r2;
         }
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener){
+        pcs.addPropertyChangeListener(listener);
     }
 
 }
