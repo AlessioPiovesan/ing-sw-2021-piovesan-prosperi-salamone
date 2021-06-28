@@ -2,6 +2,11 @@ package it.polimi.ingsw.clients.multiplayer.model;
 
 import it.polimi.ingsw.clients.viewer.UI;
 import it.polimi.ingsw.server.accessories.Colours;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class ModelView is the client mirror of the Model on the server side.
@@ -16,6 +21,7 @@ public class ModelView{
     private final OtherBoard[] theirBoards;
     private Colours[][] market;
     private Colours externalMarble;
+    private ArrayList<CardDev> cardDevDeck;
 
     public ModelView(int nPlayers, UI ui){
         myBoard = new ThisBoard();
@@ -24,6 +30,7 @@ public class ModelView{
             theirBoards[i] = new OtherBoard();
         }
         ui.setModelView(this);
+        cardDevDeck.addAll(Arrays.asList(CardDev.values()));
     }
 
     public Colours getExternalMarble(){
@@ -52,5 +59,13 @@ public class ModelView{
 
     public OtherBoard getTheirBoards(int i){
         return theirBoards[i];
+    }
+
+    public List<CardDev> getCardDevDeck(){
+        return cardDevDeck;
+    }
+
+    public void cardBrought(CardDev card){
+        cardDevDeck.remove(card);
     }
 }

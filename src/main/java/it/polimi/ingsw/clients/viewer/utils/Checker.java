@@ -33,24 +33,6 @@ public class Checker{
     }
 
     /**
-     * The method isAddable checks if the player can actually store the card since you cannot store a level 2 or level three card
-     * if there is not an inferior level card already on the slot
-     *
-     * @param card
-     * @param slot
-     * @return
-     */
-    public boolean isAddable(LocalGameController gameController, CardDev card, int slot){
-        var slotCards = gameController.getBoardController().player().checkLibraryStatus().get(slot - 1);
-        if(slotCards.isEmpty()) return card.getLvl() == 1;
-        else return switch(card.getLvl()){
-            case 2 -> slotCards.get(slotCards.size() - 1).getLvl() == 1;
-            case 3 -> slotCards.get(slotCards.size() - 1).getLvl() == 2;
-            default -> false;
-        };
-    }
-
-    /**
      * method getCorrectLeaderCardCode is used to check if the two digit code typed by the user for the leader cards is correct.
      *
      * @param response
@@ -103,30 +85,6 @@ public class Checker{
     }
 
     /**
-     * method canBuyAnyCardDev checks if a player can buy a Development Card
-     *
-     * @param cards
-     * @return
-     */
-    public List<Card> canBuyAnyCardDev(List<CardDev> cards, LocalGameController gameController){
-        var boardController = gameController.getBoardController();
-        var player = boardController.player();
-        var resAll = player.getResAll();
-        var list = new LinkedList<Card>();
-        for(var card : cards){
-            var i = 0;
-            for(var cost : card.getCost()){
-                var costColor = cost.resource();
-                var costQnt = cost.qnt();
-                var availability = resAll.get(costColor);
-                if(costQnt <= availability) i++;
-            }
-            if(i == card.getCost().length) list.add(card);
-        }
-        return list;
-    }
-
-    /**
      * method canUSeAnyCardDev checks if a player can use a Development Card in the production
      *
      * @param cards
@@ -145,27 +103,6 @@ public class Checker{
         return list;
     }
 
-    /**
-     * method canUseAnyCardLeader checks if a player can activate a Leader's power
-     *
-     * @param cards
-     * @return
-     */
-    public List<Card> canUseAnyCardLeader(CardLeader[] cards, LocalGameController gameController){
-        var boardController = gameController.getBoardController();
-        var player = boardController.player();
-        var resAll = player.getResAll();
-        var slots = player.checkLibraryStatus();
-        var list = new LinkedList<Card>();
-        for(var card : cards)
-            for(var req : card.getReq()){
-                if(req.getClass() == Requirements.RequirementsResources.class)
-                    checkOnRequiredRes(resAll, list, card, (Requirements.RequirementsResources)req);
-                if(req.getClass() == Requirements.RequirementsCard.class)
-                    checkOnRequiredCard(slots, list, card, (Requirements.RequirementsCard)req);
-            }
-        return list;
-    }
 
     /**
      * method checkOnRequiredRes is another check on required Resources
@@ -176,7 +113,7 @@ public class Checker{
      * @param req
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
-    private void checkOnRequiredRes(Map<Colours, Integer> resAll, LinkedList<Card> list, CardLeader card, Requirements.RequirementsResources req){
+    public void checkOnRequiredRes(Map<Colours, Integer> resAll, LinkedList<Card> list, CardLeader card, Requirements.RequirementsResources req){
         var colorRequired = req.getColour();
         var qntRequired = req.getQnt();
         var qntAvailable = (int)resAll.get(colorRequired);
@@ -192,7 +129,7 @@ public class Checker{
      * @param req
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
-    private void checkOnRequiredCard(List<ArrayList<CardDev>> slots, LinkedList<Card> list, CardLeader card, Requirements.RequirementsCard req){
+    public void checkOnRequiredCard(List<ArrayList<CardDev>> slots, LinkedList<Card> list, CardLeader card, Requirements.RequirementsCard req){
         var colorRequired = req.getColour();
         var lvlRequired = req.getCardLvl();
         for(var slot : slots){

@@ -237,8 +237,11 @@ public class Board{
     public void marketResHandler(List<Colours> res){
         var newRes = new LinkedList<Colours>();
         for(Colours colour : res)
-            if(colour == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE)
+            if(colour == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE){
                 newRes.add(marketAlt[activeLeader]);
+                pcs.firePropertyChange("change", "", "Your white marble is now a " + marketAlt[activeLeader] + " marble");
+            }
+
             else newRes.add(colour);
 
         setBufferMarket(newRes);
