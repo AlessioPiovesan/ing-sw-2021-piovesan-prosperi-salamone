@@ -43,6 +43,7 @@ public class CLI implements Runnable, UI{
     private boolean single;
     private Client client;
     private ModelView model;
+    private boolean endGame;
 
     public CLI(){
         single = false;
@@ -50,6 +51,7 @@ public class CLI implements Runnable, UI{
         drawer = new DrawerCLI(this);
         input = new Scanner(System.in);
         output = new PrintWriter(System.out, true);
+        endGame = false;
         executor = new ThreadPoolExecutor(0, 16, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
     }
 
@@ -87,6 +89,10 @@ public class CLI implements Runnable, UI{
                 case "firstOp", "nextPlayer" -> getLocalGameController().nextPlayer();
                 case "redCrossMove" -> getLocalGameController().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
+                case "endGame" -> {
+                    endGame = true;
+                    output.println("GAME OVER");
+                }
                 case "marketBuffer" -> {
                     var list = new LinkedList<Colours>();
                     for(var o : (Object[])evt.getNewValue())
@@ -114,7 +120,7 @@ public class CLI implements Runnable, UI{
      * @see DrawerCLI#showStrongBox(Map)
      */
     private synchronized void payForCardDev(List<Pick> cost){
-        drawer.showWarehouse(cost);
+        drawer.showWarehouse(getWarehouse());
         drawer.showStrongBox(getStrongBox());
         for(var pick : cost){
             var color = pick.resource();
@@ -232,7 +238,8 @@ public class CLI implements Runnable, UI{
         executor.execute(() -> {
             if(single && game.isLorenzoPlaying()) game.moveLorenzo();
             else{
-                chooseAction(menu);
+                if(endGame) getLocalGameController().endGame(false);
+                else chooseAction(menu);
             }
         });
     }
