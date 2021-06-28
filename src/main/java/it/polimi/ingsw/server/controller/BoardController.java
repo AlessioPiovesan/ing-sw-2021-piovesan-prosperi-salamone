@@ -45,4 +45,8 @@ public class BoardController{
     public void setMyCardLeader(CardLeader[] choice){
         player.setMyLeaderCards(choice);
     }
+
+    public void moveFT(int i){
+        player.moveFT(i);
+    }
 }

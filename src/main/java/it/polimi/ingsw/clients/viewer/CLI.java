@@ -121,8 +121,20 @@ public class CLI implements Runnable, UI{
             for(var i = 0; i < pick.qnt(); i++){
                 output.println("The resource that needs handling is:");
                 var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1) StrongBox\n>\t", "Wrong option");
-                if(j == 0) getLocalGameController().getBoardController().takeFromWarehouse(color);
-                else getLocalGameController().getBoardController().takeFromStrongbox(color);
+                if(j == 0){
+                    try{
+                        getLocalGameController().getBoardController().takeFromWarehouse(color);
+                    } catch(IndexOutOfBoundsException e){
+                        payForCardDev(cost);
+                    }
+                }
+                else{
+                    try{
+                        getLocalGameController().getBoardController().takeFromStrongbox(color);
+                    } catch(IndexOutOfBoundsException e){
+                        payForCardDev(cost);
+                    }
+                }
             }
         }
         getLocalGameController().nextPlayer();

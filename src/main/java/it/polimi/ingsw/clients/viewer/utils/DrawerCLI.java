@@ -28,7 +28,7 @@ public record DrawerCLI(CLI ui){
         for(var pick : content)
             if(pick.resource() == Colours.WHITE){
                 ui.printMessage("This shelf is empty");
-                i++;
+                ++i;
             }
             else{
                 var color = pick.resource();

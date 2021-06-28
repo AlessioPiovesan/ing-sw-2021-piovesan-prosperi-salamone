@@ -46,6 +46,10 @@ public class SocketServerToClient implements Runnable{
 
     public RemoteView getRemoteView(){return remoteView;}
 
+    private int getIdBoard(){
+        return remoteView.getBoardId();
+    }
+
     public void setGameController(Integer id){
         gameController = Controller.getInstance().getGameControllerById(id);
     }
@@ -127,8 +131,7 @@ public class SocketServerToClient implements Runnable{
             case "nextPlayer" -> gameController.nextPlayer();
             case "join" -> server.rejoin(Integer.parseInt(string[1]), string[2], this);
             case "warehouseResHandler" -> {
-                var idBoard = remoteView.getBoardId();
-                var boardController = gameController.getBoardController(idBoard);
+                var boardController = gameController.getBoardController(getIdBoard());
                 var color = Colours.fromString(string[1]);
                 var qnt = Integer.parseInt(string[2]);
                 var lvl = Integer.parseInt(string[3]);
@@ -137,6 +140,7 @@ public class SocketServerToClient implements Runnable{
                 else send("preference::");
             }
             case "marketAction" -> gameController.marketAction(Integer.parseInt(string[1]));
+            case "moveFT" -> gameController.getBoardController(getIdBoard()).moveFT(Integer.parseInt(string[1]));
             default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
         }
     }

@@ -137,12 +137,11 @@ public class Checker{
         var player = boardController.player();
         var resAll = player.getResAll();
         var list = new LinkedList<Card>();
-        for(var card : cards){
-            var i = 0;
-            for(var cost : card.getResFrom())
-                if(cost.qnt() <= resAll.get(cost.resource())) i++;
-            if(i == card.getResFrom().length) list.add(card);
-        }
+        var card = cards.get(cards.size() - 1);
+        var i = 0;
+        for(var cost : card.getResFrom())
+            if(cost.qnt() <= resAll.get(cost.resource())) i++;
+        if(i == card.getResFrom().length) list.add(card);
         return list;
     }
 

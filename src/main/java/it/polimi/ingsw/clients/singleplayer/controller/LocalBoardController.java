@@ -23,11 +23,11 @@ public record LocalBoardController(Board player, Lorenzo lorenzo){
         player.rearrangeWarehouse(first, second);
     }
 
-    public void takeFromWarehouse(Colours colour){
+    public void takeFromWarehouse(Colours colour) throws IndexOutOfBoundsException{
         player.takeFromWarehouse(colour);
     }
 
-    public void takeFromStrongbox(Colours color){
+    public void takeFromStrongbox(Colours color) throws IndexOutOfBoundsException{
         player.takeFromStrongBox(color);
     }
 
