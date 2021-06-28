@@ -235,12 +235,13 @@ public class Board{
      * @see #setBufferMarket(List)
      */
     public void marketResHandler(List<Colours> res){
+        var newRes = new LinkedList<Colours>();
         for(Colours colour : res)
-            if(colour == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE){
-                res.remove(colour);
-                res.add(marketAlt[activeLeader]);
-            }
-        setBufferMarket(res);
+            if(colour == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE)
+                newRes.add(marketAlt[activeLeader]);
+            else newRes.add(colour);
+
+        setBufferMarket(newRes);
     }
 
     /**
