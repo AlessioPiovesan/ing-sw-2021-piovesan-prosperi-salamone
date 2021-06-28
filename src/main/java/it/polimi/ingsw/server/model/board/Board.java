@@ -1,6 +1,7 @@
 package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.accessories.Colours;
+import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
@@ -211,6 +212,7 @@ public class Board{
         checkIfEndGame();
         library.addCard(slot, card);
         pcs.firePropertyChange("costCardDev", "", costCardDev);
+        listener.firePropertyChange("library", "", Json.toJson(card) + "::" + slot);
 
 
     }

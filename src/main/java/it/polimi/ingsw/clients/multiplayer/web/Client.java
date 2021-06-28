@@ -8,6 +8,7 @@ import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.accessories.Pick;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -145,6 +146,7 @@ public class Client implements Runnable{
             }
             case "askNickname" -> ui.chooseNickname();
             case "askId" -> ui.askId();
+            case "myBoardId" -> modelView.setMyBoard(Integer.parseInt(string[1]));
             case "external" -> modelView.setExternalMarble(Colours.fromString(string[1]));
             case "tray" -> {
                 try{
@@ -162,6 +164,15 @@ public class Client implements Runnable{
             case "productAlt0" -> modelView.getMyBoard().setProductAlt(0, Colours.fromString(string[1]));
             case "productAlt1" -> modelView.getMyBoard().setProductAlt(1, Colours.fromString(string[1]));
             case "leaderSpace" -> modelView.getMyBoard().addLeaderSpace(Colours.fromString(string[1]));
+            case "thislibrary" -> {
+                try{
+                    var node = Json.parse(string[1]);
+                    var card = Json.fromJson(node, CardDev.class);
+                    modelView.getMyBoard().addCardinLibrary(card, Integer.parseInt(string[2]));
+                } catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
             case "thiswarehouse" -> {
                 List<Pick> current = getList(string);
                 modelView.getMyBoard().setWarehouse(current);
@@ -175,6 +186,15 @@ public class Client implements Runnable{
                 modelView.getMyBoard().setStrongBox(map);
             }
             case "thisfaithTrack" -> modelView.getMyBoard().setFaithTrack(Integer.parseInt(string[1]));
+            case "thatlibrary" -> {
+                try{
+                    var node = Json.parse(string[1]);
+                    var card = Json.fromJson(node, CardDev.class);
+                    modelView.getTheirBoards(Integer.parseInt(string[3])).addCardinLibrary(card, Integer.parseInt(string[2]));
+                } catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
             case "thatwarehouse" -> {
                 List<Pick> current = getList(string);
                 modelView.getTheirBoards(Integer.parseInt(string[2])).setWarehouse(current);

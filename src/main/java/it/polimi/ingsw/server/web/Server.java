@@ -130,13 +130,25 @@ public class Server implements Runnable, PropertyChangeListener{
             var remoteView = thisPlayerSocket.getRemoteView();
             thisPlayerSocket.setGameController(id);
             remoteView.setBoardId(i);
+            thisPlayerSocket.send("myBoardId::" + i);
             board.addPropertyChangeListener(remoteView);
             remoteView.setGameId(id);
             i++;
         }
         sendMarket(marketString, playersRequired, id);
         sendExternalMarble(extern, playersRequired, id);
-        controller.getGameControllerById(id).startGame();
+        sendNickname(playersRequired, id);
+        controller.getGameControllerById(playersRequired).startGame();
+    }
+
+    private void sendNickname(int n, Integer id){
+        var mapGameForThisNPlayers = waitingFor1Game.get(n);
+        var playersForThisGame = mapGameForThisNPlayers.get(id);
+        for(var name : playersForThisGame){
+            var socket = playingPlayersNameSocket.get(name);
+            var boardId = socket.getRemoteView().getBoardId();
+            socket.send("nickname::" + name + "::" + boardId);
+        }
     }
 
     private void createNewGame(SocketServerToClient socketToClient, String name, int playersRequired){
@@ -235,7 +247,7 @@ public class Server implements Runnable, PropertyChangeListener{
             case "market" -> getMarketAndSend(evt);
             case "external" -> getExternalMarbleAndSend(evt);
             case "discount0", "marketAlt0", "productAlt0", "discount1", "marketAlt1", "productAlt1", "leaderSpace" -> updateSingleBoard(evt);
-            case "warehouse", "resAll", "strongBox", "faithTrack" -> updateAllBoard(evt);
+            case "warehouse", "resAll", "strongBox", "faithTrack" + "library" -> updateAllBoard(evt);
             default -> System.err.println(evt.getPropertyName() + " is not handled (SERVER)");
         }
     }

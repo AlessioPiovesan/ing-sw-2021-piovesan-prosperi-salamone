@@ -46,6 +46,10 @@ public class ModelView{
         return myBoard;
     }
 
+    public void setMyBoard(int i){
+        theirBoards[i] = myBoard;
+    }
+
     public OtherBoard getTheirBoards(int i){
         return theirBoards[i];
     }
