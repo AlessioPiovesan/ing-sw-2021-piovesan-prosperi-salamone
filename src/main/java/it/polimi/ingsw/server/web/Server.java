@@ -195,9 +195,11 @@ public class Server implements Runnable, PropertyChangeListener{
      */
     public void checkExistNickname(String name, SocketServerToClient socket){
         if(playersNameId.containsKey(name)){
+            var id = playersNameId.get(name);
             var playerSocket = playingPlayersNameSocket.get(name);
+            var n = playerSocket.getRemoteView().getNPlayers();
             if(playerSocket.isActive()) socket.send("nicknameNo::" + playersNameId.get(name));
-            else socket.send("nicknameMaybe::" + playersNameId.get(name) + "::" + name);
+            else socket.send("nicknameMaybe::" + id + "::" + name + "::" + n);
         }
         else socket.send("nicknameYes::" + name);
     }

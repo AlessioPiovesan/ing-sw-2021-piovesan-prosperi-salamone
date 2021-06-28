@@ -138,7 +138,7 @@ public class Client implements Runnable{
             }
             case "nicknameNo" -> ui.reChooseNickname(Integer.parseInt(string[1]));
             case "nicknameMaybe" -> {
-                ui.resilience(Integer.parseInt(string[1]), string[2]);
+                ui.resilience(Integer.parseInt(string[1]), string[2], Integer.parseInt(string[3]));
                 modelView.getMyBoard().setNickname(string[2]);
             }
             case "nicknameYes" -> {

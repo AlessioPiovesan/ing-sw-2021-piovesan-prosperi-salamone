@@ -142,7 +142,7 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public void resilience(int i, String s){
+    public void resilience(int i, String s, int n){
 
     }
 

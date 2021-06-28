@@ -537,12 +537,15 @@ public class CLI implements Runnable, UI{
     }
 
     @Override
-    public void resilience(int id, String name){
-        output.println("This nickname is already taken\nThis player was playing a game with id: " + id);
+    public void resilience(int id, String name, int n){
+        output.println("This nickname is already taken\nThis player was playing a game with id: " + ConsoleColors.BLUE_BACKGROUND_BRIGHT +  id+ConsoleColors.RESET);
         output.println("Do you want to re-join the game?");
         output.println("[y/n]");
         var r = input.next();
-        if(Objects.equals(r, "y")) client.send("join::" + id + "::" + name);
+        if(Objects.equals(r, "y")) {
+            client.setNPlayers(n);
+            client.send("join::" + id + "::" + name);
+        }
         else{
             output.println("You refused");
             reChooseNickname(id);
