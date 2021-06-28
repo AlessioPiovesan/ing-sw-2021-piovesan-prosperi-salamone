@@ -339,7 +339,8 @@ public class CLI implements Runnable, UI{
         for(Colours colours : keep)
             prepareResForWarehouse(colours, 1);
         drawer.showWarehouse(getWarehouse());
-        getLocalGameController().nextPlayer();
+        if(single) getLocalGameController().nextPlayer();
+        else client.send("nextPlayer::");
     }
 
     /**

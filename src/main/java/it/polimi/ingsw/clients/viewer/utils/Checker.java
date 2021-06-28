@@ -44,8 +44,8 @@ public class Checker{
         var slotCards = gameController.getBoardController().player().checkLibraryStatus().get(slot - 1);
         if(slotCards.isEmpty()) return card.getLvl() == 1;
         else return switch(card.getLvl()){
-            case 2 -> slotCards.get(slotCards.size() - 1).getLvl() != 1;
-            case 3 -> slotCards.get(slotCards.size() - 1).getLvl() != 2;
+            case 2 -> slotCards.get(slotCards.size() - 1).getLvl() == 1;
+            case 3 -> slotCards.get(slotCards.size() - 1).getLvl() == 2;
             default -> false;
         };
     }
