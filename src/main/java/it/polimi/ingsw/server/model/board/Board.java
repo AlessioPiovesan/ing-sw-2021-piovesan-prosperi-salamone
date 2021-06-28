@@ -250,7 +250,7 @@ public class Board{
      */
     public void setBufferMarket(List<Colours> res){
         var bufferMarket = (LinkedList<Colours>)res;
-        pcs.firePropertyChange("marketBuffer", "", bufferMarket);
+        pcs.firePropertyChange("marketBuffer", "", bufferMarket.toArray());
     }
 
     public void setPreference(){
@@ -299,7 +299,7 @@ public class Board{
      */
     public void rearrangeWarehouse(int first, int second){
         warehouse.lvlExchange(first, second);
-        listener.firePropertyChange("warehouse", "", warehouse.checkStatus());
+        listener.firePropertyChange("warehouse", "", warehouse.checkStatus().toArray());
     }
 
     /**
@@ -367,7 +367,7 @@ public class Board{
             warehouse.moveResources(lvl, pick);
         }
         updateResAll();
-        listener.firePropertyChange("warehouse", "", warehouse.checkStatus());
+        listener.firePropertyChange("warehouse", "", warehouse.checkStatus().toArray());
     }
 
     /**

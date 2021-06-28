@@ -124,17 +124,11 @@ public class SocketServerToClient implements Runnable{
             case "checkNickname" -> server.checkExistNickname(string[1], this);
             case "initialLeaders" -> prepareInitialLeaders(string[1]);
             case "initialResource" -> server.firstRes(this);
-            case "nextPlayer" -> {
-                var id = remoteView.getGameId();
-                var thisGameController = Controller.getInstance().getGameControllerById(id);
-                thisGameController.nextPlayer();
-            }
+            case "nextPlayer" -> gameController.nextPlayer();
             case "join" -> server.rejoin(Integer.parseInt(string[1]), string[2], this);
             case "warehouseResHandler" -> {
-                var idGame = remoteView.getGameId();
                 var idBoard = remoteView.getBoardId();
-                var thisGameController = Controller.getInstance().getGameControllerById(idGame);
-                var boardController = thisGameController.getBoardController(idBoard);
+                var boardController = gameController.getBoardController(idBoard);
                 var color = Colours.fromString(string[1]);
                 var qnt = Integer.parseInt(string[2]);
                 var lvl = Integer.parseInt(string[3]);
@@ -151,10 +145,8 @@ public class SocketServerToClient implements Runnable{
         try{
             var node = Json.parse(src);
             var initialLeaders = Json.fromJson(node, CardLeader[].class);
-            var gameId = remoteView.getGameId();
-            var game = Controller.getInstance().getGameControllerById(gameId);
             var boardId = remoteView.getBoardId();
-            var board = game.getBoardController(boardId);
+            var board = gameController.getBoardController(boardId);
             board.setMyCardLeader(initialLeaders);
         } catch(IOException e){
             e.printStackTrace();

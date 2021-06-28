@@ -138,7 +138,7 @@ public class Server implements Runnable, PropertyChangeListener{
         sendMarket(marketString, playersRequired, id);
         sendExternalMarble(extern, playersRequired, id);
         sendNickname(playersRequired, id);
-        controller.getGameControllerById(playersRequired).startGame();
+        controller.getGameControllerById(id).startGame();
     }
 
     private void sendNickname(int n, Integer id){
@@ -208,7 +208,7 @@ public class Server implements Runnable, PropertyChangeListener{
         var id = view.getGameId();
         firstRes.merge(id, 1, Integer::sum);
         if(firstRes.get(id) == nPlayers){
-            var gameController = Controller.getInstance().getGameControllerById(id);
+            var gameController = controller.getGameControllerById(id);
             gameController.initialResourcesHandler();
         }
     }
@@ -285,7 +285,7 @@ public class Server implements Runnable, PropertyChangeListener{
         var source = (Board)evt.getSource();
         var gameID = source.getGameID();
         var boardID = source.getIdD();
-        var n = Controller.getInstance().getGameControllerById(gameID).getAllBoardController().length;
+        var n = controller.getGameControllerById(gameID).getAllBoardController().length;
         var node = Json.toJson(evt.getNewValue());
         var string = "";
         try{

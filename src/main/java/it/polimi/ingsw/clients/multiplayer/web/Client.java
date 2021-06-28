@@ -1,5 +1,6 @@
 package it.polimi.ingsw.clients.multiplayer.web;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.clients.viewer.GUI;
@@ -144,6 +145,7 @@ public class Client implements Runnable{
                 setupGame(string[1]);
                 modelView.getMyBoard().setNickname(string[1]);
             }
+            case "nickname" -> modelView.getTheirBoards(Integer.parseInt(string[2])).setNickname(string[1]);
             case "askNickname" -> ui.chooseNickname();
             case "askId" -> ui.askId();
             case "myBoardId" -> modelView.setMyBoard(Integer.parseInt(string[1]));
@@ -257,9 +259,8 @@ public class Client implements Runnable{
         var current = new LinkedList<Pick>();
         try{
             var node = Json.parse(string[1]);
-            var list = Json.fromJson(node, List.class);
-            for(var o : list){
-                var thisPick = (Pick)o;
+            var list = Json.fromJson(node, Pick[].class);
+            for(var thisPick : list){
                 var color = thisPick.resource();
                 var qnt = thisPick.qnt();
                 var pick = new Pick(color, qnt);

@@ -515,12 +515,8 @@ public class CLI implements Runnable, UI{
                 case "marketBuffer" -> {
                     var current = new LinkedList<Colours>();
                     try{
-                        var node = Json.parse((String)evt.getNewValue());
-                        var list = Json.fromJson(node, List.class);
-                        for(var o : list){
-                            var color = (Colours)o;
-                            current.add(color);
-                        }
+                        var list = Json.fromJson((JsonNode)evt.getNewValue(), Colours[].class);
+                        Collections.addAll(current, list);
                     } catch(IOException e){
                         e.printStackTrace();
                     }
