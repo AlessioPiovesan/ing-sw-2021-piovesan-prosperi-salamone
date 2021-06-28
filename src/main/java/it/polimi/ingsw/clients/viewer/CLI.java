@@ -93,7 +93,12 @@ public class CLI implements Runnable, UI{
                         list.add((Colours)o);
                     resourcesHandlerMarket(list);
                 }
-                case "costCardDev" -> payForCardDev(Arrays.asList((Pick[])evt.getNewValue()));
+                case "costCardDev" -> {
+                    var list = new LinkedList<Pick>();
+                    for(var o : (Object[])evt.getNewValue())
+                        list.add((Pick)o);
+                    payForCardDev(list);
+                }
                 case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
                 case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
                 default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
@@ -269,7 +274,6 @@ public class CLI implements Runnable, UI{
         for(var librarySlot : library){
             if(librarySlot.isEmpty()){
                 output.println("You don't have any development card in slot #" + ++i);
-                nextAction();
             }
             else{
                 ++i;
@@ -286,6 +290,7 @@ public class CLI implements Runnable, UI{
                 else output.println("You don't have the resources to activate the development card in slot #" + ++i);
             }
         }
+        nextAction();
     }
 
     /**
