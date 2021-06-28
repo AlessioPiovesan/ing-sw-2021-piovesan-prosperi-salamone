@@ -1,6 +1,5 @@
 package it.polimi.ingsw.clients.multiplayer.web;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.viewer.CLI;
 import it.polimi.ingsw.clients.viewer.GUI;

@@ -211,7 +211,7 @@ public class Board{
         myDevCards.add(card);
         checkIfEndGame();
         library.addCard(slot, card);
-        pcs.firePropertyChange("costCardDev", "", costCardDev);
+        pcs.firePropertyChange("costCardDev", "", costCardDev.toArray());
         listener.firePropertyChange("library", "", Json.toJson(card) + "::" + slot);
 
 

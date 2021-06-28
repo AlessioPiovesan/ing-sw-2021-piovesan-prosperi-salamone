@@ -87,9 +87,13 @@ public class CLI implements Runnable, UI{
                 case "firstOp", "nextPlayer" -> getLocalGameController().nextPlayer();
                 case "redCrossMove" -> getLocalGameController().getBoardController().checkVaticanReport();
                 case "nextAction" -> nextAction();
-                case "marketBuffer" -> resourcesHandlerMarket(Checker.castList(Colours.class, (Collection<?>)evt.getNewValue()));
-                case "productionBuffer" -> resourcesHandler(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
-                case "costCardDev" -> payForCardDev(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
+                case "marketBuffer" -> {
+                    var list = new LinkedList<Colours>();
+                    for(var o : (Object[])evt.getNewValue())
+                        list.add((Colours)o);
+                    resourcesHandlerMarket(list);
+                }
+                case "costCardDev" -> payForCardDev(Arrays.asList((Pick[])evt.getNewValue()));
                 case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
                 case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
                 default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
@@ -522,8 +526,16 @@ public class CLI implements Runnable, UI{
                     }
                     resourcesHandlerMarket(current);
                 }
-                case "productionBuffer" -> resourcesHandler(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
-                case "costCardDev" -> payForCardDev(Checker.castList(Pick.class, (Collection<?>)evt.getNewValue()));
+                case "costCardDev" -> {
+                    var current = new LinkedList<Pick>();
+                    try{
+                        var list = Json.fromJson((JsonNode)evt.getNewValue(), Pick[].class);
+                        Collections.addAll(current, list);
+                    } catch(IOException e){
+                        e.printStackTrace();
+                    }
+                    payForCardDev(current);
+                }
                 case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
                 case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
                 default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
@@ -538,11 +550,11 @@ public class CLI implements Runnable, UI{
 
     @Override
     public void resilience(int id, String name, int n){
-        output.println("This nickname is already taken\nThis player was playing a game with id: " + ConsoleColors.BLUE_BACKGROUND_BRIGHT +  id+ConsoleColors.RESET);
+        output.println("This nickname is already taken\nThis player was playing a game with id: " + ConsoleColors.BLUE_BACKGROUND_BRIGHT + id + ConsoleColors.RESET);
         output.println("Do you want to re-join the game?");
         output.println("[y/n]");
         var r = input.next();
-        if(Objects.equals(r, "y")) {
+        if(Objects.equals(r, "y")){
             client.setNPlayers(n);
             client.send("join::" + id + "::" + name);
         }
