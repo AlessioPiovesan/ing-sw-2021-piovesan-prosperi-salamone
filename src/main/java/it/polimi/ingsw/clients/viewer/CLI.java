@@ -331,30 +331,32 @@ public class CLI implements Runnable, UI{
      * @param card
      */
     private void activateProdCard(CardDev card){
+        drawer.showWarehouse(getWarehouse());
+        drawer.showStrongBox(getStrongBox());
         var resFrom = card.getResFrom();
         for(var pick : resFrom){
             var color = pick.resource();
             var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1) StrongBox\n>\t", "Wrong option");
-            if(j == 0) executor.execute(() -> {
-                if(getWarehouse().get(0).resource() == color || getWarehouse().get(1).resource() == color || getWarehouse().get(2).resource() == color){
+            if(j == 0 && (getWarehouse().get(0).resource() == color || getWarehouse().get(1).resource() == color || getWarehouse().get(2).resource() == color)){
+                executor.execute(() -> {
                     if(single) getLocalGameController().getBoardController().takeFromWarehouse(color);
                     else client.send("takeFromWarehouse::" + color);
-                }
-                else{
-                    output.println("You don't have a " + color + " resource in your warehouse\nTry again..");
-                    activateProdCard(card);
-                }
-            });
-            else executor.execute(() -> {
-                if(getStrongBox().get(color) > 0){
+                });
+            }
+            else{
+                output.println("You don't have a " + color + " resource in your warehouse\nTry again..");
+                activateProdCard(card);
+            }
+            if(j == 1 && (getStrongBox().get(color) > 0)){
+                executor.execute(() -> {
                     if(single) getLocalGameController().getBoardController().takeFromStrongbox(color);
                     else client.send("takeFromStrongbox::" + color);
-                }
-                else{
-                    output.println("You don't have a " + color + " resource in your strongbox\nTry again..");
-                    activateProdCard(card);
-                }
-            });
+                });
+            }
+            else{
+                output.println("You don't have a " + color + " resource in your strongbox\nTry again..");
+                activateProdCard(card);
+            }
         }
         output.println("Production success, you added to your belongings:");
         var string = new StringBuilder();

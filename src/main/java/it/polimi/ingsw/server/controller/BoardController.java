@@ -39,7 +39,7 @@ public class BoardController{
     }
 
     public void warehouseResHandler(Colours colour, int qnt, int lvl){
-        player.storeW(lvl, new Pick[]{new Pick(colour, qnt)});
+        player.storeInWarehouse(lvl, new Pick[]{new Pick(colour, qnt)});
     }
 
     public void setMyCardLeader(CardLeader[] choice){

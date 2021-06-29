@@ -8,7 +8,7 @@ import it.polimi.ingsw.server.model.board.Board;
 public record LocalBoardController(Board player, Lorenzo lorenzo){
 
     public void warehouseResHandler(Colours colour, int qnt, int lvl){
-        player.storeW(lvl, new Pick[]{new Pick(colour, qnt)});
+        player.storeInWarehouse(lvl, new Pick[]{new Pick(colour, qnt)});
     }
 
     public void moveFT(int move){

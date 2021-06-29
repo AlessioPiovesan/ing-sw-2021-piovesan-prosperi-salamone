@@ -147,8 +147,8 @@ public record DrawerCLI(CLI ui){
      * On the faith track there will be Lorenzo's pawn too.
      */
     public void showFaithTrackSingle(Checker checker){
-        final var pos = getLocalGameController().getBoardController().player().checkFT();
-        final var posL = getLocalGameController().getBoardController().lorenzo().checkFT();
+        final var pos = getLocalGameController().getBoardController().player().getPositionFT();
+        final var posL = getLocalGameController().getBoardController().lorenzo().getPositionFT();
         var normal = "███";
         var central = ConsoleColors.RED_BOLD + "███" + ConsoleColors.RESET;
         var top = "█" + ConsoleColors.RED_BOLD + "█" + ConsoleColors.RESET + "█";
