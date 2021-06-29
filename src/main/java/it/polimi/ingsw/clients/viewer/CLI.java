@@ -338,7 +338,11 @@ public class CLI implements Runnable, UI{
                 else client.send("takeFromStrongbox::" + color);
             });
         }
-        output.println("Production success");
+        output.println("Production success, you added to your belongings:");
+        var string = new StringBuilder();
+        for(var pick : card.getResTo())
+            string.append(pick.qnt()).append(" - ").append(pick.resource().getType()).append("\t");
+        output.println(string);
         if(single) getLocalGameController().getBoardController().player().produce(card);
         else client.send("produce::" + card);
     }
@@ -947,6 +951,8 @@ public class CLI implements Runnable, UI{
                 drawer.showCard(card);
             var card = (CardLeader)pickCard(CardLeader.class);
             if(actual.contains(card)) executor.execute(() -> {
+                output.println("You activated this power:");
+                output.println(ConsoleColors.RED_UNDERLINED + card.getAbility() + ConsoleColors.RESET);
                 if(single) getLocalGameController().cardLeadAction(card);
                 else client.send("cardLeadAction::" + card);
             });
