@@ -155,9 +155,8 @@ public class LocalGameController{
                     found = cardDev;
                     break;
                 }
-        if(found == null){
-            endGame(false);
-        }
+        if(found == null) endGame(false);
+
     }
 
     /**

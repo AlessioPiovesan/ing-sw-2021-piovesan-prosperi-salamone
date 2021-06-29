@@ -52,9 +52,7 @@ public class Game{
         playableLeaderCards = new ArrayList<>();
     }
 
-    public int getNGamers(){
-        return nGamers;
-    }
+    public int getNGamers(){return nGamers;}
 
     public static void setNGamers(int players){
         nGamers = players;
@@ -161,7 +159,7 @@ public class Game{
      */
     public int checkNext(){
         playingPlayer++;
-        if(playingPlayer > (nGamers - 1)) return 0;
+        if(playingPlayer > (nGamers - 1)) playingPlayer = 0;
         return playingPlayer;
     }
 

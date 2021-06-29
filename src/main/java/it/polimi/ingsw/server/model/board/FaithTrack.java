@@ -32,7 +32,7 @@ public class FaithTrack{
      *
      * @param step of type int - step forward
      */
-    protected void moveForward(int step){
+    public void moveForward(int step){
         position += step;
     }
 
@@ -95,7 +95,7 @@ public class FaithTrack{
         }
     }
 
-    protected int getPosition(){
+    public int getPosition(){
         return position;
     }
 }

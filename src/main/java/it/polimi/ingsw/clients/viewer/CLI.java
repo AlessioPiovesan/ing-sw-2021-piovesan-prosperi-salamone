@@ -336,12 +336,24 @@ public class CLI implements Runnable, UI{
             var color = pick.resource();
             var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1) StrongBox\n>\t", "Wrong option");
             if(j == 0) executor.execute(() -> {
-                if(single) getLocalGameController().getBoardController().takeFromWarehouse(color);
-                else client.send("takeFromWarehouse::" + color);
+                if(getWarehouse().get(0).resource() == color || getWarehouse().get(1).resource() == color || getWarehouse().get(2).resource() == color){
+                    if(single) getLocalGameController().getBoardController().takeFromWarehouse(color);
+                    else client.send("takeFromWarehouse::" + color);
+                }
+                else{
+                    output.println("You don't have a " + color + " resource in your warehouse\nTry again..");
+                    activateProdCard(card);
+                }
             });
             else executor.execute(() -> {
-                if(single) getLocalGameController().getBoardController().takeFromStrongbox(color);
-                else client.send("takeFromStrongbox::" + color);
+                if(getStrongBox().get(color) > 0){
+                    if(single) getLocalGameController().getBoardController().takeFromStrongbox(color);
+                    else client.send("takeFromStrongbox::" + color);
+                }
+                else{
+                    output.println("You don't have a " + color + " resource in your strongbox\nTry again..");
+                    activateProdCard(card);
+                }
             });
         }
         output.println("Production success, you added to your belongings:");

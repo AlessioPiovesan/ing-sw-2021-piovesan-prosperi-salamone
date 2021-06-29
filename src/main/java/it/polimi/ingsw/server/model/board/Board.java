@@ -34,10 +34,8 @@ public class Board{
     private Colours productAlt;
     private Integer gameID;
     private boolean endGame;
-    private int activeLeader = 0;
     private String nickname;
     private CardLeader[] myLeaderCards = new CardLeader[2];
-    private boolean ready;
 
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library){
         endGame = false;
@@ -59,7 +57,6 @@ public class Board{
         marketAlt = Colours.WHITE;
         productAlt = Colours.WHITE;
         leaderSpace = new EnumMap<>(Colours.class);
-        ready = false;
         pcs = new PropertyChangeSupport(this);
         listener = new PropertyChangeSupport(this);
     }
@@ -69,8 +66,7 @@ public class Board{
     }
 
     public void ready(){
-        ready = !ready;
-        pcs.firePropertyChange("nextAction", false, ready);
+        pcs.firePropertyChange("nextAction", "", 1);
     }
 
     public int getIdD(){
@@ -216,7 +212,7 @@ public class Board{
      * a game can end by either a player reaching the end of the Faith Track
      * or if a player buys their seventh Development Card.
      */
-    private void checkIfEndGame(){
+    protected void checkIfEndGame(){
         if(myDevCards.size() == 7) endGame = true;
         if(faithTrack.getPosition() == 24) endGame = true;
         if(endGame) pcs.firePropertyChange("endGame", false, true);
@@ -257,11 +253,6 @@ public class Board{
     public void setDoublePreference(){
         Colours preference = Colours.WHITE;
         pcs.firePropertyChange("doublePreference", "", preference);
-    }
-
-    public void resolveLeaderConflict(boolean i){
-        if(i) activeLeader = 0;
-        else activeLeader = 1;
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){

@@ -1,6 +1,3 @@
-GAME CONTROLLER:
-    - marketAction
-
 BOARD:
     - somethingIsWrong
     - ready
@@ -18,11 +15,4 @@ BOARD:
     - storeInStrongbox
     - moveFT
     - produce
-
-GAME:
-    - myLeaderCardsHAndler
-    - pickStartingResources
-    - startRealPlay
-    - checkNext
-    - countWinPntPerBoard
 

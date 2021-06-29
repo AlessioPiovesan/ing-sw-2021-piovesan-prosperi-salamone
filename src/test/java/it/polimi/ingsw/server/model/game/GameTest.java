@@ -2,6 +2,8 @@ package it.polimi.ingsw.server.model.game;
 
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.ArrayList;
 
@@ -20,18 +22,15 @@ class GameTest{
         assertEquals(4, cardPlayer.size());
     }
 
-    /*@ParameterizedTest
-    @ValueSource(ints = {0, 1, 2, 3})
-    void PickStartingResourcesTest(int value) {
-        int[][] results = {{0, 1, 1, 2}, {2, 0, 1, 1}, {1, 2, 0, 1}, {1, 1, 2, 0}};
-        Game game = new Game(null, null);
-        game.pickStartingResources(value);
-        int res = 0;
-        for (int i = 0; i < game.getAllB().length; i++) {
-            for (Colours c : Arrays.asList(Colours.BLUE, Colours.GREY, Colours.PURPLE, Colours.YELLOW))
-                res += game.getSingleB(i).getResAll().get(c);
-            assertEquals(results[value][i], res);
-        }
-    }*/
+    @ParameterizedTest
+    @ValueSource (ints = {0, 1, 2, 3})
+    void checkNextTest(int value){
+        var nextPlayer = new int[]{1, 2, 3, 0};
+        var game = new Game(0, 4, null);
+        game.setPlayingPlayer(value);
+        game.checkNext();
+        var thisNewPlayer = game.getPlayingPlayer();
+        assertEquals(nextPlayer[value], thisNewPlayer);
+    }
 
 }
