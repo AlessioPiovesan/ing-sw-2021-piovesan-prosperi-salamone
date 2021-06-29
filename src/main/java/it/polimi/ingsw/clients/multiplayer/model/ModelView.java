@@ -17,19 +17,19 @@ import java.util.List;
  */
 public class ModelView{
 
-    private final ThisBoard myBoard;
-    private final OtherBoard[] theirBoards;
+    private final ModelBoard[] modelBoards;
+    private final ArrayList<CardDev> cardDevDeck;
+    private ModelBoard myBoard;
     private Colours[][] market;
     private Colours externalMarble;
-    private ArrayList<CardDev> cardDevDeck;
 
     public ModelView(int nPlayers, UI ui){
-        myBoard = new ThisBoard();
-        theirBoards = new OtherBoard[nPlayers];
-        for(var i = 0; i < nPlayers - 1; i++){
-            theirBoards[i] = new OtherBoard();
+        modelBoards = new ModelBoard[nPlayers];
+        for(var i = 0; i < nPlayers; i++){
+            modelBoards[i] = new ModelBoard();
         }
         ui.setModelView(this);
+        cardDevDeck = new ArrayList<>();
         cardDevDeck.addAll(Arrays.asList(CardDev.values()));
     }
 
@@ -49,16 +49,16 @@ public class ModelView{
         this.market = market;
     }
 
-    public ThisBoard getMyBoard(){
+    public ModelBoard getMyBoard(){
         return myBoard;
     }
 
     public void setMyBoard(int i){
-        theirBoards[i] = myBoard;
+        myBoard = modelBoards[i];
     }
 
-    public OtherBoard getTheirBoards(int i){
-        return theirBoards[i];
+    public ModelBoard getTheirBoards(int i){
+        return modelBoards[i];
     }
 
     public List<CardDev> getCardDevDeck(){

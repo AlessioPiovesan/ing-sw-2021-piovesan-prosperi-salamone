@@ -119,6 +119,7 @@ public class Server implements Runnable, PropertyChangeListener{
         var i = 0;
         for(var name : playersForThisGame){
             var thisPlayerSocket = playingPlayersNameSocket.get(name);
+            thisPlayerSocket.send("myBoardId::" + i);
             registerConnection(thisPlayerSocket, playersForThisGame);
             addPlayer(name, id);
             var board = game.getSingleB(i);
@@ -130,7 +131,6 @@ public class Server implements Runnable, PropertyChangeListener{
             var remoteView = thisPlayerSocket.getRemoteView();
             thisPlayerSocket.setGameController(id);
             remoteView.setBoardId(i);
-            thisPlayerSocket.send("myBoardId::" + i);
             board.addPropertyChangeListener(remoteView);
             remoteView.setGameId(id);
             i++;

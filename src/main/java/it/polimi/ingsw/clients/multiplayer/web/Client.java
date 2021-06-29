@@ -142,7 +142,6 @@ public class Client implements Runnable{
             }
             case "nicknameYes" -> {
                 setupGame(string[1]);
-                modelView.getMyBoard().setNickname(string[1]);
             }
             case "nickname" -> modelView.getTheirBoards(Integer.parseInt(string[2])).setNickname(string[1]);
             case "askNickname" -> ui.chooseNickname();
