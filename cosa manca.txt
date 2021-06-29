@@ -29,3 +29,9 @@
 -Restituire un feedback al player per l'attivazione di una carta leader
 
 -Aggiungere il potere di una produzione aggiuntiva per lead card
+
+-Potere del leader 1: spazio leader
+
+-Potere del leader 2: da una risorsa ad una a scelta
+
+-Potere del leader 3: sconto risorsa (da fixare, non completamente perfetto)

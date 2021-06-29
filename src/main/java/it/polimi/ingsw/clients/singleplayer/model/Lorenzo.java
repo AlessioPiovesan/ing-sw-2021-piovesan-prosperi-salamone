@@ -45,7 +45,7 @@ public class Lorenzo extends Board{
 
     @Override
     protected void checkIfEndGame(){
-        if(faithTrack.getPosition() == 24) endGame = true;
+        if(this.faithTrack.getPosition() == 24) endGame = true;
         if(endGame) pcs.firePropertyChange("endGame", false, true);
     }
 }
