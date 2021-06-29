@@ -97,6 +97,7 @@ public class CLI implements Runnable, UI{
                     endGame = true;
                     if(evt.getSource() instanceof Lorenzo) winner = false;
                     if(evt.getSource() instanceof Board) winner = true;
+                    getLocalGameController().endGame(winner);
                     output.println("GAME OVER");
                 }
                 case "marketBuffer" -> {
@@ -117,6 +118,7 @@ public class CLI implements Runnable, UI{
                 default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
             }
         });
+        if(endGame) Thread.currentThread().interrupt();
     }
 
     /**
@@ -153,7 +155,10 @@ public class CLI implements Runnable, UI{
             }
         }
         if(single) getLocalGameController().nextPlayer();
-        else client.send("nextPlayer::");
+        else{
+            output.println("Wait for next turn");
+            client.send("nextPlayer::");
+        }
     }
 
     /**
@@ -376,7 +381,10 @@ public class CLI implements Runnable, UI{
             prepareResForWarehouse(colours, 1);
         drawer.showWarehouse(getWarehouse());
         if(single) getLocalGameController().nextPlayer();
-        else client.send("nextPlayer::");
+        else{
+            output.println("Wait for next turn");
+            client.send("nextPlayer::");
+        }
     }
 
     /**
@@ -442,7 +450,10 @@ public class CLI implements Runnable, UI{
         }
         drawer.showWarehouse(bufferProd);
         if(single) getLocalGameController().nextPlayer();
-        else client.send("nextPlayer::");
+        else{
+            output.println("Wait for next turn");
+            client.send("nextPlayer::");
+        }
     }
 
     @Override
@@ -512,6 +523,7 @@ public class CLI implements Runnable, UI{
         var players = input.nextInt();
         while(players <= 1 || players >= 5){
             System.err.println("We can not support that number of players");
+            output.println(">\tTry again [2-4]\n>\t");
             players = input.nextInt();
         }
         client.setNPlayers(players);
@@ -557,10 +569,10 @@ public class CLI implements Runnable, UI{
                     }
                 }
                 case "firstOp" -> client.send("initialResource::");
-                case "nextPlayer" -> client.send("nextPlayer::");
                 case "redCrossMove" -> client.send("checkVaticanReport::");
                 case "nextAction" -> nextAction();
                 case "preference" -> chooseRes();
+                case "doublePreference" -> doubleChooseRes();
                 case "change" -> output.println(evt.getNewValue());
                 case "marketBuffer" -> {
                     var current = new LinkedList<Colours>();
@@ -641,6 +653,13 @@ public class CLI implements Runnable, UI{
             port = Integer.parseInt(input.nextLine());
         }
         return port;
+    }
+
+    private void doubleChooseRes(){
+        output.println("Choose a first");
+        chooseRes();
+        output.println("Choose a second");
+        chooseRes();
     }
 
     private void chooseRes(){

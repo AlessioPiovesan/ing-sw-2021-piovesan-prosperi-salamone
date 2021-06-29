@@ -49,4 +49,8 @@ public class BoardController{
     public void moveFT(int i){
         player.moveFT(i);
     }
+
+    public void checkVaticanReport(){
+        player.checkVaticanReport();
+    }
 }

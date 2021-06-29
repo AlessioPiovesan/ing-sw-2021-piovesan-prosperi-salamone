@@ -70,7 +70,7 @@ public class Board{
 
     public void ready(){
         ready = !ready;
-        pcs.firePropertyChange("nextAction", "", ready);
+        pcs.firePropertyChange("nextAction", false, ready);
     }
 
     public int getIdD(){
@@ -260,6 +260,11 @@ public class Board{
     public void setPreference(){
         Colours preference = Colours.WHITE;
         pcs.firePropertyChange("preference", "", preference);
+    }
+
+    public void setDoublePreference(){
+        Colours preference = Colours.WHITE;
+        pcs.firePropertyChange("doublePreference", "", preference);
     }
 
     public void resolveLeaderConflict(boolean i){

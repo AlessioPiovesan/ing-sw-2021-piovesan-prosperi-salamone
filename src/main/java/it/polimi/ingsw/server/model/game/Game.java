@@ -18,9 +18,9 @@ import java.util.Random;
  */
 public class Game{
 
-    private static int nGamers = 4;
-    private final Board[] boards = new Board[4];
-    private final Random random = new Random();
+    private static int nGamers;
+    private final Board[] boards;
+    private final Random random;
     private final ArrayList<CardDev> cardDevDeck;
     private final ArrayList<CardLeader> cardLeaderDeck;
     private final ArrayList<Integer> playableLeaderCards;
@@ -30,16 +30,18 @@ public class Game{
 
     public Game(int id, int players, Market market){
         this.id = id;
+        boards = new Board[players];
+        random = new Random();
         setNGamers(players);
         /* Board creation for each player */
-        for(var i = 0; i < nGamers; i++){
+        for(var i = 0; i < players; i++){
             var warehouse = new Warehouse();
             var strongBox = new StrongBox();
             var faithTrack = new FaithTrack();
             var library = new Library();
             boards[i] = new Board(i, warehouse, strongBox, faithTrack, library);
-            playingPlayer = 0;
         }
+        playingPlayer = 0;
         /* Market creation for each Game */
         this.market = market;
         /* Card cataloging for each Game */
@@ -54,8 +56,8 @@ public class Game{
         return nGamers;
     }
 
-    public static void setNGamers(int gamers){
-        nGamers = gamers;
+    public static void setNGamers(int players){
+        nGamers = players;
     }
 
     public Board[] getAllB(){
@@ -78,8 +80,12 @@ public class Game{
         return playingPlayer;
     }
 
-    public void setPlayingPlayer(int playingPlayer){
-        this.playingPlayer = playingPlayer;
+    public void setPlayingPlayer(int newPlayingPlayer){
+        playingPlayer = newPlayingPlayer;
+    }
+
+    public void nextReady(){
+        boards[playingPlayer].ready();
     }
 
     /**
@@ -122,10 +128,6 @@ public class Game{
         return cardDevDeck;
     }
 
-    public List<CardLeader> getCardLeaderDeck(){
-        return cardLeaderDeck;
-    }
-
     /**
      * Method pickStartingResources is the method for the choices of initial resources from selected players.
      */
@@ -140,8 +142,7 @@ public class Game{
                 boards[next].moveFT(1);
                 if(nGamers > 3){
                     if(next++ >= nGamers - 1) next = 0;
-                    boards[next].setPreference();
-                    boards[next].setPreference();
+                    boards[next].setDoublePreference();
                     boards[next].moveFT(1);
                 }
             }
@@ -159,7 +160,8 @@ public class Game{
      * @return PlayingPlayer of type int - Next player in queue
      */
     public int checkNext(){
-        if(playingPlayer++ >= nGamers - 1) return 0;
+        playingPlayer++;
+        if(playingPlayer > (nGamers - 1)) return 0;
         return playingPlayer;
     }
 

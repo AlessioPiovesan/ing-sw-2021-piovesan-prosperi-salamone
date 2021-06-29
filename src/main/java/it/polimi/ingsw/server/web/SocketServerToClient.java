@@ -4,6 +4,7 @@ import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
+import it.polimi.ingsw.server.controller.BoardController;
 import it.polimi.ingsw.server.controller.Controller;
 import it.polimi.ingsw.server.controller.GameController;
 import it.polimi.ingsw.server.viewer.RemoteView;
@@ -44,14 +45,13 @@ public class SocketServerToClient implements Runnable{
         socketOut = new ObjectOutputStream(socket.getOutputStream());
     }
 
-    public RemoteView getRemoteView(){return remoteView;}
-
-    private int getIdBoard(){
-        return remoteView.getBoardId();
-    }
-
     public void setGameController(Integer id){
         gameController = Controller.getInstance().getGameControllerById(id);
+    }
+
+    private BoardController getBoardController(){
+        var id = remoteView.getBoardId();
+        return gameController.getBoardController(id);
     }
 
     @Override
@@ -125,13 +125,14 @@ public class SocketServerToClient implements Runnable{
                 send("Setup complete");
                 sendInLobby();
             }
+            case "addFaithPnt" -> getBoardController().moveFT(1);
             case "checkNickname" -> server.checkExistNickname(string[1], this);
             case "initialLeaders" -> prepareInitialLeaders(string[1]);
             case "initialResource" -> server.firstRes(this);
             case "nextPlayer" -> gameController.nextPlayer();
             case "join" -> server.rejoin(Integer.parseInt(string[1]), string[2], this);
             case "warehouseResHandler" -> {
-                var boardController = gameController.getBoardController(getIdBoard());
+                var boardController = getBoardController();
                 var color = Colours.fromString(string[1]);
                 var qnt = Integer.parseInt(string[2]);
                 var lvl = Integer.parseInt(string[3]);
@@ -139,8 +140,9 @@ public class SocketServerToClient implements Runnable{
                     boardController.warehouseResHandler(color, qnt, lvl);
                 else send("preference::");
             }
+            case "checkVaticanReport" -> getBoardController().checkVaticanReport();
             case "marketAction" -> gameController.marketAction(Integer.parseInt(string[1]));
-            case "moveFT" -> gameController.getBoardController(getIdBoard()).moveFT(Integer.parseInt(string[1]));
+            case "moveFT" -> getBoardController().moveFT(Integer.parseInt(string[1]));
             default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
         }
     }
@@ -183,5 +185,9 @@ public class SocketServerToClient implements Runnable{
 
     public void deleteGamer(String nickname){
         server.removePlayer(nickname);
+    }
+
+    public RemoteView getRemoteView(){
+        return remoteView;
     }
 }

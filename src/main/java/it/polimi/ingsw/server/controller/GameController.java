@@ -65,7 +65,10 @@ public class GameController{
     }
 
     public void nextPlayer(){
-        game.setPlayingPlayer(game.checkNext());
+        game.nextReady();
+        var next = game.checkNext();
+        game.setPlayingPlayer(next);
+        game.nextReady();
     }
 
     public BoardController getBoardController(int id){return boardController[id];}
@@ -103,7 +106,6 @@ public class GameController{
      * @see #leaderCardsHandler()
      */
     public void startGame(){
-        game.checkNext();
         leaderCardsHandler();
     }
 
