@@ -29,7 +29,7 @@ public class Board{
     private final PropertyChangeSupport listener;
     private final int idD;
     private final Map<Colours, Integer> leaderSpace;
-    private Colours discount;
+    private final Colours[] discount;
     private Colours marketAlt;
     private Colours productAlt;
     private Integer gameID;
@@ -53,7 +53,9 @@ public class Board{
         resAll.put(Colours.YELLOW, 0);
         resAll.put(Colours.GREY, 0);
         resAll.put(Colours.PURPLE, 0);
-        discount = Colours.WHITE;
+        discount = new Colours[2];
+        discount[0] = Colours.WHITE;
+        discount[1] = Colours.WHITE;
         marketAlt = Colours.WHITE;
         productAlt = Colours.WHITE;
         leaderSpace = new EnumMap<>(Colours.class);
@@ -81,8 +83,8 @@ public class Board{
         this.gameID = gameID;
     }
 
-    public Colours getDiscount(){
-        return discount;
+    public Colours getDiscount(int i){
+        return discount[i];
     }
 
     /**
@@ -92,8 +94,10 @@ public class Board{
      * @param color of type Colours - resource to be discounted
      */
     public void setDiscount(Colours color){
-        if(color != discount) discount = color;
-        listener.firePropertyChange("discount", "", discount);
+        if(discount[0] != Colours.WHITE && color != discount[1]) discount[1] = color;
+        if(color == Colours.WHITE) discount[0] = color;
+        listener.firePropertyChange("discount0", "", discount[0]);
+        listener.firePropertyChange("discount1", "", discount[1]);
     }
 
     public Colours getMarketAlt(){
@@ -197,7 +201,20 @@ public class Board{
      */
     public void buyCardDev(CardDev card, int slot){
         var costCardDev = new LinkedList<Pick>();
-        Collections.addAll(costCardDev, card.getCost());
+        var i = true;
+        var j = true;
+        Pick[] cost = card.getCost();
+        for(Pick pick : cost){
+            if(pick.resource() == discount[0] && i){
+                i = false;
+                break;
+            }
+            if(pick.resource() == discount[1] && j){
+                j = false;
+                break;
+            }
+            costCardDev.add(pick);
+        }
         myDevCards.add(card);
         checkIfEndGame();
         library.addCard(slot, card);
@@ -214,8 +231,16 @@ public class Board{
      */
     protected void checkIfEndGame(){
         if(myDevCards.size() == 7) endGame = true;
-        if(faithTrack.getPosition() == 24) endGame = true;
+        if(getPositionFT() == 24) endGame = true;
         if(endGame) pcs.firePropertyChange("endGame", false, true);
+    }
+
+    /**
+     * @return position
+     * @see FaithTrack#getPosition
+     */
+    public int getPositionFT(){
+        return faithTrack.getPosition();
     }
 
     /**
@@ -241,18 +266,15 @@ public class Board{
      * @param res of type Colours - resources
      */
     public void setBufferMarket(List<Colours> res){
-        var bufferMarket = (LinkedList<Colours>)res;
-        pcs.firePropertyChange("marketBuffer", "", bufferMarket.toArray());
+        pcs.firePropertyChange("marketBuffer", "", res.toArray());
     }
 
     public void setPreference(){
-        Colours preference = Colours.WHITE;
-        pcs.firePropertyChange("preference", "", preference);
+        pcs.firePropertyChange("preference", "", 0);
     }
 
     public void setDoublePreference(){
-        Colours preference = Colours.WHITE;
-        pcs.firePropertyChange("doublePreference", "", preference);
+        pcs.firePropertyChange("doublePreference", "", 0);
     }
 
     public void addPropertyChangeListener(PropertyChangeListener listener){
@@ -275,14 +297,6 @@ public class Board{
 
     public Map<Colours, Integer> getLeaderSpace(){
         return leaderSpace;
-    }
-
-    /**
-     * @return position
-     * @see FaithTrack#getPosition
-     */
-    public int getPositionFT(){
-        return faithTrack.getPosition();
     }
 
     /**
@@ -342,12 +356,12 @@ public class Board{
      * Method takeFromWarehouse takes resources from warehouse
      *
      * @param colour of type Colours
-     * @see #storeW(int, Pick[])
+     * @see #storeInWarehouse(int, Pick[])
      * @see Warehouse#isThereThatRes(Colours)
      */
     public void takeFromWarehouse(Colours colour){
         var lvl = warehouse.isThereThatRes(colour);
-        storeW(lvl, new Pick[]{new Pick(colour, -1)});
+        storeInWarehouse(lvl, new Pick[]{new Pick(colour, -1)});
     }
 
     /**
@@ -358,7 +372,7 @@ public class Board{
      * @see #updateResAll()
      * @see Warehouse#moveResources(int, Pick)
      */
-    public void storeW(int lvl, Pick[] start){
+    public void storeInWarehouse(int lvl, Pick[] start){
         for(var pick : start){
             warehouse.moveResources(lvl, pick);
         }
@@ -390,8 +404,6 @@ public class Board{
         resAllKeys.forEach(key -> resAll.put(key, map.get(key)));
         listener.firePropertyChange("resAll", "", resAll);
     }
-
-    public int checkFT(){return faithTrack.getPosition();}
 
     /**
      * Method takeFromStrongBox takes resources from the strongbox
@@ -427,8 +439,8 @@ public class Board{
     public void moveFT(int move){
         faithTrack.moveForward(move);
         checkIfEndGame();
-        pcs.firePropertyChange("redCrossMove", "", faithTrack.getPosition());
-        listener.firePropertyChange("faithTrack", "", faithTrack.getPosition());
+        pcs.firePropertyChange("redCrossMove", "", getPositionFT());
+        listener.firePropertyChange("faithTrack", "", getPositionFT());
     }
 
     public void produce(CardDev card){

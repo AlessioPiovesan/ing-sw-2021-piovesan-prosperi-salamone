@@ -64,14 +64,17 @@ class GameControllerTest{
     @Test
     void cardLeadAction(){
         var gameController = new GameController(0, 4, new Game(0, 4, null));
-        var card1 = CardLeader.CARDLEAD01;
+        var card1a = CardLeader.CARDLEAD01;
+        var card1b = CardLeader.CARDLEAD02;
         var card2 = CardLeader.CARDLEAD05;
         var card3 = CardLeader.CARDLEAD09;
         var card4 = CardLeader.CARDLEAD13;
         var id = gameController.getGame().getPlayingPlayer();
         var board = gameController.getGame().getSingleB(id);
-        gameController.cardLeadAction(card1);
-        assertSame(card1.getSpecial(), board.getDiscount());
+        gameController.cardLeadAction(card1a);
+        assertSame(card1a.getSpecial(), board.getDiscount(0));
+        gameController.cardLeadAction(card1a);
+        assertSame(card1b.getSpecial(), board.getDiscount(1));
         gameController.cardLeadAction(card2);
         assertTrue(board.getLeaderSpace().containsKey(card2.getSpecial()));
         gameController.cardLeadAction(card3);

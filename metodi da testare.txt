@@ -1,18 +1,5 @@
 BOARD:
-    - somethingIsWrong
-    - ready
     - countWinPnt
     - buyCardDev
     - checkIfEndGame
-    - marketResHandler
-    - resolveLeaderConflict
-    - addLeaderSpace
-    - rearrangeWarehouse
-    - takeFromWarehouse
-    - storeW
-    - updateResAll
-    - takeFromStrongbox
-    - storeInStrongbox
-    - moveFT
-    - produce
 
