@@ -1,0 +1,44 @@
+BOARD CONTROLLER:
+    - checkWarehouseAdd
+    - warehouseResHandler
+    - moveFT
+
+CONTROLLER:
+    - addGame
+    - newID
+
+GAME CONTROLLER:
+    - cardDevAction
+    - cardLeadAction
+    - endGame
+    - marketAction
+    - resolveLeaderConflictInMarket
+
+BOARD:
+    - somethingIsWrong
+    - ready
+    - countWinPnt
+    - buyCardDev
+    - checkIfEndGame
+    - marketResHandler
+    - resolveLeaderConflict
+    - addLeaderSpace
+    - rearrangeWarehouse
+    - takeFromWarehouse
+    - storeW
+    - updateResAll
+    - takeFromStrongbox
+    - storeInStrongbox
+    - moveFT
+    - produce
+
+LIBRARY:
+    - visibleCards
+
+GAME:
+    - myLeaderCardsHAndler
+    - pickStartingResources
+    - startRealPlay
+    - checkNext
+    - countWinPntPerBoard
+

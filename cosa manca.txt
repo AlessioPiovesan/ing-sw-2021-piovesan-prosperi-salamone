@@ -25,3 +25,7 @@
 - Mostrare le carte sviluppo in mazzetti giusti divisi per livello e per colore (GUI)
 
 -Restituire un feedback al giocatore quando si attiva la produzione, al momento non ci si accorge se la produzione sia andata a buon fine
+
+-Restituire un feedback al player per l'attivazione di una carta leader
+
+-Aggiungere il potere di una produzione aggiuntiva per lead card

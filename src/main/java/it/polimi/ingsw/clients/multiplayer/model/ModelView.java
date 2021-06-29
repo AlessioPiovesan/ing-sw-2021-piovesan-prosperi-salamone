@@ -30,6 +30,7 @@ public class ModelView{
             theirBoards[i] = new OtherBoard();
         }
         ui.setModelView(this);
+        cardDevDeck = new ArrayList<>();
         cardDevDeck.addAll(Arrays.asList(CardDev.values()));
     }
 
