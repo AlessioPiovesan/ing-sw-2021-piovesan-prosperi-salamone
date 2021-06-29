@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class OtherBoard is the class describing all the other players' boards.
+ * Class ModelBoard is the class describing all the other players' boards.
  *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone
  */
-public class OtherBoard{
+public class ModelBoard{
 
     private final Colours[] discount;
     private final Colours[] marketAlt;
@@ -32,7 +32,7 @@ public class OtherBoard{
     private boolean[] activeLeader;
     private CardLeader[] myLeaderCards = new CardLeader[2];
 
-    protected OtherBoard(){
+    protected ModelBoard(){
         warehouse = createWarehouse();
         strongBox = createStrongBox();
         library = createLibrary();
