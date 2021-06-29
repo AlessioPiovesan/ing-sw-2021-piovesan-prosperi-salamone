@@ -1,18 +1,5 @@
-BOARD CONTROLLER:
-    - checkWarehouseAdd
-    - warehouseResHandler
-    - moveFT
-
-CONTROLLER:
-    - addGame
-    - newID
-
 GAME CONTROLLER:
-    - cardDevAction
-    - cardLeadAction
-    - endGame
     - marketAction
-    - resolveLeaderConflictInMarket
 
 BOARD:
     - somethingIsWrong
@@ -31,9 +18,6 @@ BOARD:
     - storeInStrongbox
     - moveFT
     - produce
-
-LIBRARY:
-    - visibleCards
 
 GAME:
     - myLeaderCardsHAndler

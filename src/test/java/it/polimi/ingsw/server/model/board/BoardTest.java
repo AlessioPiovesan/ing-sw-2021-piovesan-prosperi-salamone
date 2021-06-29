@@ -11,26 +11,20 @@ class BoardTest{
     void setDiscount(){
         var b = new Board(0, null, null, null, null);
         b.setDiscount(CardLeader.CARDLEAD01.getSpecial());
-        b.setDiscount(CardLeader.CARDLEAD02.getSpecial());
-        assertEquals(CardLeader.CARDLEAD01.getSpecial(), b.getDiscount()[0]);
-        assertEquals(CardLeader.CARDLEAD02.getSpecial(), b.getDiscount()[1]);
+        assertEquals(CardLeader.CARDLEAD01.getSpecial(), b.getDiscount());
     }
 
     @Test
     void setProductAlt(){
         var b = new Board(0, null, null, null, null);
         b.setProductAlt(CardLeader.CARDLEAD13.getSpecial());
-        b.setProductAlt(CardLeader.CARDLEAD14.getSpecial());
-        assertEquals(CardLeader.CARDLEAD13.getSpecial(), b.getProductAlt()[0]);
-        assertEquals(CardLeader.CARDLEAD14.getSpecial(), b.getProductAlt()[1]);
+        assertEquals(CardLeader.CARDLEAD13.getSpecial(), b.getProductAlt());
     }
 
     @Test
     void setMarketAlt(){
         var b = new Board(0, null, null, null, null);
         b.setMarketAlt(CardLeader.CARDLEAD09.getSpecial());
-        b.setMarketAlt(CardLeader.CARDLEAD10.getSpecial());
-        assertEquals(CardLeader.CARDLEAD09.getSpecial(), b.getMarketAlt()[0]);
-        assertEquals(CardLeader.CARDLEAD10.getSpecial(), b.getMarketAlt()[1]);
+        assertEquals(CardLeader.CARDLEAD09.getSpecial(), b.getMarketAlt());
     }
 }

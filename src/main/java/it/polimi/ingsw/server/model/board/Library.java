@@ -80,17 +80,4 @@ public class Library{
     protected List<CardDev> getCardsOfASlot(int n){
         return slot.get(n);
     }
-
-    /**
-     * Method visibleCards creates a list of all the visible cards on the board
-     *
-     * @return List - a list of all the visible cards on the board
-     */
-    protected List<CardDev> visibleCards(){
-        var list = new ArrayList<CardDev>();
-        for(var i = 0; i < 3; i++){
-            list.add(getCardOnTop(i));
-        }
-        return list;
-    }
 }

@@ -1,28 +1,32 @@
 package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.accessories.Colours;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model.game.Game;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GameControllerTest{
 
     @Test
-    void startGame(){
+    void startGameTest(){
         var gameController = new GameController(0, 4, new Game(0, 4, null));
         gameController.startGame();
         assertEquals(4, gameController.getGame().getNGamers());
-        assertEquals(1, gameController.getGame().getPlayingPlayer());
+        assertEquals(0, gameController.getGame().getPlayingPlayer());
     }
 
     @Test
-    void endGame(){
-        new GameController(0, 4, new Game(0, 4, null));
-        assertTrue(true);
+    void endGameTest(){
+        var gameController = new GameController(0, 4, new Game(0, 4, null));
+        gameController.endGame();
+        var win = gameController.getWin();
+        for(var i : win)
+            assertEquals(0, win[i]);
     }
 
     @Test
@@ -32,7 +36,7 @@ class GameControllerTest{
     }
 
     @Test
-    void addFaithPnt(){
+    void addFaithPntTest(){
         var gameController = new GameController(0, 4, new Game(0, 4, null));
         gameController.getGame().checkNext();
         var game = gameController.getGame();
@@ -45,4 +49,39 @@ class GameControllerTest{
             else assertEquals(0, board.getPositionFT());
     }
 
+    @Test
+    void cardDevAction(){
+        var gameController = new GameController(0, 4, new Game(0, 4, null));
+        var card = CardDev.CARDDEV_1C1;
+        gameController.cardDevAction(card, 1);
+        var id = gameController.getGame().getPlayingPlayer();
+        var board = gameController.getGame().getSingleB(id);
+        var lib = board.checkLibraryStatus().get(1);
+        assertFalse(gameController.getGame().getCardDevDeck().contains(card));
+        assertTrue(lib.contains(card));
+    }
+
+    @Test
+    void cardLeadAction(){
+        var gameController = new GameController(0, 4, new Game(0, 4, null));
+        var card1 = CardLeader.CARDLEAD01;
+        var card2 = CardLeader.CARDLEAD05;
+        var card3 = CardLeader.CARDLEAD09;
+        var card4 = CardLeader.CARDLEAD13;
+        var id = gameController.getGame().getPlayingPlayer();
+        var board = gameController.getGame().getSingleB(id);
+        gameController.cardLeadAction(card1);
+        assertSame(card1.getSpecial(), board.getDiscount());
+        gameController.cardLeadAction(card2);
+        assertTrue(board.getLeaderSpace().containsKey(card2.getSpecial()));
+        gameController.cardLeadAction(card3);
+        assertSame(card3.getSpecial(), board.getMarketAlt());
+        gameController.cardLeadAction(card4);
+        assertSame(card4.getSpecial(), board.getProductAlt());
+    }
+
+    @Test
+    void marketAction(){
+
+    }
 }

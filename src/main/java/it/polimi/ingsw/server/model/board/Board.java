@@ -28,10 +28,10 @@ public class Board{
     private final PropertyChangeSupport pcs;
     private final PropertyChangeSupport listener;
     private final int idD;
-    private final Colours[] discount;
-    private final Colours[] marketAlt;
-    private final Colours[] productAlt;
     private final Map<Colours, Integer> leaderSpace;
+    private Colours discount;
+    private Colours marketAlt;
+    private Colours productAlt;
     private Integer gameID;
     private boolean endGame;
     private int activeLeader = 0;
@@ -55,9 +55,9 @@ public class Board{
         resAll.put(Colours.YELLOW, 0);
         resAll.put(Colours.GREY, 0);
         resAll.put(Colours.PURPLE, 0);
-        discount = new Colours[]{Colours.WHITE, Colours.WHITE};
-        marketAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
-        productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
+        discount = Colours.WHITE;
+        marketAlt = Colours.WHITE;
+        productAlt = Colours.WHITE;
         leaderSpace = new EnumMap<>(Colours.class);
         ready = false;
         pcs = new PropertyChangeSupport(this);
@@ -85,7 +85,7 @@ public class Board{
         this.gameID = gameID;
     }
 
-    public Colours[] getDiscount(){
+    public Colours getDiscount(){
         return discount;
     }
 
@@ -96,13 +96,11 @@ public class Board{
      * @param color of type Colours - resource to be discounted
      */
     public void setDiscount(Colours color){
-        if(discount[0] == Colours.WHITE) discount[0] = color;
-        else discount[1] = color;
-        listener.firePropertyChange("discount0", "", discount[0]);
-        listener.firePropertyChange("discount1", "", discount[1]);
+        if(color != discount) discount = color;
+        listener.firePropertyChange("discount", "", discount);
     }
 
-    public Colours[] getMarketAlt(){
+    public Colours getMarketAlt(){
         return marketAlt;
     }
 
@@ -113,14 +111,11 @@ public class Board{
      * @param color of type Colours - resource
      */
     public void setMarketAlt(Colours color){
-        if(marketAlt[0] == Colours.WHITE) marketAlt[0] = color;
-        else marketAlt[1] = color;
-        listener.firePropertyChange("marketAlt0", "", marketAlt[0]);
-        listener.firePropertyChange("marketAlt1", "", marketAlt[1]);
-
+        if(color != marketAlt) marketAlt = color;
+        listener.firePropertyChange("marketAlt", "", marketAlt);
     }
 
-    public Colours[] getProductAlt(){
+    public Colours getProductAlt(){
         return productAlt;
     }
 
@@ -131,10 +126,8 @@ public class Board{
      * @param color of type Colours - resource
      */
     public void setProductAlt(Colours color){
-        if(productAlt[0] == Colours.WHITE) productAlt[0] = color;
-        else productAlt[1] = color;
-        listener.firePropertyChange("productAlt0", "", productAlt[0]);
-        listener.firePropertyChange("productAlt1", "", productAlt[1]);
+        if(color != productAlt) productAlt = color;
+        listener.firePropertyChange("productAlt", "", productAlt);
     }
 
     public CardLeader[] getMyLeaderCards(){
@@ -182,6 +175,7 @@ public class Board{
         win += faithTrack.getWinPnt();
         win += library.getWinPntCardDev();
         win += getWinPntCardLeader();
+        pcs.firePropertyChange("winPoints", "", win);
         return win;
     }
 
@@ -237,13 +231,11 @@ public class Board{
     public void marketResHandler(List<Colours> res){
         var newRes = new LinkedList<Colours>();
         for(Colours colour : res)
-            if(colour == Colours.WHITE && marketAlt[activeLeader] != Colours.WHITE){
-                newRes.add(marketAlt[activeLeader]);
-                pcs.firePropertyChange("change", "", "Your white marble is now a " + marketAlt[activeLeader] + " marble");
+            if(colour == Colours.WHITE && marketAlt != Colours.WHITE){
+                newRes.add(marketAlt);
+                pcs.firePropertyChange("change", "", "Your white marble is now a " + marketAlt + " marble");
             }
-
             else newRes.add(colour);
-
         setBufferMarket(newRes);
     }
 
@@ -288,6 +280,10 @@ public class Board{
     public void addLeaderSpace(Colours special){
         leaderSpace.put(special, 0);
         listener.firePropertyChange("leaderSpace", "", special);
+    }
+
+    public Map<Colours, Integer> getLeaderSpace(){
+        return leaderSpace;
     }
 
     /**

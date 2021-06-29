@@ -1,8 +1,10 @@
 package it.polimi.ingsw.server.web;
 
+import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.accessories.Pick;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.controller.BoardController;
 import it.polimi.ingsw.server.controller.Controller;
@@ -15,6 +17,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * Class SocketServerToClient is the class used to create a connection between the Server and the clients.
@@ -140,9 +143,23 @@ public class SocketServerToClient implements Runnable{
                     boardController.warehouseResHandler(color, qnt, lvl);
                 else send("preference::");
             }
+            case "cardLeadAction" -> {
+                var code1 = string[1].split(ConsoleColors.PURPLE);
+                var code = code1[0].split(ConsoleColors.RESET);
+                var card = (CardLeader)Objects.requireNonNull(CardLeader.getSpecificCard(code[0]));
+                gameController.cardLeadAction(card);
+            }
+            case "cardDevAction" -> {
+                var code1 = string[1].split(ConsoleColors.PURPLE);
+                var code = code1[0].split(ConsoleColors.RESET);
+                var slot = Integer.parseInt(string[2]);
+                var card = (CardDev)Objects.requireNonNull(CardDev.getSpecificCard(code[0]));
+                gameController.cardDevAction(card, slot);
+            }
             case "checkVaticanReport" -> getBoardController().checkVaticanReport();
             case "marketAction" -> gameController.marketAction(Integer.parseInt(string[1]));
             case "moveFT" -> getBoardController().moveFT(Integer.parseInt(string[1]));
+            case "endGame" -> gameController.endGame();
             default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
         }
     }

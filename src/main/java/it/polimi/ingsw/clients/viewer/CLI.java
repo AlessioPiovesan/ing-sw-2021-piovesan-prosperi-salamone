@@ -100,6 +100,7 @@ public class CLI implements Runnable, UI{
                     getLocalGameController().endGame(winner);
                     output.println("GAME OVER");
                 }
+                case "winPoints" -> output.println("Points: " + evt.getNewValue());
                 case "marketBuffer" -> {
                     var list = new LinkedList<Colours>();
                     for(var o : (Object[])evt.getNewValue())
@@ -115,7 +116,7 @@ public class CLI implements Runnable, UI{
                 case "change" -> output.println(evt.getNewValue());
                 case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
                 case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
-                default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
+                default -> output.println(evt.getPropertyName() + " is not handled (CLI-SINGLE)");
             }
         });
         if(endGame) Thread.currentThread().interrupt();
@@ -594,9 +595,10 @@ public class CLI implements Runnable, UI{
                     }
                     payForCardDev(current);
                 }
+                case "winPoints" -> output.println("Points: " + evt.getNewValue());
                 case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
                 case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
-                default -> output.println(evt.getPropertyName() + " is not handled (CLI)");
+                default -> output.println(evt.getPropertyName() + " is not handled (CLI-MULTI)");
             }
         });
     }

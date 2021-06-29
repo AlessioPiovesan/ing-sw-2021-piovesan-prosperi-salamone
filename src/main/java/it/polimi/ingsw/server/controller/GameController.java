@@ -27,7 +27,7 @@ public class GameController{
     public GameController(int newID, int gamers, Game game){
         id = newID;
         this.game = game;
-        win = new int[game.getNGamers()];
+        win = new int[gamers];
         boardController = new BoardController[gamers];
     }
 
@@ -130,19 +130,10 @@ public class GameController{
     }
 
     public void marketAction(int moveMarket){
-        var b = game.getSingleB(game.getPlayingPlayer());
-        var m = game.getMarket();
-        LinkedList<Colours> res = (LinkedList<Colours>)m.moveMarbles(moveMarket);
-        b.marketResHandler(res);
-    }
-
-    public void resolveLeaderConflictInMarket(boolean i){
-        var b = game.getSingleB(game.getPlayingPlayer());
-        b.resolveLeaderConflict(i);
-    }
-
-    public BoardController getActiveBoardController(){
-        return boardController[game.getNGamers() - 1];
+        var board = game.getSingleB(game.getPlayingPlayer());
+        var market = game.getMarket();
+        LinkedList<Colours> res = (LinkedList<Colours>)market.moveMarbles(moveMarket);
+        board.marketResHandler(res);
     }
 
     public Game getGame(){
@@ -155,10 +146,6 @@ public class GameController{
 
     public int[] getWin(){
         return win;
-    }
-
-    public void setGamers(int gamers){
-        Game.setNGamers(gamers);
     }
 
     public BoardController[] getAllBoardController(){

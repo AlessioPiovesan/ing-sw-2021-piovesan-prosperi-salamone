@@ -47,7 +47,7 @@ public enum CardLeader implements Card{
     }
 
     public static Card getSpecificCard(String code){
-        for(CardLeader card : CardLeader.values())
+        for(var card : CardLeader.values())
             if(card.name().contains(code.toUpperCase())) return card;
         return null;
     }
