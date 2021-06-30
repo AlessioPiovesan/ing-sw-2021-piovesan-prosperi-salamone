@@ -88,7 +88,7 @@ public class LocalGameController{
      * method marketAction handles market choices and movements.
      *
      * @param moveMarket is the market shift in row and columns
-     * @see it.polimi.ingsw.server.model.board.Board#marketResHandler(List)
+     * @see Board#marketResHandler(List)
      * @see Market#moveMarbles(int)
      */
     public void marketAction(int moveMarket){
@@ -119,12 +119,13 @@ public class LocalGameController{
      * 13,14,15,16: Additional production power.
      *
      * @param cardToBeActivated is the Leader card that is going to activate his power
-     * @see it.polimi.ingsw.server.model.board.Board#setDiscount(Colours)
-     * @see it.polimi.ingsw.server.model.board.Board#addLeaderSpace(Colours)
-     * @see it.polimi.ingsw.server.model.board.Board#setMarketAlt(Colours)
-     * @see it.polimi.ingsw.server.model.board.Board#setProductAlt(Colours)
+     * @see Board#setDiscount(Colours)
+     * @see Board#addLeaderSpace(Colours)
+     * @see Board#setMarketAlt(Colours)
+     * @see Board#setProductAlt(Colours)
      */
     public synchronized void cardLeadAction(CardLeader cardToBeActivated){
+        cardToBeActivated.flipCard();
         switch(cardToBeActivated){
             case CARDLEAD01, CARDLEAD02, CARDLEAD03, CARDLEAD04 -> game.getBoard(false).setDiscount(cardToBeActivated.getSpecial());
             case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08 -> game.getBoard(false).addLeaderSpace(cardToBeActivated.getSpecial());
@@ -138,7 +139,7 @@ public class LocalGameController{
      * cardDevAction is the action the player makes when he buys a dev card.
      *
      * @param cardToBeBought is the card who's going to be bought from the player
-     * @param slot is where the bought card will be placed
+     * @param slot           is where the bought card will be placed
      * @see it.polimi.ingsw.server.model.board.Board#buyCardDev(CardDev, int)
      */
     public void cardDevAction(CardDev cardToBeBought, int slot){
@@ -150,14 +151,16 @@ public class LocalGameController{
     public void tossCardDev(ColoursCards colour){
         var deck = game.getCardDevDeck();
         CardDev found = null;
-        for(CardDev cardDev : deck)
-            for(var i = 0; i < 3; i++)
-                if(cardDev.getLvl() == 1 && cardDev.getColour() == colour){
-                    found = cardDev;
-                    break;
-                }
+        for(var cardDev : deck){
+            if(cardDev.getLvl() == 1 && cardDev.getColour() == colour) found = cardDev;
+            if(found != null) break;
+            if(cardDev.getLvl() == 2 && cardDev.getColour() == colour) found = cardDev;
+            if(found != null) break;
+            if(cardDev.getLvl() == 3 && cardDev.getColour() == colour) found = cardDev;
+            if(found != null) break;
+        }
         if(found == null) endGame(false);
-
+        else deck.remove(found);
     }
 
     /**
