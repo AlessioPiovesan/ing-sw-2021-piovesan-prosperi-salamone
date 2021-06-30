@@ -45,6 +45,11 @@ public class ModelBoard{
         leaderSpace = new EnumMap<>(Colours.class);
     }
 
+    /**
+     * method createWarehouse creates the warehouse for the selected Model Board
+     * @return of type ArrayList of Pick
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     */
     protected List<Pick> createWarehouse(){
         var wareContent = new ArrayList<Pick>();
         wareContent.add(new Pick(Colours.WHITE, 0));
@@ -53,6 +58,11 @@ public class ModelBoard{
         return wareContent;
     }
 
+    /**
+     * method createStrongbox creates the strongbox for the selected Model Board
+     * @return of type EnumMap of Colours
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     */
     protected EnumMap<Colours, Integer> createStrongBox(){
         var strongContent = new EnumMap<Colours, Integer>(Colours.class);
         strongContent.put(Colours.BLUE, 0);
@@ -62,6 +72,12 @@ public class ModelBoard{
         return strongContent;
     }
 
+    /**
+     * method createLibrary creates the containers for Development Cards
+     * for the selected Model Board
+     * @return of type ArrayList of CardDev
+     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     */
     protected List<ArrayList<CardDev>> createLibrary(){
         var slots = new ArrayList<ArrayList<CardDev>>(3);
         slots.add(new ArrayList<>());
