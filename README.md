@@ -65,13 +65,12 @@ All tests in model and controller has a classes' coverage at 100%.
 
 **Coverage criteria: code lines.**
 
-| Package |Tested Class | Coverage |
+| Package |Tested Class | Method Coverage |
 |:-----------------------|:------------------|:------------------------------------:|
-| Other | Accessories | 137/168 (81%)
-| Controller | Controller | 24/105 (22%)
-| Model | Board | 120/234 (51%)
-| Model | Game | 102/139 (73%)
-| Server | Global Package | 0/0 (59%)
+| Other | Accessories | 44/55 (80%)
+| Controller | Controller | 13/31 (41%)
+| Model | Board | 52/74 (70%)
+| Model | Game | 23/40 (57%)
 
 ## The Team - GC54
 
@@ -85,7 +84,6 @@ All tests in model and controller has a classes' coverage at 100%.
 
 **Intellij IDEA Ultimate** - main IDE
 
-**Sonarqube** - code analysis
 
 ## Copyright and license
 
