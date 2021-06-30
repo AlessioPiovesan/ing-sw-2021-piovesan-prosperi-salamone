@@ -2,6 +2,7 @@ package it.polimi.ingsw.clients.viewer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import it.polimi.ingsw.clients.multiplayer.model.ModelBoard;
 import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
@@ -48,6 +49,7 @@ public class CLI implements Runnable, UI{
     private ModelView model;
     private boolean endGame;
     private boolean winner;
+    private ModelBoard myBoard;
 
     public CLI(){
         single = false;
@@ -203,7 +205,7 @@ public class CLI implements Runnable, UI{
                     case 4 -> drawer.showMyCardLeader(getMyCardLeader());
                     case 5 -> {
                         if(single) drawer.showFaithTrackSingle(checker);
-                        else drawer.showFaithTrack(checker, model.getMyBoard().getFaithTrack());
+                        else drawer.showFaithTrack(checker, getMyBoard().getFaithTrack());
                     }
                     case 6 -> output.println("Ok");
                     default -> output.print("There's no way you were able to that... I think...");
@@ -218,22 +220,22 @@ public class CLI implements Runnable, UI{
 
     private CardLeader[] getMyCardLeader(){
         if(single) return getLocalGameController().getBoardController().player().getMyLeaderCards();
-        else return model.getMyBoard().getMyLeaderCards();
+        else return getMyBoard().getMyLeaderCards();
     }
 
     private List<Pick> getWarehouse(){
         if(single) return getLocalGameController().getBoardController().player().checkWarehouseStatus();
-        else return model.getMyBoard().getWarehouse();
+        else return getMyBoard().getWarehouse();
     }
 
     private Map<Colours, Integer> getStrongBox(){
         if(single) return getLocalGameController().getBoardController().player().checkStrongBoxStatus();
-        else return model.getMyBoard().getStrongBox();
+        else return getMyBoard().getStrongBox();
     }
 
     private List<ArrayList<CardDev>> getLibrary(){
         if(single) return getLocalGameController().getBoardController().player().checkLibraryStatus();
-        else return model.getMyBoard().getLibrary();
+        else return getMyBoard().getLibrary();
     }
 
     /**
@@ -638,6 +640,16 @@ public class CLI implements Runnable, UI{
         }
     }
 
+    @Override
+    public ModelBoard getMyBoard(){
+        return myBoard;
+    }
+
+    @Override
+    public void setMyBoard(int i){
+        myBoard = model.getTheirBoards(i);
+    }
+
     /**
      * method askIP asks the player for the server's IP address
      *
@@ -856,7 +868,7 @@ public class CLI implements Runnable, UI{
 
     private Map<Colours, Integer> getResAll(){
         if(single) return getLocalGameController().getBoardController().player().getResAll();
-        else return model.getMyBoard().getResAll();
+        else return getMyBoard().getResAll();
     }
 
     private List<CardDev> getCardDevDeck(){

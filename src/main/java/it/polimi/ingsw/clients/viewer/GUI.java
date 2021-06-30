@@ -1,5 +1,6 @@
 package it.polimi.ingsw.clients.viewer;
 
+import it.polimi.ingsw.clients.multiplayer.model.ModelBoard;
 import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
@@ -143,6 +144,16 @@ public class GUI extends Application implements UI{
 
     @Override
     public void resilience(int i, String s, int n){
+
+    }
+
+    @Override
+    public ModelBoard getMyBoard(){
+        return null;
+    }
+
+    @Override
+    public void setMyBoard(int parseInt){
 
     }
 

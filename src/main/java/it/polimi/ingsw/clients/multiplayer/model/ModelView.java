@@ -19,7 +19,6 @@ public class ModelView{
 
     private final ModelBoard[] modelBoards;
     private final ArrayList<CardDev> cardDevDeck;
-    private ModelBoard myBoard;
     private Colours[][] market;
     private Colours externalMarble;
 
@@ -47,14 +46,6 @@ public class ModelView{
 
     public void setMarket(Colours[][] market){
         this.market = market;
-    }
-
-    public ModelBoard getMyBoard(){
-        return myBoard;
-    }
-
-    public void setMyBoard(int i){
-        myBoard = modelBoards[i];
     }
 
     public ModelBoard getTheirBoards(int i){

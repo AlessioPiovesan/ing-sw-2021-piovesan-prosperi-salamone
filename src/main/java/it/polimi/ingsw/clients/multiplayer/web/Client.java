@@ -138,7 +138,7 @@ public class Client implements Runnable{
             case "nicknameNo" -> ui.reChooseNickname(Integer.parseInt(string[1]));
             case "nicknameMaybe" -> {
                 ui.resilience(Integer.parseInt(string[1]), string[2], Integer.parseInt(string[3]));
-                modelView.getMyBoard().setNickname(string[2]);
+                ui.getMyBoard().setNickname(string[2]);
             }
             case "nicknameYes" -> {
                 setupGame(string[1]);
@@ -146,7 +146,7 @@ public class Client implements Runnable{
             case "nickname" -> modelView.getTheirBoards(Integer.parseInt(string[2])).setNickname(string[1]);
             case "askNickname" -> ui.chooseNickname();
             case "askId" -> ui.askId();
-            case "myBoardId" -> modelView.setMyBoard(Integer.parseInt(string[1]));
+            case "myBoardId" -> ui.setMyBoard(Integer.parseInt(string[1]));
             case "external" -> modelView.setExternalMarble(Colours.fromString(string[1]));
             case "tray" -> {
                 try{
@@ -157,35 +157,35 @@ public class Client implements Runnable{
                     e.printStackTrace();
                 }
             }
-            case "discount0" -> modelView.getMyBoard().setDiscount(0, Colours.fromString(string[1]));
-            case "discount1" -> modelView.getMyBoard().setDiscount(1, Colours.fromString(string[1]));
-            case "marketAlt0" -> modelView.getMyBoard().setMarketAlt(0, Colours.fromString(string[1]));
-            case "marketAlt1" -> modelView.getMyBoard().setMarketAlt(1, Colours.fromString(string[1]));
-            case "productAlt0" -> modelView.getMyBoard().setProductAlt(0, Colours.fromString(string[1]));
-            case "productAlt1" -> modelView.getMyBoard().setProductAlt(1, Colours.fromString(string[1]));
-            case "leaderSpace" -> modelView.getMyBoard().addLeaderSpace(Colours.fromString(string[1]));
+            case "discount0" -> ui.getMyBoard().setDiscount(0, Colours.fromString(string[1]));
+            case "discount1" -> ui.getMyBoard().setDiscount(1, Colours.fromString(string[1]));
+            case "marketAlt0" -> ui.getMyBoard().setMarketAlt(0, Colours.fromString(string[1]));
+            case "marketAlt1" -> ui.getMyBoard().setMarketAlt(1, Colours.fromString(string[1]));
+            case "productAlt0" -> ui.getMyBoard().setProductAlt(0, Colours.fromString(string[1]));
+            case "productAlt1" -> ui.getMyBoard().setProductAlt(1, Colours.fromString(string[1]));
+            case "leaderSpace" -> ui.getMyBoard().addLeaderSpace(Colours.fromString(string[1]));
             case "thislibrary" -> {
                 try{
                     var node = Json.parse(string[1]);
                     var card = Json.fromJson(node, CardDev.class);
-                    modelView.getMyBoard().addCardinLibrary(card, Integer.parseInt(string[2]));
+                    ui.getMyBoard().addCardinLibrary(card, Integer.parseInt(string[2]));
                 } catch(IOException e){
                     e.printStackTrace();
                 }
             }
             case "thiswarehouse" -> {
                 List<Pick> current = getList(string);
-                modelView.getMyBoard().setWarehouse(current);
+                ui.getMyBoard().setWarehouse(current);
             }
             case "thisresAll" -> {
                 Map<Colours, Integer> map = getMap(string);
-                modelView.getMyBoard().setResAll(map);
+                ui.getMyBoard().setResAll(map);
             }
             case "thisstrongBox" -> {
                 Map<Colours, Integer> map = getMap(string);
-                modelView.getMyBoard().setStrongBox(map);
+                ui.getMyBoard().setStrongBox(map);
             }
-            case "thisfaithTrack" -> modelView.getMyBoard().setFaithTrack(Integer.parseInt(string[1]));
+            case "thisfaithTrack" -> ui.getMyBoard().setFaithTrack(Integer.parseInt(string[1]));
             case "thatlibrary" -> {
                 try{
                     var node = Json.parse(string[1]);

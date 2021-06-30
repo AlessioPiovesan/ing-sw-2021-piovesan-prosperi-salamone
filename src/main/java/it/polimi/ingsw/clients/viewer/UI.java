@@ -1,5 +1,6 @@
 package it.polimi.ingsw.clients.viewer;
 
+import it.polimi.ingsw.clients.multiplayer.model.ModelBoard;
 import it.polimi.ingsw.clients.multiplayer.model.ModelView;
 import it.polimi.ingsw.clients.multiplayer.web.Client;
 
@@ -35,4 +36,8 @@ public interface UI extends PropertyChangeListener{
     void setModelView(ModelView modelView);
 
     void resilience(int id, String name, int n);
+
+    ModelBoard getMyBoard();
+
+    void setMyBoard(int parseInt);
 }
