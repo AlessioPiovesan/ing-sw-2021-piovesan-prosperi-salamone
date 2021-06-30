@@ -67,9 +67,9 @@ All tests in model and controller has a classes' coverage at 100%.
 
 | Package |Tested Class | Method Coverage |
 |:-----------------------|:------------------|:------------------------------------:|
-| Other | Accessories | 44/55 (80%)
-| Controller | Controller | 14/31 (45%)
-| Model | Board | 52/74 (70%)
+| Other | Accessories | 54/57 (95%)
+| Controller | Controller | 19/31 (61%)
+| Model | Board | 52/73 (71%)
 | Model | Game | 23/40 (57%)
 
 ## The Team - GC54
