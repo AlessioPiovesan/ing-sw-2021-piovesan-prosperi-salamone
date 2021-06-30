@@ -9,6 +9,7 @@ import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -140,9 +141,7 @@ public class Client implements Runnable{
                 ui.resilience(Integer.parseInt(string[1]), string[2], Integer.parseInt(string[3]));
                 ui.getMyBoard().setNickname(string[2]);
             }
-            case "nicknameYes" -> {
-                setupGame(string[1]);
-            }
+            case "nicknameYes" -> setupGame(string[1]);
             case "nickname" -> modelView.getTheirBoards(Integer.parseInt(string[2])).setNickname(string[1]);
             case "askNickname" -> ui.chooseNickname();
             case "askId" -> ui.askId();
@@ -157,13 +156,12 @@ public class Client implements Runnable{
                     e.printStackTrace();
                 }
             }
-            case "discount0" -> ui.getMyBoard().setDiscount(0, Colours.fromString(string[1]));
-            case "discount1" -> ui.getMyBoard().setDiscount(1, Colours.fromString(string[1]));
-            case "marketAlt0" -> ui.getMyBoard().setMarketAlt(0, Colours.fromString(string[1]));
-            case "marketAlt1" -> ui.getMyBoard().setMarketAlt(1, Colours.fromString(string[1]));
-            case "productAlt0" -> ui.getMyBoard().setProductAlt(0, Colours.fromString(string[1]));
-            case "productAlt1" -> ui.getMyBoard().setProductAlt(1, Colours.fromString(string[1]));
             case "leaderSpace" -> ui.getMyBoard().addLeaderSpace(Colours.fromString(string[1]));
+            case "leaderCards" -> {
+                var s = string[1].split("LEAD");
+                var card = (CardLeader)CardLeader.getSpecificCard(s[1]);
+                ui.getMyBoard().setMyLeaderCards(card, Integer.parseInt(string[2]));
+            }
             case "thislibrary" -> {
                 try{
                     var node = Json.parse(string[1]);

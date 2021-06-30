@@ -19,9 +19,6 @@ import java.util.Map;
  */
 public class ModelBoard{
 
-    private final Colours[] discount;
-    private final Colours[] marketAlt;
-    private final Colours[] productAlt;
     private final Map<Colours, Integer> leaderSpace;
     private final List<ArrayList<CardDev>> library;
     private String nickname;
@@ -29,7 +26,6 @@ public class ModelBoard{
     private int faithTrackPos;
     private EnumMap<Colours, Integer> strongBox;
     private EnumMap<Colours, Integer> resAll;
-    private boolean[] activeLeader;
     private CardLeader[] myLeaderCards = new CardLeader[2];
 
     protected ModelBoard(){
@@ -37,11 +33,7 @@ public class ModelBoard{
         strongBox = createStrongBox();
         library = createLibrary();
         faithTrackPos = 0;
-        activeLeader = new boolean[2];
         resAll = new EnumMap<>(Colours.class);
-        discount = new Colours[]{Colours.WHITE, Colours.WHITE};
-        marketAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
-        productAlt = new Colours[]{Colours.WHITE, Colours.WHITE};
         leaderSpace = new EnumMap<>(Colours.class);
     }
 
@@ -50,7 +42,7 @@ public class ModelBoard{
      * @return of type ArrayList of Pick
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
-    protected List<Pick> createWarehouse(){
+    private List<Pick> createWarehouse(){
         var wareContent = new ArrayList<Pick>();
         wareContent.add(new Pick(Colours.WHITE, 0));
         wareContent.add(new Pick(Colours.WHITE, 0));
@@ -63,7 +55,7 @@ public class ModelBoard{
      * @return of type EnumMap of Colours
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
-    protected EnumMap<Colours, Integer> createStrongBox(){
+    private EnumMap<Colours, Integer> createStrongBox(){
         var strongContent = new EnumMap<Colours, Integer>(Colours.class);
         strongContent.put(Colours.BLUE, 0);
         strongContent.put(Colours.GREY, 0);
@@ -78,7 +70,7 @@ public class ModelBoard{
      * @return of type ArrayList of CardDev
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
-    protected List<ArrayList<CardDev>> createLibrary(){
+    private List<ArrayList<CardDev>> createLibrary(){
         var slots = new ArrayList<ArrayList<CardDev>>(3);
         slots.add(new ArrayList<>());
         slots.add(new ArrayList<>());
@@ -92,6 +84,10 @@ public class ModelBoard{
 
     public void setWarehouse(List<Pick> warehouse){
         this.warehouse = warehouse;
+    }
+
+    public void setMyLeaderCards(CardLeader myLeaderCards, int i){
+        this.myLeaderCards[i] = myLeaderCards;
     }
 
     public List<ArrayList<CardDev>> getLibrary(){
@@ -134,44 +130,8 @@ public class ModelBoard{
         this.nickname = nickname;
     }
 
-    public boolean[] getActiveLeader(){
-        return activeLeader;
-    }
-
-    public void setActiveLeader(boolean[] activeLeader){
-        this.activeLeader = activeLeader;
-    }
-
     public CardLeader[] getMyLeaderCards(){
         return myLeaderCards;
-    }
-
-    public void setMyLeaderCards(CardLeader[] myLeaderCards){
-        this.myLeaderCards = myLeaderCards;
-    }
-
-    public Colours[] getDiscount(){
-        return discount;
-    }
-
-    public void setDiscount(int i, Colours discount){
-        this.discount[i] = discount;
-    }
-
-    public Colours[] getMarketAlt(){
-        return marketAlt;
-    }
-
-    public void setMarketAlt(int i, Colours marketAlt){
-        this.marketAlt[i] = marketAlt;
-    }
-
-    public Colours[] getProductAlt(){
-        return productAlt;
-    }
-
-    public void setProductAlt(int i, Colours productAlt){
-        this.productAlt[i] = productAlt;
     }
 
     public Map<Colours, Integer> getLeaderSpace(){

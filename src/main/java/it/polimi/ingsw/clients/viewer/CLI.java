@@ -142,17 +142,23 @@ public class CLI implements Runnable, UI{
                 if(j == 0){
                     try{
                         if(single) getLocalGameController().getBoardController().takeFromWarehouse(color);
-                        else client.send("takeFromWarehouse::" + color);
+                        else client.send("takeFromWarehouse::" + color.name());
                     } catch(IndexOutOfBoundsException e){
                         payForCardDev(cost);
                     }
                 }
                 else{
-                    try{
-                        if(single) getLocalGameController().getBoardController().takeFromStrongbox(color);
-                        else client.send("takeFromStrongbox::" + color);
-                    } catch(IndexOutOfBoundsException e){
-                        payForCardDev(cost);
+                    if(j == 1){
+                        try{
+                            if(single) getLocalGameController().getBoardController().takeFromStrongbox(color);
+                            else client.send("takeFromStrongbox::" + color.name());
+                        } catch(IndexOutOfBoundsException e){
+                            payForCardDev(cost);
+                        }
+                    }
+                    else{
+                        if(single) getLocalGameController().getBoardController().addToLeaderSpace(color);
+                        else client.send("addToLeaderSpace::" + color.name());
                     }
                 }
             }
@@ -216,6 +222,11 @@ public class CLI implements Runnable, UI{
             output.println("Not a number");
             showStatus();
         }
+    }
+
+    private Map<Colours, Integer> getLeaderSpace(){
+        if(single) return getLocalGameController().getBoardController().player().getLeaderSpace();
+        else return getMyBoard().getLeaderSpace();
     }
 
     private CardLeader[] getMyCardLeader(){
@@ -342,7 +353,7 @@ public class CLI implements Runnable, UI{
             if(j == 0 && (getWarehouse().get(0).resource() == color || getWarehouse().get(1).resource() == color || getWarehouse().get(2).resource() == color)){
                 executor.execute(() -> {
                     if(single) getLocalGameController().getBoardController().takeFromWarehouse(color);
-                    else client.send("takeFromWarehouse::" + color);
+                    else client.send("takeFromWarehouse::" + color.name());
                 });
             }
             else{
@@ -352,7 +363,7 @@ public class CLI implements Runnable, UI{
             if(j == 1 && (getStrongBox().get(color) > 0)){
                 executor.execute(() -> {
                     if(single) getLocalGameController().getBoardController().takeFromStrongbox(color);
-                    else client.send("takeFromStrongbox::" + color);
+                    else client.send("takeFromStrongbox::" + color.name());
                 });
             }
             else{
@@ -408,19 +419,22 @@ public class CLI implements Runnable, UI{
      * method resourcesDestination lets the player decide the destination of a resource
      *
      * @param colour is one of the possible colours
-     * @param s is a param of string type
-     * @param s2 is a param of string type
+     * @param s      is a param of string type
+     * @param s2     is a param of string type
      * @return an int type that is the player's decision
      */
     private int resourcesDestination(Colours colour, String s, String s2){
         output.print(Colours.getColoredType(colour) + s);
         output.flush();
+        if(getLeaderSpace().get(colour) != null) output.println("You can also put it in your leader space [2]");
         var j = -1;
         try{
             j = input.nextInt();
-            while(j != 0 && j != 1){
-                output.println(s2);
-                j = input.nextInt();
+            if(!(j == 2 && getLeaderSpace().get(colour) != null)){
+                while(j != 0 && j != 1){
+                    output.println(s2);
+                    j = input.nextInt();
+                }
             }
         } catch(InputMismatchException e){
             resourcesDestination(colour, s, s2);
@@ -696,6 +710,8 @@ public class CLI implements Runnable, UI{
         output.println("2)\t" + Colours.getColoredType(Colours.GREY));
         output.println("3)\t" + Colours.getColoredType(Colours.PURPLE));
         output.println("4)\t" + Colours.getColoredType(Colours.YELLOW));
+        output.print(">\t");
+        output.flush();
         var res = input.nextInt();
         while(res < 0 || res >= 5){
             output.println("Not valid");
@@ -1020,7 +1036,7 @@ public class CLI implements Runnable, UI{
             output.print("Please choose the shelf for this resource? [1-3]\n" + Colours.getColoredType(colour) + "\n>\t");
             output.flush();
             var lvl = getWarehouseShelfLvl();
-            client.send("warehouseResHandler::" + colour + "::" + qnt + "::" + lvl);
+            client.send("warehouseResHandler::" + colour.name() + "::" + qnt + "::" + lvl);
         }
     }
 
@@ -1029,7 +1045,7 @@ public class CLI implements Runnable, UI{
      * The same method is used whenever a resource is taken from the warehouse by subtracting the value instead of adding it
      *
      * @param colour is a colour
-     * @param qnt is the quantity of the selected resource
+     * @param qnt    is the quantity of the selected resource
      */
     private void prepareResForWarehouseS(Colours colour, int qnt){
         var newPick = new Pick(colour, qnt);
@@ -1055,9 +1071,9 @@ public class CLI implements Runnable, UI{
      * method actOnResponse is the method used to handle the warehouse whenever a resource cannot be added and the player wants to rearrange the warehouse.
      * The method asks for the starting shelf and for the destination of a resource so it can move it.
      *
-     * @param colour is a colour
+     * @param colour   is a colour
      * @param response tells if the resource can be added to the warehouse or not
-     * @param lvl is the warehouse shelf level, either 1,2 or 3
+     * @param lvl      is the warehouse shelf level, either 1,2 or 3
      * @return the warehouse shelf level
      */
     private int actOnResponse(Colours colour, int response, int lvl){

@@ -23,6 +23,8 @@
                 <configuration>
                     <archive>
                         <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
                             <mainClass>it.polimi.ingsw.MastersOfRenaissanceCLI</mainClass>
                         </manifest>
                     </archive>

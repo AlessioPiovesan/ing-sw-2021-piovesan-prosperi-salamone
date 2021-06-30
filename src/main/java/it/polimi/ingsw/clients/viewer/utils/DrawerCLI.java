@@ -130,7 +130,7 @@ public record DrawerCLI(CLI ui){
      * method drawFTBoxNumber is used to indicate the number of the tile.
      *
      * @param trackN is the tile's Number on the track
-     * @param i is a param of int type
+     * @param i      is a param of int type
      */
     private void drawFTBoxNumber(StringBuilder trackN, int i){
         if(i < 9) trackN.append("██").append(i).append("\t");
@@ -189,7 +189,7 @@ public record DrawerCLI(CLI ui){
     /**
      * method drawYouAndLorenzoBoxFT handles the moment the player and Lorenzo are on the same tile
      *
-     * @param pf indicates if is a pope favour tile
+     * @param pf       indicates if is a pope favour tile
      * @param trackTop indicates three top and three bottom cells of the tile where the player is
      * @param trackCen indicates three central cells of the tile where the player is
      */
@@ -206,9 +206,9 @@ public record DrawerCLI(CLI ui){
     /**
      * method drawYourBoxFTSingle draws a red single player's box for his pawn
      *
-     * @param pf indicates if is a pope favour tile
+     * @param pf       indicates if is a pope favour tile
      * @param centralL indicates Lorenzo's three central cells of the tile
-     * @param topL indicates Lorenzo's three top and three bottom cells of the tile
+     * @param topL     indicates Lorenzo's three top and three bottom cells of the tile
      * @param trackTop indicates three top and three bottom cells of the tile where the player is
      * @param trackCen indicates three central cells of the tile where the player is
      */
@@ -225,8 +225,8 @@ public record DrawerCLI(CLI ui){
     /**
      * method drawSpecialBoxFTSingle handles the moment a player is in a Pope's Favor Tile
      *
-     * @param trackTop indicates three top and three bottom cells of the tile where the player is
-     * @param redBold colours the player's cross in red
+     * @param trackTop         indicates three top and three bottom cells of the tile where the player is
+     * @param redBold          colours the player's cross in red
      * @param yellowBoldBright colours the pope favour tile in yellow
      */
     private void drawSpecialBoxFTSingle(StringBuilder trackTop, String redBold, String yellowBoldBright){
@@ -236,7 +236,7 @@ public record DrawerCLI(CLI ui){
     /**
      * method showMarket is used to create and print the market in order for the player to visualize it
      *
-     * @param marketTray is the market matrix
+     * @param marketTray     is the market matrix
      * @param externalMarble is the 13th marble
      */
     public void showMarket(Colours[][] marketTray, Colours externalMarble){

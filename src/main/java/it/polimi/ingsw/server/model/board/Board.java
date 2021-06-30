@@ -99,8 +99,6 @@ public class Board{
     public void setDiscount(Colours color){
         if(discount[0] != Colours.WHITE && color != discount[1]) discount[1] = color;
         if(discount[0] == Colours.WHITE) discount[0] = color;
-        listener.firePropertyChange("discount0", "", discount[0]);
-        listener.firePropertyChange("discount1", "", discount[1]);
     }
 
     public Colours getMarketAlt(){
@@ -115,7 +113,6 @@ public class Board{
      */
     public void setMarketAlt(Colours color){
         if(color != marketAlt) marketAlt = color;
-        listener.firePropertyChange("marketAlt", "", marketAlt);
     }
 
     public Colours getProductAlt(){
@@ -130,7 +127,6 @@ public class Board{
      */
     public void setProductAlt(Colours color){
         if(color != productAlt) productAlt = color;
-        listener.firePropertyChange("productAlt", "", productAlt);
     }
 
     public CardLeader[] getMyLeaderCards(){
@@ -145,6 +141,8 @@ public class Board{
     public void setMyLeaderCards(CardLeader[] cards){
         myLeaderCards = cards;
         pcs.firePropertyChange("firstOp", "", 0);
+        listener.firePropertyChange("leaderCards", "", cards[0].name() + "::" + 0);
+        listener.firePropertyChange("leaderCards", "", cards[1].name() + "::" + 0);
     }
 
     /**
@@ -450,5 +448,9 @@ public class Board{
 
     public void checkVaticanReport(){
         faithTrack.getWinPntCard();
+    }
+
+    public void addToLeaderSpace(Colours colour){
+        leaderSpace.put(colour, leaderSpace.get(colour) + 1);
     }
 }

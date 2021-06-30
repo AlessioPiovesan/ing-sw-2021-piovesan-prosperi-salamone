@@ -31,6 +31,10 @@ public record LocalBoardController(Board player, Lorenzo lorenzo){
         player.takeFromStrongBox(color);
     }
 
+    public void addToLeaderSpace(Colours color){
+        player.addToLeaderSpace(color);
+    }
+
     public synchronized void checkVaticanReport(){
         player.checkVaticanReport();
         lorenzo.checkVaticanReport();

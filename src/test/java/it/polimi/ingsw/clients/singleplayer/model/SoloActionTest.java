@@ -13,7 +13,6 @@ class SoloActionTest{
     void action1(){
         var game = LocalGameController.getInstance().getGame();
         for(var sa : SoloAction.values()){
-            System.out.println(sa.name());
             if(!(sa == SoloAction.AS5 || sa == SoloAction.AS6 || sa == SoloAction.AS7)){
                 var oldNum = game.getCardDevDeck().size();
                 SoloAction.action(sa);

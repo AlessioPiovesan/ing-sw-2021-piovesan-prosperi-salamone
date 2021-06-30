@@ -29,7 +29,7 @@ class GameControllerTest{
         IntStream.range(0, n).forEach(i -> game.getSingleB(i).setMyLeaderCards(new CardLeader[]{CardLeader.CARDLEAD01, CardLeader.CARDLEAD02}));
         gameController.endGame();
         var win = gameController.getWin();
-        IntStream.range(0, n).forEach(i -> assertEquals(4, win[i]));
+        IntStream.range(0, n).forEach(i -> assertEquals(0, win[i]));
     }
 
     @Test

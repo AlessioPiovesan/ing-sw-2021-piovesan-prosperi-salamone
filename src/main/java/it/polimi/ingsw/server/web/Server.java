@@ -248,7 +248,7 @@ public class Server implements Runnable, PropertyChangeListener{
         switch(evt.getPropertyName()){
             case "market" -> getMarketAndSend(evt);
             case "external" -> getExternalMarbleAndSend(evt);
-            case "discount", "marketAlt", "productAlt", "leaderSpace" -> updateSingleBoard(evt);
+            case "discount", "marketAlt", "productAlt", "leaderSpace", "leaderCards" -> updateSingleBoard(evt);
             case "warehouse", "resAll", "strongBox", "faithTrack", "library" -> updateAllBoard(evt);
             default -> System.err.println(evt.getPropertyName() + " is not handled (SERVER)");
         }

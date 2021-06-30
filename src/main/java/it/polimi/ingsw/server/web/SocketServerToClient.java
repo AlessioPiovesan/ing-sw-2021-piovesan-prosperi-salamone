@@ -128,6 +128,8 @@ public class SocketServerToClient implements Runnable{
                 send("Setup complete");
                 sendInLobby();
             }
+            case "takeFromWarehouse" -> getBoardController().takeFromWarehouse((Colours.fromString(string[1])));
+            case "takeFromStrongBox" -> getBoardController().takeFromStrongBox((Colours.fromString(string[1])));
             case "addFaithPnt" -> getBoardController().moveFT(1);
             case "checkNickname" -> server.checkExistNickname(string[1], this);
             case "initialLeaders" -> prepareInitialLeaders(string[1]);
@@ -159,6 +161,7 @@ public class SocketServerToClient implements Runnable{
             case "checkVaticanReport" -> getBoardController().checkVaticanReport();
             case "marketAction" -> gameController.marketAction(Integer.parseInt(string[1]));
             case "moveFT" -> getBoardController().moveFT(Integer.parseInt(string[1]));
+            case "addToLeaderSpace" -> getBoardController().addToLeaderSpace(Colours.fromString(string[1]));
             case "endGame" -> gameController.endGame();
             default -> System.err.println(string[0] + " is not handled (SOCKETSERVERTOCLIENT)");
         }

@@ -53,4 +53,16 @@ public class BoardController{
     public void checkVaticanReport(){
         player.checkVaticanReport();
     }
+
+    public void addToLeaderSpace(Colours fromString){
+        player.addToLeaderSpace(fromString);
+    }
+
+    public void takeFromWarehouse(Colours fromString){
+        player.takeFromWarehouse(fromString);
+    }
+
+    public void takeFromStrongBox(Colours fromString){
+        player.takeFromStrongBox(fromString);
+    }
 }

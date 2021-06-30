@@ -1,37 +1,13 @@
 - Aggiornare l'UML e decidere come "scorporarlo" per sottolineare qualche aspetto particolare (per la presentazione durante l'esame)
 
-- Aggiungere TEST per le classi a cui mancano
-
 - "Abbellire" le varie scene della GUI
-
-- Controllare che ogni giro di MVC si concluda con una chiamata alla View a seguito del passaggio al giocatore successivo
-(quindi il gioco non si spegne durante la partita)
- - per la partita in locale
- - per la partita in rete (quindi la remote view deve chiamare il server che parla al client che aggiorna il model view)
- (se un socket "si è perso per strada" si salta al giocatore successivo)
 
 - Javadoc di tutti i metodi per tutte le classi
 
-- Semplificare metodi e evitare le dipendenze a quelle dirette
-
 - Scrivere (c'è già la pagina nella wiki) come installare e far partire il gioco
-
-- Eliminare commenti in italiano
 
 - Capire come ricavare il jar da far partire per giocare
 
 - Capire come gestire la dimostrazione il giorno dell'esame e organizzarci di conseguenza
 
-- Mostrare le carte sviluppo in mazzetti giusti divisi per livello e per colore (GUI)
-
--Restituire un feedback al giocatore quando si attiva la produzione, al momento non ci si accorge se la produzione sia andata a buon fine
-
--Restituire un feedback al player per l'attivazione di una carta leader
-
--Aggiungere il potere di una produzione aggiuntiva per lead card
-
--Potere del leader 1: spazio leader
-
--Potere del leader 2: da una risorsa ad una a scelta
-
--Potere del leader 3: sconto risorsa (da fixare, non completamente perfetto)
+- Potere del leader 2: da una risorsa ad una a scelta

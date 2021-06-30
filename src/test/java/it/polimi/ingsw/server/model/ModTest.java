@@ -9,6 +9,6 @@ class ModTest{
     @Test
     void newID(){
         var id = Mod.newID();
-        assertEquals(id+1, Mod.newID());
+        assertEquals(id + 1, Mod.newID());
     }
 }
