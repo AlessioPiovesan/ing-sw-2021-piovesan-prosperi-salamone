@@ -276,7 +276,7 @@ public class CLI implements Runnable, UI{
      * @see #wakeALeader()
      * @see #showStatus()
      */
-    private void chooseAction(String menu){
+    private synchronized void chooseAction(String menu){
         try{
             output.print(menu);
             output.flush();
