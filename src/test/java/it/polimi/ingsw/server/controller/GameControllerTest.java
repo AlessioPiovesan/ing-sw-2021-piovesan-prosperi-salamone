@@ -7,6 +7,7 @@ import it.polimi.ingsw.server.model.game.Game;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,14 +23,24 @@ class GameControllerTest{
 
     @Test
     void endGameTest(){
-        var game = new Game(0, 4, null);
-        var gameController = new GameController(0, 4, game);
-        for(var b : game.getAllB())
-            b.setMyLeaderCards(new CardLeader[]{CardLeader.CARDLEAD01, CardLeader.CARDLEAD02});
+        var n = 4;
+        var game = new Game(0, n, null);
+        var gameController = new GameController(0, n, game);
+        IntStream.range(0, n).forEach(i -> game.getSingleB(i).setMyLeaderCards(new CardLeader[]{CardLeader.CARDLEAD01, CardLeader.CARDLEAD02}));
         gameController.endGame();
         var win = gameController.getWin();
-        for(var i : win)
-            assertEquals(0, win[i]);
+        IntStream.range(0, n).forEach(i -> assertEquals(0, win[i]));
+    }
+
+    @Test
+    void nextPlayerTest(){
+        var n = 4;
+        var game = new Game(0, n, null);
+        var gameController = new GameController(0, n, game);
+        var oldVal = game.getPlayingPlayer();
+        gameController.nextPlayer();
+        var newVal = game.getPlayingPlayer();
+        assertNotEquals(oldVal, newVal);
     }
 
     @Test

@@ -68,7 +68,7 @@ All tests in model and controller has a classes' coverage at 100%.
 | Package |Tested Class | Method Coverage |
 |:-----------------------|:------------------|:------------------------------------:|
 | Other | Accessories | 44/55 (80%)
-| Controller | Controller | 13/31 (41%)
+| Controller | Controller | 14/31 (45%)
 | Model | Board | 52/74 (70%)
 | Model | Game | 23/40 (57%)
 
@@ -83,7 +83,6 @@ All tests in model and controller has a classes' coverage at 100%.
 **Draw.io** - UML diagrams
 
 **Intellij IDEA Ultimate** - main IDE
-
 
 ## Copyright and license
 

@@ -74,6 +74,7 @@ public class GameController{
     public BoardController getBoardController(int id){return boardController[id];}
 
     public void cardLeadAction(CardLeader cardToBeActivated){
+        cardToBeActivated.flipCard();
         switch(cardToBeActivated){
             case CARDLEAD01, CARDLEAD02, CARDLEAD03, CARDLEAD04:{
                 Board b = game.getSingleB(game.getPlayingPlayer());
@@ -119,8 +120,9 @@ public class GameController{
     public void endGame(){
         var i = 0;
         while(i < game.getNGamers()){
-            for(Board b : game.getAllB()){
-                win[i++] += b.countWinPnt();
+            for(var b : game.getAllB()){
+                win[i] += b.countWinPnt();
+                i++;
             }
         }
     }
