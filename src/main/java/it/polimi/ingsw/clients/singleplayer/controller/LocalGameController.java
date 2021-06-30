@@ -61,6 +61,7 @@ public class LocalGameController{
     public synchronized void nextPlayer(){
         playingPlayer = !playingPlayer;
         boardController.active();
+        if(!playingPlayer) boardController.lorenzo().nextAction();
     }
 
     public LocalGame getGame(){
@@ -87,7 +88,7 @@ public class LocalGameController{
      * method marketAction handles market choices and movements.
      *
      * @param moveMarket
-     * @see it.polimi.ingsw.server.model.board.Board#marketResHandler(List)
+     * @see Board#marketResHandler(List)
      * @see Market#moveMarbles(int)
      */
     public void marketAction(int moveMarket){

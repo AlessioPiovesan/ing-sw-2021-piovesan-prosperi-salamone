@@ -37,7 +37,7 @@ class JsonTest{
     void stringify() throws JsonProcessingException{
         SimpleTestCaseJsonPOJO pojo = new SimpleTestCaseJsonPOJO();
         pojo.setTitle("Testing 123");
-        JsonNode node = Json.toJson(pojo);
-        assertEquals("Testing 123", node.get("title").asText());
+        var node = Json.toJson(pojo);
+        assertEquals("{\"title\":\"Testing 123\"}", Json.stringify(node));
     }
 }

@@ -22,7 +22,10 @@ class GameControllerTest{
 
     @Test
     void endGameTest(){
-        var gameController = new GameController(0, 4, new Game(0, 4, null));
+        var game = new Game(0, 4, null);
+        var gameController = new GameController(0, 4, game);
+        for(var b : game.getAllB())
+            b.setMyLeaderCards(new CardLeader[]{CardLeader.CARDLEAD01, CardLeader.CARDLEAD02});
         gameController.endGame();
         var win = gameController.getWin();
         for(var i : win)
@@ -73,7 +76,7 @@ class GameControllerTest{
         var board = gameController.getGame().getSingleB(id);
         gameController.cardLeadAction(card1a);
         assertSame(card1a.getSpecial(), board.getDiscount(0));
-        gameController.cardLeadAction(card1a);
+        gameController.cardLeadAction(card1b);
         assertSame(card1b.getSpecial(), board.getDiscount(1));
         gameController.cardLeadAction(card2);
         assertTrue(board.getLeaderSpace().containsKey(card2.getSpecial()));

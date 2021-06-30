@@ -30,6 +30,7 @@ public class Board{
     private final int idD;
     private final Map<Colours, Integer> leaderSpace;
     private final Colours[] discount;
+    private boolean ready;
     private Colours marketAlt;
     private Colours productAlt;
     private Integer gameID;
@@ -48,6 +49,7 @@ public class Board{
         this.faithTrack = faithTrack;
         /* ________ creation for a model board */
         this.library = library;
+        ready = false;
         resAll = new EnumMap<>(Colours.class);
         resAll.put(Colours.BLUE, 0);
         resAll.put(Colours.YELLOW, 0);
@@ -68,7 +70,8 @@ public class Board{
     }
 
     public void ready(){
-        pcs.firePropertyChange("nextAction", "", 1);
+        ready = !ready;
+        if(ready) pcs.firePropertyChange("nextAction", "", 1);
     }
 
     public int getIdD(){
@@ -95,7 +98,7 @@ public class Board{
      */
     public void setDiscount(Colours color){
         if(discount[0] != Colours.WHITE && color != discount[1]) discount[1] = color;
-        if(color == Colours.WHITE) discount[0] = color;
+        if(discount[0] == Colours.WHITE) discount[0] = color;
         listener.firePropertyChange("discount0", "", discount[0]);
         listener.firePropertyChange("discount1", "", discount[1]);
     }
