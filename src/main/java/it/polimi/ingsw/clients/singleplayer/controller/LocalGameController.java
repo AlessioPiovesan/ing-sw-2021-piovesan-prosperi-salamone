@@ -103,7 +103,7 @@ public class LocalGameController{
     /**
      * method addFaithPnt is used to move forward on the faith track
      *
-     * @param waste
+     * @param waste is the marble not used by the player
      * @see it.polimi.ingsw.server.model.board.Board#moveFT(int)
      */
     public void addFaithPnt(List<Colours> waste){

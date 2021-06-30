@@ -161,7 +161,7 @@ public class GUI extends Application implements UI{
      * method propertyChange is part of the Observer Pattern that can react to Model's changes.
      * TEMPORARYLEADERCARDS : starts the GUI and calls for changeStage.
      *
-     * @param evt
+     * @param evt is an event
      * @see #changeStage(String)
      * @see #start(Stage)
      */

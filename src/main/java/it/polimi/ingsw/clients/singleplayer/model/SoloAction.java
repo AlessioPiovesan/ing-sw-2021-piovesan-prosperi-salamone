@@ -25,7 +25,7 @@ public enum SoloAction{
     /**
      * method action is used to randomly decide which action Lorenzo is going to make.
      *
-     * @param sa is Lorenzo's all passible actions
+     * @param sa is Lorenzo's all possible actions
      */
     public static void action(SoloAction sa){
         var gameController = LocalGameController.getInstance();

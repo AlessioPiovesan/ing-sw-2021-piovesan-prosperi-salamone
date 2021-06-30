@@ -34,8 +34,8 @@ public class Checker{
     /**
      * method getCorrectLeaderCardCode is used to check if the two digit code typed by the user for the leader cards is correct.
      *
-     * @param response
-     * @return
+     * @param response is a message to the server
+     * @return the selected card from the player
      */
     public Card getCorrectLeaderCardCode(String response){
         try{
@@ -56,8 +56,8 @@ public class Checker{
     /**
      * method getCorrectDevCardCode is used to check if the code typed by the user for the Dev Card is correct.
      *
-     * @param response
-     * @return
+     * @param response is a message to the server
+     * @return the selected card from the player
      */
     public Card getCorrectDevCardCode(String response){
         while(!(response.length() == 3 && isFirstCharOk(response) && isSecondCharOk(response) && isThirdCharOk(response))){
@@ -86,8 +86,8 @@ public class Checker{
     /**
      * method canUSeAnyCardDev checks if a player can use a Development Card in the production
      *
-     * @param cards
-     * @return
+     * @param cards is a Development Card
+     * @return the remaining list of Development Cards
      */
     public List<Card> canUseAnyCardDev(List<CardDev> cards, Map<Colours, Integer> resAll){
         var list = new LinkedList<Card>();
@@ -103,10 +103,10 @@ public class Checker{
     /**
      * method checkOnRequiredRes is another check on required Resources
      *
-     * @param resAll
-     * @param list
-     * @param card
-     * @param req
+     * @param resAll is all the player's resources
+     * @param list is all the player's leader cards
+     * @param card is the card the player is trying to activate
+     * @param req is the required resources to activate the leader cards
      */
     public void checkOnRequiredRes(Map<Colours, Integer> resAll, List<CardLeader> list, CardLeader card, Requirements.RequirementsResources req){
         var colorRequired = req.getColour();
@@ -118,10 +118,10 @@ public class Checker{
     /**
      * method checkOnRequiredCard checks if a player matches Card's Requirements
      *
-     * @param slots
-     * @param list
-     * @param card
-     * @param req
+     * @param slots is the full deck of cards
+     * @param list is all the player's leader cards
+     * @param card is the card the player is trying to activate
+     * @param req is the required resources to activate the leader cards
      */
     public void checkOnRequiredCard(List<ArrayList<CardDev>> slots, List<CardLeader> list, CardLeader card, Requirements.RequirementsCard req){
         var colorRequired = req.getColour();
