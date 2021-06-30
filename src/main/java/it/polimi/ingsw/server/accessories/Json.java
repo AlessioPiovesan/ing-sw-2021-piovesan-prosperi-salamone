@@ -15,7 +15,7 @@ public class Json{
 
     private static ObjectMapper getObjectMapper(){
         var defaultObjectMapper = new ObjectMapper();
-        /*configurazione*/
+        /*configuration*/
         defaultObjectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         return defaultObjectMapper;
     }

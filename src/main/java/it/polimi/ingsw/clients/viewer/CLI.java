@@ -269,7 +269,7 @@ public class CLI implements Runnable, UI{
      * 4: Activate a Leader Card
      * 5: Show Status
      *
-     * @param menu
+     * @param menu is the list of possible actions
      * @see #startProd()
      * @see #marketMove()
      * @see #chooseCardDev()
@@ -330,7 +330,7 @@ public class CLI implements Runnable, UI{
     /**
      * method activateProdCard is used after startProd has been triggered and activates the production of Development Cards
      *
-     * @param card
+     * @param card is a development card
      */
     private void activateProdCard(CardDev card){
         drawer.showWarehouse(getWarehouse());
@@ -374,7 +374,7 @@ public class CLI implements Runnable, UI{
      * Resources can be discarded or stored in the warehouse.
      * For every discarded resource other players get an additional Faith point which moves them further on the faith track
      *
-     * @param bufferMarket
+     * @param bufferMarket are the resources that have just been chosen from the market
      * @see #resourcesDestination(Colours, String, String)
      */
     private synchronized void resourcesHandlerMarket(List<Colours> bufferMarket){
@@ -407,10 +407,10 @@ public class CLI implements Runnable, UI{
     /**
      * method resourcesDestination lets the player decide the destination of a resource
      *
-     * @param colour
-     * @param s
-     * @param s2
-     * @return
+     * @param colour is one of the possible colours
+     * @param s is a param of string type
+     * @param s2 is a param of string type
+     * @return an int type that is the player's decision
      */
     private int resourcesDestination(Colours colour, String s, String s2){
         output.print(Colours.getColoredType(colour) + s);
@@ -434,7 +434,7 @@ public class CLI implements Runnable, UI{
      * 1: From Warehouse
      * 2: From Strongbox
      *
-     * @param bufferProd
+     * @param bufferProd is all the resources the player has, either in his strongbox or warehouse
      * @see #prepareResForWarehouse(Colours, int)
      * @see it.polimi.ingsw.server.model.board.Board#storeInStrongBox(Pick[])
      */
@@ -492,7 +492,7 @@ public class CLI implements Runnable, UI{
     /**
      * method reChooseNickname is used in case a player chooses a nickname already taken
      *
-     * @param id
+     * @param id is an alredy existing id in that game
      */
     public void reChooseNickname(int id){
         output.println("This nickname is already taken\nThis player is playing a game with id: " + id);
@@ -653,7 +653,7 @@ public class CLI implements Runnable, UI{
     /**
      * method askIP asks the player for the server's IP address
      *
-     * @return
+     * @ return the server's IP address
      */
     public String askIP(){
         var ip = "";
@@ -670,7 +670,7 @@ public class CLI implements Runnable, UI{
     /**
      * method askPort asks the player for the Server's port
      *
-     * @return
+     * @return the Server's port number
      */
     private int askPort(){
         output.print(">\tInsert the server port\n>\t");
@@ -752,8 +752,8 @@ public class CLI implements Runnable, UI{
     /**
      * method pickCard lets the player pick his Leader Card using a two digit code
      *
-     * @param clazz
-     * @return
+     * @param clazz is a class of objects
+     * @return a list of class' clazz objects
      */
     private Card pickCard(Class<? extends Card> clazz){
         Card card = null;
@@ -847,8 +847,8 @@ public class CLI implements Runnable, UI{
     /**
      * method canBuyAnyCardDev checks if a player can buy a Development Card
      *
-     * @param cards
-     * @return
+     * @param cards is a development card
+     * @return a list of development cards
      */
     public List<Card> canBuyAnyCardDev(List<CardDev> cards){
         var resAll = getResAll();
@@ -880,9 +880,9 @@ public class CLI implements Runnable, UI{
      * The method isAddable checks if the player can actually store the card since you cannot store a level 2 or level three card
      * if there is not an inferior level card already on the slot
      *
-     * @param card
-     * @param slot
-     * @return
+     * @param card is a development card
+     * @param slot is the number of remainig development cards
+     * @return a boolean
      */
     public boolean isAddable(CardDev card, int slot){
         var slotCards = getLibrary().get(slot - 1);
@@ -940,8 +940,8 @@ public class CLI implements Runnable, UI{
     /**
      * method pickSlot is used to ask the player where he wants to store his most recently bought Dev Card in the library.
      *
-     * @param card
-     * @return
+     * @param card is a development card
+     * @return the list of remaining development cards
      */
     private int pickSlot(CardDev card){
         drawer.showLibrary(getLibrary());
@@ -965,8 +965,8 @@ public class CLI implements Runnable, UI{
     /**
      * method canUseAnyCardLeader checks if a player can activate a Leader's power
      *
-     * @param cards
-     * @return
+     * @param cards is a leader card
+     * @return the list of leader cards
      */
     public List<CardLeader> canUseAnyCardLeader(CardLeader[] cards){
         var list = new LinkedList<CardLeader>();
@@ -1028,8 +1028,8 @@ public class CLI implements Runnable, UI{
      * method prepareResForWarehouse is the method used to place resources in the warehouse.
      * The same method is used whenever a resource is taken from the warehouse by subtracting the value instead of adding it
      *
-     * @param colour
-     * @param qnt
+     * @param colour is a colour
+     * @param qnt is the quantity of the selected resource
      */
     private void prepareResForWarehouseS(Colours colour, int qnt){
         var newPick = new Pick(colour, qnt);
@@ -1055,10 +1055,10 @@ public class CLI implements Runnable, UI{
      * method actOnResponse is the method used to handle the warehouse whenever a resource cannot be added and the player wants to rearrange the warehouse.
      * The method asks for the starting shelf and for the destination of a resource so it can move it.
      *
-     * @param colour
-     * @param response
-     * @param lvl
-     * @return
+     * @param colour is a colour
+     * @param response tells if the resource can be added to the warehouse or not
+     * @param lvl is the warehouse shelf level, either 1,2 or 3
+     * @return the warehouse shelf level
      */
     private int actOnResponse(Colours colour, int response, int lvl){
         switch(response){
@@ -1097,7 +1097,7 @@ public class CLI implements Runnable, UI{
      * 3: lets the player choose another shelf
      * 4: goes back
      *
-     * @return
+     * @return the new player selection
      */
     private int getResponse(){
         int response;

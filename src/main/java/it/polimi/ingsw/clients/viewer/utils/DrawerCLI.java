@@ -19,7 +19,7 @@ public record DrawerCLI(CLI ui){
      * method showWarehouse is used to print out a reminder of the situation of the warehouse in case the player
      * needs it to make his decision.
      *
-     * @param content
+     * @param content is all the resources in warehouse
      */
     public void showWarehouse(List<Pick> content){
         printLine();
@@ -45,7 +45,7 @@ public record DrawerCLI(CLI ui){
     /**
      * method showLibrary prints the situation of the Library
      *
-     * @param slots
+     * @param slots all the deck of cards of a certain player
      */
     public void showLibrary(List<ArrayList<CardDev>> slots){
         printLine();
@@ -67,7 +67,7 @@ public record DrawerCLI(CLI ui){
     /**
      * method showCard shows a card;
      *
-     * @param card
+     * @param card is a card
      */
     public void showCard(Card card){
         printLine();
@@ -78,7 +78,7 @@ public record DrawerCLI(CLI ui){
     /**
      * method showStrongbox prints the situation of the Strongbox
      *
-     * @param map
+     * @param map contains all the resources in the strongbox
      */
     public void showStrongBox(Map<Colours, Integer> map){
         printLine();
@@ -90,7 +90,7 @@ public record DrawerCLI(CLI ui){
     /**
      * method showMyCardLeader shows all of the Leader Cards owned by one player
      *
-     * @param cards
+     * @param cards is a leader card
      */
     public void showMyCardLeader(CardLeader[] cards){
         printLine();
@@ -127,10 +127,10 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method srawFTBoxNumer is used to indicate the number of the tile.
+     * method drawFTBoxNumber is used to indicate the number of the tile.
      *
-     * @param trackN
-     * @param i
+     * @param trackN is the tile's Number on the track
+     * @param i is a param of int type
      */
     private void drawFTBoxNumber(StringBuilder trackN, int i){
         if(i < 9) trackN.append("██").append(i).append("\t");
@@ -189,9 +189,9 @@ public record DrawerCLI(CLI ui){
     /**
      * method drawYouAndLorenzoBoxFT handles the moment the player and Lorenzo are on the same tile
      *
-     * @param pf
-     * @param trackTop
-     * @param trackCen
+     * @param pf indicates if is a pope favour tile
+     * @param trackTop indicates three top and three bottom cells of the tile where the player is
+     * @param trackCen indicates three central cells of the tile where the player is
      */
     private void drawYouAndLorenzoBoxFT(boolean pf, StringBuilder trackTop, StringBuilder trackCen){
         if(pf){
@@ -206,11 +206,11 @@ public record DrawerCLI(CLI ui){
     /**
      * method drawYourBoxFTSingle draws a red single player's box for his pawn
      *
-     * @param pf
-     * @param centralL
-     * @param topL
-     * @param trackTop
-     * @param trackCen
+     * @param pf indicates if is a pope favour tile
+     * @param centralL indicates Lorenzo's three central cells of the tile
+     * @param topL indicates Lorenzo's three top and three bottom cells of the tile
+     * @param trackTop indicates three top and three bottom cells of the tile where the player is
+     * @param trackCen indicates three central cells of the tile where the player is
      */
     private void drawYourBoxFTSingle(boolean pf, String centralL, String topL, StringBuilder trackTop, StringBuilder trackCen){
         if(pf){
@@ -225,9 +225,9 @@ public record DrawerCLI(CLI ui){
     /**
      * method drawSpecialBoxFTSingle handles the moment a player is in a Pope's Favor Tile
      *
-     * @param trackTop
-     * @param redBold
-     * @param yellowBoldBright
+     * @param trackTop indicates three top and three bottom cells of the tile where the player is
+     * @param redBold colours the player's cross in red
+     * @param yellowBoldBright colours the pope favour tile in yellow
      */
     private void drawSpecialBoxFTSingle(StringBuilder trackTop, String redBold, String yellowBoldBright){
         trackTop.append("█").append(redBold).append("X").append(ConsoleColors.RESET).append(yellowBoldBright).append("█").append("\t");
@@ -236,8 +236,8 @@ public record DrawerCLI(CLI ui){
     /**
      * method showMarket is used to create and print the market in order for the player to visualize it
      *
-     * @param marketTray
-     * @param externalMarble
+     * @param marketTray is the market matrix
+     * @param externalMarble is the 13th marble
      */
     public void showMarket(Colours[][] marketTray, Colours externalMarble){
         printLine();
@@ -256,8 +256,8 @@ public record DrawerCLI(CLI ui){
     /**
      * method drawMarket prints the market graphically on the Command Line Interface
      *
-     * @param colours
-     * @return
+     * @param colours all the possible colours on the game
+     * @return a colour
      */
     private String drawMarket(Colours colours){
         return switch(colours){

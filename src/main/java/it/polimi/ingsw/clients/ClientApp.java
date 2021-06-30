@@ -17,8 +17,8 @@ public class ClientApp{
     /**
      * method start starts the client
      *
-     * @param input of type int
-     */
+     * @param input of int type
+     **/
     public static void start(int input){
         Client client;
         if(input == 1) client = new Local(0);

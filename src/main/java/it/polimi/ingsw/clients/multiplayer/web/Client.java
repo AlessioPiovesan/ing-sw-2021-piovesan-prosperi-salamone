@@ -125,7 +125,7 @@ public class Client implements Runnable{
     /**
      * method interpreter interprets inputs from the client
      *
-     * @param input
+     * @param input is a message from the server
      */
     private void interpreter(String input){
         var string = input.split("::");
