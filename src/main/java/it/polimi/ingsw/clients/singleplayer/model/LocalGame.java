@@ -59,9 +59,9 @@ public class LocalGame{
     }
 
     /**
-     * methid giveCardLead deals the four leader cards to the player
+     * method giveCardLead deals the four leader cards to the player
      *
-     * @return
+     * @return the four leader cards the player receives at the start of the game
      */
     private List<CardLeader> giveCardLead(){
         var cardPlayer = new ArrayList<CardLeader>();
@@ -74,7 +74,7 @@ public class LocalGame{
     /**
      * method selectNextPlayableLeaderCards is the method that lets the player choose two leader cards out of the four available.
      *
-     * @return
+     * @return an available leader card
      */
     private CardLeader selectNextPlayableLeaderCards(){
         while(true){

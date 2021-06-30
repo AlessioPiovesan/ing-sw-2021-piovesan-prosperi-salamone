@@ -25,7 +25,7 @@ public enum SoloAction{
     /**
      * method action is used to randomly decide which action Lorenzo is going to make.
      *
-     * @param sa
+     * @param sa is Lorenzo's all passible actions
      */
     public static void action(SoloAction sa){
         var gameController = LocalGameController.getInstance();
@@ -58,7 +58,7 @@ public enum SoloAction{
     /**
      * method shuffle is responsible for the randomization of the actions
      *
-     * @return
+     * @return the random action of Lorenzo's current turn
      */
     public static List<SoloAction> shuffle(){
         var remain = new ArrayList<Integer>();
@@ -87,8 +87,8 @@ public enum SoloAction{
     /**
      * printSAString prints the actions to make them visible to the player.
      *
-     * @param sa
-     * @return
+     * @param sa is Lorenzo's all possible actions
+     * @return the current action by Lorenzo
      */
     public static String printSAString(SoloAction sa){
         return switch(sa){

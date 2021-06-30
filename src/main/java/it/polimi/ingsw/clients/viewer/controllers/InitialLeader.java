@@ -50,7 +50,7 @@ public class InitialLeader implements GUIController{
     /**
      * method getCards is used to get the Cards' Images
      *
-     * @param list
+     * @param list is the four initial leader cards the player receives at the start o the game
      */
     public void getCards(CardLeader[] list){
         Collections.addAll(thisCards, list);
@@ -67,7 +67,7 @@ public class InitialLeader implements GUIController{
     /**
      * method addCard adds the Leader Cards based on the player's mouse action
      *
-     * @param mouseEvent
+     * @param mouseEvent is the mouse click
      */
     public void addCard(MouseEvent mouseEvent){
         var source = (ImageView)mouseEvent.getSource();

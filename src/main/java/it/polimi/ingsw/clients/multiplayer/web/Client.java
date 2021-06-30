@@ -95,7 +95,7 @@ public class Client implements Runnable{
     /**
      * method readingFromServer is used to read messages coming from the server side.
      *
-     * @throws IOException
+     * @throws IOException standard IOException
      */
     private void readingFromServer() throws IOException{
         try(var socketIn = new ObjectInputStream(socket.getInputStream())){
@@ -215,7 +215,7 @@ public class Client implements Runnable{
     /**
      * method send sends messages.
      *
-     * @param message
+     * @param message is a message to the server
      */
     public void send(String message){
         try{
@@ -243,7 +243,7 @@ public class Client implements Runnable{
     /**
      * setupGame sets up a game after the player's nickname is confirmed
      *
-     * @param name
+     * @param name is the player's nickname
      * @see UI#askNPlayers()
      */
     private void setupGame(String name){
