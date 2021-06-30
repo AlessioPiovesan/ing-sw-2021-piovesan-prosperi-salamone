@@ -125,6 +125,7 @@ public class LocalGameController{
      * @see it.polimi.ingsw.server.model.board.Board#setProductAlt(Colours)
      */
     public synchronized void cardLeadAction(CardLeader cardToBeActivated){
+        cardToBeActivated.flipCard();
         switch(cardToBeActivated){
             case CARDLEAD01, CARDLEAD02, CARDLEAD03, CARDLEAD04 -> game.getBoard(false).setDiscount(cardToBeActivated.getSpecial());
             case CARDLEAD05, CARDLEAD06, CARDLEAD07, CARDLEAD08 -> game.getBoard(false).addLeaderSpace(cardToBeActivated.getSpecial());
