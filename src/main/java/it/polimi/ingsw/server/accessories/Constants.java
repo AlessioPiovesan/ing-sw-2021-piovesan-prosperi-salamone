@@ -2,8 +2,8 @@ package it.polimi.ingsw.server.accessories;
 
 public enum Constants{
 
-    XMARKET(3), YMARKET(4), MAXTRACK(24), MAXMARBLESW(4), MAXMARBLESB(2), MAXMARBLESG(2), MAXMARBLESY(2),
-    MAXMARBLESP(2), MAXMARBLESR(1);
+    MAXMARBLESB(2), MAXMARBLESG(2), MAXMARBLESP(2), MAXMARBLESR(1), MAXMARBLESW(4), MAXMARBLESY(2), MAXTRACK(24),
+    XMARKET(3), YMARKET(4);
 
     private final int val;
 

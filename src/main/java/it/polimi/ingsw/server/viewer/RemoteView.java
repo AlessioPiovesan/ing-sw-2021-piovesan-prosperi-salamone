@@ -6,6 +6,7 @@ import it.polimi.ingsw.server.web.SocketServerToClient;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Objects;
 
 /**
  * Class RemoteView is used as a Listener for the model on the Server Side and makes messages ready for the Client.
@@ -46,6 +47,7 @@ public class RemoteView implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent evt){
+        if(Objects.equals(evt.getPropertyName(), "endGame")) end();
         var node = Json.toJson(evt);
         var string = "";
         try{
@@ -54,6 +56,10 @@ public class RemoteView implements PropertyChangeListener{
             e.printStackTrace();
         }
         socketServerToClient.send("pce::" + string);
+    }
+
+    private void end(){
+        socketServerToClient.deleteGamer(nickname);
     }
 
     public Integer getGameId(){
@@ -70,9 +76,5 @@ public class RemoteView implements PropertyChangeListener{
 
     public void setBoardId(int boardId){
         this.boardId = boardId;
-    }
-
-    private void end(){
-        socketServerToClient.deleteGamer(nickname);
     }
 }

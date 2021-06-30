@@ -9,9 +9,6 @@ package it.polimi.ingsw.server.accessories;
  */
 public interface Requirements{
 
-    @Override
-    String toString();
-
     /**
      * Class RequirementsCard handles Card Leader's requirements (Development Cards)
      *
@@ -20,7 +17,6 @@ public interface Requirements{
      * @author Matteo Salamone
      * @see Requirements
      */
-
     class RequirementsCard implements Requirements{
 
         private final ColoursCards type;

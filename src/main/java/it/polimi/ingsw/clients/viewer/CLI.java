@@ -309,7 +309,7 @@ public class CLI implements Runnable, UI{
             }
             else{
                 ++i;
-                librarySlot = (ArrayList<CardDev>)Checker.castList(CardDev.class, checker.canUseAnyCardDev(librarySlot, getLocalGameController()));
+                librarySlot = (ArrayList<CardDev>)Checker.castList(CardDev.class, checker.canUseAnyCardDev(librarySlot, getResAll()));
                 if(!librarySlot.isEmpty()){
                     var actionableCard = librarySlot.get(librarySlot.size() - 1);
                     output.println("Do you want to activate");
@@ -361,7 +361,7 @@ public class CLI implements Runnable, UI{
         output.println("Production success, you added to your belongings:");
         var string = new StringBuilder();
         for(var pick : card.getResTo())
-            string.append(pick.qnt()).append(" - ").append(pick.resource().getType()).append("\t");
+            string.append(pick.qnt()).append(" - ").append(Colours.getColoredType(pick.resource())).append("\t");
         output.println(string);
         if(single) getLocalGameController().getBoardController().player().produce(card);
         else client.send("produce::" + card);
@@ -390,7 +390,7 @@ public class CLI implements Runnable, UI{
         else client.send("addFaithPnt::");
         output.println("This resources need handling:");
         var colors = new StringBuilder();
-        for(Colours colour : keep) colors.append(colour.getType()).append("\t");
+        for(Colours colour : keep) colors.append(Colours.getColoredType(colour)).append("\t");
         output.println(colors);
         for(Colours colours : keep)
             prepareResForWarehouse(colours, 1);
@@ -411,7 +411,7 @@ public class CLI implements Runnable, UI{
      * @return
      */
     private int resourcesDestination(Colours colour, String s, String s2){
-        output.print(colour.getType() + s);
+        output.print(Colours.getColoredType(colour) + s);
         output.flush();
         var j = -1;
         try{
@@ -440,8 +440,8 @@ public class CLI implements Runnable, UI{
         output.println("Where do you want to pick them from?");
         try{
             for(Pick pick : bufferProd){
-                var color = pick.resource();
-                output.println(color.getType());
+                var colour = pick.resource();
+                output.println(Colours.getColoredType(colour));
                 output.println("0)Warehouse o 1)StrongBox?");
                 var j = input.nextInt();
                 while(j != 0 && j != 1){
@@ -680,10 +680,10 @@ public class CLI implements Runnable, UI{
 
     private void chooseRes(){
         output.println("Select a preferred resource to add to you belongings:");
-        output.println("1)\t" + Colours.BLUE.getType());
-        output.println("2)\t" + Colours.GREY.getType());
-        output.println("3)\t" + Colours.PURPLE.getType());
-        output.println("4)\t" + Colours.YELLOW.getType());
+        output.println("1)\t" + Colours.getColoredType(Colours.BLUE));
+        output.println("2)\t" + Colours.getColoredType(Colours.GREY));
+        output.println("3)\t" + Colours.getColoredType(Colours.PURPLE));
+        output.println("4)\t" + Colours.getColoredType(Colours.YELLOW));
         var res = input.nextInt();
         while(res < 0 || res >= 5){
             output.println("Not valid");
@@ -956,16 +956,14 @@ public class CLI implements Runnable, UI{
      * @param cards
      * @return
      */
-    public List<Card> canUseAnyCardLeader(CardLeader[] cards){
-        var resAll = getResAll();
-        var slots = getLibrary();
-        var list = new LinkedList<Card>();
+    public List<CardLeader> canUseAnyCardLeader(CardLeader[] cards){
+        var list = new LinkedList<CardLeader>();
         for(var card : cards)
             for(var req : card.getReq()){
                 if(req.getClass() == Requirements.RequirementsResources.class)
-                    checker.checkOnRequiredRes(resAll, list, card, (Requirements.RequirementsResources)req);
+                    checker.checkOnRequiredRes(getResAll(), list, card, (Requirements.RequirementsResources)req);
                 if(req.getClass() == Requirements.RequirementsCard.class)
-                    checker.checkOnRequiredCard(slots, list, card, (Requirements.RequirementsCard)req);
+                    checker.checkOnRequiredCard(getLibrary(), list, card, (Requirements.RequirementsCard)req);
             }
         return list;
     }
@@ -1007,7 +1005,7 @@ public class CLI implements Runnable, UI{
         if(colour == Colours.RED) client.send("moveFT::" + 1);
         else{
             drawer.showWarehouse(getWarehouse());
-            output.print("Please choose the shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
+            output.print("Please choose the shelf for this resource? [1-3]\n" + Colours.getColoredType(colour) + "\n>\t");
             output.flush();
             var lvl = getWarehouseShelfLvl();
             client.send("warehouseResHandler::" + colour + "::" + qnt + "::" + lvl);
@@ -1028,7 +1026,7 @@ public class CLI implements Runnable, UI{
         if(colour == Colours.RED) bc.moveFT(1);
         else{
             drawer.showWarehouse(getWarehouse());
-            output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
+            output.print("Shelf for this resource? [1-3]\n" + Colours.getColoredType(colour) + "\n>\t");
             output.flush();
             var lvl = getWarehouseShelfLvl();
             var player = bc.player();
@@ -1069,7 +1067,7 @@ public class CLI implements Runnable, UI{
             }
             case 3 -> {
                 drawer.showWarehouse(getWarehouse());
-                output.print("Shelf for this resource? [1-3]\n" + colour.getType() + "\n>\t");
+                output.print("Shelf for this resource? [1-3]\n" + Colours.getColoredType(colour) + "\n>\t");
                 output.flush();
                 lvl = getWarehouseShelfLvl();
             }

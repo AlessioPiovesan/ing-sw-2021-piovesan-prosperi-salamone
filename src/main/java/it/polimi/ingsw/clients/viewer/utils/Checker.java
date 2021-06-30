@@ -1,6 +1,5 @@
 package it.polimi.ingsw.clients.viewer.utils;
 
-import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.clients.viewer.UI;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Requirements;
@@ -90,10 +89,7 @@ public class Checker{
      * @param cards
      * @return
      */
-    public List<Card> canUseAnyCardDev(List<CardDev> cards, LocalGameController gameController){
-        var boardController = gameController.getBoardController();
-        var player = boardController.player();
-        var resAll = player.getResAll();
+    public List<Card> canUseAnyCardDev(List<CardDev> cards, Map<Colours, Integer> resAll){
         var list = new LinkedList<Card>();
         var card = cards.get(cards.size() - 1);
         var i = 0;
@@ -111,9 +107,8 @@ public class Checker{
      * @param list
      * @param card
      * @param req
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
-    public void checkOnRequiredRes(Map<Colours, Integer> resAll, LinkedList<Card> list, CardLeader card, Requirements.RequirementsResources req){
+    public void checkOnRequiredRes(Map<Colours, Integer> resAll, List<CardLeader> list, CardLeader card, Requirements.RequirementsResources req){
         var colorRequired = req.getColour();
         var qntRequired = req.getQnt();
         var qntAvailable = (int)resAll.get(colorRequired);
@@ -127,9 +122,8 @@ public class Checker{
      * @param list
      * @param card
      * @param req
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
-    public void checkOnRequiredCard(List<ArrayList<CardDev>> slots, LinkedList<Card> list, CardLeader card, Requirements.RequirementsCard req){
+    public void checkOnRequiredCard(List<ArrayList<CardDev>> slots, List<CardLeader> list, CardLeader card, Requirements.RequirementsCard req){
         var colorRequired = req.getColour();
         var lvlRequired = req.getCardLvl();
         for(var slot : slots){
@@ -143,9 +137,7 @@ public class Checker{
                     }
                 }
             }
-
             if(list.contains(card)) break;
         }
     }
-
 }

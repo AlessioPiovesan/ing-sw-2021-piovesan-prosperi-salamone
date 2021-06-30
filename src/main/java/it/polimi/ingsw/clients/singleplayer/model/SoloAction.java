@@ -28,14 +28,27 @@ public enum SoloAction{
      * @param sa
      */
     public static void action(SoloAction sa){
+        var gameController = LocalGameController.getInstance();
         switch(sa){
-            case AS1 -> LocalGameController.getInstance().tossCardDev(ColoursCards.GREEN);
-            case AS2 -> LocalGameController.getInstance().tossCardDev(ColoursCards.YELLOW);
-            case AS3 -> LocalGameController.getInstance().tossCardDev(ColoursCards.CYAN);
-            case AS4 -> LocalGameController.getInstance().tossCardDev(ColoursCards.VIOLET);
-            case AS5, AS6 -> LocalGameController.getInstance().getBoardController().lorenzo().moveFT(2);
+            case AS1 -> {
+                gameController.tossCardDev(ColoursCards.GREEN);
+                gameController.tossCardDev(ColoursCards.GREEN);
+            }
+            case AS2 -> {
+                gameController.tossCardDev(ColoursCards.YELLOW);
+                gameController.tossCardDev(ColoursCards.YELLOW);
+            }
+            case AS3 -> {
+                gameController.tossCardDev(ColoursCards.CYAN);
+                gameController.tossCardDev(ColoursCards.CYAN);
+            }
+            case AS4 -> {
+                gameController.tossCardDev(ColoursCards.VIOLET);
+                gameController.tossCardDev(ColoursCards.VIOLET);
+            }
+            case AS5, AS6 -> gameController.getBoardController().lorenzo().moveFT(2);
             case AS7 -> {
-                LocalGameController.getInstance().getBoardController().lorenzo().moveFT(1);
+                gameController.getBoardController().lorenzo().moveFT(1);
                 shuffle();
             }
             default -> shuffle();

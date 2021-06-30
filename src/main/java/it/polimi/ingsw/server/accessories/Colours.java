@@ -7,11 +7,7 @@ import java.util.List;
 
 public enum Colours{
 
-    BLUE((ConsoleColors.BLUE + "SHIELD" + ConsoleColors.RESET)),
-    GREY(ConsoleColors.BLACK_BRIGHT + "STONE" + ConsoleColors.RESET),
-    PURPLE(ConsoleColors.PURPLE + "SERVANT" + ConsoleColors.RESET),
-    RED(ConsoleColors.RED + "FAITH" + ConsoleColors.RESET), WHITE(""),
-    YELLOW(ConsoleColors.YELLOW + "COIN" + ConsoleColors.RESET);
+    BLUE("SHIELD"), GREY("STONE"), PURPLE("SERVANT"), RED("FAITH"), WHITE(""), YELLOW("COIN");
 
     private final String type;
 
@@ -37,6 +33,17 @@ public enum Colours{
             case "", "WHITE" -> WHITE;
             case "COIN", "YELLOW" -> YELLOW;
             default -> null;
+        };
+    }
+
+    public static String getColoredType(Colours colour){
+        return switch(colour){
+            case BLUE -> ConsoleColors.BLUE + colour.getType() + ConsoleColors.RESET;
+            case GREY -> ConsoleColors.BLACK_BRIGHT + colour.getType() + ConsoleColors.RESET;
+            case PURPLE -> ConsoleColors.PURPLE + colour.getType() + ConsoleColors.RESET;
+            case RED -> ConsoleColors.RED + colour.getType() + ConsoleColors.RESET;
+            case WHITE -> colour.getType();
+            case YELLOW -> ConsoleColors.YELLOW + colour.getType() + ConsoleColors.RESET;
         };
     }
 

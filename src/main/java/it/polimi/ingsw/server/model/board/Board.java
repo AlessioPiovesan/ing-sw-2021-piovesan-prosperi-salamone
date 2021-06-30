@@ -288,8 +288,6 @@ public class Board{
         this.listener.addPropertyChangeListener(listener);
     }
 
-    public void removePropertyChangeListener(PropertyChangeListener listener){pcs.removePropertyChangeListener(listener);}
-
     /**
      * @param special resource type that you can add in the extra space
      */

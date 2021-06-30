@@ -151,14 +151,16 @@ public class LocalGameController{
     public void tossCardDev(ColoursCards colour){
         var deck = game.getCardDevDeck();
         CardDev found = null;
-        for(CardDev cardDev : deck)
-            for(var i = 0; i < 3; i++)
-                if(cardDev.getLvl() == 1 && cardDev.getColour() == colour){
-                    found = cardDev;
-                    break;
-                }
+        for(var cardDev : deck){
+            if(cardDev.getLvl() == 1 && cardDev.getColour() == colour) found = cardDev;
+            if(found != null) break;
+            if(cardDev.getLvl() == 2 && cardDev.getColour() == colour) found = cardDev;
+            if(found != null) break;
+            if(cardDev.getLvl() == 3 && cardDev.getColour() == colour) found = cardDev;
+            if(found != null) break;
+        }
         if(found == null) endGame(false);
-
+        else deck.remove(found);
     }
 
     /**

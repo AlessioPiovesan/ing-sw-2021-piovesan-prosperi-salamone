@@ -16,9 +16,9 @@ class ColoursTest{
 
     @Test
     void fromStringTest(){
-        for(Colours color : Colours.values()){
-            assertEquals(color, Colours.fromString(color.name()));
-            assertEquals(color, Colours.fromString(deColor(color.getType())));
+        for(Colours colour : Colours.values()){
+            assertEquals(colour, Colours.fromString(colour.name()));
+            assertEquals(colour, Colours.fromString(deColor(Colours.getColoredType(colour))));
         }
         assertNull(Colours.fromString("ciao"));
     }

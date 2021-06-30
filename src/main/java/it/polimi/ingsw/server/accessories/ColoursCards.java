@@ -4,7 +4,7 @@ import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 
 public enum ColoursCards{
 
-    GREEN, CYAN, VIOLET, YELLOW;
+    CYAN, GREEN, VIOLET, YELLOW;
 
     public static String colored(String colour){
         return switch(colour.toUpperCase()){

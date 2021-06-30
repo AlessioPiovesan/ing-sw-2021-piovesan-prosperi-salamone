@@ -31,9 +31,9 @@ public record DrawerCLI(CLI ui){
                 ++i;
             }
             else{
-                var color = pick.resource();
+                var colour = pick.resource();
                 var qnt = pick.qnt();
-                ui.printMessage("On shelf #" + ++i + " there are " + qnt + " " + color.getType() + " resources");
+                ui.printMessage("On shelf #" + ++i + " there are " + qnt + " " + Colours.getColoredType(colour) + " resources");
             }
         printLine();
     }
@@ -83,7 +83,7 @@ public record DrawerCLI(CLI ui){
     public void showStrongBox(Map<Colours, Integer> map){
         printLine();
         ui.printMessage("This is what's in your StrongBox:");
-        map.keySet().stream().map(color -> color.getType() + " -> " + map.get(color)).forEach(ui::printMessage);
+        map.keySet().stream().map(colour -> Colours.getColoredType(colour) + " -> " + map.get(colour)).forEach(ui::printMessage);
         printLine();
     }
 
@@ -230,7 +230,7 @@ public record DrawerCLI(CLI ui){
      * @param yellowBoldBright
      */
     private void drawSpecialBoxFTSingle(StringBuilder trackTop, String redBold, String yellowBoldBright){
-        trackTop.append("█").append(redBold).append("X").append(yellowBoldBright).append("█").append("\t");
+        trackTop.append("█").append(redBold).append("X").append(ConsoleColors.RESET).append(yellowBoldBright).append("█").append("\t");
     }
 
     /**
