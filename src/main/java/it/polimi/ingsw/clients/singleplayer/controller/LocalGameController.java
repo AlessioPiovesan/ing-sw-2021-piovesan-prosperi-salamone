@@ -61,6 +61,7 @@ public class LocalGameController{
     public synchronized void nextPlayer(){
         playingPlayer = !playingPlayer;
         boardController.active();
+        if(!playingPlayer) boardController.lorenzo().nextAction();
     }
 
     public LocalGame getGame(){

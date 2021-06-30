@@ -37,6 +37,7 @@ public class Local extends Client{
         lorenzo.setUi(ui);
         var player = game.getBoard(false);
         player.addPropertyChangeListener(ui);
+        lorenzo.addPropertyChangeListener(ui);
         gameController.startGame();
     }
 
