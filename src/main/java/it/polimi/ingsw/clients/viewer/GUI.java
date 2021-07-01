@@ -213,7 +213,7 @@ public class GUI extends Application implements UI{
 
     @Override
     public void setMyBoard(int i){
-        myBoard = model.getTheirBoards(i);
+        myBoard = model.getBoard(i);
     }
 
     private synchronized void resourcesHandlerMarket(List<Colours> bufferMarket){

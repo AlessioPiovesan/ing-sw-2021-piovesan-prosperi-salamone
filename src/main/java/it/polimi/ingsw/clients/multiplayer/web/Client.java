@@ -142,7 +142,7 @@ public class Client implements Runnable{
                 ui.getMyBoard().setNickname(string[2]);
             }
             case "nicknameYes" -> setupGame(string[1]);
-            case "nickname" -> modelView.getTheirBoards(Integer.parseInt(string[2])).setNickname(string[1]);
+            case "nickname" -> modelView.getBoard(Integer.parseInt(string[2])).setNickname(string[1]);
             case "askNickname" -> ui.chooseNickname();
             case "askId" -> ui.askId();
             case "myBoardId" -> ui.setMyBoard(Integer.parseInt(string[1]));
@@ -157,55 +157,12 @@ public class Client implements Runnable{
                 }
             }
             case "leaderSpace" -> ui.getMyBoard().addLeaderSpace(Colours.fromString(string[1]));
-            case "leaderCards" -> {
-                var s = string[1].split("LEAD");
-                var card = (CardLeader)CardLeader.getSpecificCard(s[1]);
-                ui.getMyBoard().setMyLeaderCards(card, Integer.parseInt(string[2]));
-            }
-            case "thislibrary" -> {
-                try{
-                    var node = Json.parse(string[1]);
-                    var card = Json.fromJson(node, CardDev.class);
-                    ui.getMyBoard().addCardinLibrary(card, Integer.parseInt(string[2]));
-                } catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
-            case "thiswarehouse" -> {
-                List<Pick> current = getList(string);
-                ui.getMyBoard().setWarehouse(current);
-            }
-            case "thisresAll" -> {
-                Map<Colours, Integer> map = getMap(string);
-                ui.getMyBoard().setResAll(map);
-            }
-            case "thisstrongBox" -> {
-                Map<Colours, Integer> map = getMap(string);
-                ui.getMyBoard().setStrongBox(map);
-            }
-            case "thisfaithTrack" -> ui.getMyBoard().setFaithTrack(Integer.parseInt(string[1]));
-            case "thatlibrary" -> {
-                try{
-                    var node = Json.parse(string[1]);
-                    var card = Json.fromJson(node, CardDev.class);
-                    modelView.getTheirBoards(Integer.parseInt(string[3])).addCardinLibrary(card, Integer.parseInt(string[2]));
-                } catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
-            case "thatwarehouse" -> {
-                List<Pick> current = getList(string);
-                modelView.getTheirBoards(Integer.parseInt(string[2])).setWarehouse(current);
-            }
-            case "thatresAll" -> {
-                Map<Colours, Integer> map = getMap(string);
-                modelView.getTheirBoards(Integer.parseInt(string[2])).setResAll(map);
-            }
-            case "thatstrongBox" -> {
-                Map<Colours, Integer> map = getMap(string);
-                modelView.getTheirBoards(Integer.parseInt(string[2])).setStrongBox(map);
-            }
-            case "thatfaithTrack" -> modelView.getTheirBoards(Integer.parseInt(string[2])).setFaithTrack(Integer.parseInt(string[1]));
+            case "leaderCards" -> ui.getMyBoard().setMyLeaderCards(getLeaderCard(string[1]), Integer.parseInt(string[2]));
+            case "warehouse" -> modelView.getBoard(Integer.parseInt(string[4])).setWarehouse(Integer.parseInt(string[1]), Colours.fromString(string[2]), Integer.parseInt(string[3]));
+            case "resAll" -> modelView.getBoard(Integer.parseInt(string[3])).setResAll(Colours.fromString(string[1]), Integer.parseInt(string[2]));
+            case "strongBox" -> modelView.getBoard(Integer.parseInt(string[3])).setStrongBox(Colours.fromString(string[1]), Integer.parseInt(string[2]));
+            case "faithTrack" -> modelView.getBoard(Integer.parseInt(string[2])).setFaithTrack(Integer.parseInt(string[1]));
+            case "newCard" -> modelView.getBoard(Integer.parseInt(string[3])).addCardinLibrary(getDevCard(string[1]), Integer.parseInt(string[2]));
             default -> ui.printMessage(string[0] + " -> (CLIENT)");
         }
     }
@@ -251,6 +208,16 @@ public class Client implements Runnable{
         ui.askNPlayers();
     }
 
+    private CardLeader getLeaderCard(String s){
+        var code = s.split("LEAD");
+        return (CardLeader)CardLeader.getSpecificCard(code[1]);
+    }
+
+    private CardDev getDevCard(String s){
+        var code = s.split("_");
+        return (CardDev)CardDev.getSpecificCard(code[1]);
+    }
+
     private List<Pick> getList(String[] string){
         var current = new LinkedList<Pick>();
         try{
@@ -268,12 +235,12 @@ public class Client implements Runnable{
         return current;
     }
 
-    private Map<Colours, Integer> getMap(String[] string){
+    private Map<Colours, Integer> getMap(String string){
         var map = new EnumMap<Colours, Integer>(Colours.class);
         try{
-            var node = Json.parse(string[1]);
+            var node = Json.parse(string);
             var strong = Json.fromJson(node, Map.class);
-            for(var o : strong.keySet()){
+            for(var o : strong.entrySet()){
                 var color = Colours.fromString((String)o);
                 var qnt = (int)strong.get(o);
                 map.put(color, qnt);

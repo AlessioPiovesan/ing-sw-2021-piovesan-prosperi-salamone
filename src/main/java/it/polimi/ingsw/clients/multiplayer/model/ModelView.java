@@ -48,7 +48,7 @@ public class ModelView{
         this.market = market;
     }
 
-    public ModelBoard getTheirBoards(int i){
+    public ModelBoard getBoard(int i){
         return modelBoards[i];
     }
 

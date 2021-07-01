@@ -246,7 +246,6 @@ public class Server implements Runnable, PropertyChangeListener{
         switch(evt.getPropertyName()){
             case "market" -> getMarketAndSend(evt);
             case "external" -> getExternalMarbleAndSend(evt);
-            case "discount", "marketAlt", "productAlt", "leaderSpace", "leaderCards" -> updateSingleBoard(evt);
             case "warehouse", "resAll", "strongBox", "faithTrack", "library" -> updateAllBoard(evt);
             default -> System.err.println(evt.getPropertyName() + " is not handled (SERVER)");
         }
@@ -274,33 +273,10 @@ public class Server implements Runnable, PropertyChangeListener{
         sendExternalMarble(color, n, id);
     }
 
-    private void updateSingleBoard(PropertyChangeEvent evt){
-        var source = (Board)evt.getSource();
-        var name = source.getNickname();
-        var socket = playingPlayersNameSocket.get(name);
-        socket.send(evt.getPropertyName() + "::" + evt.getNewValue());
-    }
-
     private void updateAllBoard(PropertyChangeEvent evt){
         var source = (Board)evt.getSource();
-        var gameID = source.getGameID();
-        var boardID = source.getIdD();
-        var n = controller.getGameControllerById(gameID).getAllBoardController().length;
-        var node = Json.toJson(evt.getNewValue());
-        var string = "";
-        try{
-            string = Json.stringify(node);
-        } catch(JsonProcessingException e){
-            e.printStackTrace();
-        }
-        var mapGameForThisNPlayers = waitingFor1Game.get(n);
-        var playersForThisGame = mapGameForThisNPlayers.get(gameID);
-        for(var name : playersForThisGame){
-            var socket = playingPlayersNameSocket.get(name);
-            var i = socket.getRemoteView().getBoardId();
-            if(boardID == i) socket.send("this" + evt.getPropertyName() + "::" + string);
-            else socket.send("that" + evt.getPropertyName() + "::" + string + "::" + i);
-        }
+        var id = source.getGameID();
+        waitingFor1Game.keySet().stream().filter(entry -> waitingFor1Game.get(entry).containsKey(id)).map(waitingFor1Game::get).map(mapGameForThisNPlayers -> mapGameForThisNPlayers.get(id)).flatMap(Collection::stream).map(playingPlayersNameSocket::get).forEachOrdered(socket -> socket.send(evt.getPropertyName() + "::" + evt.getNewValue()));
     }
 
     private void sendMarket(String marketString, int n, int id){

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.server.model.board;
 
 import it.polimi.ingsw.server.accessories.Colours;
-import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
@@ -220,7 +219,7 @@ public class Board{
         checkIfEndGame();
         library.addCard(slot, card);
         pcs.firePropertyChange("costCardDev", "", costCardDev.toArray());
-        listener.firePropertyChange("library", "", Json.toJson(card) + "::" + slot);
+        listener.firePropertyChange("newCard", "", card.name() + "::" + slot);
     }
 
     /**
@@ -308,7 +307,8 @@ public class Board{
      */
     public void rearrangeWarehouse(int first, int second){
         warehouse.lvlExchange(first, second);
-        listener.firePropertyChange("warehouse", "", warehouse.checkStatus().toArray());
+        listener.firePropertyChange("warehouse", "", first + "::" + warehouse.checkLvlStatus(first).resource() + "::" + warehouse.checkLvlStatus(first).qnt() + "::" + idD);
+        listener.firePropertyChange("warehouse", "", second + "::" + warehouse.checkLvlStatus(second).resource() + "::" + warehouse.checkLvlStatus(second).qnt() + "::" + idD);
     }
 
     /**
@@ -376,7 +376,7 @@ public class Board{
             warehouse.moveResources(lvl, pick);
         }
         updateResAll();
-        listener.firePropertyChange("warehouse", "", warehouse.checkStatus().toArray());
+        listener.firePropertyChange("warehouse", "", lvl + "::" + warehouse.checkLvlStatus(lvl).resource() + "::" + warehouse.checkLvlStatus(lvl).qnt() + "::" + idD);
     }
 
     /**
@@ -401,7 +401,10 @@ public class Board{
         sKeys.forEach(key -> map.put(key, s.get(key) + map.get(key)));
         leaderKey.forEach(key -> map.put(key, leaderSpace.get(key) + map.get(key)));
         resAllKeys.forEach(key -> resAll.put(key, map.get(key)));
-        listener.firePropertyChange("resAll", "", resAll);
+        listener.firePropertyChange("resAll", "", Colours.BLUE.name() + "::" + resAll.get(Colours.BLUE) + "::" + idD);
+        listener.firePropertyChange("resAll", "", Colours.GREY.name() + "::" + resAll.get(Colours.GREY) + "::" + idD);
+        listener.firePropertyChange("resAll", "", Colours.PURPLE.name() + "::" + resAll.get(Colours.PURPLE) + "::" + idD);
+        listener.firePropertyChange("resAll", "", Colours.YELLOW.name() + "::" + resAll.get(Colours.YELLOW) + "::" + idD);
     }
 
     /**
@@ -425,7 +428,10 @@ public class Board{
             else strongBox.moveResources(pick);
         }
         updateResAll();
-        listener.firePropertyChange("strongBox", "", strongBox.getStrongContent());
+        listener.firePropertyChange("strongBox", "", Colours.BLUE.name() + "::" + strongBox.getStrongContent().get(Colours.BLUE) + "::" + idD);
+        listener.firePropertyChange("strongBox", "", Colours.GREY.name() + "::" + strongBox.getStrongContent().get(Colours.GREY) + "::" + idD);
+        listener.firePropertyChange("strongBox", "", Colours.PURPLE.name() + "::" + strongBox.getStrongContent().get(Colours.PURPLE) + "::" + idD);
+        listener.firePropertyChange("strongBox", "", Colours.YELLOW.name() + "::" + strongBox.getStrongContent().get(Colours.YELLOW) + "::" + idD);
     }
 
     /**
@@ -439,7 +445,7 @@ public class Board{
         faithTrack.moveForward(move);
         checkIfEndGame();
         pcs.firePropertyChange("redCrossMove", "", getPositionFT());
-        listener.firePropertyChange("faithTrack", "", getPositionFT());
+        listener.firePropertyChange("faithTrack", "", getPositionFT() + "::" + idD);
     }
 
     public void produce(CardDev card){

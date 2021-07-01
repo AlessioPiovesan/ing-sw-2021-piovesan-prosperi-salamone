@@ -5,10 +5,7 @@ import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Class ModelBoard is the class describing all the other players' boards.
@@ -21,12 +18,12 @@ public class ModelBoard{
 
     private final Map<Colours, Integer> leaderSpace;
     private final List<ArrayList<CardDev>> library;
+    private final CardLeader[] myLeaderCards = new CardLeader[2];
     private String nickname;
     private List<Pick> warehouse;
     private int faithTrackPos;
     private EnumMap<Colours, Integer> strongBox;
     private EnumMap<Colours, Integer> resAll;
-    private CardLeader[] myLeaderCards = new CardLeader[2];
 
     protected ModelBoard(){
         warehouse = createWarehouse();
@@ -85,8 +82,12 @@ public class ModelBoard{
         return warehouse;
     }
 
-    public void setWarehouse(List<Pick> warehouse){
-        this.warehouse = warehouse;
+    public void setWarehouse(int lvl, Colours colour, int qnt){
+        var list = new LinkedList<Pick>();
+        for(var i = 0; i < warehouse.size(); i++)
+            if(i == lvl) list.add(new Pick(colour, qnt));
+            else list.add(warehouse.get(i));
+        this.warehouse = list;
     }
 
     public void setMyLeaderCards(CardLeader myLeaderCards, int i){
@@ -113,16 +114,16 @@ public class ModelBoard{
         return strongBox;
     }
 
-    public void setStrongBox(Map<Colours, Integer> strongBox){
-        this.strongBox = (EnumMap<Colours, Integer>)strongBox;
+    public void setStrongBox(Colours colours, Integer qnt){
+        this.resAll.put(colours, qnt);
     }
 
     public Map<Colours, Integer> getResAll(){
         return resAll;
     }
 
-    public void setResAll(Map<Colours, Integer> resAll){
-        this.resAll = (EnumMap<Colours, Integer>)resAll;
+    public void setResAll(Colours colours, Integer qnt){
+        this.resAll.put(colours, qnt);
     }
 
     public String getNickname(){

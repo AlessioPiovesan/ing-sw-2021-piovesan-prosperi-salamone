@@ -664,7 +664,7 @@ public class CLI implements Runnable, UI{
 
     @Override
     public void setMyBoard(int i){
-        myBoard = model.getTheirBoards(i);
+        myBoard = model.getBoard(i);
     }
 
     /**
