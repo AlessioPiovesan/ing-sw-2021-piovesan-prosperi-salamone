@@ -2,6 +2,7 @@ package it.polimi.ingsw.server.controller;
 
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Pick;
+import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.model.board.Board;
 
@@ -64,5 +65,13 @@ public class BoardController{
 
     public void takeFromStrongBox(Colours fromString){
         player.takeFromStrongBox(fromString);
+    }
+
+    public void produce(CardDev card){
+        player.produce(card);
+    }
+
+    public void storeInStrongBox(Colours resourceTaken, int qntTaken){
+        player.storeInStrongBox(new Pick[]{new Pick(resourceTaken, qntTaken)});
     }
 }

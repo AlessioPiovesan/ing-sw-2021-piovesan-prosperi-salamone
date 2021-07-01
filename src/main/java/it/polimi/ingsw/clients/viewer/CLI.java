@@ -64,7 +64,7 @@ public class CLI implements Runnable, UI{
     public void run(){
         chooseNickname();
         client.send("nickname::" + nickname);
-        client.send("nplayers::" + client.getNPlayers());
+        client.send("NPlayers::" + client.getNPlayers());
     }
 
     /**
@@ -377,7 +377,7 @@ public class CLI implements Runnable, UI{
             string.append(pick.qnt()).append(" - ").append(Colours.getColoredType(pick.resource())).append("\t");
         output.println(string);
         if(single) getLocalGameController().getBoardController().player().produce(card);
-        else client.send("produce::" + card);
+        else client.send("produce::" + card.name());
     }
 
     /**
@@ -400,7 +400,7 @@ public class CLI implements Runnable, UI{
             }
         }
         if(single) getLocalGameController().addFaithPnt(loose);
-        else client.send("addFaithPnt::");
+        else client.send("addFaithPnt::" + loose.size());
         output.println("This resources need handling:");
         var colors = new StringBuilder();
         for(Colours colour : keep) colors.append(Colours.getColoredType(colour)).append("\t");
@@ -471,7 +471,7 @@ public class CLI implements Runnable, UI{
                     case 1 -> {
                         var res = new Pick[]{new Pick(resourceTaken, qntTaken)};
                         if(single) getLocalGameController().getBoardController().player().storeInStrongBox(res);
-                        else client.send("storeInStrongBox::");
+                        else client.send("storeInStrongBox::" + resourceTaken.name() + "::" + qntTaken);
                     }
                     default -> output.println("Not possible");
                 }
@@ -934,7 +934,7 @@ public class CLI implements Runnable, UI{
                         if(single) getLocalGameController().cardDevAction(card, slot);
                         else{
                             model.cardBrought(card);
-                            client.send("cardDevAction::" + card + "::" + slot);
+                            client.send("cardDevAction::" + card.name() + "::" + slot);
                         }
                     }
                     else{
@@ -1015,7 +1015,7 @@ public class CLI implements Runnable, UI{
                 output.println("You activated this power:");
                 output.println(ConsoleColors.RED_UNDERLINED + card.getAbility() + ConsoleColors.RESET);
                 if(single) getLocalGameController().cardLeadAction(card);
-                else client.send("cardLeadAction::" + card);
+                else client.send("cardLeadAction::" + card.name());
             });
             else{
                 output.println("You don't have this Leader");
@@ -1078,7 +1078,10 @@ public class CLI implements Runnable, UI{
      */
     private int actOnResponse(Colours colour, int response, int lvl){
         switch(response){
-            case 1 -> getLocalGameController().addFaithPnt(Collections.singletonList(colour));
+            case 1 -> {
+                if(single) getLocalGameController().addFaithPnt(Collections.singletonList(colour));
+                else client.send("addFaithPnt::" + 1);
+            }
             case 2 -> {
                 var player = getLocalGameController().getBoardController().player();
                 var content = player.checkWarehouseStatus();

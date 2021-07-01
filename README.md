@@ -43,7 +43,7 @@ The final version includes:
 | CLI |[![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/CLI) |
 | Multiple games | [![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/SERVER)|
 | Single Player | [![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/CLIENTSINGLEPLAYER) |
-| Resilience to disconnections | [![YELLOW](.github/ffdd00.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/EDITOR) |
+| Resilience to disconnections | [![GREEN](.github/44bb44.png)(https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/EDITOR) |
 | Editor | [![RED](.github/f03c15.png)]() |
 | Persistence | [![RED](.github/f03c15.png)]() |
 

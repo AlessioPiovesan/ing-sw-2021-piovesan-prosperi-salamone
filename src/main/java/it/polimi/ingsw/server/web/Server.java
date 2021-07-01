@@ -208,11 +208,9 @@ public class Server implements Runnable, PropertyChangeListener{
         var view = socket.getRemoteView();
         var nPlayers = view.getNPlayers();
         var id = view.getGameId();
+        var gameController = controller.getGameControllerById(id);
         firstRes.merge(id, 1, Integer::sum);
-        if(firstRes.get(id) == nPlayers){
-            var gameController = controller.getGameControllerById(id);
-            gameController.initialResourcesHandler();
-        }
+        if(firstRes.get(id) == nPlayers) gameController.initialResourcesHandler();
     }
 
     public void rejoin(int id, String name, SocketServerToClient socketServerToClient){

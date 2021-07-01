@@ -7,7 +7,6 @@ import it.polimi.ingsw.server.model.board.Board;
 import it.polimi.ingsw.server.model.game.Game;
 
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Class GameController is the controller that handles one game.
@@ -49,11 +48,10 @@ public class GameController{
      * @param waste of type Colours
      * @see Board#moveFT(int)
      */
-    public void addFaithPnt(List<Colours> waste){
-        int a = waste.size();
+    public void addFaithPnt(int waste){
         for(var j = 0; j < game.getNGamers(); j++){
             if(j != game.getPlayingPlayer()){
-                game.getSingleB(j).moveFT(a);
+                game.getSingleB(j).moveFT(waste);
             }
         }
     }

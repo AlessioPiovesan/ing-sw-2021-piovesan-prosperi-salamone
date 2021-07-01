@@ -1,9 +1,7 @@
 package it.polimi.ingsw.server.web;
 
-import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
-import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import it.polimi.ingsw.server.controller.BoardController;
@@ -130,34 +128,35 @@ public class SocketServerToClient implements Runnable{
             }
             case "takeFromWarehouse" -> getBoardController().takeFromWarehouse((Colours.fromString(string[1])));
             case "takeFromStrongBox" -> getBoardController().takeFromStrongBox((Colours.fromString(string[1])));
-            case "addFaithPnt" -> getBoardController().moveFT(1);
+            case "addFaithPnt" -> gameController.addFaithPnt(Integer.parseInt(string[1]));
             case "checkNickname" -> server.checkExistNickname(string[1], this);
             case "initialLeaders" -> prepareInitialLeaders(string[1]);
             case "initialResource" -> server.firstRes(this);
             case "nextPlayer" -> gameController.nextPlayer();
             case "join" -> server.rejoin(Integer.parseInt(string[1]), string[2], this);
             case "warehouseResHandler" -> {
-                var boardController = getBoardController();
                 var color = Colours.fromString(string[1]);
                 var qnt = Integer.parseInt(string[2]);
                 var lvl = Integer.parseInt(string[3]);
-                if(boardController.checkWarehouseAdd(new Pick(color, qnt), lvl))
-                    boardController.warehouseResHandler(color, qnt, lvl);
-                else send("preference::");
+                getBoardController().warehouseResHandler(color, qnt, lvl);
             }
             case "cardLeadAction" -> {
-                var code1 = string[1].split(ConsoleColors.PURPLE);
-                var code = code1[0].split(ConsoleColors.RESET);
-                var card = (CardLeader)Objects.requireNonNull(CardLeader.getSpecificCard(code[0]));
-                gameController.cardLeadAction(card);
+                var s = string[1].split("LEAD");
+                var card = (CardLeader)CardLeader.getSpecificCard(s[1]);
+                gameController.cardLeadAction(Objects.requireNonNull(card));
             }
             case "cardDevAction" -> {
-                var code1 = string[1].split(ConsoleColors.PURPLE);
-                var code = code1[0].split(ConsoleColors.RESET);
+                var s = string[1].split("_");
+                var card = (CardDev)CardDev.getSpecificCard(s[1]);
                 var slot = Integer.parseInt(string[2]);
-                var card = (CardDev)Objects.requireNonNull(CardDev.getSpecificCard(code[0]));
                 gameController.cardDevAction(card, slot);
             }
+            case "produce" -> {
+                var s = string[1].split("_");
+                var card = (CardDev)CardLeader.getSpecificCard(s[1]);
+                getBoardController().produce(card);
+            }
+            case "storeInStrongBox" -> getBoardController().storeInStrongBox(Colours.fromString(string[1]), Integer.parseInt(string[2]));
             case "checkVaticanReport" -> getBoardController().checkVaticanReport();
             case "marketAction" -> gameController.marketAction(Integer.parseInt(string[1]));
             case "moveFT" -> getBoardController().moveFT(Integer.parseInt(string[1]));

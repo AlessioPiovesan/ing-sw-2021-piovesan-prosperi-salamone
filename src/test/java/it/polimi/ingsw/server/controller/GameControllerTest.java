@@ -57,7 +57,7 @@ class GameControllerTest{
         var list = new ArrayList<Colours>();
         list.add(Colours.BLUE);
         list.add(Colours.BLUE);
-        gameController.addFaithPnt(list);
+        gameController.addFaithPnt(list.size());
         for(var board : game.getAllB())
             if(!(board == game.getSingleB(game.getPlayingPlayer()))) assertEquals(2, board.getPositionFT());
             else assertEquals(0, board.getPositionFT());
@@ -95,10 +95,5 @@ class GameControllerTest{
         assertSame(card3.getSpecial(), board.getMarketAlt());
         gameController.cardLeadAction(card4);
         assertSame(card4.getSpecial(), board.getProductAlt());
-    }
-
-    @Test
-    void marketAction(){
-
     }
 }

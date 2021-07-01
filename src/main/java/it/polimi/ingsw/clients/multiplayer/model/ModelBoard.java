@@ -39,6 +39,7 @@ public class ModelBoard{
 
     /**
      * method createWarehouse creates the warehouse for the selected Model Board
+     *
      * @return of type ArrayList of Pick
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -52,6 +53,7 @@ public class ModelBoard{
 
     /**
      * method createStrongbox creates the strongbox for the selected Model Board
+     *
      * @return of type EnumMap of Colours
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -67,6 +69,7 @@ public class ModelBoard{
     /**
      * method createLibrary creates the containers for Development Cards
      * for the selected Model Board
+     *
      * @return of type ArrayList of CardDev
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
