@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -34,33 +33,37 @@ import java.util.Objects;
  */
 public class BoardsController implements GUIController{
 
+
+    @FXML private ImageView leader1;
+    @FXML private ImageView leader2;
     @FXML private ImageView redCrossImg;
     @FXML private ImageView blackCrossImg;
-    @FXML private Label tile00;
-    @FXML private Label tile01;
-    @FXML private Label tile02;
-    @FXML private Label tile03;
-    @FXML private Label tile04;
-    @FXML private Label tile05;
-    @FXML private Label tile06;
-    @FXML private Label tile07;
-    @FXML private Label tile08;
-    @FXML private Label tile09;
-    @FXML private Label tile10;
-    @FXML private Label tile11;
-    @FXML private Label tile12;
-    @FXML private Label tile13;
-    @FXML private Label tile14;
-    @FXML private Label tile15;
-    @FXML private Label tile16;
-    @FXML private Label tile17;
-    @FXML private Label tile18;
-    @FXML private Label tile19;
-    @FXML private Label tile20;
-    @FXML private Label tile21;
-    @FXML private Label tile22;
-    @FXML private Label tile23;
-    @FXML private Label tile24;
+    private ArrayList<AnchorPane> tileList;
+    @FXML private AnchorPane tile00;
+    @FXML private AnchorPane tile01;
+    @FXML private AnchorPane tile02;
+    @FXML private AnchorPane tile03;
+    @FXML private AnchorPane tile04;
+    @FXML private AnchorPane tile05;
+    @FXML private AnchorPane tile06;
+    @FXML private AnchorPane tile07;
+    @FXML private AnchorPane tile08;
+    @FXML private AnchorPane tile09;
+    @FXML private AnchorPane tile10;
+    @FXML private AnchorPane tile11;
+    @FXML private AnchorPane tile12;
+    @FXML private AnchorPane tile13;
+    @FXML private AnchorPane tile14;
+    @FXML private AnchorPane tile15;
+    @FXML private AnchorPane tile16;
+    @FXML private AnchorPane tile17;
+    @FXML private AnchorPane tile18;
+    @FXML private AnchorPane tile19;
+    @FXML private AnchorPane tile20;
+    @FXML private AnchorPane tile21;
+    @FXML private AnchorPane tile22;
+    @FXML private AnchorPane tile23;
+    @FXML private AnchorPane tile24;
     private ArrayList<Sphere> sphereList;
     @FXML private Sphere sphere0;
     @FXML private Sphere sphere1;
@@ -87,7 +90,54 @@ public class BoardsController implements GUIController{
     private GUI gui;
 
     public BoardsController(){
+        createSphereList();
+        createTileList();
+    }
+
+    private void createSphereList(){
         sphereList = new ArrayList<>();
+        sphereList.add(sphere1);
+        sphereList.add(sphere2);
+        sphereList.add(sphere3);
+        sphereList.add(sphere4);
+        sphereList.add(sphere5);
+        sphereList.add(sphere6);
+        sphereList.add(sphere7);
+        sphereList.add(sphere8);
+        sphereList.add(sphere9);
+        sphereList.add(sphere10);
+        sphereList.add(sphere11);
+        sphereList.add(sphere12);
+        sphereList.add(sphere0);
+    }
+
+    private void createTileList(){
+        tileList = new ArrayList<>();
+        tileList.add(tile00);
+        tileList.add(tile01);
+        tileList.add(tile02);
+        tileList.add(tile03);
+        tileList.add(tile04);
+        tileList.add(tile05);
+        tileList.add(tile06);
+        tileList.add(tile07);
+        tileList.add(tile08);
+        tileList.add(tile09);
+        tileList.add(tile10);
+        tileList.add(tile11);
+        tileList.add(tile12);
+        tileList.add(tile13);
+        tileList.add(tile14);
+        tileList.add(tile15);
+        tileList.add(tile16);
+        tileList.add(tile17);
+        tileList.add(tile18);
+        tileList.add(tile19);
+        tileList.add(tile20);
+        tileList.add(tile21);
+        tileList.add(tile22);
+        tileList.add(tile23);
+        tileList.add(tile24);
     }
 
     @Override
@@ -125,7 +175,7 @@ public class BoardsController implements GUIController{
         var source = (Button)mouseEvent.getSource();
         var sourceId = source.getId();
         var move = getMove(sourceId);
-        gui.moveMarket(move);
+        gui.marketAction(move);
     }
 
     private int getMove(String sourceId){
@@ -141,8 +191,8 @@ public class BoardsController implements GUIController{
         };
     }
 
-    public void moveFT(int pos){
-
+    public void position(int pos){
+        tileList.get(pos).getChildren();
     }
 
     public void colorMarket(Colours[][] tray, Colours extern){
@@ -179,20 +229,10 @@ public class BoardsController implements GUIController{
         }
     }
 
-    private void createSphereList(){
-        sphereList = new ArrayList<>();
-        sphereList.add(sphere1);
-        sphereList.add(sphere2);
-        sphereList.add(sphere3);
-        sphereList.add(sphere4);
-        sphereList.add(sphere5);
-        sphereList.add(sphere6);
-        sphereList.add(sphere7);
-        sphereList.add(sphere8);
-        sphereList.add(sphere9);
-        sphereList.add(sphere10);
-        sphereList.add(sphere11);
-        sphereList.add(sphere12);
-        sphereList.add(sphere0);
+    public void activateLeader(MouseEvent mouseEvent){
+
+    }
+
+    public void buyCard(MouseEvent mouseEvent){
     }
 }

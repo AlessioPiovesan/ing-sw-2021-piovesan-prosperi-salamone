@@ -19,18 +19,6 @@ public class Checker{
         input = new Scanner(System.in);
     }
 
-    public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection){
-        List<T> result = new ArrayList<>(rawCollection.size());
-        for(Object o : rawCollection){
-            try{
-                result.add(clazz.cast(o));
-            } catch(ClassCastException e){
-                e.printStackTrace();
-            }
-        }
-        return result;
-    }
-
     /**
      * method getCorrectLeaderCardCode is used to check if the two digit code typed by the user for the leader cards is correct.
      *
@@ -77,6 +65,24 @@ public class Checker{
 
     private boolean isThirdCharOk(String response){
         return response.charAt(2) == '1' || response.charAt(2) == '2' || response.charAt(2) == '3';
+    }
+
+    /**
+     * The method isAddable checks if the player can actually store the card since you cannot store a level 2 or level three card
+     * if there is not an inferior level card already on the slot
+     *
+     * @param card is a development card
+     * @param slot is the number of remainig development cards
+     * @return a boolean
+     */
+    public boolean isAddable(CardDev card, int slot, List<ArrayList<CardDev>> lib){
+        var slotCards = lib.get(slot - 1);
+        if(slotCards.isEmpty()) return card.getLvl() == 1;
+        else return switch(card.getLvl()){
+            case 2 -> slotCards.get(slotCards.size() - 1).getLvl() == 1;
+            case 3 -> slotCards.get(slotCards.size() - 1).getLvl() == 2;
+            default -> false;
+        };
     }
 
     public boolean isPopeFavor(int i){

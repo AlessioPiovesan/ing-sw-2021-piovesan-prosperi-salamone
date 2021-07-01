@@ -8,6 +8,9 @@ import it.polimi.ingsw.clients.viewer.controllers.BoardsController;
 import it.polimi.ingsw.clients.viewer.controllers.GUIController;
 import it.polimi.ingsw.clients.viewer.controllers.InitialLeader;
 import it.polimi.ingsw.clients.viewer.controllers.ResizeHandler;
+import it.polimi.ingsw.clients.viewer.utils.Checker;
+import it.polimi.ingsw.clients.viewer.utils.Utils;
+import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -18,10 +21,11 @@ import javafx.stage.Stage;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * method GUI is used to create the Graphical User Interface of the game.
@@ -39,11 +43,25 @@ public class GUI extends Application implements UI{
     private static final String STRONGBOX = "strongBoxPane.fxml";
     private final HashMap<String, Scene> nameMapScene;
     private final HashMap<String, GUIController> nameMapController;
+    private final Utils utils;
+    private final ExecutorService executor;
+    private final Checker checker;
     private boolean single;
     private Scene currentScene;
     private Stage stage;
+    private String nickname;
+    private Client client;
+    private ModelView model;
+    private boolean endGame;
+    private boolean winner;
+    private ModelBoard myBoard;
 
     public GUI(){
+        single = false;
+        endGame = false;
+        checker = new Checker(this);
+        utils = new Utils(this);
+        executor = new ThreadPoolExecutor(0, 16, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
         nameMapScene = new HashMap<>();
         nameMapController = new HashMap<>();
         try{
@@ -85,16 +103,16 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public void setClient(Client client){ }
+    public void setClient(Client client){this.client = client;}
 
     @Override
     public String getNickname(){
-        return null;
+        return nickname;
     }
 
     @Override
     public void setNickname(String name){
-
+        nickname = name;
     }
 
     @Override
@@ -133,13 +151,54 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public void propertyChangeMulti(PropertyChangeEvent pce){
-
+    public void propertyChangeMulti(PropertyChangeEvent evt){
+        //        executor.execute(() -> {
+        //            switch(evt.getPropertyName()){
+        //                case "temporaryLeaderCards" -> {
+        //                    try{
+        //                        var initialLeaders = Json.fromJson((JsonNode)evt.getNewValue(), CardLeader[].class);
+        //                        chooseInitialLeaders(initialLeaders);
+        //                    } catch(JsonProcessingException e){
+        //                        e.printStackTrace();
+        //                    }
+        //                }
+        //                case "firstOp" -> client.send("initialResource::");
+        //                case "redCrossMove" -> client.send("checkVaticanReport::");
+        //                case "nextAction" -> nextAction();
+        //                case "preference" -> chooseRes();
+        //                case "doublePreference" -> doubleChooseRes();
+        //                case "change" -> output.println(evt.getNewValue());
+        //                case "marketBuffer" -> {
+        //                    var current = new LinkedList<Colours>();
+        //                    try{
+        //                        var list = Json.fromJson((JsonNode)evt.getNewValue(), Colours[].class);
+        //                        Collections.addAll(current, list);
+        //                    } catch(IOException e){
+        //                        e.printStackTrace();
+        //                    }
+        //                    resourcesHandlerMarket(current);
+        //                }
+        //                case "costCardDev" -> {
+        //                    var current = new LinkedList<Pick>();
+        //                    try{
+        //                        var list = Json.fromJson((JsonNode)evt.getNewValue(), Pick[].class);
+        //                        Collections.addAll(current, list);
+        //                    } catch(IOException e){
+        //                        e.printStackTrace();
+        //                    }
+        //                    payForCardDev(current);
+        //                }
+        //                case "winPoints" -> output.println("Points: " + evt.getNewValue());
+        //                case "gameID" -> output.println("Your Game ID: " + evt.getNewValue() + "\nTell the other players");
+        //                case "wrong" -> output.println("There's something wrong" + evt.getNewValue());
+        //                default -> output.println(evt.getPropertyName() + " is not handled (CLI-MULTI)");
+        //            }
+        //        });
     }
 
     @Override
-    public void setModelView(ModelView modelView){
-
+    public void setModelView(ModelView model){
+        this.model = model;
     }
 
     @Override
@@ -149,12 +208,53 @@ public class GUI extends Application implements UI{
 
     @Override
     public ModelBoard getMyBoard(){
-        return null;
+        return myBoard;
     }
 
     @Override
-    public void setMyBoard(int parseInt){
+    public void setMyBoard(int i){
+        myBoard = model.getTheirBoards(i);
+    }
 
+    private synchronized void resourcesHandlerMarket(List<Colours> bufferMarket){
+        //        var keep = new ArrayList<Colours>();
+        //        var loose = new ArrayList<Colours>();
+        //        for(Colours colour : bufferMarket){
+        //            if(colour == Colours.WHITE) loose.add(colour);
+        //            else{
+        //                var j = resourcesDestination(colour, "\nDo you want to store it in your personal warehouse?\n0) No\n1)Yes\n>\t", "Command not valid, unknown");
+        //                if(j == 0) loose.add(colour);
+        //                else keep.add(colour);
+        //            }
+        //        }
+        //        if(single) getLocalGameController().addFaithPnt(loose);
+        //        else client.send("addFaithPnt::" + loose.size());
+        //        output.println("This resources need handling:");
+        //        var colors = new StringBuilder();
+        //        for(Colours colour : keep) colors.append(Colours.getColoredType(colour)).append("\t");
+        //        output.println(colors);
+        //        for(Colours colours : keep)
+        //            prepareResForWarehouse(colours, 1, single);
+        //        drawer.showWarehouse(getWarehouse());
+        //        if(single) getLocalGameController().nextPlayer();
+        //        else{
+        //            output.println("Wait for next turn");
+        //            client.send("nextPlayer::");
+        //        }
+    }
+
+    /**
+     * method chooseInitialLeaders is used to record the initial Leader Card choice of the player
+     *
+     * @param selected of type CardLeader - player's selection
+     */
+    public void chooseInitialLeaders(CardLeader[] selected){
+        if(single) LocalGameController.getInstance().getBoardController().player().setMyLeaderCards(selected);
+    }
+
+    private void doubleChooseRes(){
+        //        chooseRes();
+        //        chooseRes();
     }
 
     /**
@@ -226,20 +326,8 @@ public class GUI extends Application implements UI{
     private void nextAction(){
     }
 
-    /**
-     * method chooseInitialLeaders is used to record the initial Leader Card choice of the player
-     *
-     * @param selected of type CardLeader - player's selection
-     */
-    public void chooseInitialLeaders(CardLeader[] selected){
-        if(single) LocalGameController.getInstance().getBoardController().player().setMyLeaderCards(selected);
-    }
-
-    public void moveMarket(int move){
-        if(move == -1){
-            System.out.println("Impossible move");
-            nextAction();
-        }
-        else getLocalGameController().marketAction(move);
+    public void marketAction(int move){
+        if(single) getLocalGameController().marketAction(move);
+        else client.send("marketAction::" + move);
     }
 }

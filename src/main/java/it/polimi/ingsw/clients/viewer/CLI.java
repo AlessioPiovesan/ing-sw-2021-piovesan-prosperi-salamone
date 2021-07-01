@@ -10,6 +10,7 @@ import it.polimi.ingsw.clients.singleplayer.model.Lorenzo;
 import it.polimi.ingsw.clients.viewer.utils.Checker;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.clients.viewer.utils.DrawerCLI;
+import it.polimi.ingsw.clients.viewer.utils.Utils;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.accessories.Pick;
@@ -43,6 +44,7 @@ public class CLI implements Runnable, UI{
     private final ExecutorService executor;
     private final Checker checker;
     private final DrawerCLI drawer;
+    private final Utils utils;
     private String nickname;
     private boolean single;
     private Client client;
@@ -53,6 +55,7 @@ public class CLI implements Runnable, UI{
 
     public CLI(){
         single = false;
+        utils = new Utils(this);
         checker = new Checker(this);
         drawer = new DrawerCLI(this);
         input = new Scanner(System.in);
@@ -322,7 +325,7 @@ public class CLI implements Runnable, UI{
             }
             else{
                 ++i;
-                librarySlot = (ArrayList<CardDev>)Checker.castList(CardDev.class, checker.canUseAnyCardDev(librarySlot, getResAll()));
+                librarySlot = (ArrayList<CardDev>)utils.castList(CardDev.class, checker.canUseAnyCardDev(librarySlot, getResAll()));
                 if(!librarySlot.isEmpty()){
                     var actionableCard = librarySlot.get(librarySlot.size() - 1);
                     output.println("Do you want to activate");
@@ -893,24 +896,6 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * The method isAddable checks if the player can actually store the card since you cannot store a level 2 or level three card
-     * if there is not an inferior level card already on the slot
-     *
-     * @param card is a development card
-     * @param slot is the number of remainig development cards
-     * @return a boolean
-     */
-    public boolean isAddable(CardDev card, int slot){
-        var slotCards = getLibrary().get(slot - 1);
-        if(slotCards.isEmpty()) return card.getLvl() == 1;
-        else return switch(card.getLvl()){
-            case 2 -> slotCards.get(slotCards.size() - 1).getLvl() == 1;
-            case 3 -> slotCards.get(slotCards.size() - 1).getLvl() == 2;
-            default -> false;
-        };
-    }
-
-    /**
      * method chooseCardDev is the method used whenever a player wants to buy a Development Card with his resources.
      * Whenever the player cannot buy any Dev Card, this method will warn him.
      *
@@ -974,7 +959,7 @@ public class CLI implements Runnable, UI{
             output.println("This slot doesn't exist\nTry again...");
             pickSlot(card);
         }
-        if(!isAddable(card, slot)) slot = -1;
+        if(!checker.isAddable(card, slot, getLibrary())) slot = -1;
         return slot - 1;
     }
 

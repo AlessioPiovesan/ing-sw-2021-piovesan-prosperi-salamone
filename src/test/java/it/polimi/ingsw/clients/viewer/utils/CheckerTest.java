@@ -36,12 +36,13 @@ class CheckerTest{
     @Test
     void canUseAnyCardDev(){
         var checker = new Checker(null);
+        var utils = new Utils(null);
         var list = new LinkedList<CardDev>();
         list.add(CardDev.CARDDEV_1C1);
         var resAll = new EnumMap<Colours, Integer>(Colours.class);
         resAll.put(Colours.BLUE, 2);
         resAll.put(Colours.YELLOW, 2);
-        var newList = checker.canUseAnyCardDev(Checker.castList(CardDev.class, list), resAll);
+        var newList = checker.canUseAnyCardDev(utils.castList(CardDev.class, list), resAll);
         assertEquals(list, newList);
     }
 

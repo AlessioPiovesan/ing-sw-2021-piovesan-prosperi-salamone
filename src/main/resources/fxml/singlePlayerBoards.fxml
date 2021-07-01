@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="899.0" prefWidth="1200.0"
             xmlns="http://javafx.com/javafx/16"
             fx:controller="it.polimi.ingsw.clients.viewer.controllers.BoardsController">
@@ -20,146 +19,163 @@
                 </ImageView>
                 <AnchorPane accessibleRole="IMAGE_VIEW" layoutX="39.0" layoutY="65.0" prefHeight="200.0"
                             prefWidth="1203.0">
-                    <Label fx:id="tile00" layoutX="18.0" layoutY="116.0" maxHeight="54.0" maxWidth="54.0"
-                           minHeight="54.0" minWidth="54.0" prefHeight="54.0" prefWidth="54.0" text="0">
-                        <graphic>
-                            <ImageView fx:id="redCrossImg" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT"
-                                       pickOnBounds="true" preserveRatio="true">
-                                <Image url="@../graphics/faithTrack/cross.png"/>
-                            </ImageView>
-                        </graphic>
+                    <AnchorPane fx:id="tile00" layoutX="18.0" layoutY="116.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile01" layoutX="64.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0" text="1">
+                        <ImageView fx:id="redCrossImg" fitHeight="50.0" fitWidth="50.0" nodeOrientation="INHERIT"
+                                   pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../graphics/faithTrack/cross.png"/>
+                        </ImageView>
+                        <ImageView fx:id="blackCrossImg" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true"
+                                   preserveRatio="true">
+                            <Image url="@../graphics/faithTrack/croce.png"/>
+                        </ImageView>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile01" layoutX="64.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                        <graphic>
-                            <ImageView fx:id="blackCrossImg" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true"
-                                       preserveRatio="true">
-                                <image>
-                                    <Image url="@../graphics/faithTrack/croce.png"/>
-                                </image>
-                            </ImageView>
-                        </graphic>
-                    </Label>
-                    <Label fx:id="tile02" layoutX="127.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0" text="2">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile02" layoutX="127.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile03" layoutX="117.0" layoutY="45.0" prefHeight="54.0" prefWidth="54.0" text="3">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile03" layoutX="117.0" layoutY="45.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile04" layoutX="117.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="4">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile04" layoutX="117.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile05" layoutX="180.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="5">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile05" layoutX="180.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile06" layoutX="243.0" layoutY="-28.0" prefHeight="54.0" prefWidth="54.0" text="6">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile06" layoutX="243.0" layoutY="-28.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile07" layoutX="306.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="7">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile07" layoutX="306.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile08" layoutX="361.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="8">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile08" layoutX="361.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile09" layoutX="424.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="9">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile09" layoutX="424.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile10" layoutX="424.0" layoutY="45.0" prefHeight="54.0" prefWidth="54.0" text="10">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile10" layoutX="424.0" layoutY="45.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile11" layoutX="424.0" layoutY="116.0" prefHeight="54.0" prefWidth="54.0" text="11">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile11" layoutX="424.0" layoutY="116.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile12" layoutX="487.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0" text="12">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile12" layoutX="487.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile13" layoutX="537.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0" text="13">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile13" layoutX="537.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile14" layoutX="600.0" layoutY="116.0" prefHeight="54.0" prefWidth="54.0" text="14">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile14" layoutX="600.0" layoutY="116.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile15" layoutX="663.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0" text="15">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile15" layoutX="663.0" layoutY="109.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile16" layoutX="726.0" layoutY="116.0" prefHeight="54.0" prefWidth="54.0" text="16">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile16" layoutX="726.0" layoutY="116.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile17" layoutX="726.0" layoutY="45.0" prefHeight="54.0" prefWidth="54.0" text="17">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile17" layoutX="726.0" layoutY="45.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile18" layoutX="716.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="18">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile18" layoutX="716.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile19" layoutX="779.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="19">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile19" layoutX="779.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile20" layoutX="830.0" layoutY="-28.0" prefHeight="54.0" prefWidth="54.0" text="20">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile20" layoutX="830.0" layoutY="-28.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile21" layoutX="893.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="21">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile21" layoutX="893.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile22" layoutX="945.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="22">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile22" layoutX="945.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile23" layoutX="1008.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0" text="23">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile23" layoutX="1008.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
-                    <Label fx:id="tile24" layoutX="1073.0" layoutY="-14.0" prefHeight="54.0" prefWidth="65.0" text="24">
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
+                    <AnchorPane fx:id="tile24" layoutX="1073.0" layoutY="-14.0" prefHeight="54.0" prefWidth="54.0">
                         <padding>
                             <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                         </padding>
-                    </Label>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true"/>
+                    </AnchorPane>
                 </AnchorPane>
                 <Button fx:id="strongBoxButton" blendMode="MULTIPLY" layoutX="25.0" layoutY="632.0"
                         mnemonicParsing="false" onMouseClicked="#openStrongBox" prefHeight="208.0" prefWidth="243.0"/>
@@ -279,465 +295,297 @@
             </AnchorPane>
         </Tab>
         <Tab text="Leader Cards">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <children>
-                        <ImageView fitHeight="917.0" fitWidth="1517.0" layoutX="-158.0" opacity="0.7"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../graphics/marbles/Firenze-del-Trecento.jpeg"/>
-                            </image>
-                        </ImageView>
-                        <ImageView fitHeight="312.0" fitWidth="379.0" layoutX="289.0" layoutY="278.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../graphics/cards/front/lead/CARDLEAD01.png"/>
-                            </image>
-                        </ImageView>
-                        <ImageView fitHeight="312.0" fitWidth="379.0" layoutX="692.0" layoutY="278.0"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../graphics/cards/front/lead/CARDLEAD02.png"/>
-                            </image>
-                        </ImageView>
-                        <Button layoutX="348.0" layoutY="647.0" mnemonicParsing="false" prefHeight="26.0"
-                                prefWidth="89.0" stylesheets="@../css/singleplayerboards.css" text="Activate"/>
-                        <Button layoutX="751.0" layoutY="647.0" mnemonicParsing="false" prefWidth="89.0"
-                                text="Activate"/>
-                    </children>
-                </AnchorPane>
-            </content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <ImageView fitHeight="917.0" fitWidth="1517.0" layoutX="-158.0" opacity="0.7" pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@../graphics/marbles/Firenze-del-Trecento.jpeg"/>
+                </ImageView>
+                <ImageView fx:id="leader1" fitHeight="312.0" fitWidth="379.0" layoutX="289.0" layoutY="278.0"
+                           pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/cards/front/lead/CARDLEAD01.png"/>
+                </ImageView>
+                <ImageView fx:id="leader2" fitHeight="312.0" fitWidth="379.0" layoutX="692.0" layoutY="278.0"
+                           pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../graphics/cards/front/lead/CARDLEAD02.png"/>
+                </ImageView>
+                <Button layoutX="348.0" layoutY="647.0" mnemonicParsing="false" onMouseClicked="#activateLeader"
+                        prefHeight="26.0" prefWidth="89.0" stylesheets="@../css/singleplayerboards.css"
+                        text="Activate"/>
+                <Button layoutX="751.0" layoutY="647.0" mnemonicParsing="false" onMouseClicked="#activateLeader"
+                        prefWidth="89.0" text="Activate"/>
+            </AnchorPane>
         </Tab>
         <Tab text="Card Shop">
-            <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                    <children>
-                        <ImageView fitHeight="917.0" fitWidth="1517.0" layoutX="-158.0" opacity="0.7"
-                                   pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@../graphics/marbles/Firenze-del-Trecento.jpeg"/>
-                            </image>
-                        </ImageView>
-                        <TabPane layoutX="369.0" layoutY="106.0" prefHeight="200.0" prefWidth="463.0"
-                                 tabClosingPolicy="UNAVAILABLE">
-                            <tabs>
-                                <Tab text="BLUE">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="169.0" prefWidth="269.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1C1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2C1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3C1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4C1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab text="GREEN">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1G1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2G1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3G1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4G1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab text="PURPLE">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1P1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2P1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3P1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4P1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab text="YELLOW">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1Y1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2Y1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3Y1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4Y1.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                            </tabs>
-                        </TabPane>
-                        <TabPane layoutX="369.0" layoutY="344.0" prefHeight="200.0" prefWidth="463.0"
-                                 tabClosingPolicy="UNAVAILABLE">
-                            <tabs>
-                                <Tab text="BLUE">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="169.0" prefWidth="269.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1C2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2C2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3C2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4C2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab text="GREEN">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1G2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2G2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3G2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4G2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab text="PURPLE">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1P2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2P2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3P2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4P2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab text="YELLOW">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1Y2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2Y2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3Y2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4Y2.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                            </tabs>
-                        </TabPane>
-                        <TabPane layoutX="369.0" layoutY="583.0" prefHeight="200.0" prefWidth="463.0"
-                                 tabClosingPolicy="UNAVAILABLE">
-                            <tabs>
-                                <Tab text="BLUE">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="169.0" prefWidth="269.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1C3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2C3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3C3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4C3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab text="GREEN">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1G3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2G3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3G3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="10.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4G3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab text="PURPLE">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1P3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2P3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3P3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4P3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                                <Tab text="YELLOW">
-                                    <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                            <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_1Y3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_2Y3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_3Y3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../graphics/cards/front/dev/CARDDEV_4Y3.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </AnchorPane>
-                                    </content>
-                                </Tab>
-                            </tabs>
-                        </TabPane>
-                        <Label layoutX="161.0" layoutY="173.0" stylesheets="@../css/singleplayerboards.css"
-                               text="LEVEL I">
-                            <font>
-                                <Font size="40.0"/>
-                            </font>
-                        </Label>
-                        <Label layoutX="154.0" layoutY="400.0" stylesheets="@../css/singleplayerboards.css"
-                               text="LEVEL II">
-                            <font>
-                                <Font size="40.0"/>
-                            </font>
-                        </Label>
-                        <Label layoutX="147.0" layoutY="659.0" stylesheets="@../css/singleplayerboards.css"
-                               text="LEVEL III">
-                            <font>
-                                <Font size="40.0"/>
-                            </font>
-                        </Label>
-                    </children>
-                </AnchorPane>
-            </content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <ImageView fitHeight="917.0" fitWidth="1517.0" layoutX="-158.0" opacity="0.7" pickOnBounds="true"
+                           preserveRatio="true">
+                    <Image url="@../graphics/marbles/Firenze-del-Trecento.jpeg"/>
+                </ImageView>
+                <TabPane layoutX="369.0" layoutY="106.0" prefHeight="200.0" prefWidth="463.0"
+                         tabClosingPolicy="UNAVAILABLE">
+                    <Tab text="BLUE">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="169.0" prefWidth="269.0">
+                            <ImageView fx:id="CARDDEV_1C1" fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
+                                       layoutY="9.0" onMouseClicked="#buyCard" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1C1.png"/>
+                            </ImageView>
+                            <ImageView fx:id="CARDDEV_2C1" fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
+                                       layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2C1.png"/>
+                            </ImageView>
+                            <ImageView fx:id="CARDDEV_3C1" fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
+                                       layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3C1.png"/>
+                            </ImageView>
+                            <ImageView fx:id="CARDDEV_4C1" fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
+                                       layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4C1.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="GREEN">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1G1.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="10.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2G1.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="10.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3G1.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="10.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4G1.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="PURPLE">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1P1.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2P1.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3P1.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4P1.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="YELLOW">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1Y1.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2Y1.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3Y1.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4Y1.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                </TabPane>
+                <TabPane layoutX="369.0" layoutY="344.0" prefHeight="200.0" prefWidth="463.0"
+                         tabClosingPolicy="UNAVAILABLE">
+                    <Tab text="BLUE">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="169.0" prefWidth="269.0">
+                            <ImageView fx:id="CARDDEV_1C2" fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
+                                       layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1C2.png"/>
+                            </ImageView>
+                            <ImageView fx:id="CARDDEV_2C2" fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
+                                       layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2C2.png"/>
+                            </ImageView>
+                            <ImageView fx:id="CARDDEV_3C2" fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
+                                       layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3C2.png"/>
+                            </ImageView>
+                            <ImageView fx:id="CARDDEV_4C2" fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
+                                       layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4C2.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="GREEN">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1G2.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="10.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2G2.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="10.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3G2.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="10.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4G2.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="PURPLE">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1P2.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2P2.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3P2.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4P2.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="YELLOW">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1Y2.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2Y2.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3Y2.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4Y2.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                </TabPane>
+                <TabPane layoutX="369.0" layoutY="583.0" prefHeight="200.0" prefWidth="463.0"
+                         tabClosingPolicy="UNAVAILABLE">
+                    <Tab text="BLUE">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="169.0" prefWidth="269.0">
+                            <ImageView fx:id="CARDDEV_1C3" fitHeight="150.0" fitWidth="200.0" layoutX="12.0"
+                                       layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1C3.png"/>
+                            </ImageView>
+                            <ImageView fx:id="CARDDEV_2C3" fitHeight="150.0" fitWidth="200.0" layoutX="125.0"
+                                       layoutY="10.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2C3.png"/>
+                            </ImageView>
+                            <ImageView fx:id="CARDDEV_3C3" fitHeight="150.0" fitWidth="200.0" layoutX="238.0"
+                                       layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3C3.png"/>
+                            </ImageView>
+                            <ImageView fx:id="CARDDEV_4C3" fitHeight="150.0" fitWidth="200.0" layoutX="351.0"
+                                       layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4C3.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="GREEN">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1G3.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="10.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2G3.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="10.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3G3.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="10.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4G3.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="PURPLE">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1P3.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2P3.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3P3.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4P3.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                    <Tab text="YELLOW">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="12.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_1Y3.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="125.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_2Y3.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="238.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_3Y3.png"/>
+                            </ImageView>
+                            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="351.0" layoutY="9.0"
+                                       pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../graphics/cards/front/dev/CARDDEV_4Y3.png"/>
+                            </ImageView>
+                        </AnchorPane>
+                    </Tab>
+                </TabPane>
+                <Label layoutX="161.0" layoutY="173.0" stylesheets="@../css/singleplayerboards.css" text="LEVEL I">
+                    <font>
+                        <Font size="40.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="154.0" layoutY="400.0" stylesheets="@../css/singleplayerboards.css" text="LEVEL II">
+                    <font>
+                        <Font size="40.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="147.0" layoutY="659.0" stylesheets="@../css/singleplayerboards.css" text="LEVEL III">
+                    <font>
+                        <Font size="40.0"/>
+                    </font>
+                </Label>
+            </AnchorPane>
         </Tab>
     </TabPane>
 </AnchorPane>
