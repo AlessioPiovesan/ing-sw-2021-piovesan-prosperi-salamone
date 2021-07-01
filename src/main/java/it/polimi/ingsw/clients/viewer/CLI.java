@@ -1017,10 +1017,17 @@ public class CLI implements Runnable, UI{
     private void prepareResForWarehouseM(Colours colour, int qnt){
         if(colour == Colours.RED) client.send("moveFT::" + 1);
         else{
+            var pick = new Pick(colour, qnt);
+            var response = 0;
             drawer.showWarehouse(getWarehouse());
             output.print("Please choose the shelf for this resource? [1-3]\n" + Colours.getColoredType(colour) + "\n>\t");
             output.flush();
             var lvl = getWarehouseShelfLvl();
+            while(!checkAdd(lvl, pick)){
+                response = getResponse();
+                lvl = actOnResponse(colour, response, lvl);
+                if(response == 1) break;
+            }
             client.send("warehouseResHandler::" + colour.name() + "::" + qnt + "::" + lvl);
         }
     }
@@ -1050,6 +1057,21 @@ public class CLI implements Runnable, UI{
             }
             if(response != 1) bc.warehouseResHandler(colour, qnt, lvl);
         }
+    }
+
+    private boolean checkAdd(int lvl, Pick add){
+        int i = -1;
+        if(add.qnt() < 4){
+            for(var k = 0; k < getWarehouse().size(); k++){
+                var pick = getWarehouse().get(k);
+                if(pick.resource() == add.resource()) i = k;
+            }
+            var j = getWarehouse().get(lvl);
+            if(lvl == i) return ((j.qnt() + add.qnt()) <= (lvl + 1));
+            else if(i > -1) return false;
+            else return j.resource() == Colours.WHITE;
+        }
+        return false;
     }
 
     /**
