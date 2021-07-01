@@ -24,6 +24,11 @@ public enum Colours{
         return list;
     }
 
+    /**
+     * method Colours associates the correct colours from a string
+     * @param color is a color
+     * @return a color
+     */
     public static Colours fromString(String color){
         return switch(color.toUpperCase()){
             case "SHIELD", "BLUE" -> BLUE;
@@ -36,6 +41,11 @@ public enum Colours{
         };
     }
 
+    /**
+     * method getColoredType creates a string where the resource name is colorized
+     * @param colour is a colour
+     * @return the resource name colorized
+     */
     public static String getColoredType(Colours colour){
         return switch(colour){
             case BLUE -> ConsoleColors.BLUE + colour.getType() + ConsoleColors.RESET;

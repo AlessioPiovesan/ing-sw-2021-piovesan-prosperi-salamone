@@ -52,6 +52,9 @@ public class Client implements Runnable{
         setModelView();
     }
 
+    /**
+     * Method setModelView generates the Model View for a certain player
+     */
     private void setModelView(){
         modelView = new ModelView(nPlayers, ui);
     }
@@ -180,6 +183,11 @@ public class Client implements Runnable{
         }
     }
 
+    /**
+     * method PrpertyChangeEvent generates a Property Change to the user
+     * @param src is the serialization for the server's event
+     * @return the reconstructed event
+     */
     private PropertyChangeEvent recreatePropertyChangeEvent(String src){
         PropertyChangeEvent pce = null;
         try{

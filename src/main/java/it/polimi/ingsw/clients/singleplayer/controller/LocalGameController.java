@@ -148,6 +148,10 @@ public class LocalGameController{
         b.buyCardDev(cardToBeBought, slot);
     }
 
+    /**
+     * method tossCardDEv tosses a development card
+     * @param colour is the color of the card is being tossed
+     */
     public void tossCardDev(ColoursCards colour){
         var deck = game.getCardDevDeck();
         CardDev found = null;

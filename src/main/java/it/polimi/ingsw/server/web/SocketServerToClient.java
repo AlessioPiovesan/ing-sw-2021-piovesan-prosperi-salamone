@@ -166,6 +166,10 @@ public class SocketServerToClient implements Runnable{
         }
     }
 
+    /**
+     * method preparateInitialLeaders let each player decide wich two of four leader cards wants to began the game with
+     * @param src is a serialized message
+     */
     private void prepareInitialLeaders(String src){
         try{
             var node = Json.parse(src);
@@ -195,6 +199,9 @@ public class SocketServerToClient implements Runnable{
         active = false;
     }
 
+    /**
+     * method sendInLobby is used when a player have to wait to be added in a game
+     */
     public void sendInLobby(){
         var name = remoteView.getNickname();
         var n = remoteView.getNPlayers();

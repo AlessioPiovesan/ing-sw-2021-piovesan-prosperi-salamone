@@ -171,6 +171,10 @@ public class BoardsController implements GUIController{
         }
     }
 
+    /**
+     * method moveMarket indicates the player's move on the market
+     * @param mouseEvent is a mouse click
+     */
     public void moveMarket(MouseEvent mouseEvent){
         var source = (Button)mouseEvent.getSource();
         var sourceId = source.getId();

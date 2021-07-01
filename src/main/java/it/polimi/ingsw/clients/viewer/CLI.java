@@ -700,6 +700,9 @@ public class CLI implements Runnable, UI{
         return port;
     }
 
+    /**
+     * method doubleChooseRes makes the 4th player choose his initial resources at the start of the game
+     */
     private void doubleChooseRes(){
         output.println("Choose a first");
         chooseRes();
@@ -707,6 +710,9 @@ public class CLI implements Runnable, UI{
         chooseRes();
     }
 
+    /**
+     * method chooseRes makes the selected player choose the resources a the start of the game
+     */
     private void chooseRes(){
         output.println("Select a preferred resource to add to you belongings:");
         output.println("1)\t" + Colours.getColoredType(Colours.BLUE));
