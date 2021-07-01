@@ -15,7 +15,7 @@ public class ClientApp{
     private ClientApp(){}
 
     /**
-     * method start starts the client
+     * Method start starts the client
      *
      * @param input of int type
      **/

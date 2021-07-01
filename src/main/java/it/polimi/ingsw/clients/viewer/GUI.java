@@ -28,7 +28,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * method GUI is used to create the Graphical User Interface of the game.
+ * Method GUI is used to create the Graphical User Interface of the game.
  *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi

@@ -19,7 +19,7 @@ import java.net.Socket;
 import java.util.*;
 
 /**
- * class Client handles Client side and receives messages from server
+ * Class Client handles Client side and receives messages from server
  *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
@@ -97,7 +97,7 @@ public class Client implements Runnable{
     }
 
     /**
-     * method readingFromServer is used to read messages coming from the server side.
+     * Method readingFromServer is used to read messages coming from the server side.
      *
      * @throws IOException standard IOException
      */
@@ -127,7 +127,7 @@ public class Client implements Runnable{
     }
 
     /**
-     * method interpreter interprets inputs from the client
+     * Method interpreter interprets inputs from the client
      *
      * @param input is a message from the server
      */
@@ -171,7 +171,7 @@ public class Client implements Runnable{
     }
 
     /**
-     * method send sends messages.
+     * Method send sends messages.
      *
      * @param message is a message to the server
      */
@@ -184,7 +184,7 @@ public class Client implements Runnable{
     }
 
     /**
-     * method PrpertyChangeEvent generates a Property Change to the user
+     * Method PrpertyChangeEvent generates a Property Change to the user
      * @param src is the serialization for the server's event
      * @return the reconstructed event
      */

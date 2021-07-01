@@ -200,7 +200,7 @@ public class SocketServerToClient implements Runnable{
     }
 
     /**
-     * method sendInLobby is used when a player have to wait to be added in a game
+     * Method sendInLobby is used when a player have to wait to be added in a game
      */
     public void sendInLobby(){
         var name = remoteView.getNickname();

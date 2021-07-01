@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * class LocalGame is the model for the local single player game without establishing any connections.
+ * Class LocalGame is the model for the local single player game without establishing any connections.
  *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
@@ -52,14 +52,14 @@ public class LocalGame{
     }
 
     /**
-     * method myLeaderCardsHandler handles the initial four leader cards.
+     * Method myLeaderCardsHandler handles the initial four leader cards.
      */
     public void myLeaderCardsHandler(){
         boards[0].setTemporaryLeaderCards(giveCardLead().toArray(CardLeader[]::new));
     }
 
     /**
-     * method giveCardLead deals the four leader cards to the player
+     * Method giveCardLead deals the four leader cards to the player
      *
      * @return the four leader cards the player receives at the start of the game
      */
@@ -72,7 +72,7 @@ public class LocalGame{
     }
 
     /**
-     * method selectNextPlayableLeaderCards is the method that lets the player choose two leader cards out of the four available.
+     * Method selectNextPlayableLeaderCards is the method that lets the player choose two leader cards out of the four available.
      *
      * @return an available leader card
      */

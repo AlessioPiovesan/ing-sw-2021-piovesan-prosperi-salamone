@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * class BoardsController is the GUI controller of every player's board.
+ * Class BoardsController is the GUI controller of every player's board.
  * It uses FXML files for JavaFX
  *
  * @author Alessio Piovesan
@@ -151,7 +151,7 @@ public class BoardsController implements GUIController{
     }
 
     /**
-     * method openStrongBox graphically shows the content of the strongbox whenever a player clicks on it.
+     * Method openStrongBox graphically shows the content of the strongbox whenever a player clicks on it.
      *
      * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
      */
@@ -172,7 +172,7 @@ public class BoardsController implements GUIController{
     }
 
     /**
-     * method moveMarket indicates the player's move on the market
+     * Method moveMarket indicates the player's move on the market
      * @param mouseEvent is a mouse click
      */
     public void moveMarket(MouseEvent mouseEvent){

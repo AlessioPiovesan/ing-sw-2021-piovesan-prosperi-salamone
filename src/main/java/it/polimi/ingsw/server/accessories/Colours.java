@@ -25,7 +25,7 @@ public enum Colours{
     }
 
     /**
-     * method Colours associates the correct colours from a string
+     * Method Colours associates the correct colours from a string
      * @param color is a color
      * @return a color
      */
@@ -42,7 +42,7 @@ public enum Colours{
     }
 
     /**
-     * method getColoredType creates a string where the resource name is colorized
+     * Method getColoredType creates a string where the resource name is colorized
      * @param colour is a colour
      * @return the resource name colorized
      */

@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * class LocalGameController is the controller class for the local single player game.
+ * Class LocalGameController is the controller class for the local single player game.
  *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
@@ -42,7 +42,7 @@ public class LocalGameController{
     }
 
     /**
-     * method moveLorenzo is the method responsible for any Lorenzo's move.
+     * Method moveLorenzo is the method responsible for any Lorenzo's move.
      *
      * @see #nextPlayer()
      */
@@ -56,7 +56,7 @@ public class LocalGameController{
     }
 
     /**
-     * method nextPlayer changes the playing user from Lorenzo to the active user.
+     * Method nextPlayer changes the playing user from Lorenzo to the active user.
      */
     public synchronized void nextPlayer(){
         playingPlayer = !playingPlayer;
@@ -73,7 +73,7 @@ public class LocalGameController{
     }
 
     /**
-     * method startGame starts the game.
+     * Method startGame starts the game.
      */
     public void startGame(){
         playingPlayer = false;
@@ -85,7 +85,7 @@ public class LocalGameController{
     }
 
     /**
-     * method marketAction handles market choices and movements.
+     * Method marketAction handles market choices and movements.
      *
      * @param moveMarket is the market shift in row and columns
      * @see Board#marketResHandler(List)
@@ -101,7 +101,7 @@ public class LocalGameController{
     }
 
     /**
-     * method addFaithPnt is used to move forward on the faith track
+     * Method addFaithPnt is used to move forward on the faith track
      *
      * @param waste is the marble not used by the player
      * @see it.polimi.ingsw.server.model.board.Board#moveFT(int)
@@ -112,7 +112,7 @@ public class LocalGameController{
     }
 
     /**
-     * cardLeadAction handles all of the Leader Cards' powers.
+     * CardLeadAction handles all of the Leader Cards' powers.
      * 01,02,03,04: Resource discount
      * 05,06,07,08: Adds a special depot with two additional spaces for resources.
      * 09,10,11,12: White marble becomes the specified resource.
@@ -136,7 +136,7 @@ public class LocalGameController{
     }
 
     /**
-     * cardDevAction is the action the player makes when he buys a dev card.
+     * CardDevAction is the action the player makes when he buys a dev card.
      *
      * @param cardToBeBought is the card who's going to be bought from the player
      * @param slot           is where the bought card will be placed
@@ -149,7 +149,7 @@ public class LocalGameController{
     }
 
     /**
-     * method tossCardDEv tosses a development card
+     * Method tossCardDEv tosses a development card
      * @param colour is the color of the card is being tossed
      */
     public void tossCardDev(ColoursCards colour){

@@ -31,7 +31,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
- * class CLI creates the Command Line Interface which is on of the two ways to play the game
+ * Class CLI creates the Command Line Interface which is on of the two ways to play the game
  *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
@@ -71,7 +71,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method propertyChange is part of the Observer Pattern that can react to Model's changes.
+     * Method propertyChange is part of the Observer Pattern that can react to Model's changes.
      * TEMPORARYLEADERCARDS: used to choose the two initial leader cards
      * FIRSTOP: starts the game if single player, else handles the resources
      * NEXTPLAYER: used for single player mode to decide the next player between Lorenzo and the actual player
@@ -128,7 +128,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method payForCardDev is used to handle the payment of a Development Card.
+     * Method payForCardDev is used to handle the payment of a Development Card.
      *
      * @param cost of type List of Pick
      * @see DrawerCLI#showWarehouse(List)
@@ -174,7 +174,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method showStatus is a method used to give a player the option to view his current game's status at any given time
+     * Method showStatus is a method used to give a player the option to view his current game's status at any given time
      * 1: shows the warehouse
      * 2: shows the strongbox
      * 3: shows his Development Cards
@@ -253,7 +253,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method nextAction asks the player what is next action is going to be
+     * Method nextAction asks the player what is next action is going to be
      *
      * @see #chooseAction(String)
      */
@@ -276,7 +276,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method chooseAction is used to record and execute player's choice for his next action
+     * Method chooseAction is used to record and execute player's choice for his next action
      * 1: Activate Production
      * 2: Pick resources from the market
      * 3: Buy a dev Card
@@ -342,7 +342,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method activateProdCard is used after startProd has been triggered and activates the production of Development Cards
+     * Method activateProdCard is used after startProd has been triggered and activates the production of Development Cards
      *
      * @param card is a development card
      */
@@ -384,7 +384,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method resourcesHandlerMarket is the method used to handle resources that have been chosen from the market.
+     * Method resourcesHandlerMarket is the method used to handle resources that have been chosen from the market.
      * Resources can be discarded or stored in the warehouse.
      * For every discarded resource other players get an additional Faith point which moves them further on the faith track
      *
@@ -419,7 +419,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method resourcesDestination lets the player decide the destination of a resource
+     * Method resourcesDestination lets the player decide the destination of a resource
      *
      * @param colour is one of the possible colours
      * @param s      is a param of string type
@@ -446,7 +446,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method resourcesHandler is used to handle resources whenever the player needs them.
+     * Method resourcesHandler is used to handle resources whenever the player needs them.
      * The method asks the player if he wants to take them from the warehouse or the strongbox
      * 1: From Warehouse
      * 2: From Strongbox
@@ -507,7 +507,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method reChooseNickname is used in case a player chooses a nickname already taken
+     * Method reChooseNickname is used in case a player chooses a nickname already taken
      *
      * @param id is an alredy existing id in that game
      */
@@ -517,7 +517,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method clientSetup is used to ask for IP and Port of the server
+     * Method clientSetup is used to ask for IP and Port of the server
      */
     @Override
     public void clientSetup(){
@@ -548,7 +548,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method askNPlayers asks a player how many players are going to play the game
+     * Method askNPlayers asks a player how many players are going to play the game
      */
     @Override
     public void askNPlayers(){
@@ -570,7 +570,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method askId asks the player if he already has a game to join by requesting the game ID previously provided
+     * Method askId asks the player if he already has a game to join by requesting the game ID previously provided
      * by another player who created the match.
      * In case the player does not have a game ID and wants to create a new match, an ID will be provided to him.
      */
@@ -668,7 +668,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method askIP asks the player for the server's IP address
+     * Method askIP asks the player for the server's IP address
      *
      * @ return the server's IP address
      */
@@ -685,7 +685,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method askPort asks the player for the Server's port
+     * Method askPort asks the player for the Server's port
      *
      * @return the Server's port number
      */
@@ -701,7 +701,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method doubleChooseRes makes the 4th player choose his initial resources at the start of the game
+     * Method doubleChooseRes makes the 4th player choose his initial resources at the start of the game
      */
     private void doubleChooseRes(){
         output.println("Choose a first");
@@ -711,7 +711,7 @@ public class CLI implements Runnable, UI{
     }
 
     /**
-     * method chooseRes makes the selected player choose the resources a the start of the game
+     * Method chooseRes makes the selected player choose the resources a the start of the game
      */
     private void chooseRes(){
         output.println("Select a preferred resource to add to you belongings:");

@@ -81,7 +81,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * method joinNewGame let the 2nd, 3rd and 4th player join an existing game, or sends them to a new game
+     * Method joinNewGame let the 2nd, 3rd and 4th player join an existing game, or sends them to a new game
      * @param socketToClient is the player socket that wants to join the game
      * @param name is the player nickname
      * @param playersRequired is the number of players remainig
@@ -106,7 +106,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * method startGame creates the game when all the players have joined
+     * Method startGame creates the game when all the players have joined
      * @param playersRequired is the number of spots left to star the game
      * @param id is the game id selected by the player that wants to join
      */
@@ -154,7 +154,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * method sendNickname send to all the players each nickname that is playng the game
+     * Method sendNickname send to all the players each nickname that is playng the game
      * @param n is the number of players
      * @param id is the game id
      */
@@ -169,7 +169,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * methos createNewGame lets the first player create a new game
+     * Method createNewGame lets the first player create a new game
      * @param socketToClient  is the player socket that wants to join the game
      * @param name is the player nickname
      * @param playersRequired is the number of player that the first player wants to join the game, himself included
@@ -229,7 +229,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * method firstRes sends to the 2nd, 3rd and 4th player the request to choose the initial resources before the game starts
+     * Method firstRes sends to the 2nd, 3rd and 4th player the request to choose the initial resources before the game starts
      * @param socket is the socket chosen by the first player
      */
     public void firstRes(SocketServerToClient socket){
@@ -242,7 +242,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * method rejoin is used when a player disconnects accidentally from the game
+     * Method rejoin is used when a player disconnects accidentally from the game
      * @param id is the game id
      * @param name is the player's nickname
      * @param socketServerToClient is the player's socket that wants to rejoin the game
@@ -309,7 +309,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * method updateAllBoard updates every single player board at the end of the turn
+     * Method updateAllBoard updates every single player board at the end of the turn
      * @param evt is a property change event
      */
     private void updateAllBoard(PropertyChangeEvent evt){
@@ -319,7 +319,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * method sendMarket takes the market string and sends a message to all the clents
+     * Method sendMarket takes the market string and sends a message to all the clents
      * @param marketString is the string version of the market
      * @param n the number of players
      * @param id the id of the selected player
@@ -334,7 +334,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * method sendExternalMarble sends a messa to all the clients that the external marble as changed
+     * Method sendExternalMarble sends a messa to all the clients that the external marble as changed
      * @param extern is the colour of the external marble
      * @param n is the number of the players
      * @param id is the id of the selected player

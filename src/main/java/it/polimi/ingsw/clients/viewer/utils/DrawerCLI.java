@@ -16,7 +16,7 @@ import java.util.Map;
 public record DrawerCLI(CLI ui){
 
     /**
-     * method showWarehouse is used to print out a reminder of the situation of the warehouse in case the player
+     * Method showWarehouse is used to print out a reminder of the situation of the warehouse in case the player
      * needs it to make his decision.
      *
      * @param content is all the resources in warehouse
@@ -43,7 +43,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method showLibrary prints the situation of the Library
+     * Method showLibrary prints the situation of the Library
      *
      * @param slots all the deck of cards of a certain player
      */
@@ -65,7 +65,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method showCard shows a card;
+     * Method showCard shows a card;
      *
      * @param card is a card
      */
@@ -76,7 +76,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method showStrongbox prints the situation of the Strongbox
+     * Method showStrongbox prints the situation of the Strongbox
      *
      * @param map contains all the resources in the strongbox
      */
@@ -88,7 +88,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method showMyCardLeader shows all of the Leader Cards owned by one player
+     * Method showMyCardLeader shows all of the Leader Cards owned by one player
      *
      * @param cards is a leader card
      */
@@ -100,7 +100,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method showFaithTrack builds and prints the updated faith track of the game
+     * Method showFaithTrack builds and prints the updated faith track of the game
      */
     public void showFaithTrack(Checker checker, int pos){
         var normal = "███";
@@ -127,7 +127,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method drawFTBoxNumber is used to indicate the number of the tile.
+     * Method drawFTBoxNumber is used to indicate the number of the tile.
      *
      * @param trackN is the tile's Number on the track
      * @param i      is a param of int type
@@ -143,7 +143,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method showFaithTrackSingle is used in case the game is in single player mode.
+     * Method showFaithTrackSingle is used in case the game is in single player mode.
      * On the faith track there will be Lorenzo's pawn too.
      */
     public void showFaithTrackSingle(Checker checker){
@@ -187,7 +187,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method drawYouAndLorenzoBoxFT handles the moment the player and Lorenzo are on the same tile
+     * Method drawYouAndLorenzoBoxFT handles the moment the player and Lorenzo are on the same tile
      *
      * @param pf       indicates if is a pope favour tile
      * @param trackTop indicates three top and three bottom cells of the tile where the player is
@@ -204,7 +204,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method drawYourBoxFTSingle draws a red single player's box for his pawn
+     * Method drawYourBoxFTSingle draws a red single player's box for his pawn
      *
      * @param pf       indicates if is a pope favour tile
      * @param centralL indicates Lorenzo's three central cells of the tile
@@ -223,7 +223,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method drawSpecialBoxFTSingle handles the moment a player is in a Pope's Favor Tile
+     * Method drawSpecialBoxFTSingle handles the moment a player is in a Pope's Favor Tile
      *
      * @param trackTop         indicates three top and three bottom cells of the tile where the player is
      * @param redBold          colours the player's cross in red
@@ -234,7 +234,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method showMarket is used to create and print the market in order for the player to visualize it
+     * Method showMarket is used to create and print the market in order for the player to visualize it
      *
      * @param marketTray     is the market matrix
      * @param externalMarble is the 13th marble
@@ -254,7 +254,7 @@ public record DrawerCLI(CLI ui){
     }
 
     /**
-     * method drawMarket prints the market graphically on the Command Line Interface
+     * Method drawMarket prints the market graphically on the Command Line Interface
      *
      * @param colours all the possible colours on the game
      * @return a colour

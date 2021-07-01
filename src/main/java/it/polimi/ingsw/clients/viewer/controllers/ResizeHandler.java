@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * class ResizeHandler is a class that is used by the Graphical User Interface.
+ * Class ResizeHandler is a class that is used by the Graphical User Interface.
  * This class is the one that handles the Window resizing since the scenes do not have a fixed size.
  *
  * @author Alessio Piovesan

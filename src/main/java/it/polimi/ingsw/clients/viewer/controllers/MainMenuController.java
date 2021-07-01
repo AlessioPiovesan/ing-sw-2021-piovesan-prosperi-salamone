@@ -27,7 +27,7 @@ public class MainMenuController implements GUIController{
     private GUI gui;
 
     /**
-     * method quit quits the game if a player wants to
+     * Method quit quits the game if a player wants to
      */
     public void quit(){
         System.out.println("Thanks for playing!");
@@ -35,7 +35,7 @@ public class MainMenuController implements GUIController{
     }
 
     /**
-     * method startSingleGame starts a single player game if the player decides to
+     * Method startSingleGame starts a single player game if the player decides to
      */
     public void startSingleGame(){
         var client = new Local(1);
@@ -47,7 +47,7 @@ public class MainMenuController implements GUIController{
     }
 
     /**
-     * method startMultiGame starts a multiplayer game if the player decides to.
+     * Method startMultiGame starts a multiplayer game if the player decides to.
      */
     public void startMultiGame(){
         var client = new Client(1);

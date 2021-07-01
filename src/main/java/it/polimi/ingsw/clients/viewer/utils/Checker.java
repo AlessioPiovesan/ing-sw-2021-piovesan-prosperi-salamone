@@ -20,7 +20,7 @@ public class Checker{
     }
 
     /**
-     * method getCorrectLeaderCardCode is used to check if the two digit code typed by the user for the leader cards is correct.
+     * Method getCorrectLeaderCardCode is used to check if the two digit code typed by the user for the leader cards is correct.
      *
      * @param response is a message to the server
      * @return the selected card from the player
@@ -42,7 +42,7 @@ public class Checker{
     }
 
     /**
-     * method getCorrectDevCardCode is used to check if the code typed by the user for the Dev Card is correct.
+     * Method getCorrectDevCardCode is used to check if the code typed by the user for the Dev Card is correct.
      *
      * @param response is a message to the server
      * @return the selected card from the player
@@ -90,7 +90,7 @@ public class Checker{
     }
 
     /**
-     * method canUSeAnyCardDev checks if a player can use a Development Card in the production
+     * Method canUSeAnyCardDev checks if a player can use a Development Card in the production
      *
      * @param cards is a Development Card
      * @return the remaining list of Development Cards
@@ -107,7 +107,7 @@ public class Checker{
 
 
     /**
-     * method checkOnRequiredRes is another check on required Resources
+     * Method checkOnRequiredRes is another check on required Resources
      *
      * @param resAll is all the player's resources
      * @param list   is all the player's leader cards
@@ -122,7 +122,7 @@ public class Checker{
     }
 
     /**
-     * method checkOnRequiredCard checks if a player matches Card's Requirements
+     * Method checkOnRequiredCard checks if a player matches Card's Requirements
      *
      * @param slots is the full deck of cards
      * @param list  is all the player's leader cards

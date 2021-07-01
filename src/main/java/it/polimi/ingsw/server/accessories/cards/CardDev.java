@@ -125,7 +125,7 @@ public enum CardDev implements Card{
     }
 
     /**
-     * method showPick is used to visualize resources and it is used in the toString method
+     * Method showPick is used to visualize resources and it is used in the toString method
      *
      * @param picks of type Array of Picks
      * @return String
