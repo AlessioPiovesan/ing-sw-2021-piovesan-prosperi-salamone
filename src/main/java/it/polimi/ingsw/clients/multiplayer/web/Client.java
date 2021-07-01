@@ -139,7 +139,7 @@ public class Client implements Runnable{
             case "nicknameNo" -> ui.reChooseNickname(Integer.parseInt(string[1]));
             case "nicknameMaybe" -> {
                 ui.resilience(Integer.parseInt(string[1]), string[2], Integer.parseInt(string[3]));
-                ui.getMyBoard().setNickname(string[2]);
+                modelView.getBoard(Integer.parseInt(string[4])).setNickname(string[2]);
             }
             case "nicknameYes" -> setupGame(string[1]);
             case "nickname" -> modelView.getBoard(Integer.parseInt(string[2])).setNickname(string[1]);
@@ -156,8 +156,8 @@ public class Client implements Runnable{
                     e.printStackTrace();
                 }
             }
-            case "leaderSpace" -> ui.getMyBoard().addLeaderSpace(Colours.fromString(string[1]));
-            case "leaderCards" -> ui.getMyBoard().setMyLeaderCards(getLeaderCard(string[1]), Integer.parseInt(string[2]));
+            case "leaderSpace" -> modelView.getBoard(Integer.parseInt(string[2])).addLeaderSpace(Colours.fromString(string[1]));
+            case "leaderCards" -> modelView.getBoard(Integer.parseInt(string[3])).setMyLeaderCards(getLeaderCard(string[1]), Integer.parseInt(string[2]));
             case "warehouse" -> modelView.getBoard(Integer.parseInt(string[4])).setWarehouse(Integer.parseInt(string[1]), Colours.fromString(string[2]), Integer.parseInt(string[3]));
             case "resAll" -> modelView.getBoard(Integer.parseInt(string[3])).setResAll(Colours.fromString(string[1]), Integer.parseInt(string[2]));
             case "strongBox" -> modelView.getBoard(Integer.parseInt(string[3])).setStrongBox(Colours.fromString(string[1]), Integer.parseInt(string[2]));

@@ -26,7 +26,7 @@ public class Board{
     private final EnumMap<Colours, Integer> resAll;
     private final PropertyChangeSupport pcs;
     private final PropertyChangeSupport listener;
-    private final int idD;
+    private final int myId;
     private final Map<Colours, Integer> leaderSpace;
     private final Colours[] discount;
     private boolean ready;
@@ -39,7 +39,7 @@ public class Board{
 
     public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library){
         endGame = false;
-        this.idD = id;
+        this.myId = id;
         /* Warehouse creation for a model Board */
         this.warehouse = warehouse;
         /* Strongbox creation for a model Board */
@@ -73,8 +73,8 @@ public class Board{
         if(ready) pcs.firePropertyChange("nextAction", "", 1);
     }
 
-    public int getIdD(){
-        return idD;
+    public int getMyId(){
+        return myId;
     }
 
     public Integer getGameID(){
@@ -140,8 +140,8 @@ public class Board{
     public void setMyLeaderCards(CardLeader[] cards){
         myLeaderCards = cards;
         pcs.firePropertyChange("firstOp", "", 0);
-        listener.firePropertyChange("leaderCards", "", cards[0].name() + "::" + 0);
-        listener.firePropertyChange("leaderCards", "", cards[1].name() + "::" + 0);
+        listener.firePropertyChange("leaderCards", "", cards[0].name() + "::" + 0 + "::" + myId);
+        listener.firePropertyChange("leaderCards", "", cards[1].name() + "::" + 1 + "::" + myId);
     }
 
     /**
@@ -290,7 +290,7 @@ public class Board{
      */
     public void addLeaderSpace(Colours special){
         leaderSpace.put(special, 0);
-        listener.firePropertyChange("leaderSpace", "", special);
+        listener.firePropertyChange("leaderSpace", "", special + "::" + myId);
     }
 
     public Map<Colours, Integer> getLeaderSpace(){
@@ -307,8 +307,8 @@ public class Board{
      */
     public void rearrangeWarehouse(int first, int second){
         warehouse.lvlExchange(first, second);
-        listener.firePropertyChange("warehouse", "", first + "::" + warehouse.checkLvlStatus(first).resource() + "::" + warehouse.checkLvlStatus(first).qnt() + "::" + idD);
-        listener.firePropertyChange("warehouse", "", second + "::" + warehouse.checkLvlStatus(second).resource() + "::" + warehouse.checkLvlStatus(second).qnt() + "::" + idD);
+        listener.firePropertyChange("warehouse", "", first + "::" + warehouse.checkLvlStatus(first).resource() + "::" + warehouse.checkLvlStatus(first).qnt() + "::" + myId);
+        listener.firePropertyChange("warehouse", "", second + "::" + warehouse.checkLvlStatus(second).resource() + "::" + warehouse.checkLvlStatus(second).qnt() + "::" + myId);
     }
 
     /**
@@ -376,7 +376,7 @@ public class Board{
             warehouse.moveResources(lvl, pick);
         }
         updateResAll();
-        listener.firePropertyChange("warehouse", "", lvl + "::" + warehouse.checkLvlStatus(lvl).resource() + "::" + warehouse.checkLvlStatus(lvl).qnt() + "::" + idD);
+        listener.firePropertyChange("warehouse", "", lvl + "::" + warehouse.checkLvlStatus(lvl).resource() + "::" + warehouse.checkLvlStatus(lvl).qnt() + "::" + myId);
     }
 
     /**
@@ -401,10 +401,10 @@ public class Board{
         sKeys.forEach(key -> map.put(key, s.get(key) + map.get(key)));
         leaderKey.forEach(key -> map.put(key, leaderSpace.get(key) + map.get(key)));
         resAllKeys.forEach(key -> resAll.put(key, map.get(key)));
-        listener.firePropertyChange("resAll", "", Colours.BLUE.name() + "::" + resAll.get(Colours.BLUE) + "::" + idD);
-        listener.firePropertyChange("resAll", "", Colours.GREY.name() + "::" + resAll.get(Colours.GREY) + "::" + idD);
-        listener.firePropertyChange("resAll", "", Colours.PURPLE.name() + "::" + resAll.get(Colours.PURPLE) + "::" + idD);
-        listener.firePropertyChange("resAll", "", Colours.YELLOW.name() + "::" + resAll.get(Colours.YELLOW) + "::" + idD);
+        listener.firePropertyChange("resAll", "", Colours.BLUE.name() + "::" + resAll.get(Colours.BLUE) + "::" + myId);
+        listener.firePropertyChange("resAll", "", Colours.GREY.name() + "::" + resAll.get(Colours.GREY) + "::" + myId);
+        listener.firePropertyChange("resAll", "", Colours.PURPLE.name() + "::" + resAll.get(Colours.PURPLE) + "::" + myId);
+        listener.firePropertyChange("resAll", "", Colours.YELLOW.name() + "::" + resAll.get(Colours.YELLOW) + "::" + myId);
     }
 
     /**
@@ -428,10 +428,10 @@ public class Board{
             else strongBox.moveResources(pick);
         }
         updateResAll();
-        listener.firePropertyChange("strongBox", "", Colours.BLUE.name() + "::" + strongBox.getStrongContent().get(Colours.BLUE) + "::" + idD);
-        listener.firePropertyChange("strongBox", "", Colours.GREY.name() + "::" + strongBox.getStrongContent().get(Colours.GREY) + "::" + idD);
-        listener.firePropertyChange("strongBox", "", Colours.PURPLE.name() + "::" + strongBox.getStrongContent().get(Colours.PURPLE) + "::" + idD);
-        listener.firePropertyChange("strongBox", "", Colours.YELLOW.name() + "::" + strongBox.getStrongContent().get(Colours.YELLOW) + "::" + idD);
+        listener.firePropertyChange("strongBox", "", Colours.BLUE.name() + "::" + strongBox.getStrongContent().get(Colours.BLUE) + "::" + myId);
+        listener.firePropertyChange("strongBox", "", Colours.GREY.name() + "::" + strongBox.getStrongContent().get(Colours.GREY) + "::" + myId);
+        listener.firePropertyChange("strongBox", "", Colours.PURPLE.name() + "::" + strongBox.getStrongContent().get(Colours.PURPLE) + "::" + myId);
+        listener.firePropertyChange("strongBox", "", Colours.YELLOW.name() + "::" + strongBox.getStrongContent().get(Colours.YELLOW) + "::" + myId);
     }
 
     /**
@@ -445,7 +445,7 @@ public class Board{
         faithTrack.moveForward(move);
         checkIfEndGame();
         pcs.firePropertyChange("redCrossMove", "", getPositionFT());
-        listener.firePropertyChange("faithTrack", "", getPositionFT() + "::" + idD);
+        listener.firePropertyChange("faithTrack", "", getPositionFT() + "::" + myId);
     }
 
     public void produce(CardDev card){

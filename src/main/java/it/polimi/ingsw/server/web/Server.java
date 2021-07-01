@@ -198,8 +198,9 @@ public class Server implements Runnable, PropertyChangeListener{
             var id = playersNameId.get(name);
             var playerSocket = playingPlayersNameSocket.get(name);
             var n = playerSocket.getRemoteView().getNPlayers();
+            var boardId = playerSocket.getRemoteView().getBoardId();
             if(playerSocket.isActive()) socket.send("nicknameNo::" + playersNameId.get(name));
-            else socket.send("nicknameMaybe::" + id + "::" + name + "::" + n);
+            else socket.send("nicknameMaybe::" + id + "::" + name + "::" + n + "::" + boardId);
         }
         else socket.send("nicknameYes::" + name);
     }
@@ -246,7 +247,7 @@ public class Server implements Runnable, PropertyChangeListener{
         switch(evt.getPropertyName()){
             case "market" -> getMarketAndSend(evt);
             case "external" -> getExternalMarbleAndSend(evt);
-            case "warehouse", "resAll", "strongBox", "faithTrack", "library", "leaderCards" -> updateAllBoard(evt);
+            case "warehouse", "resAll", "strongBox", "faithTrack", "library", "leaderCards", "leaderSpace" -> updateAllBoard(evt);
             default -> System.err.println(evt.getPropertyName() + " is not handled (SERVER)");
         }
     }
