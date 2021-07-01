@@ -1,6 +1,7 @@
 package it.polimi.ingsw.clients.viewer.controllers;
 
 import it.polimi.ingsw.clients.viewer.GUI;
+import it.polimi.ingsw.clients.viewer.utils.Utils;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import javafx.fxml.FXML;
 import javafx.scene.image.Image;
@@ -54,14 +55,10 @@ public class InitialLeader implements GUIController{
      */
     public void getCards(CardLeader[] list){
         Collections.addAll(thisCards, list);
-        card1.setImage(new Image(getPath(list[0])));
-        card2.setImage(new Image(getPath(list[1])));
-        card3.setImage(new Image(getPath(list[2])));
-        card4.setImage(new Image(getPath(list[3])));
-    }
-
-    private String getPath(CardLeader card){
-        return "/graphics/cards/front/lead/" + card.name() + ".png";
+        card1.setImage(new Image(Utils.getPath(list[0])));
+        card2.setImage(new Image(Utils.getPath(list[1])));
+        card3.setImage(new Image(Utils.getPath(list[2])));
+        card4.setImage(new Image(Utils.getPath(list[3])));
     }
 
     /**

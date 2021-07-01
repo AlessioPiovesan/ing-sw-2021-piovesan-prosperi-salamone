@@ -20,7 +20,6 @@ import javafx.stage.Stage;
  */
 public class MainMenuController implements GUIController{
 
-    public static final String MAIN_MENU_FXML = "MainMenu.fxml";
     @FXML private Button singleButton;
     @FXML private Button multiButton;
     @FXML private AnchorPane mainPane;
@@ -52,6 +51,7 @@ public class MainMenuController implements GUIController{
     public void startMultiGame(){
         var client = new Client(1);
         var ui = (GUI)client.getUi();
+        ui.setClient(client);
         ui.setCurrentScene(MastersOfRenaissanceGUI.getCurrentScene());
         var stage = (Stage)multiButton.getScene().getWindow();
         stage.close();

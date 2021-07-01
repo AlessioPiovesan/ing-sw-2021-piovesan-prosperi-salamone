@@ -1,13 +1,16 @@
 package it.polimi.ingsw.clients.viewer.controllers;
 
 import it.polimi.ingsw.clients.viewer.GUI;
+import it.polimi.ingsw.clients.viewer.utils.Utils;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Constants;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -19,9 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Class BoardsController is the GUI controller of every player's board.
@@ -33,12 +34,15 @@ import java.util.Objects;
  */
 public class BoardsController implements GUIController{
 
-
+    @FXML private Button leader1Button;
+    @FXML private Button leader2Button;
     @FXML private ImageView leader1;
     @FXML private ImageView leader2;
     @FXML private ImageView redCrossImg;
     @FXML private ImageView blackCrossImg;
     private ArrayList<AnchorPane> tileList;
+    private ArrayList<Sphere> sphereList;
+    private LinkedList<CardLeader> myLeaderCards;
     @FXML private AnchorPane tile00;
     @FXML private AnchorPane tile01;
     @FXML private AnchorPane tile02;
@@ -64,7 +68,6 @@ public class BoardsController implements GUIController{
     @FXML private AnchorPane tile22;
     @FXML private AnchorPane tile23;
     @FXML private AnchorPane tile24;
-    private ArrayList<Sphere> sphereList;
     @FXML private Sphere sphere0;
     @FXML private Sphere sphere1;
     @FXML private Sphere sphere2;
@@ -90,8 +93,10 @@ public class BoardsController implements GUIController{
     private GUI gui;
 
     public BoardsController(){
+        myLeaderCards = new LinkedList<>();
         createSphereList();
         createTileList();
+        new Thread(() -> checkFT());
     }
 
     private void createSphereList(){
@@ -140,6 +145,19 @@ public class BoardsController implements GUIController{
         tileList.add(tile24);
     }
 
+    private void checkFT(){
+        var you = gui.getFaithTrack();
+        var him = gui.getLorenzo();
+        tileList.get(you).getChildren().add(redCrossImg);
+        if(him != null) tileList.get(him).getChildren().add(redCrossImg);
+    }
+
+    public void getCards(CardLeader[] list){
+        Collections.addAll(myLeaderCards, list);
+        leader1.setImage(new Image(Utils.getPath(list[0])));
+        leader2.setImage(new Image(Utils.getPath(list[1])));
+    }
+
     @Override
     public void setGui(GUI gui){
         this.gui = gui;
@@ -153,7 +171,9 @@ public class BoardsController implements GUIController{
     /**
      * Method openStrongBox graphically shows the content of the strongbox whenever a player clicks on it.
      *
-     * @author Alessio Piovesan, Pier Giorgio Prosperi, Matteo Salamone
+     * @author Alessio Piovesan
+     * @author Pier Giorgio Prosperi
+     * @author Matteo Salamone
      */
     public void openStrongBox(){
         try{
@@ -173,6 +193,7 @@ public class BoardsController implements GUIController{
 
     /**
      * Method moveMarket indicates the player's move on the market
+     *
      * @param mouseEvent is a mouse click
      */
     public void moveMarket(MouseEvent mouseEvent){
@@ -234,7 +255,8 @@ public class BoardsController implements GUIController{
     }
 
     public void activateLeader(MouseEvent mouseEvent){
-
+        if(mouseEvent.getSource() == leader1Button) gui.wakeALeader(myLeaderCards.get(0));
+        if(mouseEvent.getSource() == leader2Button) gui.wakeALeader(myLeaderCards.get(1));
     }
 
     public void buyCard(MouseEvent mouseEvent){

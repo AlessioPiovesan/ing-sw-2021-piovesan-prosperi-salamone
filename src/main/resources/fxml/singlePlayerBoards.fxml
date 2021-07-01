@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="899.0" prefWidth="1200.0"
             xmlns="http://javafx.com/javafx/16"
             fx:controller="it.polimi.ingsw.clients.viewer.controllers.BoardsController">
@@ -279,41 +278,45 @@
                     </GridPane>
                     <Sphere fx:id="sphere0" layoutX="380.0" layoutY="67.0" radius="50"/>
                 </AnchorPane>
-                <Button fx:id="button0" layoutX="859.0" layoutY="181.0" mnemonicParsing="false"
-                        onMouseClicked="#moveMarket" text="Button"/>
-                <Button fx:id="button1" layoutX="868.0" layoutY="268.0" mnemonicParsing="false"
-                        onMouseClicked="#moveMarket" text="Button"/>
-                <Button fx:id="button2" layoutX="877.0" layoutY="341.0" mnemonicParsing="false"
-                        onMouseClicked="#moveMarket" text="Button"/>
-                <Button fx:id="button3" layoutX="689.0" layoutY="533.0" mnemonicParsing="false"
-                        onMouseClicked="#moveMarket" text="Button"/>
-                <Button fx:id="button4" layoutX="609.0" layoutY="536.0" mnemonicParsing="false"
-                        onMouseClicked="#moveMarket" text="Button"/>
-                <Button fx:id="button5" layoutX="540.0" layoutY="551.0" mnemonicParsing="false"
-                        onMouseClicked="#moveMarket" text="Button"/>
-                <Button fx:id="button6" layoutX="454.0" layoutY="539.0" mnemonicParsing="false"
-                        onMouseClicked="#moveMarket" text="Button"/>
+                <Button fx:id="button0" layoutX="830.0" layoutY="170.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" prefHeight="50.0" prefWidth="120.0"/>
+                <Button fx:id="button1" layoutX="830.0" layoutY="250.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" prefHeight="50.0" prefWidth="120.0"/>
+                <Button fx:id="button2" layoutX="830.0" layoutY="330.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" prefHeight="50.0" prefWidth="120.0"/>
+                <Button fx:id="button3" layoutX="690.0" layoutY="480.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" prefHeight="120.0" prefWidth="50.0"/>
+                <Button fx:id="button4" layoutX="610.0" layoutY="480.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" prefHeight="120.0" prefWidth="50.0"/>
+                <Button fx:id="button5" layoutX="535.0" layoutY="480.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" prefHeight="120.0" prefWidth="50.0"/>
+                <Button fx:id="button6" layoutX="460.0" layoutY="480.0" mnemonicParsing="false"
+                        onMouseClicked="#moveMarket" prefHeight="120.0" prefWidth="50.0"/>
             </AnchorPane>
         </Tab>
         <Tab text="Leader Cards">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <ImageView fitHeight="917.0" fitWidth="1517.0" layoutX="-158.0" opacity="0.7" pickOnBounds="true"
+                <ImageView fitHeight="920.0" fitWidth="1520.0" layoutX="-158.0" opacity="0.7" pickOnBounds="true"
                            preserveRatio="true">
                     <Image url="@../graphics/marbles/Firenze-del-Trecento.jpeg"/>
                 </ImageView>
-                <ImageView fx:id="leader1" fitHeight="312.0" fitWidth="379.0" layoutX="289.0" layoutY="278.0"
-                           pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../graphics/cards/front/lead/CARDLEAD01.png"/>
-                </ImageView>
-                <ImageView fx:id="leader2" fitHeight="312.0" fitWidth="379.0" layoutX="692.0" layoutY="278.0"
-                           pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../graphics/cards/front/lead/CARDLEAD02.png"/>
-                </ImageView>
-                <Button layoutX="348.0" layoutY="647.0" mnemonicParsing="false" onMouseClicked="#activateLeader"
-                        prefHeight="26.0" prefWidth="89.0" stylesheets="@../css/singleplayerboards.css"
+                <AnchorPane layoutX="290.0" layoutY="280.0" prefHeight="310.0" prefWidth="380.0">
+                    <ImageView fx:id="leader1" fitHeight="310.0" fitWidth="380.0" pickOnBounds="true"
+                               preserveRatio="true">
+                        <Image url="@../graphics/cards/front/lead/CARDLEAD01.png"/>
+                    </ImageView>
+                </AnchorPane>
+                <AnchorPane layoutX="690.0" layoutY="280.0" prefHeight="310.0" prefWidth="380.0">
+                    <ImageView fx:id="leader2" fitHeight="310.0" fitWidth="380.0" pickOnBounds="true"
+                               preserveRatio="true">
+                        <Image url="@../graphics/cards/front/lead/CARDLEAD02.png"/>
+                    </ImageView>
+                </AnchorPane>
+                <Button fx:id="leader1Button" layoutX="350.0" layoutY="650.0" mnemonicParsing="false"
+                        onMouseClicked="#activateLeader" prefWidth="89.0" stylesheets="@../css/singleplayerboards.css"
                         text="Activate"/>
-                <Button layoutX="751.0" layoutY="647.0" mnemonicParsing="false" onMouseClicked="#activateLeader"
-                        prefWidth="89.0" text="Activate"/>
+                <Button fx:id="leader2Button" layoutX="750.0" layoutY="650.0" mnemonicParsing="false"
+                        onMouseClicked="#activateLeader" prefWidth="89.0" text="Activate"/>
             </AnchorPane>
         </Tab>
         <Tab text="Card Shop">

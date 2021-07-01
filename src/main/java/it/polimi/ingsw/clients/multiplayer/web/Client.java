@@ -7,7 +7,6 @@ import it.polimi.ingsw.clients.viewer.UI;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
-import it.polimi.ingsw.server.accessories.Pick;
 import it.polimi.ingsw.server.accessories.cards.CardDev;
 import it.polimi.ingsw.server.accessories.cards.CardLeader;
 
@@ -16,7 +15,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.*;
+import java.util.NoSuchElementException;
 
 /**
  * Class Client handles Client side and receives messages from server
@@ -30,7 +29,7 @@ public class Client implements Runnable{
 
     private final UI ui;
     private String ip;
-    private int port;
+    private Integer port;
     private boolean active;
     private int nPlayers;
     private Socket socket;
@@ -185,6 +184,7 @@ public class Client implements Runnable{
 
     /**
      * Method PrpertyChangeEvent generates a Property Change to the user
+     *
      * @param src is the serialization for the server's event
      * @return the reconstructed event
      */
@@ -226,44 +226,19 @@ public class Client implements Runnable{
         return (CardDev)CardDev.getSpecificCard(code[1]);
     }
 
-    private List<Pick> getList(String[] string){
-        var current = new LinkedList<Pick>();
-        try{
-            var node = Json.parse(string[1]);
-            var list = Json.fromJson(node, Pick[].class);
-            for(var thisPick : list){
-                var color = thisPick.resource();
-                var qnt = thisPick.qnt();
-                var pick = new Pick(color, qnt);
-                current.add(pick);
-            }
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        return current;
+    public void setIP(String ip){
+        this.ip = ip;
     }
 
-    private Map<Colours, Integer> getMap(String string){
-        var map = new EnumMap<Colours, Integer>(Colours.class);
-        try{
-            var node = Json.parse(string);
-            var strong = Json.fromJson(node, Map.class);
-            for(var o : strong.entrySet()){
-                var color = Colours.fromString((String)o);
-                var qnt = (int)strong.get(o);
-                map.put(color, qnt);
-            }
-        } catch(IOException e){
-            e.printStackTrace();
-        }
-        return map;
+    public String getIp(){
+        return ip;
+    }
+
+    public Integer getPort(){
+        return port;
     }
 
     public void setPort(int port){
         this.port = port;
-    }
-
-    public void setIP(String ip){
-        this.ip = ip;
     }
 }

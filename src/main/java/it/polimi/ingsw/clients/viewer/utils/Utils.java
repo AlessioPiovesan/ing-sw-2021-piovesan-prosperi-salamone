@@ -1,6 +1,7 @@
 package it.polimi.ingsw.clients.viewer.utils;
 
 import it.polimi.ingsw.clients.viewer.UI;
+import it.polimi.ingsw.server.accessories.cards.CardLeader;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,7 +15,7 @@ public class Utils{
         this.ui = ui;
     }
 
-    public <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection){
+    public static <T> List<T> castList(Class<? extends T> clazz, Collection<?> rawCollection){
         List<T> result = new ArrayList<>(rawCollection.size());
         for(Object o : rawCollection){
             try{
@@ -24,5 +25,9 @@ public class Utils{
             }
         }
         return result;
+    }
+
+    public static String getPath(CardLeader card){
+        return "/graphics/cards/front/lead/" + card.name() + ".png";
     }
 }

@@ -168,6 +168,7 @@ public class SocketServerToClient implements Runnable{
 
     /**
      * method preparateInitialLeaders let each player decide wich two of four leader cards wants to began the game with
+     *
      * @param src is a serialized message
      */
     private void prepareInitialLeaders(String src){

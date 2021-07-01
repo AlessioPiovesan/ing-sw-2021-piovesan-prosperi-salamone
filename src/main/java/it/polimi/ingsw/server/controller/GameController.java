@@ -58,8 +58,9 @@ public class GameController{
 
     /**
      * Method cardDevAction assings a card to a player and deletes the same card from the deck
+     *
      * @param cardToBeBought is the card that the selected player wants to buy
-     * @param slot is the library slot where the card will be placed
+     * @param slot           is the library slot where the card will be placed
      */
     public void cardDevAction(CardDev cardToBeBought, int slot){
         Board b = game.getSingleB(game.getPlayingPlayer());

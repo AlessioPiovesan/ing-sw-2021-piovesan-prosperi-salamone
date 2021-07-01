@@ -79,7 +79,6 @@ public class CLI implements Runnable, UI{
      * REDCROSSMOVE: moves the pawn on the faith track
      * NEXTACTION: calls method nextAction, used to ask the player what is his next action
      * MARKETBUFFER: buffer for the market
-     * PRODUCTIONBUFFER: buffer for the production
      * COSTCARDDEV: resources needed to buy a Development Card
      * GAMEID: prints the game's id
      * WRONG: used in case of a wrong input from the player
@@ -252,6 +251,16 @@ public class CLI implements Runnable, UI{
         else return getMyBoard().getLibrary();
     }
 
+    private Map<Colours, Integer> getResAll(){
+        if(single) return getLocalGameController().getBoardController().player().getResAll();
+        else return getMyBoard().getResAll();
+    }
+
+    private List<CardDev> getCardDevDeck(){
+        if(single) return getLocalGameController().getGame().getCardDevDeck();
+        else return model.getCardDevDeck();
+    }
+
     /**
      * Method nextAction asks the player what is next action is going to be
      *
@@ -325,7 +334,7 @@ public class CLI implements Runnable, UI{
             }
             else{
                 ++i;
-                librarySlot = (ArrayList<CardDev>)utils.castList(CardDev.class, checker.canUseAnyCardDev(librarySlot, getResAll()));
+                librarySlot = (ArrayList<CardDev>)Utils.castList(CardDev.class, checker.canUseAnyCardDev(librarySlot, getResAll()));
                 if(!librarySlot.isEmpty()){
                     var actionableCard = librarySlot.get(librarySlot.size() - 1);
                     output.println("Do you want to activate");
@@ -889,16 +898,6 @@ public class CLI implements Runnable, UI{
             if(i == card.getCost().length) list.add(card);
         }
         return list;
-    }
-
-    private Map<Colours, Integer> getResAll(){
-        if(single) return getLocalGameController().getBoardController().player().getResAll();
-        else return getMyBoard().getResAll();
-    }
-
-    private List<CardDev> getCardDevDeck(){
-        if(single) return getLocalGameController().getGame().getCardDevDeck();
-        else return model.getCardDevDeck();
     }
 
     /**

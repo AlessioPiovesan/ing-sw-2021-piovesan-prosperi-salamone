@@ -82,10 +82,11 @@ public class Server implements Runnable, PropertyChangeListener{
 
     /**
      * Method joinNewGame let the 2nd, 3rd and 4th player join an existing game, or sends them to a new game
-     * @param socketToClient is the player socket that wants to join the game
-     * @param name is the player nickname
+     *
+     * @param socketToClient  is the player socket that wants to join the game
+     * @param name            is the player nickname
      * @param playersRequired is the number of players remainig
-     * @param id is the game id selected by the player that wants to join
+     * @param id              is the game id selected by the player that wants to join
      */
     private void joinNewGame(SocketServerToClient socketToClient, String name, int playersRequired, Integer id){
         var thisGame = controller.getGameControllerById(id);
@@ -107,8 +108,9 @@ public class Server implements Runnable, PropertyChangeListener{
 
     /**
      * Method startGame creates the game when all the players have joined
+     *
      * @param playersRequired is the number of spots left to star the game
-     * @param id is the game id selected by the player that wants to join
+     * @param id              is the game id selected by the player that wants to join
      */
     private void startGame(int playersRequired, Integer id){
         var mapGameForThisNPlayers = waitingFor1Game.get(playersRequired);
@@ -155,7 +157,8 @@ public class Server implements Runnable, PropertyChangeListener{
 
     /**
      * Method sendNickname send to all the players each nickname that is playng the game
-     * @param n is the number of players
+     *
+     * @param n  is the number of players
      * @param id is the game id
      */
     private void sendNickname(int n, Integer id){
@@ -170,8 +173,9 @@ public class Server implements Runnable, PropertyChangeListener{
 
     /**
      * Method createNewGame lets the first player create a new game
+     *
      * @param socketToClient  is the player socket that wants to join the game
-     * @param name is the player nickname
+     * @param name            is the player nickname
      * @param playersRequired is the number of player that the first player wants to join the game, himself included
      */
     private void createNewGame(SocketServerToClient socketToClient, String name, int playersRequired){
@@ -230,6 +234,7 @@ public class Server implements Runnable, PropertyChangeListener{
 
     /**
      * Method firstRes sends to the 2nd, 3rd and 4th player the request to choose the initial resources before the game starts
+     *
      * @param socket is the socket chosen by the first player
      */
     public void firstRes(SocketServerToClient socket){
@@ -243,8 +248,9 @@ public class Server implements Runnable, PropertyChangeListener{
 
     /**
      * Method rejoin is used when a player disconnects accidentally from the game
-     * @param id is the game id
-     * @param name is the player's nickname
+     *
+     * @param id                   is the game id
+     * @param name                 is the player's nickname
      * @param socketServerToClient is the player's socket that wants to rejoin the game
      */
 
@@ -310,6 +316,7 @@ public class Server implements Runnable, PropertyChangeListener{
 
     /**
      * Method updateAllBoard updates every single player board at the end of the turn
+     *
      * @param evt is a property change event
      */
     private void updateAllBoard(PropertyChangeEvent evt){
@@ -320,9 +327,10 @@ public class Server implements Runnable, PropertyChangeListener{
 
     /**
      * Method sendMarket takes the market string and sends a message to all the clents
+     *
      * @param marketString is the string version of the market
-     * @param n the number of players
-     * @param id the id of the selected player
+     * @param n            the number of players
+     * @param id           the id of the selected player
      */
     private void sendMarket(String marketString, int n, int id){
         var mapGameForThisNPlayers = waitingFor1Game.get(n);
@@ -335,9 +343,10 @@ public class Server implements Runnable, PropertyChangeListener{
 
     /**
      * Method sendExternalMarble sends a messa to all the clients that the external marble as changed
+     *
      * @param extern is the colour of the external marble
-     * @param n is the number of the players
-     * @param id is the id of the selected player
+     * @param n      is the number of the players
+     * @param id     is the id of the selected player
      */
     private void sendExternalMarble(Colours extern, int n, int id){
         var mapGameForThisNPlayers = waitingFor1Game.get(n);
