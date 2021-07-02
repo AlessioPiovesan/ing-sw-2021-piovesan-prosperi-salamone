@@ -156,31 +156,30 @@ public class CLI implements Runnable, UI{
         var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1) StrongBox\n>\t", "Wrong option");
         if(j == 0){
             try{
-                toWarehouse(color);
+                takeFromWarehouse(color);
             } catch(IndexOutOfBoundsException e){
                 payForCardDev(cost);
             }
         }
-        else{
-            if(j == 1){
-                try{
-                    toStrongBox(color);
-                } catch(IndexOutOfBoundsException e){
-                    payForCardDev(cost);
-                }
-            }
-            else{
-                toLeaderSpace(color);
+        if(j == 1){
+            try{
+                takeFromStrongbox(color);
+            } catch(IndexOutOfBoundsException e){
+                payForCardDev(cost);
             }
         }
     }
 
-    private void toLeaderSpace(Colours color){
-        if(single) getLocalGameController().getBoardController().addToLeaderSpace(color);
-        else client.send("addToLeaderSpace::" + color.name());
+    private void takeFromLeaderSpace(Colours color){
+        if(single) getLocalGameController().getBoardController().takeFromLeaderSpace(color);
+        else client.send("takeFromLeaderSpace::" + color.name());
     }
 
-    private void toStrongBox(Colours color){
+    private LocalGameController getLocalGameController(){
+        return LocalGameController.getInstance();
+    }
+
+    private void takeFromStrongbox(Colours color){
         if(single) getLocalGameController().getBoardController().takeFromStrongbox(color);
         else client.send("takeFromStrongbox::" + color.name());
     }
@@ -377,19 +376,21 @@ public class CLI implements Runnable, UI{
         for(var pick : resFrom){
             var color = pick.resource();
             var j = resourcesDestination(color, "\nDo you want to take this from\n0) Warehouse\n1) StrongBox\n>\t", "Wrong option");
-            if(j == 0 && (getWarehouse().get(0).resource() == color || getWarehouse().get(1).resource() == color || getWarehouse().get(2).resource() == color)){
-                executor.execute(() -> toWarehouse(color));
-            }
+            if(j == 0 && (getWarehouse().get(0).resource() == color || getWarehouse().get(1).resource() == color || getWarehouse().get(2).resource() == color))
+                takeFromWarehouse(color);
             else{
-                output.println("You don't have a " + color + " resource in your warehouse\nTry again..");
-                activateProdCard(card);
-            }
-            if(j == 1 && (getStrongBox().get(color) > 0)){
-                executor.execute(() -> toStrongBox(color));
-            }
-            else{
-                output.println("You don't have a " + color + " resource in your strongbox\nTry again..");
-                activateProdCard(card);
+                if(j == 0){
+                    output.println("You don't have a " + color + " resource in your warehouse\nTry again..");
+                    activateProdCard(card);
+                }
+                else{
+                    if(j == 1 && (getStrongBox().get(color) > 0)) takeFromStrongbox(color);
+                    else{
+                        if(j == 2) takeFromLeaderSpace(color);
+                        output.println("You don't have a " + color + " resource in your strongbox\nTry again..");
+                        activateProdCard(card);
+                    }
+                }
             }
         }
         output.println("Production success, you added to your belongings:");
@@ -401,7 +402,7 @@ public class CLI implements Runnable, UI{
         else client.send("produce::" + card.name());
     }
 
-    private void toWarehouse(Colours color){
+    private void takeFromWarehouse(Colours color){
         if(single) getLocalGameController().getBoardController().takeFromWarehouse(color);
         else client.send("takeFromWarehouse::" + color.name());
     }
@@ -431,7 +432,7 @@ public class CLI implements Runnable, UI{
         for(Colours colour : keep) colors.append(Colours.getColoredType(colour)).append("\t");
         output.println(colors);
         for(Colours colours : keep)
-            prepareResForWarehouse(colours);
+            prepareResForWarehouse(colours, 1);
         drawer.showWarehouse(getWarehouse());
         if(single) getLocalGameController().nextPlayer();
         else{
@@ -712,7 +713,7 @@ public class CLI implements Runnable, UI{
             case 4 -> Colours.YELLOW;
             default -> null;
         };
-        prepareResForWarehouse(choice);
+        prepareResForWarehouse(choice, 1);
     }
 
     /**
@@ -770,10 +771,6 @@ public class CLI implements Runnable, UI{
             e.printStackTrace();
         }
         return card;
-    }
-
-    private LocalGameController getLocalGameController(){
-        return LocalGameController.getInstance();
     }
 
     private Colours[][] getMarketTray(){
@@ -995,9 +992,9 @@ public class CLI implements Runnable, UI{
      * @see #prepareResForWarehouseS(Colours, int)
      * @see #prepareResForWarehouseM(Colours, int)
      */
-    private void prepareResForWarehouse(Colours colour){
-        if(single) prepareResForWarehouseS(colour, 1);
-        else prepareResForWarehouseM(colour, 1);
+    private void prepareResForWarehouse(Colours colour, int qnt){
+        if(single) prepareResForWarehouseS(colour, qnt);
+        else prepareResForWarehouseM(colour, qnt);
     }
 
     /**

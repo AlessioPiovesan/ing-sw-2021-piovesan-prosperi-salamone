@@ -39,4 +39,8 @@ public record LocalBoardController(Board player, Lorenzo lorenzo){
         player.checkVaticanReport();
         lorenzo.checkVaticanReport();
     }
+
+    public void takeFromLeaderSpace(Colours color){
+        player.takeFromLeaderSpace(color);
+    }
 }

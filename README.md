@@ -81,7 +81,7 @@ Implementing&nbsp;&nbsp;&nbsp;&nbsp;[![GREEN](.github/44bb44.png)]() Implemented
 
 [javadocs-image]: .github/Artboard%202.png
 
-[javadocs]: https://github.com/AlessioPiovesan/MastersOfRenaissance-javadocs/
+[javadocs]: https://AlessioPiovesan.github.io/MastersOfRenaissance-javadocs/
 
 [installation-link]: https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/wiki/Installation
 

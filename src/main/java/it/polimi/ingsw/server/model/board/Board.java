@@ -458,6 +458,10 @@ public class Board{
         leaderSpace.put(colour, leaderSpace.get(colour) + 1);
     }
 
+    public void takeFromLeaderSpace(Colours colour){
+        leaderSpace.put(colour, leaderSpace.get(colour) - 1);
+    }
+
     public void setWinner(String winner){
         pcs.firePropertyChange("winner", "", winner);
     }
