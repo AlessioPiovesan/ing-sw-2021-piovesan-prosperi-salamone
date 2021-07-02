@@ -162,17 +162,4 @@ public class Game{
         if(playingPlayer > (nGamers - 1)) playingPlayer = 0;
         return playingPlayer;
     }
-
-    /**
-     * Method countWinPntPerBoard is used to calculate the Points needed to determine the winner of the Game.
-     *
-     * @return pntWin of type int - points needed to win the game.
-     */
-    public int[] countWinPntPerBoard(){
-        var pntWin = new int[nGamers];
-        for(var i = 0; i < nGamers; i++){
-            pntWin[i] = boards[i].countWinPnt();
-        }
-        return pntWin;
-    }
 }

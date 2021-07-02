@@ -7,6 +7,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
+/**
+ * Class Json handles the serialization of the object when needed
+ *
+ * @author Alessio Piovesan
+ */
 public class Json{
 
     private static final ObjectMapper objectMapper = getObjectMapper();

@@ -29,11 +29,10 @@ import java.util.*;
  * It uses FXML files for JavaFX
  *
  * @author Alessio Piovesan
- * @author Pier Giorgio Prosperi
- * @author Matteo Salamone
  */
 public class BoardsController implements GUIController{
 
+    private final LinkedList<CardLeader> myLeaderCards;
     @FXML private Button leader1Button;
     @FXML private Button leader2Button;
     @FXML private ImageView leader1;
@@ -42,7 +41,6 @@ public class BoardsController implements GUIController{
     @FXML private ImageView blackCrossImg;
     private ArrayList<AnchorPane> tileList;
     private ArrayList<Sphere> sphereList;
-    private LinkedList<CardLeader> myLeaderCards;
     @FXML private AnchorPane tile00;
     @FXML private AnchorPane tile01;
     @FXML private AnchorPane tile02;
@@ -96,7 +94,7 @@ public class BoardsController implements GUIController{
         myLeaderCards = new LinkedList<>();
         createSphereList();
         createTileList();
-        new Thread(() -> checkFT());
+        new Thread(this::checkFT);
     }
 
     private void createSphereList(){
@@ -172,8 +170,6 @@ public class BoardsController implements GUIController{
      * Method openStrongBox graphically shows the content of the strongbox whenever a player clicks on it.
      *
      * @author Alessio Piovesan
-     * @author Pier Giorgio Prosperi
-     * @author Matteo Salamone
      */
     public void openStrongBox(){
         try{
@@ -195,6 +191,7 @@ public class BoardsController implements GUIController{
      * Method moveMarket indicates the player's move on the market
      *
      * @param mouseEvent is a mouse click
+     * @author Alessio Piovesan
      */
     public void moveMarket(MouseEvent mouseEvent){
         var source = (Button)mouseEvent.getSource();
@@ -260,5 +257,8 @@ public class BoardsController implements GUIController{
     }
 
     public void buyCard(MouseEvent mouseEvent){
+        var source = (ImageView)mouseEvent.getSource();
+        var name = source.getId();
+        gui.buyCardDev(name);
     }
 }

@@ -89,9 +89,6 @@ public enum CardLeader implements Card{
      *
      * @param requirements of type Array of Requirements
      * @return String
-     * @author Alessio Piovesan
-     * @author Pier Giorgio Prosperi
-     * @author Matteo Salamone
      */
     private String showReq(Requirements[] requirements){
         var stringReq = new StringBuilder();

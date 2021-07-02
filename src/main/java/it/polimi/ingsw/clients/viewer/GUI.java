@@ -7,7 +7,6 @@ import it.polimi.ingsw.clients.multiplayer.web.Client;
 import it.polimi.ingsw.clients.singleplayer.controller.LocalGameController;
 import it.polimi.ingsw.clients.viewer.controllers.*;
 import it.polimi.ingsw.clients.viewer.utils.Checker;
-import it.polimi.ingsw.clients.viewer.utils.Utils;
 import it.polimi.ingsw.server.accessories.Colours;
 import it.polimi.ingsw.server.accessories.Json;
 import it.polimi.ingsw.server.accessories.Pick;
@@ -47,16 +46,15 @@ public class GUI extends Application implements UI{
     private static final String STRONGBOX = "strongBoxPane.fxml";
     private final HashMap<String, Scene> nameMapScene;
     private final HashMap<String, GUIController> nameMapController;
-    private final Utils utils;
     private final ExecutorService executor;
     private final Checker checker;
+    private final boolean endGame;
     private boolean single;
     private Scene currentScene;
     private Stage stage;
     private String nickname;
     private Client client;
     private ModelView model;
-    private boolean endGame;
     private boolean winner;
     private ModelBoard myBoard;
 
@@ -64,7 +62,6 @@ public class GUI extends Application implements UI{
         single = false;
         endGame = false;
         checker = new Checker(this);
-        utils = new Utils(this);
         executor = new ThreadPoolExecutor(0, 16, 0, TimeUnit.MILLISECONDS, new SynchronousQueue<>(true));
         nameMapScene = new HashMap<>();
         nameMapController = new HashMap<>();
@@ -82,6 +79,8 @@ public class GUI extends Application implements UI{
      * - LOADER: the game loader.
      * - GUI: the effective game GUI.
      * Each stage scene is put inside an hashmap, which links their name to their fxml filename.
+     *
+     * @author Alessio Piovesan
      */
     public void setup() throws IOException{
         var fxmList = new ArrayList<>(Arrays.asList(INITIALLEADERCARDS, BOARDS, SINGLEBOARD, SETUP));
@@ -132,10 +131,13 @@ public class GUI extends Application implements UI{
         });
         var controller = (SetupController)nameMapController.get(SETUP);
         controller.setGui(this);
-        try{
-            while(client.getIp() == null || client.getPort() == null) wait();
-        } catch(InterruptedException e){
-            e.printStackTrace();
+        synchronized(client){
+            try{
+                while(client.getIp() == null || client.getPort() == null) wait();
+            } catch(InterruptedException e){
+                Thread.currentThread().interrupt();
+                e.printStackTrace();
+            }
         }
     }
 
@@ -246,14 +248,11 @@ public class GUI extends Application implements UI{
         if(single && getLocalGameController().isLorenzoPlaying()) getLocalGameController().moveLorenzo();
     }
 
-    private LocalGameController getLocalGameController(){
-        return LocalGameController.getInstance();
-    }
-
     /**
      * method start creates the first stage where the scenes are going to be changed
      *
      * @param primaryStage of type Stage
+     * @author Alessio Piovesan
      */
     @Override
     public void start(Stage primaryStage){
@@ -267,6 +266,7 @@ public class GUI extends Application implements UI{
      * method changeStage is used to update the current scene shown to the player
      *
      * @param newScene of type String
+     * @author Alessio Piovesan
      */
     public void changeStage(String newScene){
         currentScene = nameMapScene.get(newScene);
@@ -279,10 +279,25 @@ public class GUI extends Application implements UI{
         currentScene.heightProperty().addListener(resize.getHeightListener());
     }
 
+    public void buyCardDev(String name){
+        var code = name.split("_");
+        var card = (CardDev)CardDev.getSpecificCard(code[1]);
+        if(single) getLocalGameController().cardDevAction(card, 1);
+        else{
+            model.cardBrought(card);
+            client.send("cardDevAction::" + card.name() + "::" + 1);
+        }
+    }
+
+    private LocalGameController getLocalGameController(){
+        return LocalGameController.getInstance();
+    }
+
     /**
      * Method chooseInitialLeaders is used to record the initial Leader Card choice of the player
      *
      * @param selected of type CardLeader - player's selection
+     * @author Alessio Piovesan
      */
     public void chooseInitialLeaders(CardLeader[] selected){
         if(single) LocalGameController.getInstance().getBoardController().player().setMyLeaderCards(selected);
@@ -349,6 +364,7 @@ public class GUI extends Application implements UI{
      *
      * @param colour is a colour
      * @param qnt    is the quantity of the selected resource
+     * @author Alessio Piovesan
      */
     private void prepareResForWarehouseS(Colours colour, int qnt){
         //        var newPick = new Pick(colour, qnt);
@@ -370,7 +386,7 @@ public class GUI extends Application implements UI{
     }
 
     private void chooseRes(){
-        var dialog = new ChoiceDialog<String>(Colours.BLUE.getType(), Colours.GREY.getType(), Colours.PURPLE.getType(), Colours.YELLOW.getType());
+        var dialog = new ChoiceDialog<>(Colours.BLUE.getType(), Colours.GREY.getType(), Colours.PURPLE.getType(), Colours.YELLOW.getType());
         dialog.setContentText("Select a preferred resource to add to you belongings:");
         var response = dialog.showAndWait();
         response.ifPresent(s -> prepareResForWarehouse(Colours.fromString(s), 1));
@@ -381,6 +397,7 @@ public class GUI extends Application implements UI{
      * TEMPORARYLEADERCARDS : starts the GUI and calls for changeStage.
      *
      * @param evt is an event
+     * @author Alessio Piovesan
      * @see #changeStage(String)
      * @see #start(Stage)
      */
@@ -440,6 +457,12 @@ public class GUI extends Application implements UI{
         //                }
     }
 
+    /**
+     * Method marketAction starts the interaction with the market
+     *
+     * @param move of type int is the code for the move
+     * @author Alessio Piovesan
+     */
     public void marketAction(int move){
         if(single) getLocalGameController().marketAction(move);
         else client.send("marketAction::" + move);
@@ -448,11 +471,13 @@ public class GUI extends Application implements UI{
     public void checkSetup(String name, String ip, int port, Integer idGame, int n){
         if(InetAddressValidator.getInstance().isValid(ip)) client.setIP(ip);
         if(port < 1023 || port > 65535) client.setPort(port);
-        notifyAll();
-        if(client.isActive()){
-            client.send("nickname::" + name);
-            client.send("NPlayers::" + n);
-            client.send("id::" + idGame);
+        synchronized(client){
+            notifyAll();
+            if(client.isActive()){
+                client.send("nickname::" + name);
+                client.send("NPlayers::" + n);
+                client.send("id::" + idGame);
+            }
         }
     }
 }

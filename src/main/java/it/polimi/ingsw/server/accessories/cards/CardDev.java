@@ -129,9 +129,6 @@ public enum CardDev implements Card{
      *
      * @param picks of type Array of Picks
      * @return String
-     * @author Alessio Piovesan
-     * @author Pier Giorgio Prosperi
-     * @author Matteo Salamone
      */
     private String showPick(Pick[] picks){
         var string = new StringBuilder();

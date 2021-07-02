@@ -6,8 +6,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+/**
+ * @author Alessio Piovesan
+ */
 public class SetupController implements GUIController{
-
 
     @FXML private AnchorPane mainPane;
     @FXML private TextField nicknameField;

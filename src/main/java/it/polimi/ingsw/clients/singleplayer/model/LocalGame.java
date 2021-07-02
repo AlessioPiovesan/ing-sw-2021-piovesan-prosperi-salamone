@@ -53,6 +53,8 @@ public class LocalGame{
 
     /**
      * Method myLeaderCardsHandler handles the initial four leader cards.
+     *
+     * @author Alessio Piovesan
      */
     public void myLeaderCardsHandler(){
         boards[0].setTemporaryLeaderCards(giveCardLead().toArray(CardLeader[]::new));
@@ -62,6 +64,7 @@ public class LocalGame{
      * Method giveCardLead deals the four leader cards to the player
      *
      * @return the four leader cards the player receives at the start of the game
+     * @author Alessio Piovesan
      */
     private List<CardLeader> giveCardLead(){
         var cardPlayer = new ArrayList<CardLeader>();
@@ -75,6 +78,7 @@ public class LocalGame{
      * Method selectNextPlayableLeaderCards is the method that lets the player choose two leader cards out of the four available.
      *
      * @return an available leader card
+     * @author Alessio Piovesan
      */
     private CardLeader selectNextPlayableLeaderCards(){
         while(true){

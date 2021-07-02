@@ -99,6 +99,7 @@ public class Client implements Runnable{
      * Method readingFromServer is used to read messages coming from the server side.
      *
      * @throws IOException standard IOException
+     * @see IOException
      */
     private void readingFromServer() throws IOException{
         try(var socketIn = new ObjectInputStream(socket.getInputStream())){
@@ -149,15 +150,7 @@ public class Client implements Runnable{
             case "askId" -> ui.askId();
             case "myBoardId" -> ui.setMyBoard(Integer.parseInt(string[1]));
             case "external" -> modelView.setExternalMarble(Colours.fromString(string[1]));
-            case "tray" -> {
-                try{
-                    var node = Json.parse(string[1]);
-                    var tray = Json.fromJson(node, Colours[][].class);
-                    modelView.setMarket(tray);
-                } catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
+            case "tray" -> setMarket(string[1]);
             case "leaderSpace" -> modelView.getBoard(Integer.parseInt(string[2])).addLeaderSpace(Colours.fromString(string[1]));
             case "leaderCards" -> modelView.getBoard(Integer.parseInt(string[3])).setMyLeaderCards(getLeaderCard(string[1]), Integer.parseInt(string[2]));
             case "warehouse" -> modelView.getBoard(Integer.parseInt(string[4])).setWarehouse(Integer.parseInt(string[1]), Colours.fromString(string[2]), Integer.parseInt(string[3]));
@@ -183,7 +176,7 @@ public class Client implements Runnable{
     }
 
     /**
-     * Method PrpertyChangeEvent generates a Property Change to the user
+     * Method recreatePropertyChangeEvent generates a Property Change to the user
      *
      * @param src is the serialization for the server's event
      * @return the reconstructed event
@@ -214,6 +207,16 @@ public class Client implements Runnable{
         ui.setNickname(name);
         send("nickname::" + name);
         ui.askNPlayers();
+    }
+
+    private void setMarket(String src){
+        try{
+            var node = Json.parse(src);
+            var tray = Json.fromJson(node, Colours[][].class);
+            modelView.setMarket(tray);
+        } catch(IOException e){
+            e.printStackTrace();
+        }
     }
 
     private CardLeader getLeaderCard(String s){

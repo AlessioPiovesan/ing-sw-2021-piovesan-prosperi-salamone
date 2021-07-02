@@ -19,11 +19,11 @@ public class ModelBoard{
     private final Map<Colours, Integer> leaderSpace;
     private final List<ArrayList<CardDev>> library;
     private final CardLeader[] myLeaderCards = new CardLeader[2];
+    private final EnumMap<Colours, Integer> strongBox;
+    private final EnumMap<Colours, Integer> resAll;
     private String nickname;
     private List<Pick> warehouse;
     private int faithTrackPos;
-    private EnumMap<Colours, Integer> strongBox;
-    private EnumMap<Colours, Integer> resAll;
 
     protected ModelBoard(){
         warehouse = createWarehouse();
@@ -38,9 +38,6 @@ public class ModelBoard{
      * Method createWarehouse creates the warehouse for the selected Model Board
      *
      * @return of type ArrayList of Pick
-     * @author Alessio Piovesan
-     * @author Pier Giorgio Prosperi
-     * @author Matteo Salamone
      */
     private List<Pick> createWarehouse(){
         var wareContent = new ArrayList<Pick>();
@@ -54,9 +51,6 @@ public class ModelBoard{
      * Method createStrongbox creates the strongbox for the selected Model Board
      *
      * @return of type EnumMap of Colours
-     * @author Alessio Piovesan
-     * @author Pier Giorgio Prosperi
-     * @author Matteo Salamone
      */
     private EnumMap<Colours, Integer> createStrongBox(){
         var strongContent = new EnumMap<Colours, Integer>(Colours.class);

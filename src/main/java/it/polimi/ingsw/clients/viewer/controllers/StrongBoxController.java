@@ -11,8 +11,6 @@ import javafx.scene.layout.Pane;
  * It has FXML attributes for JavaFX
  *
  * @author Alessio Piovesan
- * @author Pier Giorgio Prosperi
- * @author Matteo Salamone
  */
 public class StrongBoxController implements GUIController{
 

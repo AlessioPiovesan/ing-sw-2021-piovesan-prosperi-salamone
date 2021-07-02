@@ -72,7 +72,7 @@ public class Checker{
      * if there is not an inferior level card already on the slot
      *
      * @param card is a development card
-     * @param slot is the number of remainig development cards
+     * @param slot is the number of remaining development cards
      * @return a boolean
      */
     public boolean isAddable(CardDev card, int slot, List<ArrayList<CardDev>> lib){

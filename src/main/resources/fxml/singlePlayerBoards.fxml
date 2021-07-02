@@ -278,19 +278,19 @@
                     </GridPane>
                     <Sphere fx:id="sphere0" layoutX="380.0" layoutY="67.0" radius="50"/>
                 </AnchorPane>
-                <Button fx:id="button0" layoutX="830.0" layoutY="170.0" mnemonicParsing="false"
+                <Button fx:id="button0" blendMode="MULTIPLY" layoutX="830.0" layoutY="170.0" mnemonicParsing="false"
                         onMouseClicked="#moveMarket" prefHeight="50.0" prefWidth="120.0"/>
-                <Button fx:id="button1" layoutX="830.0" layoutY="250.0" mnemonicParsing="false"
+                <Button fx:id="button1" blendMode="MULTIPLY" layoutX="830.0" layoutY="250.0" mnemonicParsing="false"
                         onMouseClicked="#moveMarket" prefHeight="50.0" prefWidth="120.0"/>
-                <Button fx:id="button2" layoutX="830.0" layoutY="330.0" mnemonicParsing="false"
+                <Button fx:id="button2" blendMode="MULTIPLY" layoutX="830.0" layoutY="330.0" mnemonicParsing="false"
                         onMouseClicked="#moveMarket" prefHeight="50.0" prefWidth="120.0"/>
-                <Button fx:id="button3" layoutX="690.0" layoutY="480.0" mnemonicParsing="false"
+                <Button fx:id="button3" blendMode="MULTIPLY" layoutX="690.0" layoutY="480.0" mnemonicParsing="false"
                         onMouseClicked="#moveMarket" prefHeight="120.0" prefWidth="50.0"/>
-                <Button fx:id="button4" layoutX="610.0" layoutY="480.0" mnemonicParsing="false"
+                <Button fx:id="button4" blendMode="MULTIPLY" layoutX="610.0" layoutY="480.0" mnemonicParsing="false"
                         onMouseClicked="#moveMarket" prefHeight="120.0" prefWidth="50.0"/>
-                <Button fx:id="button5" layoutX="535.0" layoutY="480.0" mnemonicParsing="false"
+                <Button fx:id="button5" blendMode="MULTIPLY" layoutX="535.0" layoutY="480.0" mnemonicParsing="false"
                         onMouseClicked="#moveMarket" prefHeight="120.0" prefWidth="50.0"/>
-                <Button fx:id="button6" layoutX="460.0" layoutY="480.0" mnemonicParsing="false"
+                <Button fx:id="button6" blendMode="MULTIPLY" layoutX="460.0" layoutY="480.0" mnemonicParsing="false"
                         onMouseClicked="#moveMarket" prefHeight="120.0" prefWidth="50.0"/>
             </AnchorPane>
         </Tab>

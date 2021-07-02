@@ -104,7 +104,7 @@ public class LocalGameController{
      * Method addFaithPnt is used to move forward on the faith track
      *
      * @param waste is the marble not used by the player
-     * @see it.polimi.ingsw.server.model.board.Board#moveFT(int)
+     * @see Board#moveFT(int)
      */
     public void addFaithPnt(List<Colours> waste){
         int a = waste.size();
@@ -140,7 +140,7 @@ public class LocalGameController{
      *
      * @param cardToBeBought is the card who's going to be bought from the player
      * @param slot           is where the bought card will be placed
-     * @see it.polimi.ingsw.server.model.board.Board#buyCardDev(CardDev, int)
+     * @see Board#buyCardDev(CardDev, int)
      */
     public void cardDevAction(CardDev cardToBeBought, int slot){
         var b = boardController.player();
@@ -157,11 +157,11 @@ public class LocalGameController{
         var deck = game.getCardDevDeck();
         CardDev found = null;
         for(var cardDev : deck){
-            if(cardDev.getLvl() == 1 && cardDev.getColour() == colour) found = cardDev;
-            if(found != null) break;
-            if(cardDev.getLvl() == 2 && cardDev.getColour() == colour) found = cardDev;
-            if(found != null) break;
-            if(cardDev.getLvl() == 3 && cardDev.getColour() == colour) found = cardDev;
+            for(var i = 0; i < 3; i++)
+                if(cardDev.getLvl() == i && cardDev.getColour() == colour){
+                    found = cardDev;
+                    break;
+                }
             if(found != null) break;
         }
         if(found == null) endGame(false);
@@ -172,14 +172,13 @@ public class LocalGameController{
      * method endGame counts winning points for the single player in order to handle personal records
      *
      * @param winner is either the player or Lorenzo that has won the game
-     * @return the win points the player scored if has won the game or tells the player that has lost the game
      * @see Board#countWinPnt()
      */
-    public String endGame(boolean winner){
+    public void endGame(boolean winner){
         if(winner){
             var win = boardController.player().countWinPnt();
-            return "YOU WON!\nYour record is " + win + " points!";
+            boardController.player().setWinner("YOU WON!\nYour record is " + win + " points!");
         }
-        else return "YOU LOSE";
+        else boardController.player().setWinner("YOU LOSE");
     }
 }

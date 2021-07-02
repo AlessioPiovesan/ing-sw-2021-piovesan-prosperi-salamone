@@ -43,7 +43,7 @@ The final version includes:
 | CLI |[![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/CLI) |
 | Multiple games | [![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/SERVER)|
 | Single Player | [![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/CLIENTSINGLEPLAYER) |
-| Resilience to disconnections | [![GREEN](.github/44bb44.png)(https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/EDITOR) |
+| Resilience to disconnections | [![GREEN](.github/44bb44.png)](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone/EDITOR) |
 | Editor | [![RED](.github/f03c15.png)]() |
 | Persistence | [![RED](.github/f03c15.png)]() |
 
@@ -61,9 +61,7 @@ Implementing&nbsp;&nbsp;&nbsp;&nbsp;[![GREEN](.github/44bb44.png)]() Implemented
 
 ## Test cases
 
-All tests in model and controller has a classes' coverage at 100%.
-
-**Coverage criteria: code lines.**
+**Coverage criteria: methods.**
 
 | Package |Tested Class | Method Coverage |
 |:-----------------------|:------------------|:------------------------------------:|
@@ -83,11 +81,6 @@ All tests in model and controller has a classes' coverage at 100%.
 **Draw.io** - UML diagrams
 
 **Intellij IDEA Ultimate** - main IDE
-
-## Copyright and license
-
-Masters Of Renaissance Board Game is copyrighted 2021.
-
 
 [javadocs-image]: .github/Artboard%202.png
 

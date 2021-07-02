@@ -57,7 +57,7 @@ public class GameController{
     }
 
     /**
-     * Method cardDevAction assings a card to a player and deletes the same card from the deck
+     * Method cardDevAction assigns a card to a player and deletes the same card from the deck
      *
      * @param cardToBeBought is the card that the selected player wants to buy
      * @param slot           is the library slot where the card will be placed
@@ -68,6 +68,11 @@ public class GameController{
         b.buyCardDev(cardToBeBought, slot);
     }
 
+    /**
+     * Method nextPlayer end the turn of a player and start the turn of the next
+     *
+     * @see Game#checkNext()
+     */
     public void nextPlayer(){
         game.nextReady();
         var next = game.checkNext();
@@ -77,6 +82,11 @@ public class GameController{
 
     public BoardController getBoardController(int id){return boardController[id];}
 
+    /**
+     * Method cardLeadAction activates a leader card special ability
+     *
+     * @param cardToBeActivated the card of which power is about to be activate
+     */
     public void cardLeadAction(CardLeader cardToBeActivated){
         cardToBeActivated.flipCard();
         switch(cardToBeActivated){
@@ -115,12 +125,19 @@ public class GameController{
     }
 
     /**
+     * Method leaderCardsHandler starts the distribution of the leader cards at the beginning of a game
+     *
      * @see Game#myLeaderCardsHandler()
      */
     public void leaderCardsHandler(){
         game.myLeaderCardsHandler();
     }
 
+    /**
+     * Method endGame counts the points for every player
+     *
+     * @see Board#countWinPnt()
+     */
     public void endGame(){
         var i = 0;
         while(i < game.getNGamers()){
@@ -131,10 +148,20 @@ public class GameController{
         }
     }
 
+    /**
+     * Method initialResourcesHandler starts the method in the class Game giving every player the starting resources
+     *
+     * @see Game#pickStartingResources()
+     */
     public void initialResourcesHandler(){
         game.pickStartingResources();
     }
 
+    /**
+     * Method marketAction takes the correct resources from the market and pass them to the board
+     *
+     * @param moveMarket of type int is the code of the move acted on the market
+     */
     public void marketAction(int moveMarket){
         var board = game.getSingleB(game.getPlayingPlayer());
         var market = game.getMarket();

@@ -21,8 +21,6 @@ import java.util.List;
  * This class is the one that handles the Window resizing since the scenes do not have a fixed size.
  *
  * @author Alessio Piovesan
- * @author Pier Giorgio Prosperi
- * @author Matteo Salamone
  */
 public class ResizeHandler{
     private final ArrayList<Node> nodes;
@@ -36,6 +34,7 @@ public class ResizeHandler{
      * Constructor ResizeHandler creates a new ResizeHandler instance.
      *
      * @param pane of type Pane
+     * @author Alessio Piovesan
      */
     public ResizeHandler(Pane pane){
         nodes = new ArrayList<>();
@@ -48,6 +47,7 @@ public class ResizeHandler{
      *
      * @param pane   of type Pane - the root pane.
      * @param parent of type Pane - the original root pane.
+     * @author Alessio Piovesan
      */
     public void calculateResize(Pane pane, Pane parent){
         if(pane.equals(parent)){
@@ -152,7 +152,8 @@ public class ResizeHandler{
     /**
      * Method getWidthListener returns the widthListener of this ResizeHandler object.
      *
-     * @return the widthListener (type ChangeListener&lt;Number&gt;) of this ResizeHandler object.
+     * @return the widthListener (type ChangeListener&lt;Number&gt;) of this ResizeHandler object
+     * @author Alessio Piovesan
      */
     public ChangeListener<Number> getWidthListener(){
         return widthListener;
@@ -161,7 +162,8 @@ public class ResizeHandler{
     /**
      * Method getHeightListener returns the heightListener of this ResizeHandler object.
      *
-     * @return the heightListener (type ChangeListener&lt;Number&gt;) of this ResizeHandler object.
+     * @return the heightListener (type ChangeListener&lt;Number&gt;) of this ResizeHandler object
+     * @author Alessio Piovesan
      */
     public ChangeListener<Number> getHeightListener(){
         return heightListener;

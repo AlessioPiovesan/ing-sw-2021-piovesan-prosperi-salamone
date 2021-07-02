@@ -8,7 +8,7 @@ import it.polimi.ingsw.clients.viewer.GUI;
 import it.polimi.ingsw.clients.viewer.UI;
 
 /**
- * Class Local handles local's singleplayer game
+ * Class Local handles local's single player game
  *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi

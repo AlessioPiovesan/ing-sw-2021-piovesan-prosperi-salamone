@@ -19,11 +19,14 @@ import java.util.*;
 public class Board{
 
     private static final LinkedList<CardDev> myDevCards = new LinkedList<>();
-    private final Warehouse warehouse;
+    private static final String WAREHOUSE = "warehouse";
+    private static final String STRONGBOX = "strongBox";
+    private static final String ALL = "resAll";
+    private final Warehouse warehouseObj;
     private final FaithTrack faithTrack;
-    private final StrongBox strongBox;
+    private final StrongBox strongBoxObj;
     private final Library library;
-    private final EnumMap<Colours, Integer> resAll;
+    private final EnumMap<Colours, Integer> resAllObj;
     private final PropertyChangeSupport pcs;
     private final PropertyChangeSupport listener;
     private final int myId;
@@ -37,23 +40,23 @@ public class Board{
     private String nickname;
     private CardLeader[] myLeaderCards = new CardLeader[2];
 
-    public Board(int id, Warehouse warehouse, StrongBox strongBox, FaithTrack faithTrack, Library library){
+    public Board(int id, Warehouse warehouseObj, StrongBox strongBoxObj, FaithTrack faithTrack, Library library){
         endGame = false;
         this.myId = id;
         /* Warehouse creation for a model Board */
-        this.warehouse = warehouse;
+        this.warehouseObj = warehouseObj;
         /* Strongbox creation for a model Board */
-        this.strongBox = strongBox;
+        this.strongBoxObj = strongBoxObj;
         /* Faith Track creation for a model board */
         this.faithTrack = faithTrack;
         /* ________ creation for a model board */
         this.library = library;
         ready = false;
-        resAll = new EnumMap<>(Colours.class);
-        resAll.put(Colours.BLUE, 0);
-        resAll.put(Colours.YELLOW, 0);
-        resAll.put(Colours.GREY, 0);
-        resAll.put(Colours.PURPLE, 0);
+        resAllObj = new EnumMap<>(Colours.class);
+        resAllObj.put(Colours.BLUE, 0);
+        resAllObj.put(Colours.YELLOW, 0);
+        resAllObj.put(Colours.GREY, 0);
+        resAllObj.put(Colours.PURPLE, 0);
         discount = new Colours[2];
         discount[0] = Colours.WHITE;
         discount[1] = Colours.WHITE;
@@ -71,10 +74,6 @@ public class Board{
     public void ready(){
         ready = !ready;
         if(ready) pcs.firePropertyChange("nextAction", "", 1);
-    }
-
-    public int getMyId(){
-        return myId;
     }
 
     public Integer getGameID(){
@@ -154,7 +153,7 @@ public class Board{
     }
 
     public Map<Colours, Integer> getResAll(){
-        return resAll;
+        return resAllObj;
     }
 
     public String getNickname(){
@@ -201,19 +200,14 @@ public class Board{
      */
     public void buyCardDev(CardDev card, int slot){
         var costCardDev = new LinkedList<Pick>();
-        var i = true;
-        var j = true;
         Pick[] cost = card.getCost();
         for(Pick pick : cost){
-            if(pick.resource() == discount[0] && i){
-                i = false;
-                break;
-            }
-            if(pick.resource() == discount[1] && j){
-                j = false;
-                break;
-            }
-            costCardDev.add(pick);
+            var colour = pick.resource();
+            var qnt = pick.qnt();
+            if(pick.resource() == discount[0]) qnt--;
+
+            if(pick.resource() == discount[1]) qnt--;
+            costCardDev.add(new Pick(colour, qnt));
         }
         myDevCards.add(card);
         checkIfEndGame();
@@ -234,6 +228,8 @@ public class Board{
     }
 
     /**
+     * Method getPositionFT gives the position on the faith track
+     *
      * @return position
      * @see FaithTrack#getPosition
      */
@@ -286,6 +282,8 @@ public class Board{
     }
 
     /**
+     * Method addLeaderSpace is activate by a leader card
+     *
      * @param special resource type that you can add in the extra space
      */
     public void addLeaderSpace(Colours special){
@@ -306,9 +304,9 @@ public class Board{
      * @see Warehouse#lvlExchange
      */
     public void rearrangeWarehouse(int first, int second){
-        warehouse.lvlExchange(first, second);
-        listener.firePropertyChange("warehouse", "", first + "::" + warehouse.checkLvlStatus(first).resource() + "::" + warehouse.checkLvlStatus(first).qnt() + "::" + myId);
-        listener.firePropertyChange("warehouse", "", second + "::" + warehouse.checkLvlStatus(second).resource() + "::" + warehouse.checkLvlStatus(second).qnt() + "::" + myId);
+        warehouseObj.lvlExchange(first, second);
+        listener.firePropertyChange(WAREHOUSE, "", first + "::" + warehouseObj.checkLvlStatus(first).resource() + "::" + warehouseObj.checkLvlStatus(first).qnt() + "::" + myId);
+        listener.firePropertyChange(WAREHOUSE, "", second + "::" + warehouseObj.checkLvlStatus(second).resource() + "::" + warehouseObj.checkLvlStatus(second).qnt() + "::" + myId);
     }
 
     /**
@@ -318,7 +316,7 @@ public class Board{
      * @see Warehouse#getWareContent()
      */
     public List<Pick> checkWarehouseStatus(){
-        return warehouse.getWareContent();
+        return warehouseObj.getWareContent();
     }
 
     /**
@@ -328,7 +326,7 @@ public class Board{
      * @see Warehouse#checkAdd(int, Pick)
      */
     public boolean checkWarehouseAdd(Pick pick, int lvl){
-        return warehouse.checkAdd(lvl, pick);
+        return warehouseObj.checkAdd(lvl, pick);
     }
 
     /**
@@ -348,7 +346,7 @@ public class Board{
      * @see StrongBox#getStrongContent()
      */
     public Map<Colours, Integer> checkStrongBoxStatus(){
-        return strongBox.getStrongContent();
+        return strongBoxObj.getStrongContent();
     }
 
     /**
@@ -359,7 +357,7 @@ public class Board{
      * @see Warehouse#isThereThatRes(Colours)
      */
     public void takeFromWarehouse(Colours colour){
-        var lvl = warehouse.isThereThatRes(colour);
+        var lvl = warehouseObj.isThereThatRes(colour);
         storeInWarehouse(lvl, new Pick[]{new Pick(colour, -1)});
     }
 
@@ -373,10 +371,10 @@ public class Board{
      */
     public void storeInWarehouse(int lvl, Pick[] start){
         for(var pick : start){
-            warehouse.moveResources(lvl, pick);
+            warehouseObj.moveResources(lvl, pick);
         }
         updateResAll();
-        listener.firePropertyChange("warehouse", "", lvl + "::" + warehouse.checkLvlStatus(lvl).resource() + "::" + warehouse.checkLvlStatus(lvl).qnt() + "::" + myId);
+        listener.firePropertyChange(WAREHOUSE, "", lvl + "::" + warehouseObj.checkLvlStatus(lvl).resource() + "::" + warehouseObj.checkLvlStatus(lvl).qnt() + "::" + myId);
     }
 
     /**
@@ -386,12 +384,12 @@ public class Board{
      * @see StrongBox#getStrongContent()
      */
     public void updateResAll(){
-        var w = warehouse.getWareContent();
-        var s = strongBox.getStrongContent();
+        var w = warehouseObj.getWareContent();
+        var s = strongBoxObj.getStrongContent();
         var map = new EnumMap<Colours, Integer>(Colours.class);
         var leaderKey = leaderSpace.keySet();
         var sKeys = s.keySet();
-        var resAllKeys = resAll.keySet();
+        var resAllKeys = resAllObj.keySet();
         map.put(Colours.BLUE, 0);
         map.put(Colours.PURPLE, 0);
         map.put(Colours.GREY, 0);
@@ -400,11 +398,11 @@ public class Board{
             if(pick.resource() != Colours.WHITE) map.put(pick.resource(), pick.qnt());
         sKeys.forEach(key -> map.put(key, s.get(key) + map.get(key)));
         leaderKey.forEach(key -> map.put(key, leaderSpace.get(key) + map.get(key)));
-        resAllKeys.forEach(key -> resAll.put(key, map.get(key)));
-        listener.firePropertyChange("resAll", "", Colours.BLUE.name() + "::" + resAll.get(Colours.BLUE) + "::" + myId);
-        listener.firePropertyChange("resAll", "", Colours.GREY.name() + "::" + resAll.get(Colours.GREY) + "::" + myId);
-        listener.firePropertyChange("resAll", "", Colours.PURPLE.name() + "::" + resAll.get(Colours.PURPLE) + "::" + myId);
-        listener.firePropertyChange("resAll", "", Colours.YELLOW.name() + "::" + resAll.get(Colours.YELLOW) + "::" + myId);
+        resAllKeys.forEach(key -> resAllObj.put(key, map.get(key)));
+        listener.firePropertyChange(ALL, "", Colours.BLUE.name() + "::" + resAllObj.get(Colours.BLUE) + "::" + myId);
+        listener.firePropertyChange(ALL, "", Colours.GREY.name() + "::" + resAllObj.get(Colours.GREY) + "::" + myId);
+        listener.firePropertyChange(ALL, "", Colours.PURPLE.name() + "::" + resAllObj.get(Colours.PURPLE) + "::" + myId);
+        listener.firePropertyChange(ALL, "", Colours.YELLOW.name() + "::" + resAllObj.get(Colours.YELLOW) + "::" + myId);
     }
 
     /**
@@ -425,13 +423,13 @@ public class Board{
     public void storeInStrongBox(Pick[] start){
         for(Pick pick : start){
             if(pick.resource() == Colours.RED) moveFT(pick.qnt());
-            else strongBox.moveResources(pick);
+            else strongBoxObj.moveResources(pick);
         }
         updateResAll();
-        listener.firePropertyChange("strongBox", "", Colours.BLUE.name() + "::" + strongBox.getStrongContent().get(Colours.BLUE) + "::" + myId);
-        listener.firePropertyChange("strongBox", "", Colours.GREY.name() + "::" + strongBox.getStrongContent().get(Colours.GREY) + "::" + myId);
-        listener.firePropertyChange("strongBox", "", Colours.PURPLE.name() + "::" + strongBox.getStrongContent().get(Colours.PURPLE) + "::" + myId);
-        listener.firePropertyChange("strongBox", "", Colours.YELLOW.name() + "::" + strongBox.getStrongContent().get(Colours.YELLOW) + "::" + myId);
+        listener.firePropertyChange(STRONGBOX, "", Colours.BLUE.name() + "::" + strongBoxObj.getStrongContent().get(Colours.BLUE) + "::" + myId);
+        listener.firePropertyChange(STRONGBOX, "", Colours.GREY.name() + "::" + strongBoxObj.getStrongContent().get(Colours.GREY) + "::" + myId);
+        listener.firePropertyChange(STRONGBOX, "", Colours.PURPLE.name() + "::" + strongBoxObj.getStrongContent().get(Colours.PURPLE) + "::" + myId);
+        listener.firePropertyChange(STRONGBOX, "", Colours.YELLOW.name() + "::" + strongBoxObj.getStrongContent().get(Colours.YELLOW) + "::" + myId);
     }
 
     /**
@@ -458,5 +456,9 @@ public class Board{
 
     public void addToLeaderSpace(Colours colour){
         leaderSpace.put(colour, leaderSpace.get(colour) + 1);
+    }
+
+    public void setWinner(String winner){
+        pcs.firePropertyChange("winner", "", winner);
     }
 }

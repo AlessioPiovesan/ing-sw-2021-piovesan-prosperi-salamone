@@ -11,6 +11,6 @@ class BoardControllerTest{
     void getterTest(){
         var board = new Board(0, null, null, null, null);
         var boardController = new BoardController(board, null);
-        assertEquals(board, boardController.getPlayer());
+        assertEquals(board, boardController.player());
     }
 }

@@ -15,8 +15,6 @@ import javafx.stage.Stage;
  * It uses FXML files for JavaFX
  *
  * @author Alessio Piovesan
- * @author Pier Giorgio Prosperi
- * @author Matteo Salamone
  */
 public class MainMenuController implements GUIController{
 
@@ -27,6 +25,8 @@ public class MainMenuController implements GUIController{
 
     /**
      * Method quit quits the game if a player wants to
+     *
+     * @author Alessio Piovesan
      */
     public void quit(){
         System.out.println("Thanks for playing!");
@@ -35,6 +35,8 @@ public class MainMenuController implements GUIController{
 
     /**
      * Method startSingleGame starts a single player game if the player decides to
+     *
+     * @author Alessio Piovesan
      */
     public void startSingleGame(){
         var client = new Local(1);
@@ -46,7 +48,9 @@ public class MainMenuController implements GUIController{
     }
 
     /**
-     * Method startMultiGame starts a multiplayer game if the player decides to.
+     * Method startMultiGame starts a multiplayer game if the player decides to
+     *
+     * @author Alessio Piovesan
      */
     public void startMultiGame(){
         var client = new Client(1);

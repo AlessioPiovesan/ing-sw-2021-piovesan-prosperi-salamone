@@ -85,7 +85,7 @@ public class Server implements Runnable, PropertyChangeListener{
      *
      * @param socketToClient  is the player socket that wants to join the game
      * @param name            is the player nickname
-     * @param playersRequired is the number of players remainig
+     * @param playersRequired is the number of players that still have to join the game before the game starts
      * @param id              is the game id selected by the player that wants to join
      */
     private void joinNewGame(SocketServerToClient socketToClient, String name, int playersRequired, Integer id){
@@ -156,7 +156,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * Method sendNickname send to all the players each nickname that is playng the game
+     * Method sendNickname send to all the players each nickname that is playing the game
      *
      * @param n  is the number of players
      * @param id is the game id
@@ -218,7 +218,7 @@ public class Server implements Runnable, PropertyChangeListener{
      * Method checkExistNickname checks whether a new Nickname already exists inside the server.
      *
      * @param name   of type String - Player's Nickname
-     * @param socket of type SocketServerToClient - Socket that represents the connection with a client.
+     * @param socket of type SocketServerToClient - Socket that represents the connection with a client
      */
     public void checkExistNickname(String name, SocketServerToClient socket){
         if(playersNameId.containsKey(name)){
@@ -268,7 +268,7 @@ public class Server implements Runnable, PropertyChangeListener{
         socketServerToClient.setGameController(remoteView.getGameId());
         var bcs = gameController.getAllBoardController();
         for(var i = 0; i < bcs.length; i++){
-            if(Objects.equals(bcs[i].getName(), name)) remoteView.setBoardId(i);
+            if(Objects.equals(bcs[i].name(), name)) remoteView.setBoardId(i);
         }
         var game = gameController.getGame();
         var board = game.getSingleB(remoteView.getBoardId());
@@ -326,7 +326,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * Method sendMarket takes the market string and sends a message to all the clents
+     * Method sendMarket takes the market string and sends a message to all the clients
      *
      * @param marketString is the string version of the market
      * @param n            the number of players
@@ -342,7 +342,7 @@ public class Server implements Runnable, PropertyChangeListener{
     }
 
     /**
-     * Method sendExternalMarble sends a messa to all the clients that the external marble as changed
+     * Method sendExternalMarble sends a message to all the clients that the external marble as changed
      *
      * @param extern is the colour of the external marble
      * @param n      is the number of the players

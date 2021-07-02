@@ -13,31 +13,7 @@ import it.polimi.ingsw.server.model.board.Board;
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone
  */
-public class BoardController{
-
-    private final Board player;
-    private final String name;
-
-    public BoardController(Board player, String name){
-        this.player = player;
-        this.name = name;
-    }
-
-    public Board getPlayer(){
-        return player;
-    }
-
-    public String getName(){return name;}
-
-    /**
-     * @param pick of type Pick
-     * @param lvl  of type int
-     * @return boolean
-     * @see Board#checkWarehouseAdd(Pick, int)
-     */
-    public boolean checkWarehouseAdd(Pick pick, int lvl){
-        return player.checkWarehouseAdd(pick, lvl);
-    }
+public record BoardController(Board player, String name){
 
     public void warehouseResHandler(Colours colour, int qnt, int lvl){
         player.storeInWarehouse(lvl, new Pick[]{new Pick(colour, qnt)});

@@ -68,7 +68,7 @@ public class FaithTrack{
     }
 
     /**
-     * Method getWinPntCard is used to show win points given to players when they reach the Pope Favor tiles.
+     * Method getWinPntCard is used to show win points given to players when they reach the Pope Favor tiles
      */
     protected void getWinPntCard(){
         switch(position){

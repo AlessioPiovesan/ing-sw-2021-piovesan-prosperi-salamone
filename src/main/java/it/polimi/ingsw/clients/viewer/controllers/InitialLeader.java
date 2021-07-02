@@ -19,8 +19,6 @@ import java.util.LinkedList;
  * It uses FXML files for JavaFX
  *
  * @author Alessio Piovesan
- * @author Pier Giorgio Prosperi
- * @author Matteo Salamone
  */
 public class InitialLeader implements GUIController{
 
@@ -52,6 +50,7 @@ public class InitialLeader implements GUIController{
      * Method getCards is used to get the Cards' Images
      *
      * @param list is the four initial leader cards the player receives at the start o the game
+     * @author Alessio Piovesan
      */
     public void getCards(CardLeader[] list){
         Collections.addAll(thisCards, list);
@@ -65,6 +64,7 @@ public class InitialLeader implements GUIController{
      * Method addCard adds the Leader Cards based on the player's mouse action
      *
      * @param mouseEvent is the mouse click
+     * @author Alessio Piovesan
      */
     public void addCard(MouseEvent mouseEvent){
         var source = (ImageView)mouseEvent.getSource();
