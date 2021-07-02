@@ -1,0 +1,2 @@
+If it does not work try add:
+--module-path /path/to/javafx-sdk-XX/lib --add-modules javafx.controls,javafx.fxml
