@@ -1,8 +1,5 @@
 # Masters Of Renaissance Board Game
 
-![latest commit](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone?color=red)
-![latest release](https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone?color=green)
-
 <img src="https://craniointernational.com/wp-content/uploads/2019/06/Masters-Of-Renaissance_scatola_ENG-e1560246260470.png" width=192px height=192px align="right"  alt="image"/>
 
 _**Masters Of Renaissance**_ Board Game is the final test of “**Software Engineering**”, course of **”Computer Science
