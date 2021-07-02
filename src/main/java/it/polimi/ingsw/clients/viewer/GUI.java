@@ -248,6 +248,10 @@ public class GUI extends Application implements UI{
         if(single && getLocalGameController().isLorenzoPlaying()) getLocalGameController().moveLorenzo();
     }
 
+    private LocalGameController getLocalGameController(){
+        return LocalGameController.getInstance();
+    }
+
     /**
      * method start creates the first stage where the scenes are going to be changed
      *
@@ -287,10 +291,6 @@ public class GUI extends Application implements UI{
             model.cardBrought(card);
             client.send("cardDevAction::" + card.name() + "::" + 1);
         }
-    }
-
-    private LocalGameController getLocalGameController(){
-        return LocalGameController.getInstance();
     }
 
     /**

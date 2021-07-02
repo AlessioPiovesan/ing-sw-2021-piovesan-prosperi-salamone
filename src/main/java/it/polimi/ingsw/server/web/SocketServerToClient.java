@@ -140,6 +140,7 @@ public class SocketServerToClient implements Runnable{
                 var lvl = Integer.parseInt(string[3]);
                 getBoardController().warehouseResHandler(color, qnt, lvl);
             }
+            case "rearrangeWarehouse" -> getBoardController().rearrangeWarehouse(Integer.parseInt(string[1]), Integer.parseInt(string[2]));
             case "cardLeadAction" -> {
                 var s = string[1].split("LEAD");
                 var card = (CardLeader)CardLeader.getSpecificCard(s[1]);

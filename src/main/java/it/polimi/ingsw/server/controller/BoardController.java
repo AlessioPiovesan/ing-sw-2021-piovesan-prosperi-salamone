@@ -19,6 +19,10 @@ public record BoardController(Board player, String name){
         player.storeInWarehouse(lvl, new Pick[]{new Pick(colour, qnt)});
     }
 
+    public void rearrangeWarehouse(int first, int second){
+        player.rearrangeWarehouse(first, second);
+    }
+
     public void setMyCardLeader(CardLeader[] choice){
         player.setMyLeaderCards(choice);
     }

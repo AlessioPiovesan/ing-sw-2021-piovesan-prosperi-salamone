@@ -1095,8 +1095,10 @@ public class CLI implements Runnable, UI{
                 output.println("Destination?");
                 var second = getWarehouseShelfLvl();
                 var secondQnt = content.get(second).qnt();
-                if(first + 1 >= secondQnt && second + 1 >= firstQnt)
-                    getLocalGameController().getBoardController().rearrangeWarehouse(first, second);
+                if(first + 1 >= secondQnt && second + 1 >= firstQnt){
+                    if(single) getLocalGameController().getBoardController().rearrangeWarehouse(first, second);
+                    else client.send("rearrangeWarehouse::" + first + "::" + second);
+                }
                 else output.println("You can't do that");
                 drawer.showWarehouse(content);
             }
