@@ -12,12 +12,12 @@
     <url>https://github.com/piergiorgioprosperi/ing-sw-2021-piovesan-prosperi-salamone</url>
 
     <properties>
-        <maven.compiler.target>16</maven.compiler.target>
-        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
+        <maven.compiler.source>23</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <javafx.version>16</javafx.version>
-        <junit.version>5.8.0-M1</junit.version>
-        <jackson.version>2.12.3</jackson.version>
+        <javafx.version>21</javafx.version>
+        <junit.version>5.11.3</junit.version>
+        <jackson.version>2.18.0</jackson.version>
     </properties>
 
     <dependencies>
@@ -72,12 +72,12 @@
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
-            <version>21.0.1</version>
+            <version>26.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-maven-plugin</artifactId>
-            <version>0.0.6</version>
+            <version>0.0.8</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -136,9 +136,14 @@
             <version>${jackson.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>versions-maven-plugin</artifactId>
+            <version>2.17.1</version>
+        </dependency>
+        <dependency>
             <groupId>commons-validator</groupId>
             <artifactId>commons-validator</artifactId>
-            <version>1.7</version>
+            <version>1.9.0</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
@@ -150,7 +155,7 @@
         <dependency>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <version>3.0.0-M5</version>
+            <version>3.5.1</version>
             <scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -262,13 +267,32 @@
             <plugin>
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.6</version>
+                <version>0.0.8</version>
                 <configuration>
-                    <mainClass>it.polimi.ingsw.MastersOfRenaissanceGUI</mainClass>
+                    <mainClass>it.polimi.ingsw.MastersOfRenaissanceCLI</mainClass>
                 </configuration>
             </plugin>
         </plugins>
 
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.17.1</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>dependency-updates-report</report>
+                            <report>plugin-updates-report</report>
+                            <report>property-updates-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 
 </project>

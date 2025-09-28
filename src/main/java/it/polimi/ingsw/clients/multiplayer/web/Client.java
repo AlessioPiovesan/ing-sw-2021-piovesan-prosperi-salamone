@@ -158,7 +158,7 @@ public class Client implements Runnable{
             case "strongBox" -> modelView.getBoard(Integer.parseInt(string[3])).setStrongBox(Colours.fromString(string[1]), Integer.parseInt(string[2]));
             case "faithTrack" -> modelView.getBoard(Integer.parseInt(string[2])).setFaithTrack(Integer.parseInt(string[1]));
             case "newCard" -> modelView.getBoard(Integer.parseInt(string[3])).addCardinLibrary(getDevCard(string[1]), Integer.parseInt(string[2]));
-            default -> ui.printMessage(string[0] + " -> (CLIENT)");
+            default -> ui.printMessage(string[0]);
         }
     }
 

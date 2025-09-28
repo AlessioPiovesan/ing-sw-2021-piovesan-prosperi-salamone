@@ -213,7 +213,7 @@ public class Board{
         checkIfEndGame();
         library.addCard(slot, card);
         pcs.firePropertyChange("costCardDev", "", costCardDev.toArray());
-        listener.firePropertyChange("newCard", "", card.name() + "::" + slot);
+        listener.firePropertyChange("newCard", "", card.name() + "::" + slot + "::" + myId);
     }
 
     /**

@@ -88,7 +88,7 @@ public class SocketServerToClient implements Runnable{
             while(isActive()){
                 synchronized(socketIn){
                     var inputObject = socketIn.readObject();
-                    if(inputObject instanceof String) interpreter((String)inputObject);
+                    if(inputObject instanceof String string) interpreter(string);
                     else throw new IllegalArgumentException();
                 }
             }
@@ -154,7 +154,7 @@ public class SocketServerToClient implements Runnable{
             }
             case "produce" -> {
                 var s = string[1].split("_");
-                var card = (CardDev)CardLeader.getSpecificCard(s[1]);
+                var card = (CardDev)CardDev.getSpecificCard(s[1]);
                 getBoardController().produce(card);
             }
             case "storeInStrongBox" -> getBoardController().storeInStrongBox(Colours.fromString(string[1]), Integer.parseInt(string[2]));

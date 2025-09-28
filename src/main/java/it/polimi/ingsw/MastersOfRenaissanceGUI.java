@@ -34,7 +34,7 @@ public class MastersOfRenaissanceGUI extends Application{
     }
 
     /**
-     * Method start starts the scene of the Main Menu and shows it to the User.
+     * Starts the scene of the Main Menu and shows it to the User.
      *
      * @author Alessio Piovesan
      */

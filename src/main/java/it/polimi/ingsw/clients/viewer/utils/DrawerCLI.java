@@ -133,7 +133,7 @@ public record DrawerCLI(CLI ui){
      * @param i      is a param of int type
      */
     private void drawFTBoxNumber(StringBuilder trackN, int i){
-        if(i < 9) trackN.append("██").append(i).append("\t");
+        if(i < 10) trackN.append("██").append(i).append("\t");
         else trackN.append("█").append(i).append("\t");
     }
 

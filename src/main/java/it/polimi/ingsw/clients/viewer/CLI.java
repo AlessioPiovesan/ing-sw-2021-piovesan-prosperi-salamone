@@ -40,6 +40,7 @@ import java.util.concurrent.TimeUnit;
 public class CLI implements Runnable, UI{
 
     private static final String THING = "\n>\t";
+    private static final String WAIT = "Wait for next turn";
     private final Scanner input;
     private final PrintWriter output;
     private final ExecutorService executor;
@@ -141,7 +142,7 @@ public class CLI implements Runnable, UI{
         }
         if(single) getLocalGameController().nextPlayer();
         else{
-            output.println("Wait for next turn");
+            output.println(WAIT);
             client.send("nextPlayer::");
         }
     }
@@ -436,7 +437,7 @@ public class CLI implements Runnable, UI{
         drawer.showWarehouse(getWarehouse());
         if(single) getLocalGameController().nextPlayer();
         else{
-            output.println("Wait for next turn");
+            output.println(WAIT);
             client.send("nextPlayer::");
         }
     }
@@ -1018,6 +1019,7 @@ public class CLI implements Runnable, UI{
                 lvl = actOnResponse(colour, response, lvl);
                 if(response == 1) break;
             }
+            output.println(WAIT);
             client.send("warehouseResHandler::" + colour.name() + "::" + qnt + "::" + lvl);
         }
     }
