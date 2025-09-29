@@ -4,7 +4,6 @@ import it.polimi.ingsw.clients.ClientApp;
 import it.polimi.ingsw.clients.viewer.utils.ConsoleColors;
 import it.polimi.ingsw.server.ServerApp;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -15,49 +14,54 @@ import java.util.Scanner;
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone
  */
-public class MastersOfRenaissanceCLI{
+public class MastersOfRenaissanceCLI {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         var scanner = new Scanner(System.in);
-        var input = 0;
-        var exit = true;
-        while(exit){
-            exit = false;
+        while (true) {
+            // Title banner
+            System.out.println("==========================================");
             System.out.println("˜”*°•.˜”*°• Masters of Renaissance •°*”˜.•°*”˜");
-            System.out.println("by\n" + ConsoleColors.BLUE + "Alessio Piovesan\n" + ConsoleColors.GREEN + "Pier Giorgio Prosperi\n" + ConsoleColors.YELLOW + "Matteo Salamone\n" + ConsoleColors.RESET);
+            System.out.println("==========================================");
+            System.out.println("by " + ConsoleColors.BLUE + "Alessio Piovesan\n" + ConsoleColors.GREEN + "   Pier Giorgio Prosperi\n" + ConsoleColors.YELLOW + "   Matteo Salamone" + ConsoleColors.RESET);
+            // Menu
             System.out.print("""
-                             Hi! Welcome to Masters of Renaissance!
-                                                          
-                             What do you want to launch?
-                             0. SERVER
-                             1. CLIENT SINGLE PLAYER
-                             2. CLIENT MULTIPLAYER
-                             > Type the number of the desired option!
-                             >>\040\040""");
-            try{
-                input = scanner.nextInt();
-            } catch(InputMismatchException e){
-                System.err.println("Numeric format requested, application will now close...");
-                System.exit(-1);
-            } finally{
-                switch(input){
-                    case 0 -> {
-                        System.out.println("Server will be ready in a sec");
-                        ServerApp.start();
-                    }
-                    case 1 -> {
-                        System.out.println("Your single player experience is about to begin");
-                        ClientApp.start(input);
-                    }
-                    case 2 -> {
-                        System.out.println("Your multiplayer experience is about to begin");
-                        ClientApp.start(input);
-                    }
-                    default -> {
-                        exit = true;
-                        System.err.println("Invalid argument, please run the executable again with a viable options");
-                    }
+                    Hi!\nWelcome to Masters of Renaissance!
+                    
+                    What would you like to launch?
+                    0 - SERVER
+                    1 - CLIENT SINGLE PLAYER
+                    2 - CLIENT MULTIPLAYER
+                    > Type the number of the desired option!
+                    >>\040\040""");
+            // Read choice safely
+            int choice;
+            try {
+                choice = Integer.parseInt(scanner.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.err.println("Invalid input. Please enter 0, 1, or 2.");
+                continue;
+            }
+            switch (choice) {
+                case 0 -> {
+                    System.out.println("Server will be ready in a sec");
+                    ServerApp.start();
+                    return;
+                }
+                case 1 -> {
+                    System.out.println("Your single player experience is about to begin");
+                    ClientApp.start(choice);
+                    return;
+                }
+                case 2 -> {
+                    System.out.println("Your multiplayer experience is about to begin");
+                    ClientApp.start(choice);
+                    return;
+                }
+                default -> {
+                    exit = true;
+                    System.err.println("Unknown option. Please choose 0, 1, or 2.");
                 }
             }
         }

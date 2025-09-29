@@ -9,27 +9,32 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
+import java.io.InputStream;
 import java.util.Objects;
 
 /**
- * This class handles the main menu when it's chosen to play with the Graphical User Interface and allows
- * the User to choose between Single Player, Multi Player or exiting the game.
+ * Entry point for the graphical user interface of Masters of Renaissance.
+ * Displays the main menu and allows the user to choose between:
+ * - Single Player
+ * - Multiplayer
+ * - Exit
  *
  * @author Alessio Piovesan
  * @author Pier Giorgio Prosperi
  * @author Matteo Salamone
  * @see Application
  */
-public class MastersOfRenaissanceGUI extends Application{
+public class MastersOfRenaissanceGUI extends Application {
 
     private static final String MENU = "/fxml/mainMenu.fxml";
+    private static final String FONT_PATH = "/font/Academy Engraved LET Fonts.ttf";
     private static Scene currentScene;
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         launch(args);
     }
 
-    public static Scene getCurrentScene(){
+    public static Scene getCurrentScene() {
         return currentScene;
     }
 
@@ -39,20 +44,35 @@ public class MastersOfRenaissanceGUI extends Application{
      * @author Alessio Piovesan
      */
     @Override
-    public void start(Stage stage) throws Exception{
-        var root = (Parent)FXMLLoader.load(Objects.requireNonNull(getClass().getResource(MENU)));
-        Font.loadFont(getClass().getResourceAsStream("/font/Academy Engraved LET Fonts.ttf"), 25);
+    public void start(Stage stage) throws Exception {
+        // Load FXML
+        var root = (Parent) FXMLLoader.load(Objects.requireNonNull(getClass().getResource(MENU)));
+        try (InputStream fontStream = getClass().getResourceAsStream(FONT_PATH)) {
+            if (fontStream != null) {
+                Font.loadFont(fontStream, 25);
+            } else {
+                System.err.println("Warning: Could not load font at " + FONT_PATH);
+            }
+        }
+        // Setup the scene
         newScene(root);
         stage.setTitle("Masters Of Renaissance");
         stage.setScene(currentScene);
+        stage.setMinWidth(800);
+        stage.setMinHeight(600);
         stage.show();
-        var pane = (AnchorPane)currentScene.lookup("#mainPane");
-        var resize = new ResizeHandler(pane);
-        currentScene.widthProperty().addListener(resize.getWidthListener());
-        currentScene.heightProperty().addListener(resize.getHeightListener());
+        // Attach resize handlers
+        var mainPane = (AnchorPane) currentScene.lookup("#mainPane");
+        if (mainPane != null) {
+            var resize = new ResizeHandler(mainPane);
+            currentScene.widthProperty().addListener(resize.getWidthListener());
+            currentScene.heightProperty().addListener(resize.getHeightListener());
+        } else {
+            System.err.println("Warning: #mainPane not found in " + MENU);
+        }
     }
 
-    private static void newScene(Parent root){
+    private static void newScene(Parent root) {
         currentScene = new Scene(root);
     }
 }
